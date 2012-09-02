@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- LÖVE Frames --
-	-- By Nikolai Resokav --
+	-- By Kenny Shields --
 --]]------------------------------------------------
 
 -- progress bar class
@@ -46,12 +46,12 @@ function progressbar:update(dt)
 		end
 	end
 	
-	local lerp = self.lerp
-	local lerprate = self.lerprate
+	local lerp 		= self.lerp
+	local lerprate 	= self.lerprate
 	local lerpvalue = self.lerpvalue
-	local lerpto = self.lerpto
-	local lerpfrom = self.lerpfrom
-	local value = self.value
+	local lerpto 	= self.lerpto
+	local lerpfrom 	= self.lerpfrom
+	local value 	= self.value
 	local completed = self.completed
 	
 	self:CheckHover()
@@ -133,11 +133,12 @@ function progressbar:draw()
 		return
 	end
 	
-	-- skin variables
-	local index	= loveframes.config["ACTIVESKIN"]
-	local defaultskin = loveframes.config["DEFAULTSKIN"]
-	local selfskin = self.skin
-	local skin = loveframes.skins.available[selfskin] or loveframes.skins.available[index] or loveframes.skins.available[defaultskin]
+	local skins			= loveframes.skins.available
+	local skinindex		= loveframes.config["ACTIVESKIN"]
+	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
+	local selfskin 		= self.skin
+	local skin 			= skins[selfskin] or skins[skinindex]
+	local drawfunc		= skin.DrawProgressBar or skins[defaultskin].DrawProgressBar
 	
 	loveframes.drawcount = loveframes.drawcount + 1
 	self.draworder = loveframes.drawcount
@@ -145,7 +146,7 @@ function progressbar:draw()
 	if self.Draw ~= nil then
 		self.Draw(self)
 	else
-		skin.DrawProgressBar(self)
+		drawfunc(self)
 	end
 	
 end
@@ -281,5 +282,15 @@ end
 function progressbar:GetLerpRate()
 
 	return self.lerprate
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetCompleted()
+	- desc: gets the value of object.completed
+--]]---------------------------------------------------------
+function progressbar:GetLerpRate()
+
+	return self.completed
 	
 end

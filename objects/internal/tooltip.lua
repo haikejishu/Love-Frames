@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- LÖVE Frames --
-	-- By Nikolai Resokav --
+	-- By Kenny Shields --
 --]]------------------------------------------------
 
 -- tooltip clas
@@ -21,8 +21,8 @@ function tooltip:initialize(object, text, width)
 	self.width 			= width or 0
 	self.height 		= 0
 	self.padding		= 5
-	self.xoffset		= 0
-	self.yoffset		= 0
+	self.xoffset		= 10
+	self.yoffset		= -10
 	self.internal		= true
 	self.show			= false
 	self.followcursor	= true
@@ -35,7 +35,7 @@ function tooltip:initialize(object, text, width)
 	self.text:SetWidth(width or 0)
 	self.text:SetPos(0, 0)
 	
-	table.insert(loveframes.base.children, self)
+	table.insert(loveframes.base.internals, self)
 	
 end
 
@@ -64,6 +64,11 @@ function tooltip:update(dt)
 	
 	if object then
 	
+		if object == loveframes.base then
+			self:Remove()
+			return
+		end
+		
 		local hover = object.hover
 		local odraworder = object.draworder
 		
@@ -73,9 +78,9 @@ function tooltip:update(dt)
 		local show = self.show
 		
 		if show == true then
+			local top = self:IsTopInternal()
 			if self.followcursor == true then
 				local x, y = love.mouse.getPosition()
-				local top = self:IsTopChild()
 				self.x = x + self.xoffset
 				self.y = y - self.height + self.yoffset
 			else
@@ -91,9 +96,14 @@ function tooltip:update(dt)
 			
 		end
 		
-		if odraworder > draworder then
+		local baseparent = object:GetBaseParent()
+		
+		if baseparent then
+			if baseparent.removed and baseparent.removed == true then
+				self:Remove()
+			end
+		elseif object.removed then
 			self:Remove()
-			table.insert(loveframes.base.children, self)
 		end
 		
 	end
@@ -118,24 +128,24 @@ function tooltip:draw()
 		return
 	end
 	
+	local show 			= self.show
+	local text 			= self.text
+	local skins			= loveframes.skins.available
+	local skinindex		= loveframes.config["ACTIVESKIN"]
+	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
+	local selfskin 		= self.skin
+	local skin 			= skins[selfskin] or skins[skinindex]
+	local drawfunc		= skin.DrawToolTip or skins[defaultskin].DrawToolTip
+	
 	loveframes.drawcount = loveframes.drawcount + 1
 	self.draworder = loveframes.drawcount
-	
-	local show = self.show
-	local text = self.text
-	
-	-- skin variables
-	local index	= loveframes.config["ACTIVESKIN"]
-	local defaultskin = loveframes.config["DEFAULTSKIN"]
-	local selfskin = self.skin
-	local skin = loveframes.skins.available[selfskin] or loveframes.skins.available[index] or loveframes.skins.available[defaultskin]
 	
 	if show == true then
 	
 		if self.Draw ~= nil then
 			self.Draw(self)
 		else
-			skin.DrawToolTip(self)
+			drawfunc(self)
 		end
 	
 		text:draw()
@@ -172,6 +182,7 @@ end
 function tooltip:SetText(text)
 
 	self.text:SetText(text)
+	self.text2 = text
 	
 end
 

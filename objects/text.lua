@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- LÖVE Frames --
-	-- By Nikolai Resokav --
+	-- By Kenny Shields --
 --]]------------------------------------------------
 
 --[[------------------------------------------------
@@ -19,7 +19,7 @@ function text:initialize()
 
 	self.type			= "text"
 	self.text 			= ""
-	self.font			= love.graphics.newFont(12)
+	self.font			= loveframes.basicfont
 	self.width			= 5
 	self.height			= 5
 	self.maxw			= 0
@@ -66,22 +66,49 @@ function text:draw()
 		return
 	end
 	
+	local skins			= loveframes.skins.available
+	local skinindex		= loveframes.config["ACTIVESKIN"]
+	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
+	local selfskin 		= self.skin
+	local skin 			= skins[selfskin] or skins[skinindex]
+	local drawfunc		= skin.DrawText or skins[defaultskin].DrawText
+	
 	loveframes.drawcount = loveframes.drawcount + 1
 	self.draworder = loveframes.drawcount
-	
-	-- skin variables
-	local index	= loveframes.config["ACTIVESKIN"]
-	local defaultskin = loveframes.config["DEFAULTSKIN"]
-	local selfskin = self.skin
-	local skin = loveframes.skins.available[selfskin] or loveframes.skins.available[index] or loveframes.skins.available[defaultskin]
-	
+		
 	if self.Draw ~= nil then
 		self.Draw(self)
 	else
-		skin.DrawText(self)
+		drawfunc(self)
 	end
 
 	self:DrawText()
+	
+end
+
+--[[---------------------------------------------------------
+	- func: mousepressed(x, y, button)
+	- desc: called when the player presses a mouse button
+--]]---------------------------------------------------------
+function text:mousepressed(x, y, button)
+
+	local visible = self.visible
+	
+	if visible == false then
+		return
+	end
+	
+	local hover = self.hover
+	
+	if hover == true and button == "l" then
+		
+		local baseparent = self:GetBaseParent()
+	
+		if baseparent and baseparent.type == "frame" then
+			baseparent:MakeTop()
+		end
+		
+	end
 	
 end
 
@@ -90,7 +117,7 @@ end
 	- desc: sets the object's text
 --]]---------------------------------------------------------
 function text:SetText(t)
-
+	
 	local dtype = type(t)
 	local maxw = self.maxw
 	local font = self.font
@@ -129,7 +156,7 @@ function text:SetText(t)
 		elseif dtype == "string" then
 			
 			v = v:gsub(string.char(9), "    ")
-			v = v:gsub("\n", "")
+			v = v:gsub(string.char(92) .. string.char(110), string.char(10))
 			
 			local parts = loveframes.util.SplitSring(v, " ")
 					
@@ -161,7 +188,7 @@ function text:SetText(t)
 					local itemw = font:getWidth(item)
 					
 					if n ~= #data then
-					
+						
 						if (curw + itemw) > maxw then
 							table.insert(inserts, {key = key, color = v.color, text = new})
 							new = item
@@ -189,24 +216,6 @@ function text:SetText(t)
 		table.insert(self.text, v.key, {color = v.color, text = v.text})
 	end
 	
-end
-
---[[---------------------------------------------------------
-	- func: GetText()
-	- desc: gets the object's text
---]]---------------------------------------------------------
-function text:GetText()
-
-	return self.text
-	
-end
-
---[[---------------------------------------------------------
-	- func: Format()
-	- desc: formats the text
---]]---------------------------------------------------------
-function text:DrawText()
-
 	local textdata = self.text
 	local maxw = self.maxw
 	local font = self.font
@@ -233,8 +242,14 @@ function text:DrawText()
 			if maxw > 0 then
 			
 				if k ~= 1 then
-				
-					if (twidth + width) > maxw then
+					
+					if string.byte(text) == 10 then
+						twidth = 0
+						drawx = 0
+						width = 0
+						drawy = drawy + height
+						text = ""
+					elseif (twidth + width) > maxw then
 						twidth = 0 + width
 						drawx = 0
 						drawy = drawy + height
@@ -248,11 +263,10 @@ function text:DrawText()
 				end
 				
 				prevtextwidth = width
-				
-				love.graphics.setFont(font)
-				love.graphics.setColor(unpack(color))
-				love.graphics.print(text, x + drawx, y + drawy)
 			
+				v.x = drawx
+				v.y = drawy
+				
 			else
 			
 				if k ~= 1 then
@@ -261,9 +275,8 @@ function text:DrawText()
 				
 				prevtextwidth = width
 				
-				love.graphics.setFont(font)
-				love.graphics.setColor(unpack(color))
-				love.graphics.print(text, x + drawx, y)
+				v.x = drawx
+				v.y = drawy
 				
 			end
 			
@@ -276,8 +289,42 @@ function text:DrawText()
 	else
 		self.width = totalwidth
 	end
-	
+			
 	self.height = drawy + height
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetText()
+	- desc: gets the object's text
+--]]---------------------------------------------------------
+function text:GetText()
+
+	return self.text
+	
+end
+
+--[[---------------------------------------------------------
+	- func: Format()
+	- desc: formats the text
+--]]---------------------------------------------------------
+function text:DrawText()
+
+	local textdata = self.text
+	local font = self.font
+	local x = self.x
+	local y = self.y
+	
+	for k, v in ipairs(textdata) do
+		
+		local text = v.text
+		local color = v.color
+				
+		love.graphics.setFont(font)
+		love.graphics.setColor(unpack(color))
+		love.graphics.printf(text, x + v.x, y + v.y, 0, "left")
+	
+	end
 	
 end
 
@@ -356,5 +403,15 @@ end
 function text:GetFont()
 
 	return self.font
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetLines()
+	- desc: gets the number of lines the object's text uses
+--]]---------------------------------------------------------
+function text:GetLines()
+
+	return self.lines
 	
 end

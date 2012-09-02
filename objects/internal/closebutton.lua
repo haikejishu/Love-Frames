@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- LÖVE Frames --
-	-- By Nikolai Resokav --
+	-- By Kenny Shields --
 --]]------------------------------------------------
 
 -- closebutton clas
@@ -80,19 +80,20 @@ function closebutton:draw()
 		return
 	end
 	
+	local skins			= loveframes.skins.available
+	local skinindex		= loveframes.config["ACTIVESKIN"]
+	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
+	local selfskin 		= self.skin
+	local skin 			= skins[selfskin] or skins[skinindex]
+	local drawfunc		= skin.DrawCloseButton or skins[defaultskin].DrawCloseButton
+	
 	loveframes.drawcount = loveframes.drawcount + 1
 	self.draworder = loveframes.drawcount
-	
-	-- skin variables
-	local index	= loveframes.config["ACTIVESKIN"]
-	local defaultskin = loveframes.config["DEFAULTSKIN"]
-	local selfskin = self.skin
-	local skin = loveframes.skins.available[selfskin] or loveframes.skins.available[index] or loveframes.skins.available[defaultskin]
-	
+		
 	if self.Draw ~= nil then
 		self.Draw(self)
 	else
-		skin.DrawCloseButton(self)
+		drawfunc(self)
 	end
 	
 end

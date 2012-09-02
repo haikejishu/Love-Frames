@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- LÖVE Frames --
-	-- By Nikolai Resokav --
+	-- By Kenny Shields --
 --]]------------------------------------------------
 
 -- progress bar class
@@ -68,11 +68,12 @@ function multichoice:draw()
 		return
 	end
 	
-	-- skin variables
-	local index	= loveframes.config["ACTIVESKIN"]
-	local defaultskin = loveframes.config["DEFAULTSKIN"]
-	local selfskin = self.skin
-	local skin = loveframes.skins.available[selfskin] or loveframes.skins.available[index] or loveframes.skins.available[defaultskin]
+	local skins			= loveframes.skins.available
+	local skinindex		= loveframes.config["ACTIVESKIN"]
+	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
+	local selfskin 		= self.skin
+	local skin 			= skins[selfskin] or skins[skinindex]
+	local drawfunc		= skin.DrawMultiChoice or skins[defaultskin].DrawMultiChoice
 	
 	loveframes.drawcount = loveframes.drawcount + 1
 	self.draworder = loveframes.drawcount
@@ -80,7 +81,7 @@ function multichoice:draw()
 	if self.Draw ~= nil then
 		self.Draw(self)
 	else
-		skin.DrawMultiChoice(self)
+		drawfunc(self)
 	end
 	
 end

@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- LÖVE Frames --
-	-- By Nikolai Resokav --
+	-- By Kenny Shields --
 --]]------------------------------------------------
 
 -- closebutton clas
@@ -47,17 +47,17 @@ function sliderbutton:update(dt)
 	
 	self:CheckHover()
 	
-	local x, y = love.mouse.getPosition()
-	local intervals = self.intervals
-	local progress = 0
-	local nvalue = 0
-	local pvalue = 0
-	local hover = self.hover
-	local down = self.down
-	local hoverobject = loveframes.hoverobject
-	local parent = self.parent
-	local slidetype = parent.slidetype
-	local dragging = self.dragging
+	local x, y 			= love.mouse.getPosition()
+	local intervals 	= self.intervals
+	local progress 		= 0
+	local nvalue 		= 0
+	local pvalue 		= self.parent.value
+	local hover 		= self.hover
+	local down 			= self.down
+	local hoverobject 	= loveframes.hoverobject
+	local parent 		= self.parent
+	local slidetype 	= parent.slidetype
+	local dragging 		= self.dragging
 	
 	if hover == false then
 		self.down = false
@@ -77,56 +77,69 @@ function sliderbutton:update(dt)
 		self.y = self.parent.y + self.staticy
 	end
 	
-	if slidetype == "horizontal" then
+	-- start calculations if the button is being dragged
+	if dragging == true then
+	
+		-- calculations for horizontal sliders
+		if slidetype == "horizontal" then
+			
+			self.staticx 		= self.startx + (x - self.clickx)
 		
-		if dragging == true then
-			self.staticx = self.startx + (x - self.clickx)
+			progress 			= self.staticx/(self.parent.width - self.width)
+			nvalue 				= self.parent.min + (self.parent.max - self.parent.min) * progress
+			nvalue 				= loveframes.util.Round(nvalue, self.parent.decimals)
+		
+		-- calculations for vertical sliders
+		elseif slidetype == "vertical" then
+			
+			self.staticy 		= self.starty + (y - self.clicky)
+		
+			local space 		= self.parent.height - self.height
+			local remaining 	= (self.parent.height - self.height) - self.staticy
+			local percent 		=  remaining/space
+			
+			nvalue 				= self.parent.min + (self.parent.max - self.parent.min) * percent
+			nvalue 				= loveframes.util.Round(nvalue, self.parent.decimals)
+			
+		end
+		
+		-- 
+		if nvalue > self.parent.max then
+			nvalue = self.parent.max
 		end
 			
+		if nvalue < self.parent.min then
+			nvalue = self.parent.min
+		end
+		
+		self.parent.value = nvalue
+		
+		if nvalue ~= pvalue and nvalue >= self.parent.min and nvalue <= self.parent.max then
+			if self.parent.OnValueChanged then
+				self.parent.OnValueChanged(self.parent, self.parent.value)
+			end
+		end
+	
+		loveframes.hoverobject = self
+		
+	end
+	
+	if slidetype == "horizontal" then
 		if (self.staticx + self.width) > self.parent.width then
 			self.staticx = self.parent.width - self.width
 		end
-			
 		if self.staticx < 0 then
 			self.staticx = 0
 		end
+	end
 	
-		progress = loveframes.util.Round(self.staticx/(self.parent.width - self.width), 5)
-		nvalue = self.parent.min + (self.parent.max - self.parent.min) * progress
-		pvalue = self.parent.value
-	
-	elseif slidetype == "vertical" then
-		
-		if dragging == true then
-			self.staticy = self.starty + (y - self.clicky)
-		end
-			
+	if slidetype == "vertical" then
 		if (self.staticy + self.height) > self.parent.height then
 			self.staticy = self.parent.height - self.height
-		end
-			
+		end		
 		if self.staticy < 0 then
 			self.staticy = 0
 		end
-		
-		local space = self.parent.height - self.height
-		local remaining = (self.parent.height - self.height) - self.staticy
-		local percent =  loveframes.util.Round(remaining/space, 5)
-		
-		nvalue = self.parent.min + (self.parent.max - self.parent.min) * percent
-		pvalue = self.parent.value
-		
-	end
-	
-	if nvalue ~= pvalue then
-		self.parent.value = loveframes.util.Round(nvalue, self.parent.decimals)
-		if self.parent.OnValueChanged then
-			self.parent.OnValueChanged(self.parent, self.parent.value)
-		end
-	end
-	
-	if dragging == true then
-		loveframes.hoverobject = self
 	end
 	
 	if self.Update then
@@ -147,19 +160,20 @@ function sliderbutton:draw()
 		return
 	end
 	
+	local skins			= loveframes.skins.available
+	local skinindex		= loveframes.config["ACTIVESKIN"]
+	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
+	local selfskin 		= self.skin
+	local skin 			= skins[selfskin] or skins[skinindex]
+	local drawfunc		= skin.DrawSliderButton or skins[defaultskin].DrawSliderButton
+	
 	loveframes.drawcount = loveframes.drawcount + 1
 	self.draworder = loveframes.drawcount
-	
-	-- skin variables
-	local index	= loveframes.config["ACTIVESKIN"]
-	local defaultskin = loveframes.config["DEFAULTSKIN"]
-	local selfskin = self.skin
-	local skin = loveframes.skins.available[selfskin] or loveframes.skins.available[index] or loveframes.skins.available[defaultskin]
-	
+		
 	if self.Draw ~= nil then
 		self.Draw(self)
 	else
-		skin.DrawSliderButton(self)
+		drawfunc(self)
 	end
 	
 end

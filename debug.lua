@@ -1,23 +1,22 @@
 --[[------------------------------------------------
 	-- LÖVE Frames --
-	-- By Nikolai Resokav --
+	-- By Kenny Shields --
 --]]------------------------------------------------
 
+-- debug library
 loveframes.debug = {}
 
 local font = love.graphics.newFont(10)
 local loremipsum = 
 [[
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-Proin dui enim, porta eget facilisis quis, laoreet sit amet urna. 
-Maecenas lobortis venenatis euismod. 
-Sed at diam sit amet odio feugiat pretium nec quis libero. 
-Quisque auctor semper imperdiet. 
-Maecenas risus eros, varius pharetra volutpat in, fermentum scelerisque lacus. 
-Proin lectus erat, luctus non facilisis vel, hendrerit vitae nisl. 
-Aliquam vulputate scelerisque odio id faucibus. 
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dui enim, porta eget facilisis quis, laoreet sit amet urna. Maecenas lobortis venenatis euismod. Sed at diam sit amet odio feugiat pretium nec quis libero. Quisque auctor semper imperdiet. Maecenas risus eros, varius pharetra volutpat in, fermentum scelerisque lacus. Proin lectus erat, luctus non facilisis vel, hendrerit vitae nisl. Aliquam vulputate scelerisque odio id faucibus.
 ]]
 
+
+--[[---------------------------------------------------------
+	- func: draw()
+	- desc: draws debug information
+--]]---------------------------------------------------------
 function loveframes.debug.draw()
 
 	-- get the current debug setting
@@ -28,11 +27,17 @@ function loveframes.debug.draw()
 		return
 	end
 	
-	local cols = loveframes.util.GetCollisions()
-	local numcols = #cols
-	local topcol = cols[numcols] or {type = none, children = {}, x = 0, y = 0, width = 0, height = 0}
-	local bchildren = #loveframes.base.children
-	local objects = loveframes.util.GetAllObjects()
+	local cols 				= loveframes.util.GetCollisions()
+	local topcol 			= cols[#cols] or {type = none, children = {}, x = 0, y = 0, width = 0, height = 0}
+	local objects 			= loveframes.util.GetAllObjects()
+	local author			= loveframes.info.author
+	local version			= loveframes.info.version
+	local stage				= loveframes.info.stage
+	local basedir			= loveframes.config["DIRECTORY"]
+	local loveversion		= love._version
+	local fps				= love.timer.getFPS()
+	local deltatime			= love.timer.getDelta()
+	
 	
 	-- font for debug text
 	love.graphics.setFont(font)
@@ -46,10 +51,10 @@ function loveframes.debug.draw()
 	love.graphics.print("Library Information", 15, 15)
 	
 	love.graphics.setColor(255, 255, 255, 255)
-	love.graphics.print("Author: " ..loveframes.info.author, 15, 30)
-	love.graphics.print("Version: " ..loveframes.info.version, 15, 40)
-	love.graphics.print("Stage: " ..loveframes.info.stage, 15, 50)
-	love.graphics.print("Base Directory: " ..loveframes.config["DIRECTORY"], 15, 60)
+	love.graphics.print("Author: " ..author, 15, 30)
+	love.graphics.print("Version: " ..version, 15, 40)
+	love.graphics.print("Stage: " ..stage, 15, 50)
+	love.graphics.print("Base Directory: " ..basedir, 15, 60)
 	
 	-- object information box
 	love.graphics.setColor(0, 0, 0, 50)
@@ -59,7 +64,7 @@ function loveframes.debug.draw()
 	
 	love.graphics.setColor(255, 255, 255, 255)
 	
-	if numcols > 0 then
+	if #cols > 0 then
 		love.graphics.print("Type: " ..topcol.type, 15, 100)
 	else
 		love.graphics.print("Type: none", 10, 100)
@@ -71,10 +76,16 @@ function loveframes.debug.draw()
 		love.graphics.print("# of children: 0", 15, 110)
 	end
 	
-	love.graphics.print("X: " ..topcol.x, 15, 120)
-	love.graphics.print("Y: " ..topcol.y, 15, 130)
-	love.graphics.print("Width: " ..topcol.width, 15, 140)
-	love.graphics.print("Height: " ..topcol.height, 15, 150)
+	if topcol.internals then
+		love.graphics.print("# of internals: " .. #topcol.internals, 15, 120)
+	else
+		love.graphics.print("# of internals: 0", 15, 120)
+	end
+	
+	love.graphics.print("X: " ..topcol.x, 15, 130)
+	love.graphics.print("Y: " ..topcol.y, 15, 140)
+	love.graphics.print("Width: " ..topcol.width, 15, 150)
+	love.graphics.print("Height: " ..topcol.height, 15, 160)
 	
 	-- Miscellaneous box
 	love.graphics.setColor(0, 0, 0, 50)
@@ -84,9 +95,9 @@ function loveframes.debug.draw()
 	
 	love.graphics.setColor(255, 255, 255, 255)
 	
-	love.graphics.print("LOVE Version: " ..love._version, 15, 210)
-	love.graphics.print("FPS: " ..love.timer.getFPS(), 15, 220)
-	love.graphics.print("Delta Time: " ..love.timer.getDelta(), 15, 230)
+	love.graphics.print("LOVE Version: " ..loveversion, 15, 210)
+	love.graphics.print("FPS: " ..fps, 15, 220)
+	love.graphics.print("Delta Time: " ..deltatime, 15, 230)
 	love.graphics.print("Total Objects: " ..#objects, 15, 240)
 	
 	-- outline the object that the mouse is hovering over
@@ -96,8 +107,13 @@ function loveframes.debug.draw()
 
 end
 
+--[[---------------------------------------------------------
+	- func: ExamplesMenu()
+	- desc: generates a list of examples of LÖVE Frames
+			objects
+--]]---------------------------------------------------------
 function loveframes.debug.ExamplesMenu()
-
+	
 	------------------------------------
 	-- examples frame
 	------------------------------------
@@ -159,7 +175,6 @@ function loveframes.debug.ExamplesMenu()
 		local checkbox1 = loveframes.Create("checkbox", frame1)
 		checkbox1:SetText("Checkbox 1")
 		checkbox1:SetPos(5, 30)
-		--checkbox1:SetFont(love.graphics.newFont(50))
 		checkbox1.OnChanged = function(object2)
 		end
 		
@@ -260,6 +275,7 @@ function loveframes.debug.ExamplesMenu()
 				end
 			end
 		end
+		
 	end
 	exampleslist:AddItem(frameexample)
 	
@@ -598,12 +614,19 @@ function loveframes.debug.ExamplesMenu()
 		local textinput1 = loveframes.Create("textinput", frame1)
 		textinput1:SetPos(5, 30)
 		textinput1:SetWidth(490)
+		textinput1.OnEnter = function(object)
+			object:Clear()
+		end
 		
 	end
 	exampleslist:AddItem(textinputexample)
-		
+
 end
 
+--[[---------------------------------------------------------
+	- func: SkinSelector()
+	- desc: opens a skin selector menu
+--]]---------------------------------------------------------
 function loveframes.debug.SkinSelector()
 
 	local skins = loveframes.skins.available
@@ -612,7 +635,7 @@ function loveframes.debug.SkinSelector()
 	frame:SetName("Skin Selector")
 	frame:SetSize(200, 60)
 	frame:SetPos(5, 260)
-	
+
 	local skinslist = loveframes.Create("multichoice", frame)
 	skinslist:SetPos(5, 30)
 	skinslist:SetWidth(190)

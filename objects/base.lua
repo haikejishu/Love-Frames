@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- LÖVE Frames --
-	-- By Nikolai Resokav --
+	-- By Kenny Shields --
 --]]------------------------------------------------
 
 -- base object
@@ -21,6 +21,7 @@ function base:initialize()
 	self.height 	= h
 	self.internal	= true
 	self.children 	= {}
+	self.internals	= {}
 
 end
 
@@ -33,6 +34,10 @@ function base:update(dt)
 	local children = self.children
 	
 	for k, v in ipairs(children) do
+		v:update(dt)
+	end
+	
+	for k, v in ipairs(self.internals) do
 		v:update(dt)
 	end
 
@@ -50,6 +55,10 @@ function base:draw()
 	self.draworder = loveframes.drawcount
 	
 	for k, v in ipairs(children) do
+		v:draw()
+	end
+	
+	for k, v in ipairs(self.internals) do
 		v:draw()
 	end
 
@@ -508,6 +517,8 @@ function base:Remove()
 		
 	end
 	
+	self.removed = true
+	
 end
 
 --[[---------------------------------------------------------
@@ -683,7 +694,7 @@ function base:CheckHover()
 		
 			local baseparent = self:GetBaseParent()
 			
-			if baseparent ~= modalobject then
+			if baseparent ~= modalobject and self.type ~= "multichoice-row" then
 			
 				self.hover = false
 				
@@ -767,13 +778,16 @@ function base:IsTopList()
 	
 	local function IsChild(object)
 	
-		for k, v in ipairs(children) do
-			if v == object then
+		local parents = object:GetParents()
+		
+		for k, v in ipairs(parents) do
+			if v == self then
 				return true
 			end
 		end
 		
 		return false
+		
 	end
 	
 	for k, v in ipairs(cols) do
@@ -823,9 +837,23 @@ end
 function base:MoveToTop()
 
 	local pchildren = self.parent.children
+	local pinternals = self.parent.internals
+	
+	local internal = false
+	
+	for k, v in ipairs(pinternals) do
+		if v == self then
+			internal = true
+		end
+	end
 	
 	self:Remove()
-	table.insert(pchildren, self)
+	
+	if internal == true then
+		table.insert(pinternals, self)
+	else
+		table.insert(pchildren, self)
+	end
 	
 end
 
@@ -925,4 +953,71 @@ function base:IsActive()
 	
 	return valid
 	
+end
+
+--[[---------------------------------------------------------
+	- func: GetParents()
+	- desc: returns a table of the object's parents and it's
+			sub-parents
+--]]---------------------------------------------------------
+function base:GetParents()
+	
+	local function GetParents(object, t)
+		
+		local t = t or {}
+		local type = object.type
+		local parent = object.parent
+		
+		if type ~= "base" then
+			table.insert(t, parent)
+			GetParents(parent, t)
+		end
+		
+		return t
+		
+	end
+	
+	local parents = GetParents(self)
+	
+	return parents
+	
+end
+
+--[[---------------------------------------------------------
+	- func: IsTopInternal()
+	- desc: returns true if the object is the top most 
+			internal in it's parent's internals table or 
+			false if not
+--]]---------------------------------------------------------
+function base:IsTopInternal()
+
+	local internals = self.parent.internals
+	
+	if internals[#internals] ~= self then
+		return false
+	else
+		return true
+	end
+	
+end
+
+--[[---------------------------------------------------------
+	- func: IsInternal()
+	- desc: returns true if the object is internal or 
+			false if not
+--]]---------------------------------------------------------
+function base:IsInternal()
+
+	return self.internal
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetType()
+	- desc: gets the type of the object
+--]]---------------------------------------------------------
+function base:GetType()
+
+	return self.type
+
 end

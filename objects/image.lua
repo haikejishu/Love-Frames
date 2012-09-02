@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- LÖVE Frames --
-	-- By Nikolai Resokav --
+	-- By Kenny Shields --
 --]]------------------------------------------------
 
 -- progress bar class
@@ -61,11 +61,12 @@ function image:draw()
 		return
 	end
 	
-	-- skin variables
-	local index	= loveframes.config["ACTIVESKIN"]
-	local defaultskin = loveframes.config["DEFAULTSKIN"]
-	local selfskin = self.skin
-	local skin = loveframes.skins.available[selfskin] or loveframes.skins.available[index] or loveframes.skins.available[defaultskin]
+	local skins			= loveframes.skins.available
+	local skinindex		= loveframes.config["ACTIVESKIN"]
+	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
+	local selfskin 		= self.skin
+	local skin 			= skins[selfskin] or skins[skinindex]
+	local drawfunc		= skin.DrawImage or skins[defaultskin].DrawImage
 	
 	loveframes.drawcount = loveframes.drawcount + 1
 	self.draworder = loveframes.drawcount
@@ -73,7 +74,7 @@ function image:draw()
 	if self.Draw ~= nil then
 		self.Draw(self)
 	else
-		skin.DrawImage(self)
+		drawfunc(self)
 	end
 	
 end
@@ -96,11 +97,31 @@ function image:SetImage(image)
 end
 
 --[[---------------------------------------------------------
+	- func: GetImage()
+	- desc: gets the object's image
+--]]---------------------------------------------------------
+function image:GetImage()
+
+	return self.image
+	
+end
+
+--[[---------------------------------------------------------
 	- func: SetColor(table)
 	- desc: sets the object's color 
 --]]---------------------------------------------------------
 function image:SetColor(data)
 
 	self.imagecolor = data
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetColor()
+	- desc: gets the object's color 
+--]]---------------------------------------------------------
+function image:GetColor()
+
+	return self.imagecolor
 	
 end

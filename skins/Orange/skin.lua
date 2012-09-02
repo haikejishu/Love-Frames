@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- LÖVE Frames --
-	-- By Nikolai Resokav --
+	-- By Kenny Shields --
 --]]------------------------------------------------
 
 -- skin table
@@ -200,11 +200,11 @@ end
 
 --[[---------------------------------------------------------
 	- func: DrawRepeatingImage(image, x, y, width, height)
-	- desc: draw a repeating image a box
+	- desc: draw a repeating image
 --]]---------------------------------------------------------
 function skin.DrawRepeatingImage(image, x, y, width, height)
 
-	local image = love.graphics.newImage(image)
+	local image = image
 	local iwidth = image:getWidth()
 	local iheight = image:getHeight()
 	local cords = {}
@@ -238,26 +238,20 @@ function skin.DrawRepeatingImage(image, x, y, width, height)
 end
 
 --[[---------------------------------------------------------
-	- func: skin.DrawGradient(x, y, width, height, 
-			direction, color, colormod)
+	- func: skin.DrawGradient(x, y, width, height, color)
 	- desc: draws a gradient
 --]]---------------------------------------------------------
-function skin.DrawGradient(x, y, width, height, direction, color, colormod)
+function skin.DrawGradient(x, y, width, height, color)
 
 	local color = color
-	local colormod = colormod or 0
 	local percent = 0
 	local once = false
-		
-	if direction == "up" then
 	
-		for i=1, height - 1 do
-			percent = i/height * 255
-			color = {color[1], color[2], color[3], loveframes.util.Round(percent)}
-			love.graphics.setColor(unpack(color))
-			love.graphics.rectangle("fill", x, y + i, width, 1)
-		end
-	
+	for i=1, height - 1 do
+		percent = i/height * 255
+		color = {color[1], color[2], color[3], loveframes.util.Round(percent)}
+		love.graphics.setColor(unpack(color))
+		love.graphics.rectangle("fill", x, y + i, width, 1)
 	end
 	
 end
@@ -279,7 +273,7 @@ function skin.DrawFrame(object)
 	love.graphics.rectangle("fill", object:GetX(), object:GetY(), object:GetWidth(), 25)
 	
 	gradientcolor = {skin.controls.frame_top_color[1] - 20, skin.controls.frame_top_color[2] - 20, 0, 255}
-	skin.DrawGradient(object:GetX(), object:GetY(), object:GetWidth(), 25, "up", gradientcolor)
+	skin.DrawGradient(object:GetX(), object:GetY(), object:GetWidth(), 25,  gradientcolor)
 	
 	love.graphics.setColor(unpack(skin.controls.frame_border_color))
 	skin.OutlinedRectangle(object:GetX(), object:GetY() + 25, object:GetWidth(), 1)
@@ -316,7 +310,7 @@ function skin.DrawButton(object)
 		love.graphics.rectangle("fill", object:GetX() + 1, object:GetY() + 1, object:GetWidth() - 2, object:GetHeight() - 2)
 		
 		gradientcolor = {skin.controls.button_body_down_color[1] - 20, skin.controls.button_body_down_color[2] - 20, skin.controls.button_body_down_color[3] - 20, 255}
-		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), "up", gradientcolor)
+		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(),  gradientcolor)
 		
 		-- button text
 		love.graphics.setFont(skin.controls.button_text_font)
@@ -334,7 +328,7 @@ function skin.DrawButton(object)
 		love.graphics.rectangle("fill", object:GetX() + 1, object:GetY() + 1, object:GetWidth() - 2, object:GetHeight() - 2)
 		
 		gradientcolor = {skin.controls.button_body_hover_color[1] - 20, skin.controls.button_body_hover_color[2] - 20, skin.controls.button_body_hover_color[3] - 20, 255}
-		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), "up", gradientcolor)
+		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(),  gradientcolor)
 		
 		-- button text
 		love.graphics.setFont(skin.controls.button_text_font)
@@ -352,7 +346,7 @@ function skin.DrawButton(object)
 		love.graphics.rectangle("fill", object:GetX() + 1, object:GetY() + 1, object:GetWidth() - 2, object:GetHeight() - 2)
 		
 		gradientcolor = {skin.controls.button_body_nohover_color[1] - 20, skin.controls.button_body_nohover_color[2] - 20, skin.controls.button_body_nohover_color[3] - 20, 255}
-		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), "up", gradientcolor)
+		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(),  gradientcolor)
 		
 		-- button text
 		love.graphics.setFont(skin.controls.button_text_font)
@@ -498,7 +492,7 @@ function skin.DrawProgressBar(object)
 	love.graphics.setColor(unpack(skin.controls.progressbar_bar_color))
 	love.graphics.rectangle("fill", object:GetX(), object:GetY(), object.progress, object:GetHeight())
 	gradientcolor = {skin.controls.progressbar_bar_color[1], skin.controls.progressbar_bar_color[2] - 20, skin.controls.progressbar_bar_color[3], 255}
-	skin.DrawGradient(object:GetX(), object:GetY(), object.progress, object:GetHeight(), "up", gradientcolor)
+	skin.DrawGradient(object:GetX(), object:GetY(), object.progress, object:GetHeight(),  gradientcolor)
 	love.graphics.setFont(font)
 	love.graphics.setColor(unpack(skin.controls.progressbar_text_color))
 	love.graphics.print(object.value .. "/" ..object.max, object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight()/2 - theight/2)
@@ -539,21 +533,21 @@ function skin.DrawScrollBar(object)
 		love.graphics.setColor(unpack(skin.controls.scrollbar_body_down_color))
 		love.graphics.rectangle("fill", object:GetX() + 1, object:GetY() + 1, object:GetWidth() - 2, object:GetHeight() - 2)
 		gradientcolor = {skin.controls.scrollbar_body_down_color[1] - 20, skin.controls.scrollbar_body_down_color[2] - 20, skin.controls.scrollbar_body_down_color[3] - 20, 255}
-		skin.DrawGradient(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight(), "up", gradientcolor)
+		skin.DrawGradient(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight(),  gradientcolor)
 		love.graphics.setColor(unpack(skin.controls.scrollbar_border_down_color))
 		skin.OutlinedRectangle(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
 	elseif object.hover == true then
 		love.graphics.setColor(unpack(skin.controls.scrollbar_body_hover_color))
 		love.graphics.rectangle("fill", object:GetX() + 1, object:GetY() + 1, object:GetWidth() - 2, object:GetHeight() - 2)
 		gradientcolor = {skin.controls.scrollbar_body_hover_color[1] - 20, skin.controls.scrollbar_body_hover_color[2] - 20, skin.controls.scrollbar_body_hover_color[3] - 20, 255}
-		skin.DrawGradient(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight(), "up", gradientcolor)
+		skin.DrawGradient(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight(),  gradientcolor)
 		love.graphics.setColor(unpack(skin.controls.scrollbar_border_hover_color))
 		skin.OutlinedRectangle(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
 	else
 		love.graphics.setColor(unpack(skin.controls.scrollbar_body_nohover_color))
 		love.graphics.rectangle("fill", object:GetX() + 1, object:GetY() + 1, object:GetWidth() - 2, object:GetHeight() - 2)
 		gradientcolor = {skin.controls.scrollbar_body_nohover_color[1] - 20, skin.controls.scrollbar_body_nohover_color[2] - 20, skin.controls.scrollbar_body_nohover_color[3] - 20, 255}
-		skin.DrawGradient(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight(), "up", gradientcolor)
+		skin.DrawGradient(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight(),  gradientcolor)
 		love.graphics.setColor(unpack(skin.controls.scrollbar_border_nohover_color))
 		skin.OutlinedRectangle(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
 	end
@@ -665,7 +659,7 @@ function skin.DrawTabButton(object)
 		love.graphics.rectangle("fill", object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
 		
 		gradientcolor = {skin.controls.tab_body_hover_color[1] - 20, skin.controls.tab_body_hover_color[2] - 20, skin.controls.tab_body_hover_color[3] - 20, 255}
-		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), "up", gradientcolor)
+		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(),  gradientcolor)
 		
 		love.graphics.setColor(unpack(skin.controls.tabpanel_border_color))
 		skin.OutlinedRectangle(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
@@ -692,7 +686,7 @@ function skin.DrawTabButton(object)
 		love.graphics.rectangle("fill", object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
 		
 		gradientcolor = {skin.controls.tab_body_nohover_color[1] - 20, skin.controls.tab_body_nohover_color[2] - 20, skin.controls.tab_body_nohover_color[3] - 20, 255}
-		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), "up", gradientcolor)
+		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(),  gradientcolor)
 		
 		love.graphics.setColor(unpack(skin.controls.tabpanel_border_color))
 		skin.OutlinedRectangle(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
@@ -876,7 +870,7 @@ function skin.DrawScrollButton(object)
 		love.graphics.rectangle("fill", object:GetX() + 1, object:GetY() + 1, object:GetWidth() - 2, object:GetHeight() - 2)
 		
 		gradientcolor = {skin.controls.button_body_down_color[1] - 20, skin.controls.button_body_down_color[2] - 20, skin.controls.button_body_down_color[3] - 20, 255}
-		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), "up", gradientcolor)
+		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(),  gradientcolor)
 		
 		-- button border
 		love.graphics.setColor(unpack(skin.controls.button_border_down_color))
@@ -889,7 +883,7 @@ function skin.DrawScrollButton(object)
 		love.graphics.rectangle("fill", object:GetX() + 1, object:GetY() + 1, object:GetWidth() - 2, object:GetHeight() - 2)
 		
 		gradientcolor = {skin.controls.button_body_hover_color[1] - 20, skin.controls.button_body_hover_color[2] - 20, skin.controls.button_body_hover_color[3] - 20, 255}
-		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), "up", gradientcolor)
+		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(),  gradientcolor)
 		
 		-- button border
 		love.graphics.setColor(unpack(skin.controls.button_border_down_color))
@@ -902,7 +896,7 @@ function skin.DrawScrollButton(object)
 		love.graphics.rectangle("fill", object:GetX() + 1, object:GetY() + 1, object:GetWidth() - 2, object:GetHeight() - 2)
 		
 		gradientcolor = {skin.controls.button_body_nohover_color[1] - 20, skin.controls.button_body_nohover_color[2] - 20, skin.controls.button_body_nohover_color[3] - 20, 255}
-		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), "up", gradientcolor)
+		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(),  gradientcolor)
 		
 		-- button border
 		love.graphics.setColor(unpack(skin.controls.button_border_down_color))
@@ -990,7 +984,7 @@ function skin.DrawSliderButton(object)
 		love.graphics.rectangle("fill", object:GetX() + 1, object:GetY() + 1, object:GetWidth() - 2, object:GetHeight() - 2)
 		
 		gradientcolor = {skin.controls.button_body_down_color[1] - 20, skin.controls.button_body_down_color[2] - 20, skin.controls.button_body_down_color[3] - 20, 255}
-		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), "up", gradientcolor)
+		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(),  gradientcolor)
 		
 		-- button border
 		love.graphics.setColor(unpack(skin.controls.button_border_down_color))
@@ -1003,7 +997,7 @@ function skin.DrawSliderButton(object)
 		love.graphics.rectangle("fill", object:GetX() + 1, object:GetY() + 1, object:GetWidth() - 2, object:GetHeight() - 2)
 		
 		gradientcolor = {skin.controls.button_body_hover_color[1] - 20, skin.controls.button_body_hover_color[2] - 20, skin.controls.button_body_hover_color[3] - 20, 255}
-		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), "up", gradientcolor)
+		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(),  gradientcolor)
 		
 		-- button border
 		love.graphics.setColor(unpack(skin.controls.button_border_down_color))
@@ -1016,7 +1010,7 @@ function skin.DrawSliderButton(object)
 		love.graphics.rectangle("fill", object:GetX() + 1, object:GetY() + 1, object:GetWidth() - 2, object:GetHeight() - 2)
 		
 		gradientcolor = {skin.controls.button_body_nohover_color[1] - 20, skin.controls.button_body_nohover_color[2] - 20, skin.controls.button_body_nohover_color[3] - 20, 255}
-		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), "up", gradientcolor)
+		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(),  gradientcolor)
 		
 		-- button border
 		love.graphics.setColor(unpack(skin.controls.button_border_down_color))
@@ -1050,7 +1044,7 @@ function skin.DrawCheckBox(object)
 		love.graphics.rectangle("fill", object:GetX() + 4, object:GetY() + 4, object.boxwidth - 8, object.boxheight - 8)
 	
 		gradientcolor = {skin.controls.checkbox_check_color[1] - 20, skin.controls.checkbox_check_color[2] - 20, skin.controls.checkbox_check_color[3] - 20, 255}
-		skin.DrawGradient(object:GetX() + 4, object:GetY() + 4, object.boxwidth - 8, object.boxheight - 8, "up", gradientcolor)
+		skin.DrawGradient(object:GetX() + 4, object:GetY() + 4, object.boxwidth - 8, object.boxheight - 8,  gradientcolor)
 		
 	end
 	
@@ -1069,7 +1063,7 @@ function skin.DrawCollapsibleCategory(object)
 	love.graphics.rectangle("fill", object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
 	
 	love.graphics.setColor(unpack(gradientcolor))
-	skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), "up", gradientcolor)
+	skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(),  gradientcolor)
 	
 	love.graphics.setColor(unpack(skin.controls.collapsiblecategory_text_color))
 	love.graphics.print(object.text, object:GetX() + 5, object:GetY() + 5)
@@ -1110,7 +1104,7 @@ function skin.DrawColumnListHeader(object)
 		love.graphics.rectangle("fill", object:GetX() + 1, object:GetY() + 1, object:GetWidth() - 2, object:GetHeight() - 2)
 		
 		gradientcolor = {skin.controls.columnlistheader_body_down_color[1] - 20, skin.controls.columnlistheader_body_down_color[2] - 20, skin.controls.columnlistheader_body_down_color[3] - 20, 255}
-		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), "up", gradientcolor)
+		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), gradientcolor)
 		
 		-- header name
 		love.graphics.setFont(font)
@@ -1119,7 +1113,7 @@ function skin.DrawColumnListHeader(object)
 		
 		-- header border
 		love.graphics.setColor(unpack(skin.controls.columnlistheader_border_down_color))
-		skin.OutlinedRectangle(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
+		skin.OutlinedRectangle(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight(), false, false, false, true)
 		
 	elseif hover == true then
 			
@@ -1128,7 +1122,7 @@ function skin.DrawColumnListHeader(object)
 		love.graphics.rectangle("fill", object:GetX() + 1, object:GetY() + 1, object:GetWidth() - 2, object:GetHeight() - 2)
 		
 		gradientcolor = {skin.controls.columnlistheader_body_hover_color[1] - 20, skin.controls.columnlistheader_body_hover_color[2] - 20, skin.controls.columnlistheader_body_hover_color[3] - 20, 255}
-		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), "up", gradientcolor)
+		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), gradientcolor)
 		
 		-- header name
 		love.graphics.setFont(font)
@@ -1137,7 +1131,7 @@ function skin.DrawColumnListHeader(object)
 		
 		-- header border
 		love.graphics.setColor(unpack(skin.controls.columnlistheader_border_down_color))
-		skin.OutlinedRectangle(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
+		skin.OutlinedRectangle(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight(), false, false, false, true)
 		
 	else
 			
@@ -1146,7 +1140,7 @@ function skin.DrawColumnListHeader(object)
 		love.graphics.rectangle("fill", object:GetX() + 1, object:GetY() + 1, object:GetWidth() - 2, object:GetHeight() - 2)
 		
 		gradientcolor = {skin.controls.columnlistheader_body_nohover_color[1] - 20, skin.controls.columnlistheader_body_nohover_color[2] - 20, skin.controls.columnlistheader_body_nohover_color[3] - 20, 255}
-		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), "up", gradientcolor)
+		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), gradientcolor)
 		
 		-- header name
 		love.graphics.setFont(font)
@@ -1155,7 +1149,7 @@ function skin.DrawColumnListHeader(object)
 		
 		-- header border
 		love.graphics.setColor(unpack(skin.controls.columnlistheader_border_down_color))
-		skin.OutlinedRectangle(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
+		skin.OutlinedRectangle(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight(), false, false, false, true)
 		
 	end
 	
@@ -1202,15 +1196,15 @@ function skin.DrawColumnListRow(object)
 		love.graphics.rectangle("fill", object:GetX() + 1, object:GetY() + 1, object:GetWidth() - 2, object:GetHeight() - 2)
 		
 		love.graphics.setColor(unpack(skin.controls.columnlistrow_border1_color))
-		skin.OutlinedRectangle(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
+		skin.OutlinedRectangle(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight(), true, false, true, true)
 		
 	else
 	
 		love.graphics.setColor(unpack(skin.controls.columnlistrow_body2_color))
-		love.graphics.rectangle("fill", object:GetX() + 1, object:GetY() + 1, object:GetWidth() - 2, object:GetHeight() - 2)
+		love.graphics.rectangle("fill", object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
 		
 		love.graphics.setColor(unpack(skin.controls.columnlistrow_border2_color))
-		skin.OutlinedRectangle(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
+		skin.OutlinedRectangle(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight(), true, false, true, true)
 	
 	end
 	

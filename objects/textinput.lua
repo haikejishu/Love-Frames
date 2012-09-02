@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- LÖVE Frames --
-	-- By Nikolai Resokav --
+	-- By Kenny Shields --
 --]]------------------------------------------------
 
 -- textinput clas
@@ -14,29 +14,32 @@ textinput:include(loveframes.templates.default)
 
 function textinput:initialize()
 
-	self.type			= "textinput"
-	self.text			= ""
-	self.keydown		= "none"
-	self.font			= love.graphics.newFont(12)
-	self.textcolor		= {0, 0, 0, 255}
-	self.width			= 200
-	self.height			= 25
-	self.delay			= 0
-	self.xoffset		= 0
-	self.blink			= 0
-	self.blinknum		= 0
-	self.blinkx			= 0
-	self.blinky			= 0
-	self.textx			= 0
-	self.texty			= 0
-	self.textxoffset	= 0
-	self.textyoffset	= 0
-	self.unicode		= 0
-	self.showblink 		= true
-	self.focus			= false
-	self.internal		= false
-	self.OnEnter		= nil
-	self.OnTextEntered	= nil
+	self.type				= "textinput"
+	self.text				= ""
+	self.keydown			= "none"
+	self.font				= loveframes.basicfont
+	self.textcolor			= {0, 0, 0, 255}
+	self.width				= 200
+	self.height				= 25
+	self.delay				= 0
+	self.xoffset			= 0
+	self.blink				= 0
+	self.blinknum			= 0
+	self.blinkx				= 0
+	self.blinky				= 0
+	self.textx				= 0
+	self.texty				= 0
+	self.textxoffset		= 0
+	self.textyoffset		= 0
+	self.unicode			= 0
+	self.limit				= 0
+	self.usable				= {}
+	self.unusable			= {}
+	self.showblink 			= true
+	self.focus				= false
+	self.internal			= false
+	self.OnEnter			= nil
+	self.OnTextEntered		= nil
 	
 end
 
@@ -67,6 +70,7 @@ function textinput:update(dt)
 		self.y = self.parent.y + self.staticy
 	end
 	
+	-- keydown check
 	if keydown ~= "none" then
 		if time > self.delay then
 			self:RunKey(keydown, unicode)
@@ -98,31 +102,32 @@ function textinput:draw()
 	loveframes.drawcount = loveframes.drawcount + 1
 	self.draworder = loveframes.drawcount
 	
-	local font = self.font
-	local textcolor = self.textcolor
-	local text = self.text
-	local textx = self.textx
-	local texty = self.texty
+	local font 			= self.font
+	local textcolor 	= self.textcolor
+	local text 			= self.text
+	local textx 		= self.textx
+	local texty 		= self.texty
+	local skins			= loveframes.skins.available
+	local skinindex		= loveframes.config["ACTIVESKIN"]
+	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
+	local stencilfunc 	= function() love.graphics.rectangle("fill", self.x, self.y, self.width, self.height) end
+	local stencil 		= love.graphics.newStencil(stencilfunc)
+	local selfskin 		= self.skin
+	local skin 			= skins[selfskin] or skins[skinindex]
+	local drawfunc		= skin.DrawTextInput or skins[defaultskin].DrawTextInput
 	
-	-- skin variables
-	local index	= loveframes.config["ACTIVESKIN"]
-	local defaultskin = loveframes.config["DEFAULTSKIN"]
-	local selfskin = self.skin
-	local skin = loveframes.skins.available[selfskin] or loveframes.skins.available[index] or loveframes.skins.available[defaultskin]
-	
-	local stencilfunc = function() love.graphics.rectangle("fill", self.x, self.y, self.width, self.height) end
-	local stencil = love.graphics.newStencil(stencilfunc)
-	love.graphics.setStencil(stencil)
+	love.graphics.setStencil(stencilfunc)
 	
 	if self.Draw ~= nil then
 		self.Draw(self)
 	else
-		skin.DrawTextInput(self)
+		drawfunc(self)
 	end
 	
+	-- draw the object's text
 	love.graphics.setFont(font)
-	love.graphics.setColor(unpack(textcolor))
-	love.graphics.print(text, textx, self.texty)
+	love.graphics.setColor(self.textcolor)
+	love.graphics.print(self.text, textx, texty)
 	
 	love.graphics.setStencil()
 	
@@ -138,7 +143,7 @@ end
 --]]---------------------------------------------------------
 function textinput:mousepressed(x, y, button)
 
-	local visible = self.visible
+	local visible 	= self.visible
 	
 	if visible == false then
 		return
@@ -153,7 +158,8 @@ function textinput:mousepressed(x, y, button)
 	if hover == true then
 	
 		local baseparent = self:GetBaseParent()
-	
+		local time = love.timer.getTime()
+		
 		if baseparent and baseparent.type == "frame" then
 			baseparent:MakeTop()
 		end
@@ -253,28 +259,42 @@ function textinput:RunKey(key, unicode)
 	self.unicode = unicode
 	
 	if key == "left" then
-		self:MoveBlinker(-1)
-		if blinkx <= self.x  and blinknum ~= 0 then
-			local width = self.font:getWidth(self.text:sub(blinknum, blinknum + 1))
-			self.xoffset = self.xoffset + width
-		elseif blinknum == 0 and self.xoffset ~= 0 then
-			self.xoffset = 0
+		if self.alltextselected == true then
+			self.alltextselected = false
+			self.blinknum = 0
+		else
+			self:MoveBlinker(-1)
+			if blinkx <= self.x  and blinknum ~= 0 then
+				local width = self.font:getWidth(self.text:sub(blinknum, blinknum + 1))
+				self.xoffset = self.xoffset + width
+			elseif blinknum == 0 and self.xoffset ~= 0 then
+				self.xoffset = 0
+			end
 		end
 	elseif key == "right" then
-		self:MoveBlinker(1)
-		if blinkx >= self.x + swidth and blinknum ~= #self.text then
-			local width = self.font:getWidth(self.text:sub(blinknum, blinknum))
-			self.xoffset = self.xoffset - width*2
-		elseif blinknum == #self.text and self.xoffset ~= ((0 - font:getWidth(self.text)) + swidth) and font:getWidth(self.text) + self.textxoffset > self.width then
-			self.xoffset = ((0 - font:getWidth(self.text)) + swidth)
+		if self.alltextselected == true then
+			self.alltextselected = false
+			self.blinknum = #self.text
+		else
+			self:MoveBlinker(1)
+			if blinkx >= self.x + swidth and blinknum ~= #self.text then
+				local width = self.font:getWidth(self.text:sub(blinknum, blinknum))
+				self.xoffset = self.xoffset - width*2
+			elseif blinknum == #self.text and self.xoffset ~= ((0 - font:getWidth(self.text)) + swidth) and font:getWidth(self.text) + self.textxoffset > self.width then
+				self.xoffset = ((0 - font:getWidth(self.text)) + swidth)
+			end
 		end
 	end
-	
+			
 	-- key input checking system
 	if key == "backspace" then
 		if text ~= "" then
 			self.text = self:RemoveFromeText(blinknum)
 			self:MoveBlinker(-1)
+		end
+		local cwidth = font:getWidth(self.text:sub(#self.text))
+		if self.xoffset ~= 0 then
+			self.xoffset = self.xoffset + cwidth
 		end
 	elseif key == "return" then
 		if self.OnEnter ~= nil then
@@ -282,7 +302,42 @@ function textinput:RunKey(key, unicode)
 		end
 	else
 		if unicode > 31 and unicode < 127 then
+	
+			if self.alltextselected == true then
+				self.alltextselected = false
+				self:Clear()
+			end
+		
+			if #self.text == self.limit and self.limit ~= 0 then
+				return
+			end
+			
 			ckey = string.char(unicode)
+			
+			if #self.usable > 0 then
+				local found = false
+				for k, v in ipairs(self.usable) do
+					if v == ckey then
+						found = true
+					end
+				end
+				if found == false then
+					return
+				end
+			end
+			
+			if #self.unusable > 0 then
+				local found = false
+				for k, v in ipairs(self.unusable) do
+					if v == ckey then
+						found = true
+					end
+				end
+				if found == true then
+					return
+				end
+			end
+			
 			if blinknum ~= 0 and blinknum ~= #self.text then
 				self.text = self:AddIntoText(unicode, blinknum)
 				self:MoveBlinker(1)
@@ -298,19 +353,13 @@ function textinput:RunKey(key, unicode)
 				self.OnTextEntered(self, ckey)
 			end
 			
-		end
-	end
-	
-	if key == "backspace" then
-		local cwidth = font:getWidth(self.text:sub(#self.text))
-		if self.xoffset ~= 0 then
-			self.xoffset = self.xoffset + cwidth
-		end
-	else
-		local cwidth = font:getWidth(ckey)
-		-- swidth - 1 is for the "-" character
-		if (twidth + textxoffset) >= (swidth - 1) then
-			self.xoffset = self.xoffset - cwidth
+			local cwidth = font:getWidth(ckey)
+			
+			-- swidth - 1 is for the "-" character
+			if (twidth + textxoffset) >= (swidth - 1) then
+				self.xoffset = self.xoffset - cwidth
+			end
+			
 		end
 	end
 	
@@ -322,7 +371,7 @@ end
 --]]---------------------------------------------------------
 function textinput:MoveBlinker(num, exact)
 
-	if exact == nil or false then
+	if not exact or exact == false then
 		self.blinknum = self.blinknum + num
 	else
 		self.blinknum = num
@@ -508,9 +557,8 @@ function textinput:SetFocus(focus)
 	
 end
 
-
 --[[---------------------------------------------------------
-	- func: GetFocus
+	- func: GetFocus()
 	- desc: gets the object's focus
 --]]---------------------------------------------------------
 function textinput:GetFocus()
@@ -520,11 +568,66 @@ function textinput:GetFocus()
 end
 
 --[[---------------------------------------------------------
-	- func: GetBlinkerVisibility
+	- func: GetBlinkerVisibility()
 	- desc: gets the object's blinker visibility
 --]]---------------------------------------------------------
 function textinput:GetBlinkerVisibility()
 
 	return self.showblink
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetLimit(limit)
+	- desc: sets the object's text limit
+--]]---------------------------------------------------------
+function textinput:SetLimit(limit)
+
+	self.limit = limit
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetUsable(usable)
+	- desc: sets what characters can be used for the 
+			object's text
+--]]---------------------------------------------------------
+function textinput:SetUsable(usable)
+
+	self.usable = usable
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetUnusable(unusable)
+	- desc: sets what characters can not be used for the 
+			object's text
+--]]---------------------------------------------------------
+function textinput:SetUnusable(unusable)
+
+	self.unusable = unusable
+	
+end
+
+--[[---------------------------------------------------------
+	- func: Clear()
+	- desc: clears the object's text
+--]]---------------------------------------------------------
+function textinput:Clear()
+
+	self.text 			= ""
+	self.xoffset 		= 0
+	self.textxoffset 	= 0
+	self.blinknum 		= 0
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetText()
+	- desc: gets the object's text
+--]]---------------------------------------------------------
+function textinput:GetText()
+
+	return self.text
 	
 end

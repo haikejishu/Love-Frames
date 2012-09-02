@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- LÖVE Frames --
-	-- By Nikolai Resokav --
+	-- By Kenny Shields --
 --]]------------------------------------------------
 
 -- columnlistrow object
@@ -16,7 +16,7 @@ function columnlistrow:initialize(parent, data)
 	self.type 			= "columnlistrow"
 	self.parent			= parent
 	self.colorindex		= self.parent.rowcolorindex
-	self.font			= love.graphics.newFont(10)
+	self.font			= loveframes.basicfontsmall
 	self.textcolor		= {0, 0, 0, 255}
 	self.width 			= 80
 	self.height 		= 25
@@ -68,24 +68,24 @@ function columnlistrow:draw()
 		return
 	end
 	
+	local cwidth, cheight 	= self:GetParent():GetParent():GetColumnSize()
+	local x 				= self.textx
+	local textcolor 		= self.textcolor
+	local skins			= loveframes.skins.available
+	local skinindex		= loveframes.config["ACTIVESKIN"]
+	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
+	local selfskin 		= self.skin
+	local skin 			= skins[selfskin] or skins[skinindex]
+	local drawfunc		= skin.DrawColumnListRow or skins[defaultskin].DrawColumnListRow
+	
 	loveframes.drawcount = loveframes.drawcount + 1
 	self.draworder = loveframes.drawcount
-	
-	-- skin variables
-	local index	= loveframes.config["ACTIVESKIN"]
-	local defaultskin = loveframes.config["DEFAULTSKIN"]
-	local selfskin = self.skin
-	local skin = loveframes.skins.available[selfskin] or loveframes.skins.available[index] or loveframes.skins.available[defaultskin]
-	
+		
 	if self.Draw ~= nil then
 		self.Draw(self)
 	else
-		skin.DrawColumnListRow(self)
+		drawfunc(self)
 	end
-
-	local cwidth, cheight = self:GetParent():GetParent():GetColumnSize()
-	local x = self.textx
-	local textcolor = self.textcolor
 	
 	for k, v in ipairs(self.columndata) do
 		love.graphics.setFont(self.font)

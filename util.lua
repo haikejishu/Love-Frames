@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- LÖVE Frames --
-	-- By Nikolai Resokav --
+	-- By Kenny Shields --
 --]]------------------------------------------------
 
 -- util library
@@ -76,7 +76,7 @@ function loveframes.util.GetCollisions(object, t)
 	if object.internals then
 	
 		for k, v in ipairs(object.internals) do
-			if v.visible == true then
+			if v.visible == true and v.type ~= "tooltip" then
 				loveframes.util.GetCollisions(v, t)
 			end
 		end
@@ -182,22 +182,20 @@ function loveframes.util.GetDirContents(dir, t)
 end
 
 --[[---------------------------------------------------------
-	- func: Round(val, decimal)
+	- func: Round(num, idp)
 	- desc: rounds a number based on the decimal limit
 	- note: i take no credit for this function
 --]]---------------------------------------------------------
-function loveframes.util.Round(val, decimal)
+function loveframes.util.Round(num, idp)
 
-	if (decimal) then
-		return math.floor( (val * 10^decimal) + 0.5) / (10^decimal)
-	else
-		return math.floor(val+0.5)
-	end
+	local mult = 10^(idp or 0)
+    if num >= 0 then return math.floor(num * mult + 0.5) / mult
+    else return math.ceil(num * mult - 0.5) / mult end
 	
 end
 
 --[[---------------------------------------------------------
-	- func: Split(string, pattern)
+	- func: SplitSring(string, pattern)
 	- desc: splits a string into a table based on a given pattern
 	- note: i take no credit for this function
 --]]---------------------------------------------------------
@@ -249,7 +247,7 @@ function loveframes.util.SplitSring(str, pat)
 end
 
 --[[---------------------------------------------------------
-	- func: Trim(string)
+	- func: TrimString(string)
 	- desc: trims spaces off of the beginning and end of
 			a string
 	- note: i take no credit for this function
@@ -267,5 +265,6 @@ end
 function loveframes.util.RemoveAll()
 
 	loveframes.base.children = {}
+	loveframes.base.internals = {}
 	
 end

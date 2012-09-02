@@ -1,9 +1,9 @@
 --[[------------------------------------------------
 	-- LÖVE Frames --
-	-- By Nikolai Resokav --
+	-- By Kenny Shields --
 --]]------------------------------------------------
 
--- button clas
+-- checkbox class
 checkbox = class("checkbox", base)
 checkbox:include(loveframes.templates.default)
 
@@ -18,7 +18,7 @@ function checkbox:initialize()
 	self.height 		= 0
 	self.boxwidth 		= 20
 	self.boxheight 		= 20
-	self.font			= love.graphics.newFont(12)
+	self.font			= loveframes.basicfont
 	self.checked		= false
 	self.lastvalue		= false
 	self.internal		= false
@@ -58,7 +58,7 @@ function checkbox:update(dt)
 	end
 	
 	-- move to parent if there is a parent
-	if self.parent ~= loveframes.base then
+	if self.parent ~= loveframes.base and self.parent.type ~= "list" then
 		self.x = self.parent.x + self.staticx
 		self.y = self.parent.y + self.staticy
 	end
@@ -105,20 +105,21 @@ function checkbox:draw()
 	if visible == false then
 		return
 	end
-	
-	-- skin variables
-	local index	= loveframes.config["ACTIVESKIN"]
-	local defaultskin = loveframes.config["DEFAULTSKIN"]
-	local selfskin = self.skin
-	local skin = loveframes.skins.available[selfskin] or loveframes.skins.available[index] or loveframes.skins.available[defaultskin]
+
+	local skins			= loveframes.skins.available
+	local skinindex		= loveframes.config["ACTIVESKIN"]
+	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
+	local selfskin 		= self.skin
+	local skin 			= skins[selfskin] or skins[skinindex]
+	local drawfunc		= skin.DrawCheckBox or skins[defaultskin].DrawCheckBox
 	
 	loveframes.drawcount = loveframes.drawcount + 1
 	self.draworder = loveframes.drawcount
-	
+		
 	if self.Draw ~= nil then
 		self.Draw(self)
 	else
-		skin.DrawCheckBox(self)
+		drawfunc(self)
 	end
 	
 	for k, v in ipairs(self.internals) do
@@ -309,5 +310,45 @@ function checkbox:SetFont(font)
 	if text then
 		text:SetFont(font)
 	end
+	
+end
+
+--[[---------------------------------------------------------
+	- func: checkbox:GetFont()
+	- desc: gets the font of the object's text
+--]]---------------------------------------------------------
+function checkbox:GetFont()
+
+	return self.font
+
+end
+
+--[[---------------------------------------------------------
+	- func: checkbox:GetBoxHeight()
+	- desc: gets the object's box size
+--]]---------------------------------------------------------
+function checkbox:GetBoxSize()
+
+	return self.boxwidth, self.boxheight
+	
+end
+
+--[[---------------------------------------------------------
+	- func: checkbox:GetBoxWidth()
+	- desc: gets the object's box width
+--]]---------------------------------------------------------
+function checkbox:GetBoxWidth()
+
+	return self.boxwidth
+	
+end
+
+--[[---------------------------------------------------------
+	- func: checkbox:GetBoxHeight()
+	- desc: gets the object's box height
+--]]---------------------------------------------------------
+function checkbox:GetBoxHeight()
+
+	return self.boxheight
 	
 end

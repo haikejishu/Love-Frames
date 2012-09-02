@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- LÖVE Frames --
-	-- By Nikolai Resokav --
+	-- By Kenny Shields --
 --]]------------------------------------------------
 
 -- central library table
@@ -9,20 +9,22 @@ loveframes = {}
 -- library info
 loveframes.info = {}
 loveframes.info.author 	= "Nikolai Resokav"
-loveframes.info.version = "0.9.2.5"
+loveframes.info.version = "0.9.3"
 loveframes.info.stage 	= "Alpha"
 
 -- library configurations
 loveframes.config = {}
-loveframes.config["DIRECTORY"] 			= "libraries/loveframes"
-loveframes.config["DEFAULTSKIN"]		= "Blue"
-loveframes.config["ACTIVESKIN"]	   		= "Blue"
-loveframes.config["INDEXSKINIMAGES"]	= true
-loveframes.config["DEBUG"]				= true
+loveframes.config["DIRECTORY"]         = "libraries/loveframes"
+loveframes.config["DEFAULTSKIN"]       = "Blue"
+loveframes.config["ACTIVESKIN"]        = "Blue"
+loveframes.config["INDEXSKINIMAGES"]   = true
+loveframes.config["DEBUG"]             = true
 
-loveframes.drawcount 	= 0
-loveframes.hoverobject 	= false
-loveframes.modalobject 	= false
+loveframes.drawcount 		= 0
+loveframes.hoverobject 		= false
+loveframes.modalobject 		= false
+loveframes.basicfont		= love.graphics.newFont(12)
+loveframes.basicfontsmall	= love.graphics.newFont(10)
 
 --[[---------------------------------------------------------
 	- func: load()
@@ -153,18 +155,26 @@ end
 			object or objects for further manipulation
 --]]---------------------------------------------------------
 function loveframes.Create(data, parent)
-
+	
 	if type(data) == "string" then
 	
-		-- create the new object
+		-- make sure the object specified is valid
+		if not _G[data] then
+			error("Error creating object: Invalid object '" ..data.. "'.")
+		end
+		
+		-- create the object
 		local object = _G[data]:new()
 		
+		-- if the object is a tooltip, return it and go no further
+		if data == "tooltip" then
+			return object
+		end
+		
+		-- remove the object if it is an internal
 		if object.internal == true then
-			if object.type == "tooltip" then
-				object = tooltip:new()
-			else
-				return
-			end
+			object:Remove()
+			return
 		end
 		
 		-- parent the new object by default to the base gui object

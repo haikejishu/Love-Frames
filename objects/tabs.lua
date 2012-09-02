@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- LÖVE Frames --
-	-- By Nikolai Resokav --
+	-- By Kenny Shields --
 --]]------------------------------------------------
 
 -- tabs class
@@ -25,7 +25,7 @@ function tabs:initialize()
 	self.tabheight		= 25
 	self.autosize		= true
 	self.internal		= false
-	self.tooltipfont	= love.graphics.newFont(10)
+	self.tooltipfont	= loveframes.basicfontsmall
 	self.tabs			= {}
 	self.internals		= {}
 	self.children 		= {}
@@ -47,17 +47,17 @@ function tabs:update(dt)
 		end
 	end
 	
-	local x, y = love.mouse.getPosition()
-	local tabheight = self.tabheight
-	local padding = self.padding
-	local autosize = self.autosize
-	local tabheight = self.tabheight
-	local padding = self.padding
-	local autosize = self.autosize
-	local children = self.children
-	local numchildren = #children
-	local internals = self.internals
-	local tab = self.tab
+	local x, y 			= love.mouse.getPosition()
+	local tabheight 	= self.tabheight
+	local padding 		= self.padding
+	local autosize 		= self.autosize
+	local tabheight 	= self.tabheight
+	local padding 		= self.padding
+	local autosize 		= self.autosize
+	local children 		= self.children
+	local numchildren 	= #children
+	local internals 	= self.internals
+	local tab 			= self.tab
 	
 	-- move to parent if there is a parent
 	if self.parent ~= loveframes.base then
@@ -105,26 +105,26 @@ function tabs:draw()
 		return
 	end
 	
-	local internals = self.internals
+	local internals 	= self.internals
+	local tabheight 	= self:GetHeightOfButtons()
+	local stencilfunc 	= function() love.graphics.rectangle("fill", self.x, self.y, self.width, tabheight) end
+	local stencil 		= love.graphics.newStencil(stencilfunc)
+	local internals 	= self.internals
+	local skins			= loveframes.skins.available
+	local skinindex		= loveframes.config["ACTIVESKIN"]
+	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
+	local selfskin 		= self.skin
+	local skin 			= skins[selfskin] or skins[skinindex]
+	local drawfunc		= skin.DrawTabPanel or skins[defaultskin].DrawTabPanel
 	
 	loveframes.drawcount = loveframes.drawcount + 1
 	self.draworder = loveframes.drawcount
-	
-	-- skin variables
-	local index	= loveframes.config["ACTIVESKIN"]
-	local defaultskin = loveframes.config["DEFAULTSKIN"]
-	local selfskin = self.skin
-	local skin = loveframes.skins.available[selfskin] or loveframes.skins.available[index] or loveframes.skins.available[defaultskin]
-	
+		
 	if self.Draw ~= nil then
 		self.Draw(self)
 	else
-		skin.DrawTabPanel(self)
+		drawfunc(self)
 	end
-	
-	local tabheight = self:GetHeightOfButtons()
-	local stencilfunc = function() love.graphics.rectangle("fill", self.x, self.y, self.width, tabheight) end
-	local stencil = love.graphics.newStencil(stencilfunc)
 	
 	love.graphics.setStencil(stencil)
 	
@@ -455,5 +455,15 @@ function tabs:SetToolTipFont(font)
 			v.tooltip:SetFont(font)
 		end
 	end
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetTabNumber()
+	- desc: gets the object's tab number
+--]]---------------------------------------------------------
+function tabs:GetTabNumber()
+
+	return self.tabnumber
 	
 end

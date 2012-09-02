@@ -1,4 +1,49 @@
 ================================================
+Version 0.9.3 - Alpha (Spetember 1 - 2012)
+================================================
+
+[ADDED] a new base method: GetParents()
+[ADDED] a new base method: IsTopInternal()
+[ADDED] a new base method: IsInternal()
+[ADDED] a new base method: GetType()
+[ADDED] a new checkbox method: GetFont()
+[ADDED] a new checkbox method: GetBoxSize()
+[ADDED] a new checkbox method: GetBoxWidth()
+[ADDED] a new checkbox method: GetBoxHeight()
+[ADDED] a new image method: GetImage()
+[ADDED] a new image method: GetColor()
+[ADDED] a new progressbar method: GetCompleted()
+[ADDED] a new tabs method: GetTabNumber()
+[ADDED] a new text method: GetLines()
+[ADDED] a new text input method: SetLimit(limit)
+[ADDED] a new text input method: SetUsable(usable)
+[ADDED] a new text input method: SetUnusable(unusable)
+[ADDED] a new text input method: Clear()
+[ADDED] a new text input method: GetText()
+[ADDED] support for line breaks in the text object (please refer to the wiki on how to format your text with line breaks)
+[ADDED] more information to the debug overlay
+
+[FIXED] tooltips and multichoice lists not functioning properly when a frame was modaled
+[FIXED] the text object not moving it's base parent to the top when clicked if it's base parent was a frame
+[FIXED] the list object not scrolling via the mouse wheel due to certain collision detection issues
+[FIXED] tooltips flickering when in a hover state
+[FIXED] slider calculation errors
+[FIXED] skin.DrawRepeatingImage creating a new image every frame
+[FIXED] checkbox text not scrolling properly when in a list
+[FIXED] the collapsible category's object not scrolling properly when in a list
+[FIXED] skins not assuming the drawing functions of the default skins if drawing functions in the active skin were missing
+[FIXED] some objects not being removed
+[FIXED] sliders not scrolling properly when in a list 
+
+[CHANGED] various code for a small cleanup
+[CHANGED] tooltips from being children of the base object to internals of the base object
+[CHANGED] tooltips from never being removed to being removed when their assigned object is removed
+[CHANGED] tooltips are now not able to be assigned to the base object (this would cause an error due to the way the tooltip currently functions)
+[CHANGED] the text object now positions it's text when SetText is called instead of positioning it's text every frame
+[CHANGED] slider:SetMax(max), slider:SetMin(min) and slider:SetMinMax(min, max) now adjust the slider's value if the slider's value is out of the range specified
+[CHANGED] loveframes.Create(data, parent) now activates an error screen if the object specified is invalid
+
+================================================
 Version 0.9.2.5 - Alpha (June 1 - 2012)
 ================================================
 [FIXED] the text object not drawing numbers in certain situations

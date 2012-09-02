@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- LÖVE Frames --
-	-- By Nikolai Resokav --
+	-- By Kenny Shields --
 --]]------------------------------------------------
 
 -- frame class
@@ -62,20 +62,20 @@ function frame:update(dt)
 		end
 	end
 	
-	local x, y = love.mouse.getPosition()
-	local showclose = self.showclose
-	local close = self.internals[1]
-	local dragging = self.dragging
-	local screenlocked = self.screenlocked
-	local modal = self.modal
-	local base = loveframes.base
-	local basechildren = base.children
-	local numbasechildren = #basechildren
-	local draworder = self.draworder
-	local children = self.children
-	local internals = self.internals
+	local x, y 				= love.mouse.getPosition()
+	local showclose 		= self.showclose
+	local close 			= self.internals[1]
+	local dragging 			= self.dragging
+	local screenlocked 		= self.screenlocked
+	local modal 			= self.modal
+	local base 				= loveframes.base
+	local basechildren 		= base.children
+	local numbasechildren 	= #basechildren
+	local draworder 		= self.draworder
+	local children 			= self.children
+	local internals 		= self.internals
 	
-	close:SetPos(self.width - 22, 4)
+	close:SetPos(self.width - 20, 4)
 	self:CheckHover()
 	
 	-- dragging check
@@ -107,17 +107,25 @@ function frame:update(dt)
 	
 	if modal == true then
 		
-		local numtooltips = 0 
+		local tip = false
+		local key = 0
 		
 		for k, v in ipairs(basechildren) do
-			if v.type == "tooltip" then
-				numtooltips = numtooltips + 1
+			if v.type == "tooltip" and v.show == true then
+				tip = v
+				key = k
 			end
 		end
 		
-		if draworder ~= numbasechildren - numtooltips then
-			self.modalbackground:MoveToTop()
-			self:MoveToTop()
+		if tip ~= false then
+			self:Remove()
+			self.modalbackground:Remove()
+			table.insert(basechildren, key - 2, self.modalbackground)
+			table.insert(basechildren, key - 1, self)
+		end
+		
+		if self.modalbackground.draworder > self.draworder then
+			self:MakeTop()
 		end
 		
 	end
@@ -148,14 +156,14 @@ function frame:draw()
 		return
 	end
 	
-	local children = self.children
-	local internals = self.internals
-	
-	-- skin variables
-	local index	= loveframes.config["ACTIVESKIN"]
-	local defaultskin = loveframes.config["DEFAULTSKIN"]
-	local selfskin = self.skin
-	local skin = loveframes.skins.available[selfskin] or loveframes.skins.available[index] or loveframes.skins.available[defaultskin]
+	local children 		= self.children
+	local internals 	= self.internals
+	local skins			= loveframes.skins.available
+	local skinindex		= loveframes.config["ACTIVESKIN"]
+	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
+	local selfskin 		= self.skin
+	local skin 			= skins[selfskin] or skins[skinindex]
+	local drawfunc		= skin.DrawFrame or skins[defaultskin].DrawFrame
 	
 	loveframes.drawcount = loveframes.drawcount + 1
 	self.draworder = loveframes.drawcount
@@ -163,7 +171,7 @@ function frame:draw()
 	if self.Draw ~= nil then
 		self.Draw(self)
 	else
-		skin.DrawFrame(self)
+		drawfunc(self)
 	end
 	
 	for k, v in ipairs(internals) do

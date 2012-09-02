@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- LÖVE Frames --
-	-- By Nikolai Resokav --
+	-- By Kenny Shields --
 --]]------------------------------------------------
 
 -- list class
@@ -40,8 +40,8 @@ end
 --]]---------------------------------------------------------
 function list:update(dt)
 	
-	local visible = self.visible
-	local alwaysupdate = self.alwaysupdate
+	local visible 		= self.visible
+	local alwaysupdate 	= self.alwaysupdate
 	
 	if visible == false then
 		if alwaysupdate == false then
@@ -49,9 +49,9 @@ function list:update(dt)
 		end
 	end
 	
-	local internals = self.internals
-	local children = self.children
-	local display = self.display
+	local internals 	= self.internals
+	local children 		= self.children
+	local display 		= self.display
 	
 	-- move to parent if there is a parent
 	if self.parent ~= loveframes.base then
@@ -97,27 +97,26 @@ function list:draw()
 	if visible == false then
 		return
 	end
+
+	local internals 	= self.internals
+	local children 		= self.children
+	local stencilfunc 	= function() love.graphics.rectangle("fill", self.x, self.y, self.width, self.height) end
+	local stencil 		= love.graphics.newStencil(stencilfunc)
+	local skins			= loveframes.skins.available
+	local skinindex		= loveframes.config["ACTIVESKIN"]
+	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
+	local selfskin 		= self.skin
+	local skin 			= skins[selfskin] or skins[skinindex]
+	local drawfunc		= skin.DrawList or skins[defaultskin].DrawList
 	
 	loveframes.drawcount = loveframes.drawcount + 1
 	self.draworder = loveframes.drawcount
-
-	local internals = self.internals
-	local children = self.children
-	
-	-- skin variables
-	local index	= loveframes.config["ACTIVESKIN"]
-	local defaultskin = loveframes.config["DEFAULTSKIN"]
-	local selfskin = self.skin
-	local skin = loveframes.skins.available[selfskin] or loveframes.skins.available[index] or loveframes.skins.available[defaultskin]
 		
 	if self.Draw ~= nil then
 		self.Draw(self)
 	else
-		skin.DrawList(self)
+		drawfunc(self)
 	end
-	
-	local stencilfunc = function() love.graphics.rectangle("fill", self.x, self.y, self.width, self.height) end
-	local stencil = love.graphics.newStencil(stencilfunc)
 	
 	love.graphics.setStencil(stencil)
 		
@@ -152,11 +151,11 @@ function list:mousepressed(x, y, button)
 		return
 	end
 	
-	local toplist = self:IsTopList()
-	local hover = self.hover
-	local vbar = self.vbar
-	local hbar = self.hbar
-	local children = self.children
+	local toplist 	= self:IsTopList()
+	local hover 	= self.hover
+	local vbar 		= self.vbar
+	local hbar 		= self.hbar
+	local children 	= self.children
 	local internals = self.internals
 	
 	if hover == true and button == "l" then
@@ -235,18 +234,18 @@ end
 --]]---------------------------------------------------------
 function list:CalculateSize()
 	
-	local numitems = #self.children
-	local height = self.height
-	local width = self.width
-	local padding = self.padding
-	local spacing = self.spacing
-	local itemheight = self.padding
-	local itemwidth	= self.padding
-	local display = self.display
-	local vbar = self.vbar
-	local hbar = self.hbar
-	local internals = self.internals
-	local children = self.children
+	local numitems 		= #self.children
+	local height 		= self.height
+	local width 		= self.width
+	local padding 		= self.padding
+	local spacing 		= self.spacing
+	local itemheight 	= self.padding
+	local itemwidth		= self.padding
+	local display 		= self.display
+	local vbar 			= self.vbar
+	local hbar 			= self.hbar
+	local internals 	= self.internals
+	local children 		= self.children
 	
 	if display == "vertical" then
 	
@@ -322,14 +321,14 @@ end
 --]]---------------------------------------------------------
 function list:RedoLayout()
 	
-	local children = self.children
-	local padding = self.padding
-	local spacing = self.spacing
-	local starty = padding
-	local startx = padding
-	local vbar = self.vbar
-	local hbar = self.hbar
-	local display = self.display
+	local children 	= self.children
+	local padding 	= self.padding
+	local spacing 	= self.spacing
+	local starty 	= padding
+	local startx 	= padding
+	local vbar 		= self.vbar
+	local hbar 		= self.hbar
+	local display 	= self.display
 	
 	if #children > 0 then
 	
@@ -398,8 +397,8 @@ end
 --]]---------------------------------------------------------
 function list:SetDisplayType(type)
 
-	local children = self.children
-	local numchildren = #children
+	local children 		= self.children
+	local numchildren 	= #children
 	
 	self.display = type
 	
@@ -432,8 +431,8 @@ end
 --]]---------------------------------------------------------
 function list:SetPadding(amount)
 
-	local children = self.children
-	local numchildren = #children
+	local children 		= self.children
+	local numchildren 	= #children
 	
 	self.padding = amount
 	
@@ -450,8 +449,8 @@ end
 --]]---------------------------------------------------------
 function list:SetSpacing(amount)
 
-	local children = self.children
-	local numchildren = #children
+	local children 		= self.children
+	local numchildren 	= #children
 	
 	self.spacing = amount
 	

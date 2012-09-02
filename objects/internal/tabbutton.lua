@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- LÖVE Frames --
-	-- By Nikolai Resokav --
+	-- By Kenny Shields --
 --]]------------------------------------------------
 
 -- tabbutton clas
@@ -77,24 +77,24 @@ function tabbutton:draw()
 		return
 	end
 	
+	local font 			= love.graphics.getFont()
+	local width 		= font:getWidth(self.text)
+	local image 		= self.image
+	local skins			= loveframes.skins.available
+	local skinindex		= loveframes.config["ACTIVESKIN"]
+	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
+	local selfskin 		= self.skin
+	local skin 			= skins[selfskin] or skins[skinindex]
+	local drawfunc		= skin.DrawTabButton or skins[defaultskin].DrawTabButton
+	
 	loveframes.drawcount = loveframes.drawcount + 1
 	self.draworder = loveframes.drawcount
-	
-	-- skin variables
-	local index	= loveframes.config["ACTIVESKIN"]
-	local defaultskin = loveframes.config["DEFAULTSKIN"]
-	local selfskin = self.skin
-	local skin = loveframes.skins.available[selfskin] or loveframes.skins.available[index] or loveframes.skins.available[defaultskin]
-	
+		
 	if self.Draw ~= nil then
 		self.Draw(self)
 	else
-		skin.DrawTabButton(self)
+		drawfunc(self)
 	end
-	
-	local font = love.graphics.getFont()
-	local width = font:getWidth(self.text)
-	local image = self.image
 	
 	if image then
 		local imagewidth = image:getWidth()

@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- LÖVE Frames --
-	-- By Nikolai Resokav --
+	-- By Kenny Shields --
 --]]------------------------------------------------
 
 -- button clas
@@ -49,16 +49,14 @@ function collapsiblecategory:update(dt)
 	self:CheckHover()
 	
 	-- move to parent if there is a parent
-	if self.parent ~= loveframes.base then
+	if self.parent ~= loveframes.base and self.parent.type ~= "list" then
 		self.x = self.parent.x + self.staticx
 		self.y = self.parent.y + self.staticy
 	end
 	
 	if open == true then
-		curobject:update(dt)
 		curobject:SetWidth(self.width - self.padding*2)
-		curobject.y = (curobject.parent.y + curobject.staticy)
-		curobject.x = (curobject.parent.x + curobject.staticx)
+		curobject:update(dt)
 	end
 	
 	if self.Update then
@@ -79,23 +77,23 @@ function collapsiblecategory:draw()
 		return
 	end
 	
-	local open = self.open
-	local children = self.children
-	local curobject = children[1]
-	
-	-- skin variables
-	local index	= loveframes.config["ACTIVESKIN"]
-	local defaultskin = loveframes.config["DEFAULTSKIN"]
-	local selfskin = self.skin
-	local skin = loveframes.skins.available[selfskin] or loveframes.skins.available[index] or loveframes.skins.available[defaultskin]
+	local open 			= self.open
+	local children 		= self.children
+	local curobject 	= children[1]
+	local skins			= loveframes.skins.available
+	local skinindex		= loveframes.config["ACTIVESKIN"]
+	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
+	local selfskin 		= self.skin
+	local skin 			= skins[selfskin] or skins[skinindex]
+	local drawfunc		= skin.DrawCollapsibleCategory or skins[defaultskin].DrawCollapsibleCategory
 	
 	loveframes.drawcount = loveframes.drawcount + 1
 	self.draworder = loveframes.drawcount
-	
+		
 	if self.Draw ~= nil then
 		self.Draw(self)
 	else
-		skin.DrawCollapsibleCategory(self)
+		drawfunc(self)
 	end
 	
 	if open == true then

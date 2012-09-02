@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- LÖVE Frames --
-	-- By Nikolai Resokav --
+	-- By Kenny Shields --
 --]]------------------------------------------------
 
 -- text clas
@@ -49,13 +49,13 @@ function slider:update(dt)
 		end
 	end
 	
-	local internals = self.internals
-	local sliderbutton = internals[1]
+	local internals 	= self.internals
+	local sliderbutton 	= internals[1]
 	
 	self:CheckHover()
 	
 	-- move to parent if there is a parent
-	if self.parent ~= loveframes.base then
+	if self.parent ~= loveframes.base and self.parent.type ~= "list" then
 		self.x = self.parent.x + self.staticx
 		self.y = self.parent.y + self.staticy
 	end
@@ -91,21 +91,21 @@ function slider:draw()
 		return
 	end
 	
-	local internals = self.internals
+	local internals 	= self.internals
+	local skins			= loveframes.skins.available
+	local skinindex		= loveframes.config["ACTIVESKIN"]
+	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
+	local selfskin 		= self.skin
+	local skin 			= skins[selfskin] or skins[skinindex]
+	local drawfunc		= skin.DrawSlider or skins[defaultskin].DrawSlider
 	
 	loveframes.drawcount = loveframes.drawcount + 1
 	self.draworder = loveframes.drawcount
-	
-	-- skin variables
-	local index	= loveframes.config["ACTIVESKIN"]
-	local defaultskin = loveframes.config["DEFAULTSKIN"]
-	local selfskin = self.skin
-	local skin = loveframes.skins.available[selfskin] or loveframes.skins.available[index] or loveframes.skins.available[defaultskin]
-	
+		
 	if self.Draw ~= nil then
 		self.Draw(self)
 	else
-		skin.DrawSlider(self)
+		drawfunc(self)
 	end
 	
 	-- draw internals
@@ -186,9 +186,9 @@ function slider:SetValue(value)
 		return
 	end
 	
-	local decimals = self.decimals
-	local newval = loveframes.util.Round(value, decimals)
-	local internals = self.internals
+	local decimals 		= self.decimals
+	local newval 		= loveframes.util.Round(value, decimals)
+	local internals 	= self.internals
 	
 	-- set the new value
 	self.value = newval
@@ -230,6 +230,10 @@ function slider:SetMax(max)
 
 	self.max = max
 	
+	if self.value > self.max then
+		self.value = self.max
+	end
+	
 end
 
 --[[---------------------------------------------------------
@@ -249,6 +253,10 @@ end
 function slider:SetMin(min)
 
 	self.min = min
+	
+	if self.value < self.min then
+		self.value = self.min
+	end
 	
 end
 
@@ -270,6 +278,14 @@ function slider:SetMinMax(min, max)
 
 	self.min = min
 	self.max = max
+	
+	if self.value > self.max then
+		self.value = self.max
+	end
+	
+	if self.value < self.min then
+		self.value = self.min
+	end
 	
 end
 
