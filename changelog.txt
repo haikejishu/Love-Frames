@@ -1,7 +1,16 @@
 ================================================
+Version 0.9.3.1 - Alpha (Spetember 2 - 2012)
+================================================
+[ADDED] numpad enter key support for textinput.OnEnter
+
+[FIXED] duplicate progressbar:GetCompleted() in progressbar.lua
+
+[CHANGED] textinput.OnTextEnterd to textinput.OnTextChanged
+[CHANGED] textinput.OnTextChanged is now also called when the backspace key is pressed
+
+================================================
 Version 0.9.3 - Alpha (Spetember 1 - 2012)
 ================================================
-
 [ADDED] a new base method: GetParents()
 [ADDED] a new base method: IsTopInternal()
 [ADDED] a new base method: IsInternal()

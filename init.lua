@@ -1,6 +1,6 @@
 --[[------------------------------------------------
-	-- LÖVE Frames --
-	-- By Kenny Shields --
+	-- Löve Frames --
+	-- Copyright 2012 Kenny Shields --
 --]]------------------------------------------------
 
 -- central library table
@@ -9,7 +9,7 @@ loveframes = {}
 -- library info
 loveframes.info = {}
 loveframes.info.author 	= "Nikolai Resokav"
-loveframes.info.version = "0.9.3"
+loveframes.info.version = "0.9.3.1"
 loveframes.info.stage 	= "Alpha"
 
 -- library configurations

@@ -1,6 +1,6 @@
 --[[------------------------------------------------
-	-- LÖVE Frames --
-	-- By Kenny Shields --
+	-- Löve Frames --
+	-- Copyright 2012 Kenny Shields --
 --]]------------------------------------------------
 
 -- textinput clas
@@ -39,7 +39,7 @@ function textinput:initialize()
 	self.focus				= false
 	self.internal			= false
 	self.OnEnter			= nil
-	self.OnTextEntered		= nil
+	self.OnTextChanged		= nil
 	
 end
 
@@ -259,30 +259,20 @@ function textinput:RunKey(key, unicode)
 	self.unicode = unicode
 	
 	if key == "left" then
-		if self.alltextselected == true then
-			self.alltextselected = false
-			self.blinknum = 0
-		else
-			self:MoveBlinker(-1)
-			if blinkx <= self.x  and blinknum ~= 0 then
-				local width = self.font:getWidth(self.text:sub(blinknum, blinknum + 1))
-				self.xoffset = self.xoffset + width
-			elseif blinknum == 0 and self.xoffset ~= 0 then
-				self.xoffset = 0
-			end
+		self:MoveBlinker(-1)
+		if blinkx <= self.x  and blinknum ~= 0 then
+			local width = self.font:getWidth(self.text:sub(blinknum, blinknum + 1))
+			self.xoffset = self.xoffset + width
+		elseif blinknum == 0 and self.xoffset ~= 0 then
+			self.xoffset = 0
 		end
 	elseif key == "right" then
-		if self.alltextselected == true then
-			self.alltextselected = false
-			self.blinknum = #self.text
-		else
-			self:MoveBlinker(1)
-			if blinkx >= self.x + swidth and blinknum ~= #self.text then
-				local width = self.font:getWidth(self.text:sub(blinknum, blinknum))
-				self.xoffset = self.xoffset - width*2
-			elseif blinknum == #self.text and self.xoffset ~= ((0 - font:getWidth(self.text)) + swidth) and font:getWidth(self.text) + self.textxoffset > self.width then
-				self.xoffset = ((0 - font:getWidth(self.text)) + swidth)
-			end
+		self:MoveBlinker(1)
+		if blinkx >= self.x + swidth and blinknum ~= #self.text then
+			local width = self.font:getWidth(self.text:sub(blinknum, blinknum))
+			self.xoffset = self.xoffset - width*2
+		elseif blinknum == #self.text and self.xoffset ~= ((0 - font:getWidth(self.text)) + swidth) and font:getWidth(self.text) + self.textxoffset > self.width then
+			self.xoffset = ((0 - font:getWidth(self.text)) + swidth)
 		end
 	end
 			
@@ -291,12 +281,15 @@ function textinput:RunKey(key, unicode)
 		if text ~= "" then
 			self.text = self:RemoveFromeText(blinknum)
 			self:MoveBlinker(-1)
+			if self.OnTextChanged then
+				self.OnTextChanged(self, "")
+			end
 		end
 		local cwidth = font:getWidth(self.text:sub(#self.text))
 		if self.xoffset ~= 0 then
 			self.xoffset = self.xoffset + cwidth
 		end
-	elseif key == "return" then
+	elseif key == "return" or key == "kpenter" then
 		if self.OnEnter ~= nil then
 			self.OnEnter(self, self.text)
 		end
@@ -349,8 +342,8 @@ function textinput:RunKey(key, unicode)
 				self:MoveBlinker(1)
 			end
 			
-			if self.OnTextEntered then
-				self.OnTextEntered(self, ckey)
+			if self.OnTextChanged then
+				self.OnTextChanged(self, ckey)
 			end
 			
 			local cwidth = font:getWidth(ckey)

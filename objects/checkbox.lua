@@ -1,6 +1,6 @@
 --[[------------------------------------------------
-	-- LÖVE Frames --
-	-- By Kenny Shields --
+	-- Löve Frames --
+	-- Copyright 2012 Kenny Shields --
 --]]------------------------------------------------
 
 -- checkbox class

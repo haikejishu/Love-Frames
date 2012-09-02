@@ -1,9 +1,9 @@
 --[[------------------------------------------------
-	-- LÖVE Frames --
-	-- By Kenny Shields --
+	-- Löve Frames --
+	-- Copyright 2012 Kenny Shields --
 --]]------------------------------------------------
 
--- progress bar class
+-- progressbar class
 progressbar = class("progressbar", base)
 progressbar:include(loveframes.templates.default)
 
@@ -287,9 +287,10 @@ end
 
 --[[---------------------------------------------------------
 	- func: GetCompleted()
-	- desc: gets the value of object.completed
+	- desc: gets whether or not the object has reached it's
+			maximum value
 --]]---------------------------------------------------------
-function progressbar:GetLerpRate()
+function progressbar:GetCompleted()
 
 	return self.completed
 	
