@@ -1,9 +1,9 @@
 --[[------------------------------------------------
-	-- Löve Frames --
-	-- Copyright 2012 Kenny Shields --
+	-- Love Frames - A GUI library for LOVE --
+	-- Copyright (c) 2012 Kenny Shields --
 --]]------------------------------------------------
 
--- columnlistheader object
+-- columnlistheader class
 columnlistheader = class("columnlistheader", base)
 columnlistheader:include(loveframes.templates.default)
 
@@ -13,17 +13,17 @@ columnlistheader:include(loveframes.templates.default)
 --]]---------------------------------------------------------
 function columnlistheader:initialize(name, parent)
 	
-	self.type 		= "columnlistheader"
-	self.parent		= parent
-	self.name		= name
-	self.width 		= 80
-	self.height 	= 16
-	self.hover		= false
-	self.down		= false
-	self.clickable	= true
-	self.enabled	= true
+	self.type       = "columnlistheader"
+	self.parent     = parent
+	self.name       = name
+	self.width      = 80
+	self.height     = 16
+	self.hover      = false
+	self.down       = false
+	self.clickable  = true
+	self.enabled    = true
 	self.descending = true
-	self.internal	= true
+	self.internal   = true
 
 	table.insert(parent.children, self)
 		
@@ -52,37 +52,41 @@ end
 --]]---------------------------------------------------------
 function columnlistheader:update(dt)
 	
-	local visible = self.visible
+	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
-	if visible == false then
-		if alwaysupdate == false then
+	if not visible then
+		if not alwaysupdate then
 			return
 		end
 	end
 	
+	local parent = self.parent
+	local base   = loveframes.base
+	local update = self.Update
+	
 	self:CheckHover()
 	
-	if self.hover == false then
+	if not self.hover then
 		self.down = false
-	elseif self.hover == true then
+	else
 		if loveframes.hoverobject == self then
 			self.down = true
 		end
 	end
 	
-	if self.down == false and loveframes.hoverobject == self then
+	if self.down and loveframes.hoverobject == self then
 		self.hover = true
 	end
 	
 	-- move to parent if there is a parent
-	if self.parent ~= loveframes.base then
-		self.x = self.parent.x + self.staticx
-		self.y = self.parent.y + self.staticy
+	if parent ~= base then
+		self.x = parent.x + self.staticx
+		self.y = parent.y + self.staticy
 	end
 	
-	if self.Update then
-		self.Update(self, dt)
+	if update then
+		update(self, dt)
 	end
 
 end
@@ -95,22 +99,24 @@ function columnlistheader:draw()
 
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
-	local skins			= loveframes.skins.available
-	local skinindex		= loveframes.config["ACTIVESKIN"]
-	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
-	local selfskin 		= self.skin
-	local skin 			= skins[selfskin] or skins[skinindex]
-	local drawfunc		= skin.DrawColumnListHeader or skins[defaultskin].DrawColumnListHeader
+	local skins         = loveframes.skins.available
+	local skinindex     = loveframes.config["ACTIVESKIN"]
+	local defaultskin   = loveframes.config["DEFAULTSKIN"]
+	local selfskin      = self.skin
+	local skin          = skins[selfskin] or skins[skinindex]
+	local drawfunc      = skin.DrawColumnListHeader or skins[defaultskin].DrawColumnListHeader
+	local draw          = self.Draw
+	local drawcount     = loveframes.drawcount
 	
-	loveframes.drawcount = loveframes.drawcount + 1
+	loveframes.drawcount = drawcount + 1
 	self.draworder = loveframes.drawcount
 		
-	if self.Draw ~= nil then
-		self.Draw(self)
+	if draw then
+		draw(self)
 	else
 		drawfunc(self)
 	end
@@ -123,7 +129,7 @@ end
 --]]---------------------------------------------------------
 function columnlistheader:mousepressed(x, y, button)
 
-	if self.hover == true and button == "l" then
+	if self.hover and button == "l" then
 		
 		local baseparent = self:GetBaseParent()
 	
@@ -144,21 +150,32 @@ end
 --]]---------------------------------------------------------
 function columnlistheader:mousereleased(x, y, button)
 
-	if self.visible == false then
+	if not self.visible then
 		return
 	end
 	
-	local hover = self.hover
-	local down = self.down
+	local hover     = self.hover
+	local down      = self.down
 	local clickable = self.clickable
-	local enabled = self.enabled
+	local enabled   = self.enabled
+	local onclick   = self.OnClick
 	
-	if hover == true and down == true and button == "l" and clickable == true then
-		if enabled == true then
-			self.OnClick(self, x, y)
+	if hover and down and clickable and button == "l" then
+		if enabled then
+			onclick(self, x, y)
 		end
 	end
 	
 	self.down = false
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetName()
+	- desc: gets the object's name
+--]]---------------------------------------------------------
+function columnlistheader:GetName()
+
+	return self.name
 	
 end

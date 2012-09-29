@@ -1,6 +1,6 @@
 --[[------------------------------------------------
-	-- Löve Frames --
-	-- Copyright 2012 Kenny Shields --
+	-- Love Frames - A GUI library for LOVE --
+	-- Copyright (c) 2012 Kenny Shields --
 --]]------------------------------------------------
 
 -- frame class
@@ -13,34 +13,33 @@ frame:include(loveframes.templates.default)
 --]]---------------------------------------------------------
 function frame:initialize()
 	
-	self.type				= "frame"
-	self.name 				= "Frame"
-	self.width 				= 300
-	self.height 			= 150
-	self.clickx 			= 0
-	self.clicky 			= 0
-	self.internal			= false
-	self.draggable 			= true
-	self.screenlocked 		= false
-	self.dragging 			= false
-	self.modal				= false
-	self.modalbackground	= false
-	self.showclose			= true
-	self.internals			= {}
-	self.children 			= {}
-	self.OnClose			= nil
+	self.type               = "frame"
+	self.name               = "Frame"
+	self.width              = 300
+	self.height             = 150
+	self.clickx             = 0
+	self.clicky             = 0
+	self.internal           = false
+	self.draggable          = true
+	self.screenlocked       = false
+	self.dragging           = false
+	self.modal              = false
+	self.modalbackground    = false
+	self.showclose          = true
+	self.internals          = {}
+	self.children           = {}
+	self.OnClose            = nil
 	
+	-- create the close button for the frame
 	local close = closebutton:new()
 	close.parent = self
 	close:SetSize(16, 16)
 	close.OnClick = function()
-	
+		local onclose = self.OnClose
 		self:Remove()
-		
-		if self.OnClose then
-			self.OnClose(self)
+		if onclose then
+			onclose(self)
 		end
-		
 	end
 	
 	table.insert(self.internals, close)
@@ -53,33 +52,34 @@ end
 --]]---------------------------------------------------------
 function frame:update(dt)
 	
-	local visible = self.visible
+	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
-	if visible == false then
-		if alwaysupdate == false then
+	if not visible then
+		if not alwaysupdate then
 			return
 		end
 	end
 	
-	local x, y 				= love.mouse.getPosition()
-	local showclose 		= self.showclose
-	local close 			= self.internals[1]
-	local dragging 			= self.dragging
-	local screenlocked 		= self.screenlocked
-	local modal 			= self.modal
-	local base 				= loveframes.base
-	local basechildren 		= base.children
-	local numbasechildren 	= #basechildren
-	local draworder 		= self.draworder
-	local children 			= self.children
-	local internals 		= self.internals
+	local x, y              = love.mouse.getPosition()
+	local showclose         = self.showclose
+	local close             = self.internals[1]
+	local dragging          = self.dragging
+	local screenlocked      = self.screenlocked
+	local modal             = self.modal
+	local base              = loveframes.base
+	local basechildren      = base.children
+	local numbasechildren   = #basechildren
+	local draworder         = self.draworder
+	local children          = self.children
+	local internals         = self.internals
+	local update            = self.Update
 	
 	close:SetPos(self.width - 20, 4)
 	self:CheckHover()
 	
 	-- dragging check
-	if dragging == true then
+	if dragging then
 		self.x = x - self.clickx
 		self.y = y - self.clicky
 	end
@@ -89,18 +89,20 @@ function frame:update(dt)
 	
 		local width = love.graphics.getWidth()
 		local height = love.graphics.getHeight()
+		local selfwidth = self.width
+		local selfheight = self.height
 		
 		if self.x < 0 then
 			self.x = 0
 		end
-		if self.x + self.width > width then
-			self.x = width - self.width
+		if self.x + selfwidth > width then
+			self.x = width - selfwidth
 		end
 		if self.y < 0 then
 			self.y = 0
 		end
-		if self.y + self.height > height then
-			self.y = height - self.height
+		if self.y + selfheight > height then
+			self.y = height - selfheight
 		end
 		
 	end
@@ -138,8 +140,8 @@ function frame:update(dt)
 		v:update(dt)
 	end
 	
-	if self.Update then
-		self.Update(self, dt)
+	if update then
+		update(self, dt)
 	end
 
 end
@@ -152,24 +154,26 @@ function frame:draw()
 	
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
-	local children 		= self.children
-	local internals 	= self.internals
-	local skins			= loveframes.skins.available
-	local skinindex		= loveframes.config["ACTIVESKIN"]
-	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
-	local selfskin 		= self.skin
-	local skin 			= skins[selfskin] or skins[skinindex]
-	local drawfunc		= skin.DrawFrame or skins[defaultskin].DrawFrame
+	local children      = self.children
+	local internals     = self.internals
+	local skins         = loveframes.skins.available
+	local skinindex     = loveframes.config["ACTIVESKIN"]
+	local defaultskin   = loveframes.config["DEFAULTSKIN"]
+	local selfskin      = self.skin
+	local skin          = skins[selfskin] or skins[skinindex]
+	local drawfunc      = skin.DrawFrame or skins[defaultskin].DrawFrame
+	local draw          = self.Draw
+	local drawcount     = loveframes.drawcount
 	
-	loveframes.drawcount = loveframes.drawcount + 1
+	loveframes.drawcount = drawcount + 1
 	self.draworder = loveframes.drawcount
 		
-	if self.Draw ~= nil then
-		self.Draw(self)
+	if draw then
+		draw(self)
 	else
 		drawfunc(self)
 	end
@@ -193,30 +197,30 @@ function frame:mousepressed(x, y, button)
 
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
-	local width = self.width
-	local height = self.height
-	local selfcol = loveframes.util.BoundingBox(x, self.x, y, self.y, 1, self.width, 1, self.height)
-	local children = self.children
+	local width     = self.width
+	local height    = self.height
+	local selfcol   = loveframes.util.BoundingBox(x, self.x, y, self.y, 1, self.width, 1, self.height)
 	local internals = self.internals
+	local children  = self.children
 	
-	if selfcol == true then
+	if selfcol then
 	
 		local top = self:IsTopCollision()
 		
 		-- initiate dragging if not currently dragging
-		if self.dragging == false and top == true and button == "l" then
-			if y < self.y + 25 and self.draggable == true then
+		if not self.dragging and top and button == "l" then
+			if y < self.y + 25 and self.draggable then
 				self.clickx = x - self.x
 				self.clicky = y - self.y
 				self.dragging = true
 			end
 		end
 		
-		if top == true and button == "l" then
+		if top and button == "l" then
 			self:MakeTop()
 		end
 		
@@ -240,16 +244,16 @@ function frame:mousereleased(x, y, button)
 	
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
-	local dragging = self.dragging
-	local children = self.children
+	local dragging  = self.dragging
+	local children  = self.children
 	local internals = self.internals
 	
 	-- exit the dragging state
-	if dragging == true then
+	if dragging then
 		self.dragging = false
 	end
 	
@@ -346,10 +350,10 @@ end
 --]]---------------------------------------------------------
 function frame:MakeTop()
 	
-	local x, y = love.mouse.getPosition()
-	local key = 0
-	local base = loveframes.base
-	local basechildren = base.children
+	local x, y            = love.mouse.getPosition()
+	local key             = 0
+	local base            = loveframes.base
+	local basechildren    = base.children
 	local numbasechildren = #basechildren
 	
 	if numbasechildren == 1 then
@@ -371,7 +375,7 @@ function frame:MakeTop()
 	end
 	
 	basechildren[key]:mousepressed(x, y, "l")
-		
+	
 end
 
 --[[---------------------------------------------------------
@@ -386,15 +390,15 @@ function frame:SetModal(bool)
 	
 	self.modal = bool
 	
-	if bool == true then
+	if bool then
 	
-		if modalobject ~= false then
+		if modalobject then
 			modalobject:SetModal(false)
 		end
 	
 		loveframes.modalobject = self
 		
-		if mbackground == false then
+		if not mbackground then
 			self.modalbackground = modalbackground:new(self)
 			self.modal = true
 		end
@@ -405,7 +409,7 @@ function frame:SetModal(bool)
 	
 			loveframes.modalobject = false
 			
-			if mbackground ~= false then
+			if mbackground then
 				self.modalbackground:Remove()
 				self.modalbackground = false
 				self.modal = false
@@ -434,8 +438,8 @@ end
 --]]---------------------------------------------------------
 function frame:SetVisible(bool)
 
-	local children = self.children
-	local internals = self.internals
+	local children    = self.children
+	local internals   = self.internals
 	local closebutton = internals[1]
 	
 	self.visible = bool
@@ -444,7 +448,7 @@ function frame:SetVisible(bool)
 		v:SetVisible(bool)
 	end
 
-	if self.showclose == true then
+	if self.showclose then
 		closebutton.visible = bool
 	end
 	

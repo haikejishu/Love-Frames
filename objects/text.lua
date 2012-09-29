@@ -1,6 +1,6 @@
 --[[------------------------------------------------
-	-- Löve Frames --
-	-- Copyright 2012 Kenny Shields --
+	-- Love Frames - A GUI library for LOVE --
+	-- Copyright (c) 2012 Kenny Shields --
 --]]------------------------------------------------
 
 --[[------------------------------------------------
@@ -17,16 +17,16 @@ text:include(loveframes.templates.default)
 --]]---------------------------------------------------------
 function text:initialize()
 
-	self.type			= "text"
-	self.text 			= ""
-	self.font			= loveframes.basicfont
-	self.width			= 5
-	self.height			= 5
-	self.maxw			= 0
-	self.lines			= 1
-	self.text			= {}
-	self.original		= {}
-	self.internal		= false
+	self.type           = "text"
+	self.text           = ""
+	self.font           = loveframes.basicfont
+	self.width          = 5
+	self.height         = 5
+	self.maxw           = 0
+	self.lines          = 1
+	self.text           = {}
+	self.original       = {}
+	self.internal       = false
 	
 end
 
@@ -36,22 +36,26 @@ end
 --]]---------------------------------------------------------
 function text:update(dt)
 
-	if self.visible == false then
-		if self.alwaysupdate == false then
+	if not self.visible then
+		if not self.alwaysupdate then
 			return
 		end
 	end
 	
+	local parent = self.parent
+	local base   = loveframes.base
+	local update = self.Update
+	
 	self:CheckHover()
 	
 	-- move to parent if there is a parent
-	if self.parent ~= loveframes.base then
+	if parent ~= base then
 		self.x = self.parent.x + self.staticx
 		self.y = self.parent.y + self.staticy
 	end
 	
-	if self.Update then
-		self.Update(self, dt)
+	if update then
+		update(self, dt)
 	end
 	
 end
@@ -62,22 +66,24 @@ end
 --]]---------------------------------------------------------
 function text:draw()
 
-	if self.visible == false then
+	if not self.visible then
 		return
 	end
 	
-	local skins			= loveframes.skins.available
-	local skinindex		= loveframes.config["ACTIVESKIN"]
-	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
-	local selfskin 		= self.skin
-	local skin 			= skins[selfskin] or skins[skinindex]
-	local drawfunc		= skin.DrawText or skins[defaultskin].DrawText
+	local skins         = loveframes.skins.available
+	local skinindex     = loveframes.config["ACTIVESKIN"]
+	local defaultskin   = loveframes.config["DEFAULTSKIN"]
+	local selfskin      = self.skin
+	local skin          = skins[selfskin] or skins[skinindex]
+	local drawfunc      = skin.DrawText or skins[defaultskin].DrawText
+	local draw          = self.Draw
+	local drawcount     = loveframes.drawcount
 	
-	loveframes.drawcount = loveframes.drawcount + 1
+	loveframes.drawcount = drawcount + 1
 	self.draworder = loveframes.drawcount
 		
-	if self.Draw ~= nil then
-		self.Draw(self)
+	if draw then
+		draw(self)
 	else
 		drawfunc(self)
 	end
@@ -94,13 +100,13 @@ function text:mousepressed(x, y, button)
 
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
 	local hover = self.hover
 	
-	if hover == true and button == "l" then
+	if hover and button == "l" then
 		
 		local baseparent = self:GetBaseParent()
 	
@@ -118,9 +124,9 @@ end
 --]]---------------------------------------------------------
 function text:SetText(t)
 	
-	local dtype = type(t)
-	local maxw = self.maxw
-	local font = self.font
+	local dtype   = type(t)
+	local maxw    = self.maxw
+	local font    = self.font
 	local inserts = {}
 	local tdata, prevcolor
 	
@@ -158,7 +164,7 @@ function text:SetText(t)
 			v = v:gsub(string.char(9), "    ")
 			v = v:gsub(string.char(92) .. string.char(110), string.char(10))
 			
-			local parts = loveframes.util.SplitSring(v, " ")
+			local parts = loveframes.util.SplitString(v, " ")
 					
 			for i, j in ipairs(parts) do
 				table.insert(self.text, {color = prevcolor, text = j})
@@ -172,11 +178,11 @@ function text:SetText(t)
 	
 		for k, v in ipairs(self.text) do
 					
-			local data = v.text
+			local data  = v.text
 			local width = font:getWidth(data)
-			local curw = 0
-			local new = ""
-			local key = k
+			local curw  = 0
+			local new   = ""
+			local key   = k
 			
 			if width > maxw then
 					
@@ -216,18 +222,18 @@ function text:SetText(t)
 		table.insert(self.text, v.key, {color = v.color, text = v.text})
 	end
 	
-	local textdata = self.text
-	local maxw = self.maxw
-	local font = self.font
-	local height = font:getHeight("a")
-	local twidth = 0
-	local drawx = 0
-	local drawy = 0
-	local lines = 0
-	local totalwidth = 0
-	local prevtextwidth
-	local x = self.x
-	local y = self.y
+	local textdata       = self.text
+	local maxw           = self.maxw
+	local font           = self.font
+	local height         = font:getHeight("a")
+	local twidth         = 0
+	local drawx          = 0
+	local drawy          = 0
+	local lines          = 0
+	local totalwidth     = 0
+	local x              = self.x
+	local y              = self.y
+	local prevtextwidth  = 0
 	
 	for k, v in ipairs(textdata) do
 		
@@ -311,13 +317,13 @@ end
 function text:DrawText()
 
 	local textdata = self.text
-	local font = self.font
-	local x = self.x
-	local y = self.y
+	local font     = self.font
+	local x        = self.x
+	local y        = self.y
 	
 	for k, v in ipairs(textdata) do
 		
-		local text = v.text
+		local text  = v.text
 		local color = v.color
 				
 		love.graphics.setFont(font)

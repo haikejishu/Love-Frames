@@ -1,9 +1,9 @@
 --[[------------------------------------------------
-	-- Löve Frames --
-	-- Copyright 2012 Kenny Shields --
+	-- Love Frames - A GUI library for LOVE --
+	-- Copyright (c) 2012 Kenny Shields --
 --]]------------------------------------------------
 
--- button clas
+-- button class
 button = class("button", base)
 button:include(loveframes.templates.default)
 
@@ -13,15 +13,15 @@ button:include(loveframes.templates.default)
 --]]---------------------------------------------------------
 function button:initialize()
 
-	self.type			= "button"
-	self.text 			= "Button"
-	self.width 			= 80
-	self.height 		= 25
-	self.internal		= false
-	self.down			= false
-	self.clickable		= true
-	self.enabled		= true
-	self.OnClick		= nil
+	self.type           = "button"
+	self.text           = "Button"
+	self.width          = 80
+	self.height         = 25
+	self.internal       = false
+	self.down           = false
+	self.clickable      = true
+	self.enabled        = true
+	self.OnClick        = nil
 	
 end
 
@@ -34,38 +34,41 @@ function button:update(dt)
 	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
-	if visible == false then
-		if alwaysupdate == false then
+	if not visible then
+		if not alwaysupdate then
 			return
 		end
 	end
 	
 	self:CheckHover()
 	
-	local hover = self.hover
-	local down = self.down
+	local hover       = self.hover
+	local down        = self.down
 	local hoverobject = loveframes.hoverobject
+	local parent      = self.parent
+	local base        = loveframes.base
+	local update      = self.Update
 	
-	if hover == false then
+	if not hover then
 		self.down = false
-	elseif hover == true then
+	else
 		if hoverobject == self then
 			self.down = true
 		end
 	end
 	
-	if down == false and hoverobject == self then
+	if not down and hoverobject == self then
 		self.hover = true
 	end
 	
 	-- move to parent if there is a parent
-	if self.parent ~= loveframes.base then
+	if parent ~= base then
 		self.x = self.parent.x + self.staticx
 		self.y = self.parent.y + self.staticy
 	end
 	
-	if self.Update then
-		self.Update(self, dt)
+	if update then
+		update(self, dt)
 	end
 
 end
@@ -78,22 +81,24 @@ function button:draw()
 	
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 
-	local skins			= loveframes.skins.available
-	local skinindex		= loveframes.config["ACTIVESKIN"]
-	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
-	local selfskin 		= self.skin
-	local skin 			= skins[selfskin] or skins[skinindex]
-	local drawfunc		= skin.DrawButton or skins[defaultskin].DrawButton
+	local skins	        = loveframes.skins.available
+	local skinindex	    = loveframes.config["ACTIVESKIN"]
+	local defaultskin   = loveframes.config["DEFAULTSKIN"]
+	local selfskin      = self.skin
+	local skin          = skins[selfskin] or skins[skinindex]
+	local drawfunc      = skin.DrawButton or skins[defaultskin].DrawButton
+	local draw          = self.Draw
+	local drawcount     = loveframes.drawcount
 	
-	loveframes.drawcount = loveframes.drawcount + 1
+	loveframes.drawcount = drawcount + 1
 	self.draworder = loveframes.drawcount
 		
-	if self.Draw ~= nil then
-		self.Draw(self)
+	if draw then
+		draw(self)
 	else
 		drawfunc(self)
 	end
@@ -108,13 +113,13 @@ function button:mousepressed(x, y, button)
 
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
 	local hover = self.hover
 	
-	if hover == true and button == "l" then
+	if hover and button == "l" then
 		
 		local baseparent = self:GetBaseParent()
 	
@@ -137,19 +142,20 @@ function button:mousereleased(x, y, button)
 	
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
-	local hover = self.hover
-	local down = self.down
+	local hover     = self.hover
+	local down      = self.down
 	local clickable = self.clickable
-	local enabled = self.enabled
+	local enabled   = self.enabled
+	local onclick   = self.OnClick
 	
-	if hover == true and down == true and button == "l" and clickable == true then
-		if enabled == true then
-			if self.OnClick then
-				self.OnClick(self, x, y)
+	if hover and down and clickable and button == "l" then
+		if enabled then
+			if onclick then
+				onclick(self, x, y)
 			end
 		end
 	end

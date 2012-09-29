@@ -1,9 +1,9 @@
 --[[------------------------------------------------
-	-- Löve Frames --
-	-- Copyright 2012 Kenny Shields --
+	-- Love Frames - A GUI library for LOVE --
+	-- Copyright (c) 2012 Kenny Shields --
 --]]------------------------------------------------
 
--- progress bar class
+-- multichoice class
 multichoice = class("multichoice", base)
 multichoice:include(loveframes.templates.default)
 
@@ -13,17 +13,17 @@ multichoice:include(loveframes.templates.default)
 --]]---------------------------------------------------------
 function multichoice:initialize()
 
-	self.type				= "multichoice"
-	self.choice				= ""
-	self.text				= "Select an option"
-	self.width 				= 200
-	self.height 			= 25
-	self.listpadding		= 0
-	self.listspacing		= 0
-	self.listheight			= nil
-	self.haslist			= false
-	self.internal			= false
-	self.choices			= {}
+	self.type               = "multichoice"
+	self.choice             = ""
+	self.text               = "Select an option"
+	self.width              = 200
+	self.height             = 25
+	self.listpadding        = 0
+	self.listspacing        = 0
+	self.haslist            = false
+	self.internal           = false
+	self.choices            = {}
+	self.listheight         = nil
 	
 end
 
@@ -33,25 +33,28 @@ end
 --]]---------------------------------------------------------
 function multichoice:update(dt)
 
-	local visible = self.visible
+	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
-	if visible == false then
-		if alwaysupdate == false then
+	if not visible then
+		if not alwaysupdate then
 			return
 		end
 	end
 	
+	local parent = self.parent
+	local update = self.Update
+	
 	self:CheckHover()
 	
 	-- move to parent if there is a parent
-	if self.parent ~= nil then
+	if parent then
 		self.x = self.parent.x + self.staticx
 		self.y = self.parent.y + self.staticy
 	end
 	
-	if self.Update then
-		self.Update(self, dt)
+	if update then
+		update(self, dt)
 	end
 	
 end
@@ -64,22 +67,24 @@ function multichoice:draw()
 	
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
-	local skins			= loveframes.skins.available
-	local skinindex		= loveframes.config["ACTIVESKIN"]
-	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
-	local selfskin 		= self.skin
-	local skin 			= skins[selfskin] or skins[skinindex]
-	local drawfunc		= skin.DrawMultiChoice or skins[defaultskin].DrawMultiChoice
+	local skins         = loveframes.skins.available
+	local skinindex     = loveframes.config["ACTIVESKIN"]
+	local defaultskin   = loveframes.config["DEFAULTSKIN"]
+	local selfskin      = self.skin
+	local skin          = skins[selfskin] or skins[skinindex]
+	local drawfunc      = skin.DrawMultiChoice or skins[defaultskin].DrawMultiChoice
+	local draw          = self.Draw
+	local drawcount     = loveframes.drawcount
 	
-	loveframes.drawcount = loveframes.drawcount + 1
+	loveframes.drawcount = drawcount + 1
 	self.draworder = loveframes.drawcount
 		
-	if self.Draw ~= nil then
-		self.Draw(self)
+	if draw then
+		draw(self)
 	else
 		drawfunc(self)
 	end
@@ -94,14 +99,14 @@ function multichoice:mousepressed(x, y, button)
 	
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
-	local hover = self.hover
+	local hover   = self.hover
 	local haslist = self.haslist
 	
-	if hover == true and haslist == false and button == "l" then
+	if hover and not haslist and button == "l" then
 	
 		local baseparent = self:GetBaseParent()
 	
@@ -125,7 +130,7 @@ function multichoice:mousereleased(x, y, button)
 	
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 
@@ -158,11 +163,13 @@ end
 --]]---------------------------------------------------------
 function multichoice:SelectChoice(choice)
 
+	local onchoiceselected = self.OnChoiceSelected
+	
 	self.choice = choice
 	self.list:Close()
 	
-	if self.OnChoiceSelected then
-		self.OnChoiceSelected(self, choice)
+	if onchoiceselected then
+		onchoiceselected(self, choice)
 	end
 	
 end
@@ -214,5 +221,25 @@ end
 function multichoice:GetChoice()
 
 	return self.choice
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetText(text)
+	- desc: sets the object's text
+--]]---------------------------------------------------------
+function multichoice:SetText(text)
+
+	self.text = text
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetText()
+	- desc: gets the object's text
+--]]---------------------------------------------------------
+function multichoice:GetText()
+
+	return self.text
 	
 end

@@ -1,6 +1,6 @@
 --[[------------------------------------------------
-	-- Löve Frames --
-	-- Copyright 2012 Kenny Shields --
+	-- Love Frames - A GUI library for LOVE --
+	-- Copyright (c) 2012 Kenny Shields --
 --]]------------------------------------------------
 
 -- tooltip clas
@@ -15,18 +15,18 @@ function tooltip:initialize(object, text, width)
 
 	local width = width or 0
 	
-	self.type			= "tooltip"
-	self.parent			= loveframes.base
-	self.object			= object or nil
-	self.width 			= width or 0
-	self.height 		= 0
-	self.padding		= 5
-	self.xoffset		= 10
-	self.yoffset		= -10
-	self.internal		= true
-	self.show			= false
-	self.followcursor	= true
-	self.alwaysupdate	= true
+	self.type           = "tooltip"
+	self.parent         = loveframes.base
+	self.object         = object or nil
+	self.width          = width or 0
+	self.height         = 0
+	self.padding        = 5
+	self.xoffset        = 10
+	self.yoffset        = -10
+	self.internal       = true
+	self.show           = false
+	self.followcursor   = true
+	self.alwaysupdate   = true
 	
 	self.text = loveframes.Create("text")
 	self.text:Remove()
@@ -45,22 +45,22 @@ end
 --]]---------------------------------------------------------
 function tooltip:update(dt)
 
-	local visible = self.visible
+	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
-	if visible == false then
-		if alwaysupdate == false then
+	if not visible then
+		if not alwaysupdate then
 			return
 		end
 	end
 	
-	local text = self.text
-	
-	self.width = text.width + self.padding*2
-	self.height = text.height + self.padding*2
-	
-	local object = self.object
+	local text      = self.text
+	local object    = self.object
 	local draworder = self.draworder
+	local update    = self.Update
+	
+	self.width  = text.width + self.padding * 2
+	self.height = text.height + self.padding * 2
 	
 	if object then
 	
@@ -69,17 +69,17 @@ function tooltip:update(dt)
 			return
 		end
 		
-		local hover = object.hover
+		local hover      = object.hover
 		local odraworder = object.draworder
+		local ovisible   = object.visible
+		local ohover     = object.hover
 		
-		self.show = object.hover
-		self.visible = self.show
+		self.show    = ohover
+		self.visible = ovisible
 		
-		local show = self.show
-		
-		if show == true then
+		if ohover and ovisible then
 			local top = self:IsTopInternal()
-			if self.followcursor == true then
+			if self.followcursor then
 				local x, y = love.mouse.getPosition()
 				self.x = x + self.xoffset
 				self.y = y - self.height + self.yoffset
@@ -88,7 +88,7 @@ function tooltip:update(dt)
 				self.y = object.y - self.height + self.yoffset
 			end
 			
-			if top == false then
+			if not top then
 				self:MoveToTop()
 			end
 			
@@ -99,7 +99,7 @@ function tooltip:update(dt)
 		local baseparent = object:GetBaseParent()
 		
 		if baseparent then
-			if baseparent.removed and baseparent.removed == true then
+			if baseparent.removed and baseparent.removed then
 				self:Remove()
 			end
 		elseif object.removed then
@@ -110,8 +110,8 @@ function tooltip:update(dt)
 	
 	text:update(dt)
 	
-	if self.Update then
-		self.Update(self, dt)
+	if update then
+		update(self, dt)
 	end
 
 end
@@ -124,26 +124,28 @@ function tooltip:draw()
 	
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
-	local show 			= self.show
-	local text 			= self.text
-	local skins			= loveframes.skins.available
-	local skinindex		= loveframes.config["ACTIVESKIN"]
-	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
-	local selfskin 		= self.skin
-	local skin 			= skins[selfskin] or skins[skinindex]
-	local drawfunc		= skin.DrawToolTip or skins[defaultskin].DrawToolTip
+	local show          = self.show
+	local text          = self.text
+	local skins         = loveframes.skins.available
+	local skinindex     = loveframes.config["ACTIVESKIN"]
+	local defaultskin   = loveframes.config["DEFAULTSKIN"]
+	local selfskin      = self.skin
+	local skin          = skins[selfskin] or skins[skinindex]
+	local drawfunc      = skin.DrawToolTip or skins[defaultskin].DrawToolTip
+	local draw          = self.Draw
+	local drawcount     = loveframes.drawcount
 	
-	loveframes.drawcount = loveframes.drawcount + 1
+	loveframes.drawcount = drawcount + 1
 	self.draworder = loveframes.drawcount
 	
-	if show == true then
+	if show then
 	
-		if self.Draw ~= nil then
-			self.Draw(self)
+		if draw then
+			draw(self)
 		else
 			drawfunc(self)
 		end

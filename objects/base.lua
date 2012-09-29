@@ -1,6 +1,6 @@
 --[[------------------------------------------------
-	-- Löve Frames --
-	-- Copyright 2012 Kenny Shields --
+	-- Love Frames - A GUI library for LOVE --
+	-- Copyright (c) 2012 Kenny Shields --
 --]]------------------------------------------------
 
 -- base object
@@ -74,7 +74,7 @@ function base:mousepressed(x, y, button)
 	local children = self.children
 	local internals = self.internals
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
@@ -102,7 +102,7 @@ function base:mousereleased(x, y, button)
 	local children = self.children
 	local internals = self.internals
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
@@ -130,7 +130,7 @@ function base:keypressed(key, unicode)
 	local children = self.children
 	local internals = self.internals
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
@@ -158,7 +158,7 @@ function base:keyreleased(key)
 	local children = self.children
 	local internals = self.internals
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
@@ -466,10 +466,6 @@ function base:SetParent(parent)
 		return
 	end
 	
-	if stype == "frame" then
-		return
-	end
-	
 	self:Remove()
 	self.parent = tparent
 	
@@ -498,23 +494,19 @@ function base:Remove()
 	local pchildren = self.parent.children
 	
 	if pinternals then
-	
 		for k, v in ipairs(pinternals) do
 			if v == self then
 				table.remove(pinternals, k)
 			end
 		end
-		
 	end
 	
 	if pchildren then
-	
 		for k, v in ipairs(pchildren) do
 			if v == self then
 				table.remove(pchildren, k)
 			end
 		end
-		
 	end
 	
 	self.removed = true
@@ -658,12 +650,12 @@ function base:CheckHover()
 	local clickbounds = self.clickbounds
 	
 	-- is the mouse inside the object?
-	if selfcol == true then
+	if selfcol then
 		
 		local top = self:IsTopCollision()
 		
-		if top == true then
-			if hoverobject == false then
+		if top then
+			if not hoverobject then
 				self.hover = true
 			else
 				if hoverobject == self then
@@ -677,7 +669,7 @@ function base:CheckHover()
 		end
 	
 		if clickbounds then
-			if self:InClickBounds() == false then
+			if not self:InClickBounds() then
 				self.hover = false
 			end
 		end
@@ -688,7 +680,7 @@ function base:CheckHover()
 		
 	end
 	
-	if modalobject ~= false then
+	if modalobject then
 	
 		if modalobject ~= self then
 		
@@ -711,9 +703,9 @@ function base:CheckHover()
 	-- this chunk of code handles mouse enter and exit
 	if self.hover == true then
 	
-		if self.calledmousefunc == false then
+		if not self.calledmousefunc then
 		
-			if self.OnMouseEnter ~= nil then
+			if self.OnMouseEnter then
 				self.OnMouseEnter(self)
 				self.calledmousefunc = true
 			else
@@ -724,9 +716,9 @@ function base:CheckHover()
 		
 	else
 	
-		if self.calledmousefunc == true then
+		if self.calledmousefunc then
 			
-			if self.OnMouseExit ~= nil then
+			if self.OnMouseExit then
 				self.OnMouseExit(self)
 				self.calledmousefunc = false
 			else
@@ -849,7 +841,7 @@ function base:MoveToTop()
 	
 	self:Remove()
 	
-	if internal == true then
+	if internal then
 		table.insert(pinternals, self)
 	else
 		table.insert(pchildren, self)

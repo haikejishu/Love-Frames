@@ -1,6 +1,6 @@
 --[[------------------------------------------------
-	-- Löve Frames --
-	-- Copyright 2012 Kenny Shields --
+	-- Love Frames - A GUI library for LOVE --
+	-- Copyright (c) 2012 Kenny Shields --
 --]]------------------------------------------------
 
 -- scrollbutton clas
@@ -13,13 +13,13 @@ scrollbutton:include(loveframes.templates.default)
 --]]---------------------------------------------------------
 function scrollbutton:initialize(scrolltype)
 
-	self.type			= "scrollbutton"
-	self.scrolltype		= scrolltype
-	self.width 			= 16
-	self.height 		= 16
-	self.down			= false
-	self.internal		= true
-	self.OnClick		= function() end
+	self.type           = "scrollbutton"
+	self.scrolltype     = scrolltype
+	self.width          = 16
+	self.height         = 16
+	self.down           = false
+	self.internal       = true
+	self.OnClick        = function() end
 	
 end
 
@@ -29,34 +29,42 @@ end
 --]]---------------------------------------------------------
 function scrollbutton:update(dt)
 	
-	if self.visible == false then
-		if self.alwaysupdate == false then
+	local visible      = self.visible
+	local alwaysupdate = self.alwaysupdate
+	
+	if not visible then
+		if not alwaysupdate then
 			return
 		end
 	end
 	
 	self:CheckHover()
 	
-	if self.hover == false then
+	local hover  = self.hover
+	local parent = self.parent
+	local base   = loveframes.base
+	local update = self.Update
+	
+	if not hover then
 		self.down = false
-	elseif self.hover == true then
+	else
 		if loveframes.hoverobject == self then
 			self.down = true
 		end
 	end
 	
-	if self.down == false and loveframes.hoverobject == self then
+	if not self.down and loveframes.hoverobject == self then
 		self.hover = true
 	end
 	
 	-- move to parent if there is a parent
-	if self.parent ~= loveframes.base then
-		self.x = self.parent.x + self.staticx
-		self.y = self.parent.y + self.staticy
+	if parent ~= base then
+		self.x = parent.x + self.staticx
+		self.y = parent.y + self.staticy
 	end
 	
-	if self.Update then
-		self.Update(self, dt)
+	if update then
+		update(self, dt)
 	end
 
 end
@@ -67,22 +75,26 @@ end
 --]]---------------------------------------------------------
 function scrollbutton:draw()
 	
-	if self.visible == false then
+	local visible = self.visible
+	
+	if not visible then
 		return
 	end
 	
-	local skins			= loveframes.skins.available
-	local skinindex		= loveframes.config["ACTIVESKIN"]
-	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
-	local selfskin 		= self.skin
-	local skin 			= skins[selfskin] or skins[skinindex]
-	local drawfunc		= skin.DrawScrollButton or skins[defaultskin].DrawScrollButton
+	local skins         = loveframes.skins.available
+	local skinindex     = loveframes.config["ACTIVESKIN"]
+	local defaultskin   = loveframes.config["DEFAULTSKIN"]
+	local selfskin      = self.skin
+	local skin          = skins[selfskin] or skins[skinindex]
+	local drawfunc      = skin.DrawScrollButton or skins[defaultskin].DrawScrollButton
+	local draw          = self.Draw
+	local drawcount     = loveframes.drawcount
 	
-	loveframes.drawcount = loveframes.drawcount + 1
+	loveframes.drawcount = drawcount + 1
 	self.draworder = loveframes.drawcount
 		
-	if self.Draw ~= nil then
-		self.Draw(self)
+	if draw then
+		draw(self)
 	else
 		drawfunc(self)
 	end
@@ -90,17 +102,20 @@ function scrollbutton:draw()
 end
 
 --[[---------------------------------------------------------
-	- func: mousepressed(x, y, scrollbutton)
+	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
-function scrollbutton:mousepressed(x, y, scrollbutton)
+function scrollbutton:mousepressed(x, y, button)
 
+	local visible = self.visible
 	
-	if self.visible == false then
+	if not visible then
 		return
 	end
 	
-	if self.hover == true then
+	local hover = self.hover
+	
+	if hover and button == "l" then
 		
 		local baseparent = self:GetBaseParent()
 	
@@ -116,19 +131,25 @@ function scrollbutton:mousepressed(x, y, scrollbutton)
 end
 
 --[[---------------------------------------------------------
-	- func: mousereleased(x, y, scrollbutton)
+	- func: mousereleased(x, y, button)
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
-function scrollbutton:mousereleased(x, y, scrollbutton)
+function scrollbutton:mousereleased(x, y, button)
 	
-	if self.visible == false then
+	local visible = self.visible
+	
+	if not visible then
 		return
 	end
 	
-	if self.hover == true and self.down == true then
+	local hover   = self.hover
+	local down    = self.down
+	local onclick = self.OnClick
 	
-		if scrollbutton == "l" then
-			self.OnClick(x, y, self)
+	if hover and down then
+	
+		if button == "l" then
+			onclick(x, y, self)
 		end
 		
 	end
@@ -144,5 +165,16 @@ end
 function scrollbutton:SetText(text)
 
 	return
+	
+end
+
+
+--[[---------------------------------------------------------
+	- func: GetScrollType()
+	- desc: gets the object's scroll type
+--]]---------------------------------------------------------
+function scrollbutton:GetScrollType()
+
+	return self.scrolltype
 	
 end

@@ -1,6 +1,6 @@
 --[[------------------------------------------------
-	-- Löve Frames --
-	-- Copyright 2012 Kenny Shields --
+	-- Love Frames - A GUI library for LOVE --
+	-- Copyright (c) 2012 Kenny Shields --
 --]]------------------------------------------------
 
 -- tabs class
@@ -13,22 +13,22 @@ tabs:include(loveframes.templates.default)
 --]]---------------------------------------------------------
 function tabs:initialize()
 	
-	self.type			= "tabs"
-	self.width 			= 100
-	self.height 		= 50
-	self.clickx 		= 0
-	self.clicky 		= 0
-	self.offsetx		= 0
-	self.tab			= 1
-	self.tabnumber		= 1
-	self.padding		= 5
-	self.tabheight		= 25
-	self.autosize		= true
-	self.internal		= false
-	self.tooltipfont	= loveframes.basicfontsmall
-	self.tabs			= {}
-	self.internals		= {}
-	self.children 		= {}
+	self.type           = "tabs"
+	self.width          = 100
+	self.height         = 50
+	self.clickx         = 0
+	self.clicky         = 0
+	self.offsetx        = 0
+	self.tab            = 1
+	self.tabnumber      = 1
+	self.padding        = 5
+	self.tabheight      = 25
+	self.autosize       = true
+	self.internal       = false
+	self.tooltipfont    = loveframes.basicfontsmall
+	self.tabs           = {}
+	self.internals      = {}
+	self.children       = {}
 	
 end
 
@@ -38,29 +38,32 @@ end
 --]]---------------------------------------------------------
 function tabs:update(dt)
 	
-	local visible = self.visible
+	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
-	if visible == false then
-		if alwaysupdate == false then
+	if not visible then
+		if not alwaysupdate then
 			return
 		end
 	end
 	
-	local x, y 			= love.mouse.getPosition()
-	local tabheight 	= self.tabheight
-	local padding 		= self.padding
-	local autosize 		= self.autosize
-	local tabheight 	= self.tabheight
-	local padding 		= self.padding
-	local autosize 		= self.autosize
-	local children 		= self.children
-	local numchildren 	= #children
-	local internals 	= self.internals
-	local tab 			= self.tab
+	local x, y          = love.mouse.getPosition()
+	local tabheight     = self.tabheight
+	local padding       = self.padding
+	local autosize      = self.autosize
+	local tabheight     = self.tabheight
+	local padding       = self.padding
+	local autosize      = self.autosize
+	local children      = self.children
+	local numchildren   = #children
+	local internals     = self.internals
+	local tab           = self.tab
+	local parent        = self.parent
+	local base          = loveframes.base
+	local update        = self.Update
 	
 	-- move to parent if there is a parent
-	if self.parent ~= loveframes.base then
+	if parent ~= base then
 		self.x = self.parent.x + self.staticx
 		self.y = self.parent.y + self.staticy
 	end
@@ -87,8 +90,8 @@ function tabs:update(dt)
 		v:SetPos(padding, tabheight + padding)
 	end
 	
-	if self.Update then
-		self.Update(self, dt)
+	if update then
+		update(self, dt)
 	end
 
 end
@@ -101,27 +104,29 @@ function tabs:draw()
 	
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
-	local internals 	= self.internals
-	local tabheight 	= self:GetHeightOfButtons()
-	local stencilfunc 	= function() love.graphics.rectangle("fill", self.x, self.y, self.width, tabheight) end
-	local stencil 		= love.graphics.newStencil(stencilfunc)
-	local internals 	= self.internals
-	local skins			= loveframes.skins.available
-	local skinindex		= loveframes.config["ACTIVESKIN"]
-	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
-	local selfskin 		= self.skin
-	local skin 			= skins[selfskin] or skins[skinindex]
-	local drawfunc		= skin.DrawTabPanel or skins[defaultskin].DrawTabPanel
+	local internals     = self.internals
+	local tabheight     = self:GetHeightOfButtons()
+	local stencilfunc   = function() love.graphics.rectangle("fill", self.x, self.y, self.width, tabheight) end
+	local stencil       = love.graphics.newStencil(stencilfunc)
+	local internals     = self.internals
+	local skins         = loveframes.skins.available
+	local skinindex     = loveframes.config["ACTIVESKIN"]
+	local defaultskin   = loveframes.config["DEFAULTSKIN"]
+	local selfskin      = self.skin
+	local skin          = skins[selfskin] or skins[skinindex]
+	local drawfunc      = skin.DrawTabPanel or skins[defaultskin].DrawTabPanel
+	local draw          = self.Draw
+	local drawcount     = loveframes.drawcount
 	
-	loveframes.drawcount = loveframes.drawcount + 1
+	loveframes.drawcount = drawcount + 1
 	self.draworder = loveframes.drawcount
 		
-	if self.Draw ~= nil then
-		self.Draw(self)
+	if draw then
+		draw(self)
 	else
 		drawfunc(self)
 	end
@@ -148,18 +153,18 @@ function tabs:mousepressed(x, y, button)
 	
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
-	local children = self.children
-	local numchildren = #children
-	local tab = self.tab
-	local internals = self.internals
+	local children     = self.children
+	local numchildren  = #children
+	local tab          = self.tab
+	local internals    = self.internals
 	local numinternals = #internals
-	local hover = self.hover
+	local hover        = self.hover
 	
-	if hover == true then
+	if hover then
 	
 		if button == "l" then
 		
@@ -176,10 +181,10 @@ function tabs:mousepressed(x, y, button)
 	if button == "wu" then
 		
 		local buttonheight = self:GetHeightOfButtons()
-		local col = loveframes.util.BoundingBox(self.x, x, self.y, y, self.width, 1, buttonheight, 1)
-		local visible = internals[numinternals - 1]:GetVisible()
+		local col          = loveframes.util.BoundingBox(self.x, x, self.y, y, self.width, 1, buttonheight, 1)
+		local visible      = internals[numinternals - 1]:GetVisible()
 			
-		if col == true and visible == true then
+		if col and visible then
 			self.offsetx = self.offsetx + 5
 			if self.offsetx > 0 then
 				self.offsetx = 0
@@ -191,10 +196,10 @@ function tabs:mousepressed(x, y, button)
 	if button == "wd" then
 		
 		local buttonheight = self:GetHeightOfButtons()
-		local col = loveframes.util.BoundingBox(self.x, x, self.y, y, self.width, 1, buttonheight, 1)
-		local visible = internals[numinternals]:GetVisible()
+		local col          = loveframes.util.BoundingBox(self.x, x, self.y, y, self.width, 1, buttonheight, 1)
+		local visible      = internals[numinternals]:GetVisible()
 			
-		if col == true and visible == true then
+		if col and visible then
 			local bwidth = self:GetWidthOfButtons()
 			if (self.offsetx + bwidth) < self.width then
 				self.offsetx = bwidth - self.width
@@ -221,13 +226,13 @@ end
 --]]---------------------------------------------------------
 function tabs:mousereleased(x, y, button)
 
-	local visible = self.visible
-	local children = self.children
+	local visible     = self.visible
+	local children    = self.children
 	local numchildren = #children
-	local tab = self.tab
-	local internals = self.internals
+	local tab         = self.tab
+	local internals   = self.internals
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
@@ -247,12 +252,12 @@ end
 --]]---------------------------------------------------------
 function tabs:AddTab(name, object, tip, image)
 
-	local tabheight = self.tabheight
-	local padding = self.padding
-	local autosize = self.autosize
+	local tabheight  = self.tabheight
+	local padding    = self.padding
+	local autosize   = self.autosize
 	local retainsize = object.retainsize
-	local tabnumber = self.tabnumber
-	local internals = self.internals
+	local tabnumber  = self.tabnumber
+	local internals  = self.internals
 	
 	object:Remove()
 	object.parent = self
@@ -273,7 +278,7 @@ function tabs:AddTab(name, object, tip, image)
 	
 	self:AddScrollButtons()
 	
-	if autosize == true and retainsize == false then
+	if autosize and not retainsize then
 		object:SetSize(self.width - padding*2, (self.height - tabheight) - padding*2)
 	end
 		
@@ -348,7 +353,7 @@ end
 --]]---------------------------------------------------------
 function tabs:GetWidthOfButtons()
 
-	local width = 0
+	local width     = 0
 	local internals = self.internals
 	
 	for k, v in ipairs(internals) do
@@ -464,6 +469,6 @@ end
 --]]---------------------------------------------------------
 function tabs:GetTabNumber()
 
-	return self.tabnumber
+	return self.tab
 	
 end

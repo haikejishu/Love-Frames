@@ -1,9 +1,9 @@
 --[[------------------------------------------------
-	-- Löve Frames --
-	-- Copyright 2012 Kenny Shields --
+	-- Love Frames - A GUI library for LOVE --
+	-- Copyright (c) 2012 Kenny Shields --
 --]]------------------------------------------------
 
--- columnlist object
+-- columnlist class
 columnlist = class("columnlist", base)
 columnlist:include(loveframes.templates.default)
 
@@ -13,15 +13,15 @@ columnlist:include(loveframes.templates.default)
 --]]---------------------------------------------------------
 function columnlist:initialize()
 	
-	self.type 			= "columnlist"
-	self.width 			= 300
-	self.height 		= 100
-	self.autoscroll		= false
-	self.internal		= false
-	self.children		= {}
-	self.internals 		= {}
-	self.OnRowClicked 	= nil
-	self.OnScroll		= nil
+	self.type           = "columnlist"
+	self.width          = 300
+	self.height         = 100
+	self.autoscroll     = false
+	self.internal       = false
+	self.children       = {}
+	self.internals      = {}
+	self.OnRowClicked   = nil
+	self.OnScroll       = nil
 
 	local list = columnlistarea:new(self)
 	table.insert(self.internals, list)
@@ -37,19 +37,22 @@ function columnlist:update(dt)
 	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
-	if visible == false then
-		if alwaysupdate == false then
+	if not visible then
+		if not alwaysupdate then
 			return
 		end
 	end
 	
-	local children = self.children
+	local parent    = self.parent
+	local base      = loveframes.base
+	local children  = self.children
 	local internals = self.internals
+	local update    = self.Update
 	
 	self:CheckHover()
 	
 	-- move to parent if there is a parent
-	if self.parent ~= loveframes.base then
+	if parent ~= base then
 		self.x = self.parent.x + self.staticx
 		self.y = self.parent.y + self.staticy
 	end
@@ -62,8 +65,8 @@ function columnlist:update(dt)
 		v:update(dt)
 	end
 	
-	if self.Update then
-		self.Update(self, dt)
+	if update then
+		update(self, dt)
 	end
 
 end
@@ -76,27 +79,26 @@ function columnlist:draw()
 
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
-	loveframes.drawcount = loveframes.drawcount + 1
-	self.draworder = loveframes.drawcount
+	local children      = self.children
+	local internals     = self.internals
+	local skins         = loveframes.skins.available
+	local skinindex     = loveframes.config["ACTIVESKIN"]
+	local defaultskin   = loveframes.config["DEFAULTSKIN"]
+	local selfskin      = self.skin
+	local skin          = skins[selfskin] or skins[skinindex]
+	local drawfunc      = skin.DrawColumnList or skins[defaultskin].DrawColumnList
+	local draw          = self.Draw
+	local drawcount     = loveframes.drawcount
 	
-	local children 		= self.children
-	local internals 	= self.internals
-	local skins			= loveframes.skins.available
-	local skinindex		= loveframes.config["ACTIVESKIN"]
-	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
-	local selfskin 		= self.skin
-	local skin 			= skins[selfskin] or skins[skinindex]
-	local drawfunc		= skin.DrawColumnList or skins[defaultskin].DrawColumnList
-	
-	loveframes.drawcount = loveframes.drawcount + 1
+	loveframes.drawcount = drawcount + 1
 	self.draworder = loveframes.drawcount
 		
-	if self.Draw ~= nil then
-		self.Draw(self)
+	if draw then
+		draw(self)
 	else
 		drawfunc(self)
 	end
@@ -123,8 +125,8 @@ function columnlist:mousepressed(x, y, button)
 		return
 	end
 	
-	local hover = self.hover
-	local children = self.children
+	local hover     = self.hover
+	local children  = self.children
 	local internals = self.internals
 	
 	if hover == true and button == "l" then
@@ -179,16 +181,16 @@ end
 function columnlist:AdjustColumns()
 
 	local width = self.width
-	local bar = self.internals[1].bar
+	local bar   = self.internals[1].bar
 	
 	if bar == true then
 		width = width - 16
 	end
 	
-	local children = self.children
+	local children    = self.children
 	local numchildren = #children
 	local columnwidth = width/numchildren
-	local x = 0
+	local x           = 0
 	
 	for k, v in ipairs(children) do
 		if bar == true then
@@ -210,12 +212,13 @@ end
 function columnlist:AddColumn(name)
 
 	local internals = self.internals
-	local list = internals[1]
+	local list      = internals[1]
+	local height    = self.height
 	
 	columnlistheader:new(name, self)
 	self:AdjustColumns()
 	
-	list:SetSize(self.width, self.height)
+	list:SetSize(self.width, height)
 	list:SetPos(0, 0)
 	
 end
@@ -227,7 +230,7 @@ end
 function columnlist:AddRow(...)
 
 	local internals = self.internals
-	local list = internals[1]
+	local list      = internals[1]
 	
 	list:AddRow(arg)
 	
@@ -239,11 +242,11 @@ end
 --]]---------------------------------------------------------
 function columnlist:GetColumnSize()
 
-	local children = self.children
+	local children    = self.children
 	local numchildren = #self.children
-	local column = self.children[1]
-	local colwidth = column.width
-	local colheight = column.height
+	local column      = self.children[1]
+	local colwidth    = column.width
+	local colheight   = column.height
 	
 	if numchildren > 0 then
 		return colwidth, colheight
@@ -260,7 +263,7 @@ end
 function columnlist:SetSize(width, height)
 	
 	local internals = self.internals
-	local list = internals[1]
+	local list      = internals[1]
 	
 	self.width = width
 	self.height = height
@@ -277,7 +280,7 @@ end
 function columnlist:SetWidth(width)
 	
 	local internals = self.internals
-	local list = internals[1]
+	local list      = internals[1]
 	
 	self.width = width
 	
@@ -293,7 +296,7 @@ end
 function columnlist:SetHeight(height)
 	
 	local internals = self.internals
-	local list = internals[1]
+	local list      = internals[1]
 	
 	self.height = height
 	
@@ -310,7 +313,7 @@ end
 function columnlist:SetMaxColorIndex(num)
 
 	local internals = self.internals
-	local list = internals[1]
+	local list      = internals[1]
 	
 	list.colorindexmax = num
 	
@@ -323,7 +326,7 @@ end
 function columnlist:Clear()
 
 	local internals = self.internals
-	local list = internals[1]
+	local list      = internals[1]
 	
 	list:Clear()
 	
@@ -338,13 +341,14 @@ end
 function columnlist:SetAutoScroll(bool)
 
 	local internals = self.internals
-	local list = internals[1]
+	local list      = internals[1]
+	local scrollbar = list:GetScrollBar()
 	
 	self.autoscroll = bool
 	
 	if list then
-		if list:GetScrollBar() ~= false then
-			list:GetScrollBar().autoscroll = bool
+		if scrollbar then
+			scrollbar.autoscroll = bool
 		end
 	end
 	

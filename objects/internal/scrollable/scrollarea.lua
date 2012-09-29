@@ -1,9 +1,9 @@
 --[[------------------------------------------------
-	-- Löve Frames --
-	-- Copyright 2012 Kenny Shields --
+	-- Love Frames - A GUI library for LOVE --
+	-- Copyright (c) 2012 Kenny Shields --
 --]]------------------------------------------------
 
--- scrollbar class
+-- scrollarea class
 scrollarea = class("scrollarea", base)
 
 --[[---------------------------------------------------------
@@ -12,16 +12,16 @@ scrollarea = class("scrollarea", base)
 --]]---------------------------------------------------------
 function scrollarea:initialize(parent, bartype)
 	
-	self.type			= "scroll-area"
-	self.bartype		= bartype
-	self.parent			= parent
-	self.x 				= 0
-	self.y 				= 0
-	self.scrolldelay	= 0
-	self.delayamount	= 0.05
-	self.down			= false
-	self.internal		= true
-	self.internals		= {}
+	self.type           = "scroll-area"
+	self.bartype        = bartype
+	self.parent         = parent
+	self.x              = 0
+	self.y              = 0
+	self.scrolldelay    = 0
+	self.delayamount    = 0.05
+	self.down           = false
+	self.internal       = true
+	self.internals      = {}
 	
 	table.insert(self.internals, scrollbar:new(self, bartype))
 	
@@ -33,36 +33,40 @@ end
 --]]---------------------------------------------------------
 function scrollarea:update(dt)
 	
-	local visible = self.visible
+	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
-	if visible == false then
-		if alwaysupdate == false then
+	if not visible then
+		if not alwaysupdate then
 			return
 		end
 	end
 	
+	local parent = self.parent
+	local base   = loveframes.base
+	local update = self.Update
+	
 	-- move to parent if there is a parent
-	if self.parent ~= loveframes.base then
-		self.x = self.parent.x + self.staticx
-		self.y = self.parent.y + self.staticy
+	if parent ~= base then
+		self.x = parent.x + self.staticx
+		self.y = parent.y + self.staticy
 	end
 	
 	self:CheckHover()
 	
-	local parent = self.parent
-	local pinternals = parent.internals
-	local button = pinternals[2]
-	local bartype = self.bartype
-	local time = love.timer.getTime()
-	local x, y = love.mouse.getPosition()
-	local listo = parent.parent
-	local down = self.down
+	local parent      = self.parent
+	local pinternals  = parent.internals
+	local button      = pinternals[2]
+	local bartype     = self.bartype
+	local time        = love.timer.getTime()
+	local x, y        = love.mouse.getPosition()
+	local listo       = parent.parent
+	local down        = self.down
 	local scrolldelay = self.scrolldelay
 	local delayamount = self.delayamount
-	local internals = self.internals
-	local bar = internals[1]
-	local hover = self.hover
+	local internals   = self.internals
+	local bar         = internals[1]
+	local hover       = self.hover
 	
 	if button then
 	
@@ -80,16 +84,16 @@ function scrollarea:update(dt)
 		
 	end
 	
-	if down == true then
+	if down then
 		if scrolldelay < time then
 			self.scrolldelay = time + delayamount
-			if listo.display == "vertical" then
+			if self.bartype == "vertical" then
 				if y > bar.y then
 					bar:Scroll(bar.height)
 				else
 					bar:Scroll(-bar.height)
 				end
-			elseif listo.display == "horizontal" then
+			elseif self.bartype == "horizontal" then
 				if x > bar.x then
 					bar:Scroll(bar.width)
 				else
@@ -97,7 +101,7 @@ function scrollarea:update(dt)
 				end
 			end
 		end
-		if hover == false then
+		if not hover then
 			self.down = false
 		end
 	end
@@ -106,8 +110,8 @@ function scrollarea:update(dt)
 		v:update(dt)
 	end
 	
-	if self.Update then
-		self.Update(self, dt)
+	if update then
+		update(self, dt)
 	end
 	
 end
@@ -120,23 +124,25 @@ function scrollarea:draw()
 
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
-	local internals 	= self.internals
-	local skins			= loveframes.skins.available
-	local skinindex		= loveframes.config["ACTIVESKIN"]
-	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
-	local selfskin 		= self.skin
-	local skin 			= skins[selfskin] or skins[skinindex]
-	local drawfunc		= skin.DrawScrollArea or skins[defaultskin].DrawScrollArea
+	local internals     = self.internals
+	local skins         = loveframes.skins.available
+	local skinindex     = loveframes.config["ACTIVESKIN"]
+	local defaultskin   = loveframes.config["DEFAULTSKIN"]
+	local selfskin      = self.skin
+	local skin          = skins[selfskin] or skins[skinindex]
+	local drawfunc      = skin.DrawScrollArea or skins[defaultskin].DrawScrollArea
+	local draw          = self.Draw
+	local drawcount     = loveframes.drawcount
 	
-	loveframes.drawcount = loveframes.drawcount + 1
+	loveframes.drawcount = drawcount + 1
 	self.draworder = loveframes.drawcount
 		
-	if self.Draw ~= nil then
-		self.Draw(self)
+	if draw then
+		draw(self)
 	else
 		drawfunc(self)
 	end
@@ -155,18 +161,18 @@ function scrollarea:mousepressed(x, y, button)
 	
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
-	local listo = self.parent.parent
-	local time = love.timer.getTime()
-	local internals = self.internals
-	local bar = internals[1]
-	local hover = self.hover
+	local listo       = self.parent.parent
+	local time        = love.timer.getTime()
+	local internals   = self.internals
+	local bar         = internals[1]
+	local hover       = self.hover
 	local delayamount = self.delayamount
 	
-	if hover == true and button == "l" then
+	if hover and button == "l" then
 		self.down = true
 		self.scrolldelay = time + delayamount + 0.5
 		
@@ -176,13 +182,13 @@ function scrollarea:mousepressed(x, y, button)
 			baseparent:MakeTop()
 		end
 			
-		if listo.display == "vertical" then
+		if self.bartype == "vertical" then
 			if y > self.internals[1].y then
 				bar:Scroll(bar.height)
 			else
 				bar:Scroll(-bar.height)
 			end
-		elseif listo.display == "horizontal" then
+		elseif self.bartype == "horizontal" then
 			if x > bar.x then
 				bar:Scroll(bar.width)
 			else
@@ -208,7 +214,7 @@ function scrollarea:mousereleased(x, y, button)
 	
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
@@ -222,4 +228,14 @@ function scrollarea:mousereleased(x, y, button)
 		v:mousereleased(x, y, button)
 	end
 
+end
+
+--[[---------------------------------------------------------
+	- func: GetBarType()
+	- desc: gets the object's bar type
+--]]---------------------------------------------------------
+function scrollarea:GetBarType()
+	
+	return self.bartype
+	
 end

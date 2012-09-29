@@ -1,6 +1,6 @@
 --[[------------------------------------------------
-	-- Löve Frames --
-	-- Copyright 2012 Kenny Shields --
+	-- Love Frames - A GUI library for LOVE --
+	-- Copyright (c) 2012 Kenny Shields --
 --]]------------------------------------------------
 
 -- util library
@@ -163,7 +163,7 @@ function loveframes.util.GetDirContents(dir, t)
 		if isdir == true then
 			table.insert(dirs, dir.. "/" ..v)
 		else
-			local parts = loveframes.util.SplitSring(v, "([.])")
+			local parts = loveframes.util.SplitString(v, "([.])")
 			local extension = parts[#parts]
 			local name = restore(parts)
 			table.insert(t, {path = dir, fullpath = dir.. "/" ..v, name = name, extension = extension})
@@ -195,11 +195,11 @@ function loveframes.util.Round(num, idp)
 end
 
 --[[---------------------------------------------------------
-	- func: SplitSring(string, pattern)
+	- func: SplitString(string, pattern)
 	- desc: splits a string into a table based on a given pattern
 	- note: i take no credit for this function
 --]]---------------------------------------------------------
-function loveframes.util.SplitSring(str, pat)
+function loveframes.util.SplitString(str, pat)
 
 	local t = {}  -- NOTE: use {n = 0} in Lua-5.0
 	

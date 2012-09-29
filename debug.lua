@@ -1,13 +1,14 @@
 --[[------------------------------------------------
-	-- Löve Frames --
-	-- Copyright 2012 Kenny Shields --
+	-- Love Frames - A GUI library for LOVE --
+	-- Copyright (c) 2012 Kenny Shields --
 --]]------------------------------------------------
 
 -- debug library
 loveframes.debug = {}
 
-local font = love.graphics.newFont(10)
-local loremipsum = 
+local font            = love.graphics.newFont(10)
+local changelog, size = love.filesystem.read("libraries/loveframes/changelog.txt")
+local loremipsum      = 
 [[
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dui enim, porta eget facilisis quis, laoreet sit amet urna. Maecenas lobortis venenatis euismod. Sed at diam sit amet odio feugiat pretium nec quis libero. Quisque auctor semper imperdiet. Maecenas risus eros, varius pharetra volutpat in, fermentum scelerisque lacus. Proin lectus erat, luctus non facilisis vel, hendrerit vitae nisl. Aliquam vulputate scelerisque odio id faucibus.
 ]]
@@ -23,7 +24,7 @@ function loveframes.debug.draw()
 	local debug = loveframes.config["DEBUG"]
 	
 	-- do not draw anthing if debug is off
-	if debug == false then
+	if not debug then
 		return
 	end
 	
@@ -37,7 +38,6 @@ function loveframes.debug.draw()
 	local loveversion		= love._version
 	local fps				= love.timer.getFPS()
 	local deltatime			= love.timer.getDelta()
-	
 	
 	-- font for debug text
 	love.graphics.setFont(font)
@@ -605,17 +605,42 @@ function loveframes.debug.ExamplesMenu()
 	local textinputexample = loveframes.Create("button")
 	textinputexample:SetText("Text Input")
 	textinputexample.OnClick = function(object1, x, y)
-	
+		
 		local frame1 = loveframes.Create("frame")
 		frame1:SetName("Text Input")
-		frame1:SetSize(500, 60)
+		frame1:SetSize(500, 90)
 		frame1:Center()
 		
 		local textinput1 = loveframes.Create("textinput", frame1)
 		textinput1:SetPos(5, 30)
 		textinput1:SetWidth(490)
 		textinput1.OnEnter = function(object)
-			object:Clear()
+			if not textinput1.multiline then
+				object:Clear()
+			end
+		end
+		textinput1:SetFont(love.graphics.newFont(12))
+		
+		local togglebutton = loveframes.Create("button", frame1)
+		togglebutton:SetPos(5, 60)
+		togglebutton:SetWidth(490)
+		togglebutton:SetText("Toggle Multiline")
+		togglebutton.OnClick = function(object)
+			if textinput1.multiline then
+				frame1:SetHeight(90)
+				frame1:Center()
+				togglebutton:SetPos(5, 60)
+				textinput1:SetMultiline(false)
+				textinput1:SetHeight(25)
+				textinput1:SetText("")
+			else
+				frame1:SetHeight(365)
+				frame1:Center()
+				togglebutton:SetPos(5, 335)
+				textinput1:SetMultiline(true)
+				textinput1:SetHeight(300)
+				textinput1:SetText(changelog)
+			end
 		end
 		
 	end

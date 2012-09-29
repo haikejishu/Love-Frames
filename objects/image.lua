@@ -1,9 +1,9 @@
 --[[------------------------------------------------
-	-- Löve Frames --
-	-- Copyright 2012 Kenny Shields --
+	-- Love Frames - A GUI library for LOVE --
+	-- Copyright (c) 2012 Kenny Shields --
 --]]------------------------------------------------
 
--- progress bar class
+-- progressbar class
 image = class("image", base)
 image:include(loveframes.templates.default)
 
@@ -13,12 +13,12 @@ image:include(loveframes.templates.default)
 --]]---------------------------------------------------------
 function image:initialize()
 
-	self.type			= "image"
-	self.width 			= 0
-	self.height 		= 0
-	self.internal		= false
-	self.image			= nil
-	self.imagecolor		= nil
+	self.type           = "image"
+	self.width          = 0
+	self.height         = 0
+	self.internal       = false
+	self.image          = nil
+	self.imagecolor     = nil
 	
 end
 
@@ -28,23 +28,27 @@ end
 --]]---------------------------------------------------------
 function image:update(dt)
 
-	local visible = self.visible
+	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
-	if visible == false then
-		if alwaysupdate == false then
+	if not visible then
+		if not alwaysupdate then
 			return
 		end
 	end
 	
+	local parent = self.parent
+	local base   = loveframes.base
+	local update = self.Update
+	
 	-- move to parent if there is a parent
-	if self.parent ~= nil then
+	if parent ~= base then
 		self.x = self.parent.x + self.staticx
 		self.y = self.parent.y + self.staticy
 	end
 	
-	if self.Update then
-		self.Update(self, dt)
+	if update then
+		update(self, dt)
 	end
 	
 end
@@ -57,22 +61,24 @@ function image:draw()
 	
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
-	local skins			= loveframes.skins.available
-	local skinindex		= loveframes.config["ACTIVESKIN"]
-	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
-	local selfskin 		= self.skin
-	local skin 			= skins[selfskin] or skins[skinindex]
-	local drawfunc		= skin.DrawImage or skins[defaultskin].DrawImage
+	local skins         = loveframes.skins.available
+	local skinindex     = loveframes.config["ACTIVESKIN"]
+	local defaultskin   = loveframes.config["DEFAULTSKIN"]
+	local selfskin      = self.skin
+	local skin          = skins[selfskin] or skins[skinindex]
+	local drawfunc      = skin.DrawImage or skins[defaultskin].DrawImage
+	local draw          = self.Draw
+	local drawcount     = loveframes.drawcount
 	
-	loveframes.drawcount = loveframes.drawcount + 1
+	loveframes.drawcount = drawcount + 1
 	self.draworder = loveframes.drawcount
 		
-	if self.Draw ~= nil then
-		self.Draw(self)
+	if draw then
+		draw(self)
 	else
 		drawfunc(self)
 	end

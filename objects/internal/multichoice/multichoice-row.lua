@@ -1,6 +1,6 @@
 --[[------------------------------------------------
-	-- Löve Frames --
-	-- Copyright 2012 Kenny Shields --
+	-- Love Frames - A GUI library for LOVE --
+	-- Copyright (c) 2012 Kenny Shields --
 --]]------------------------------------------------
 
 -- multichoicerow class
@@ -13,14 +13,14 @@ multichoicerow:include(loveframes.templates.default)
 --]]---------------------------------------------------------
 function multichoicerow:initialize()
 	
-	self.type			= "multichoice-row"
-	self.text			= ""
-	self.width 			= 50
-	self.height 		= 25
-	self.hover			= false
-	self.internal		= true
-	self.down			= false
-	self.canclick		= false
+	self.type           = "multichoice-row"
+	self.text           = ""
+	self.width          = 50
+	self.height         = 25
+	self.hover          = false
+	self.internal       = true
+	self.down           = false
+	self.canclick       = false
 	
 end
 
@@ -30,37 +30,41 @@ end
 --]]---------------------------------------------------------
 function multichoicerow:update(dt)
 	
-	local visible = self.visible
+	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
-	if visible == false then
-		if alwaysupdate == false then
+	if not visible then
+		if not alwaysupdate then
 			return
 		end
 	end
 	
+	local parent = self.parent
+	local base   = loveframes.base
+	local update = self.Update
+	
 	self:CheckHover()
 	
-	if self.hover == false then
+	if not self.hover then
 		self.down = false
-	elseif self.hover == true then
+	else
 		if loveframes.hoverobject == self then
 			self.down = true
 		end
 	end
 	
-	if self.down == false and loveframes.hoverobject == self then
+	if not self.down and loveframes.hoverobject == self then
 		self.hover = true
 	end
 	
 	-- move to parent if there is a parent
-	if self.parent ~= loveframes.base then
-		self.x = self.parent.x + self.staticx
-		self.y = self.parent.y + self.staticy
+	if parent ~= base then
+		self.x = parent.x + self.staticx
+		self.y = parent.y + self.staticy
 	end
 	
-	if self.Update then
-		self.Update(self, dt)
+	if update then
+		update(self, dt)
 	end
 	
 end
@@ -73,22 +77,24 @@ function multichoicerow:draw()
 	
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
-	local skins			= loveframes.skins.available
-	local skinindex		= loveframes.config["ACTIVESKIN"]
-	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
-	local selfskin 		= self.skin
-	local skin 			= skins[selfskin] or skins[skinindex]
-	local drawfunc		= skin.DrawMultiChoiceRow or skins[defaultskin].DrawMultiChoiceRow
+	local skins         = loveframes.skins.available
+	local skinindex     = loveframes.config["ACTIVESKIN"]
+	local defaultskin   = loveframes.config["DEFAULTSKIN"]
+	local selfskin      = self.skin
+	local skin          = skins[selfskin] or skins[skinindex]
+	local drawfunc      = skin.DrawMultiChoiceRow or skins[defaultskin].DrawMultiChoiceRow
+	local draw          = self.Draw
+	local drawcount     = loveframes.drawcount
 	
-	loveframes.drawcount = loveframes.drawcount + 1
+	loveframes.drawcount = drawcount + 1
 	self.draworder = loveframes.drawcount
 		
-	if self.Draw ~= nil then
-		self.Draw(self)
+	if draw then
+		draw(self)
 	else
 		drawfunc(self)
 	end
@@ -101,11 +107,15 @@ end
 --]]---------------------------------------------------------
 function multichoicerow:mousepressed(x, y, button)
 	
-	if self.visible == false then
+	local visible = self.visible
+	
+	if not visible then
 		return
 	end
 	
-	if self.hover == true and button == "l" then
+	local hover = self.hover
+	
+	if hover and button == "l" then
 	
 		self.down = true
 		loveframes.hoverobject = self
@@ -120,12 +130,16 @@ end
 --]]---------------------------------------------------------
 function multichoicerow:mousereleased(x, y, button)
 	
-	if self.visible == false then
+	local visible = self.visible
+	
+	if not visible then
 		return
 	end
 	
-	if self.hover == true and self.down == true and self.canclick == true and button == "l" then
-		self.parent.list:SelectChoice(self.text)
+	local text = self.text
+	
+	if self.hover and self.down and self.canclick and button == "l" then
+		self.parent.list:SelectChoice(text)
 	end
 	
 	self.down = false
@@ -140,5 +154,15 @@ end
 function multichoicerow:SetText(text)
 
 	self.text = text
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetText()
+	- desc: gets the object's text
+--]]---------------------------------------------------------
+function multichoicerow:GetText()
+
+	return self.text
 	
 end

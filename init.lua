@@ -1,6 +1,6 @@
 --[[------------------------------------------------
-	-- Löve Frames --
-	-- Copyright 2012 Kenny Shields --
+	-- Love Frames - A GUI library for LOVE --
+	-- Copyright (c) 2012 Kenny Shields --
 --]]------------------------------------------------
 
 -- central library table
@@ -9,7 +9,7 @@ loveframes = {}
 -- library info
 loveframes.info = {}
 loveframes.info.author 	= "Nikolai Resokav"
-loveframes.info.version = "0.9.3.1"
+loveframes.info.version = "0.9.3.2"
 loveframes.info.stage 	= "Alpha"
 
 -- library configurations
@@ -36,7 +36,7 @@ function loveframes.load()
 	local dir = loveframes.config["DIRECTORY"]
 	
 	-- require the internal base libraries
-	require(dir .. "/third-party/middleclass/middleclass")
+	require(dir .. "/third-party/middleclass")
 	require(dir .. "/util")
 	require(dir .. "/skins")
 	require(dir .. "/templates")
@@ -172,7 +172,7 @@ function loveframes.Create(data, parent)
 		end
 		
 		-- remove the object if it is an internal
-		if object.internal == true then
+		if object.internal then
 			object:Remove()
 			return
 		end
@@ -182,7 +182,7 @@ function loveframes.Create(data, parent)
 		table.insert(loveframes.base.children, object)
 		
 		-- if the parent argument is not nil, make that argument the object's new parent
-		if parent ~= nil then
+		if parent then
 			object:SetParent(parent)
 		end
 		

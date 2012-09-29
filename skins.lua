@@ -1,6 +1,6 @@
 --[[------------------------------------------------
-	-- Löve Frames --
-	-- Copyright 2012 Kenny Shields --
+	-- Love Frames - A GUI library for LOVE --
+	-- Copyright (c) 2012 Kenny Shields --
 --]]------------------------------------------------
 
 loveframes.skins = {}
@@ -17,11 +17,11 @@ function loveframes.skins.Register(skin)
 	local images = loveframes.util.GetDirContents(dir .. "/images")
 	local indeximages = loveframes.config["INDEXSKINIMAGES"]
 	
-	if name == "" or name == nil then
+	if name == "" or not name then
 		error("Could not register skin: Invalid or missing name data.")
 	end
 	
-	if author == "" or author == nil then
+	if author == "" or not author then
 		error("Could not register skin: Invalid or missing author data.")
 	end
 	
@@ -29,11 +29,11 @@ function loveframes.skins.Register(skin)
 		error("Could not register skin: Invalid or missing version data.")
 	end
 	
-	if namecheck ~= nil then
+	if namecheck then
 		error("Could not register skin: A skin with the name '" ..name.. "' already exists.")
 	end
 	
-	if dircheck == false then
+	if not dircheck then
 		error("Could not register skin: Could not find a directory for skin '" ..name.. "'.")
 	end
 	

@@ -1,6 +1,6 @@
 --[[------------------------------------------------
-	-- Löve Frames --
-	-- Copyright 2012 Kenny Shields --
+	-- Love Frames - A GUI library for LOVE --
+	-- Copyright (c) 2012 Kenny Shields --
 --]]------------------------------------------------
 
 -- progressbar class
@@ -13,21 +13,21 @@ progressbar:include(loveframes.templates.default)
 --]]---------------------------------------------------------
 function progressbar:initialize()
 
-	self.type			= "progressbar"
-	self.width 			= 100
-	self.height 		= 25
-	self.min			= 0
-	self.max			= 10
-	self.value			= 0
-	self.progress		= 0
-	self.lerprate		= 1000
-	self.lerpvalue		= 0
-	self.lerpto			= 0
-	self.lerpfrom		= 0
-	self.completed		= false
-	self.lerp			= false
-	self.internal		= false
-	self.OnComplete		= nil
+	self.type           = "progressbar"
+	self.width          = 100
+	self.height         = 25
+	self.min            = 0
+	self.max            = 10
+	self.value          = 0
+	self.barwidth       = 0
+	self.lerprate       = 1000
+	self.lerpvalue      = 0
+	self.lerpto         = 0
+	self.lerpfrom       = 0
+	self.completed      = false
+	self.lerp           = false
+	self.internal       = false
+	self.OnComplete     = nil
 	
 end
 
@@ -37,27 +37,31 @@ end
 --]]---------------------------------------------------------
 function progressbar:update(dt)
 
-	local visible = self.visible
+	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
-	if visible == false then
-		if alwaysupdate == false then
+	if not visible then
+		if not alwaysupdate then
 			return
 		end
 	end
 	
-	local lerp 		= self.lerp
-	local lerprate 	= self.lerprate
-	local lerpvalue = self.lerpvalue
-	local lerpto 	= self.lerpto
-	local lerpfrom 	= self.lerpfrom
-	local value 	= self.value
-	local completed = self.completed
+	local lerp       = self.lerp
+	local lerprate   = self.lerprate
+	local lerpvalue  = self.lerpvalue
+	local lerpto     = self.lerpto
+	local lerpfrom   = self.lerpfrom
+	local value      = self.value
+	local completed  = self.completed
+	local parent     = self.parent
+	local base       = loveframes.base
+	local update     = self.Update
+	local oncomplete = self.OnComplete
 	
 	self:CheckHover()
 	
-	-- caclulate progress
-	if lerp == true then
+	-- caclulate barwidth
+	if lerp then
 		if lerpfrom < lerpto then
 			if lerpvalue < lerpto then
 				self.lerpvalue = lerpvalue + lerprate*dt
@@ -74,7 +78,7 @@ function progressbar:update(dt)
 			self.lerpvalue = lerpto
 		end
 		
-		self.progress = self.lerpvalue/self.max * self.width
+		self.barwidth = self.lerpvalue/self.max * self.width
 		
 		-- min check
 		if self.lerpvalue < self.min then
@@ -86,37 +90,34 @@ function progressbar:update(dt)
 			self.lerpvalue = self.max
 		end
 	else
-		self.progress = self.value/self.max * self.width
+		self.barwidth = value/self.max * self.width
 		
-		-- min check
-		if self.value < self.min then
+		-- min max check
+		if value < self.min then
 			self.value = self.min
-		end
-	
-		-- max check
-		if self.value > self.max then
+		elseif value > self.max then
 			self.value = self.max
 		end
 	end
 	
 	-- move to parent if there is a parent
-	if self.parent ~= nil then
+	if parent ~= base then
 		self.x = self.parent.x + self.staticx
 		self.y = self.parent.y + self.staticy
 	end
 	
 	-- completion check
-	if completed == false then
+	if not completed then
 		if self.value >= self.max then
 			self.completed = true
-			if self.OnComplete then
-				self.OnComplete(self)
+			if oncomplete then
+				oncomplete(self)
 			end
 		end
 	end
 	
-	if self.Update then
-		self.Update(self, dt)
+	if update then
+		update(self, dt)
 	end
 	
 end
@@ -129,22 +130,24 @@ function progressbar:draw()
 	
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
-	local skins			= loveframes.skins.available
-	local skinindex		= loveframes.config["ACTIVESKIN"]
-	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
-	local selfskin 		= self.skin
-	local skin 			= skins[selfskin] or skins[skinindex]
-	local drawfunc		= skin.DrawProgressBar or skins[defaultskin].DrawProgressBar
+	local skins         = loveframes.skins.available
+	local skinindex     = loveframes.config["ACTIVESKIN"]
+	local defaultskin   = loveframes.config["DEFAULTSKIN"]
+	local selfskin      = self.skin
+	local skin          = skins[selfskin] or skins[skinindex]
+	local drawfunc      = skin.DrawProgressBar or skins[defaultskin].DrawProgressBar
+	local draw          = self.Draw
+	local drawcount     = loveframes.drawcount
 	
-	loveframes.drawcount = loveframes.drawcount + 1
+	loveframes.drawcount = drawcount + 1
 	self.draworder = loveframes.drawcount
 		
-	if self.Draw ~= nil then
-		self.Draw(self)
+	if draw then
+		draw(self)
 	else
 		drawfunc(self)
 	end
@@ -220,7 +223,7 @@ function progressbar:SetValue(value)
 
 	local lerp = self.lerp
 	
-	if lerp == true then
+	if lerp then
 		self.lerpvalue = self.lerpvalue
 		self.lerpto = value
 		self.lerpfrom = self.lerpvalue
@@ -293,5 +296,15 @@ end
 function progressbar:GetCompleted()
 
 	return self.completed
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetBarWidth()
+	- desc: gets the object's bar width
+--]]---------------------------------------------------------
+function progressbar:GetBarWidth()
+	
+	return self.barwidth
 	
 end

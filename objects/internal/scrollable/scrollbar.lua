@@ -1,6 +1,6 @@
 --[[------------------------------------------------
-	-- Löve Frames --
-	-- Copyright 2012 Kenny Shields --
+	-- Love Frames - A GUI library for LOVE --
+	-- Copyright (c) 2012 Kenny Shields --
 --]]------------------------------------------------
 
 -- scrollbar class
@@ -12,27 +12,27 @@ scrollbar = class("scrollbar", base)
 --]]---------------------------------------------------------
 function scrollbar:initialize(parent, bartype)
 
-	self.type			= "scrollbar"
-	self.bartype		= bartype
-	self.parent			= parent
-	self.x 				= 0
-	self.y 				= 0
-	self.staticx		= 0
-	self.staticy		= 0
-	self.maxx			= 0
-	self.maxy			= 0
-	self.clickx			= 0
-	self.clicky			= 0
-	self.starty			= 0
-	self.lastwidth		= 0
-	self.lastheight		= 0
-	self.lastx			= 0
-	self.lasty			= 0
-	self.internal		= true
-	self.hover			= false
-	self.dragging		= false
-	self.autoscroll		= false
-	self.internal		= true
+	self.type           = "scrollbar"
+	self.bartype        = bartype
+	self.parent         = parent
+	self.x              = 0
+	self.y              = 0
+	self.staticx        = 0
+	self.staticy        = 0
+	self.maxx           = 0
+	self.maxy           = 0
+	self.clickx         = 0
+	self.clicky         = 0
+	self.starty         = 0
+	self.lastwidth      = 0
+	self.lastheight     = 0
+	self.lastx          = 0
+	self.lasty          = 0
+	self.internal       = true
+	self.hover          = false
+	self.dragging       = false
+	self.autoscroll     = false
+	self.internal       = true
 	
 	if self.bartype == "vertical" then
 		self.width 		= self.parent.width
@@ -50,20 +50,20 @@ end
 --]]---------------------------------------------------------
 function scrollbar:update(dt)
 	
-	local visible = self.visible
+	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
-	if visible == false then
-		if alwaysupdate == false then
+	if not visible then
+		if not alwaysupdate then
 			return
 		end
 	end
 	
 	self:CheckHover()
 	
-	local x, y = love.mouse.getPosition()
-	local bartype = self.bartype
-	local cols = {}
+	local x, y     = love.mouse.getPosition()
+	local bartype  = self.bartype
+	local cols     = {}
 	local basecols = {}
 	local dragging = self.dragging
 	
@@ -76,8 +76,9 @@ function scrollbar:update(dt)
 	if bartype == "vertical" then
 		
 		local parent = self.parent
-		local listo = parent.parent.parent
+		local listo  = parent.parent.parent
 		local height = parent.height * (listo.height/listo.itemheight)
+		local update = self.Update
 		
 		if height < 20 then
 			self.height = 20
@@ -89,7 +90,7 @@ function scrollbar:update(dt)
 		self.x = parent.x + parent.width - self.width
 		self.y = parent.y + self.staticy
 			
-		if dragging == true then
+		if dragging then
 			if self.staticy ~= self.lasty then
 				if listo.OnScroll then
 					listo.OnScroll(listo)
@@ -99,10 +100,10 @@ function scrollbar:update(dt)
 			self.staticy = self.starty + (y - self.clicky)
 		end
 		
-		local space = (self.maxy - parent.y)
-		local remaining = (0 + self.staticy)
-		local percent = remaining/space
-		local extra = listo.extra * percent
+		local space      = (self.maxy - parent.y)
+		local remaining  = (0 + self.staticy)
+		local percent    = remaining/space
+		local extra      = listo.extraheight * percent
 		local autoscroll = self.autoscroll
 		local lastheight = self.lastheight
 		
@@ -110,7 +111,7 @@ function scrollbar:update(dt)
 			
 		if self.staticy > space then
 			self.staticy = space
-			listo.offsety = listo.extra
+			listo.offsety = listo.extraheight
 		end
 					
 		if self.staticy < 0 then
@@ -118,8 +119,8 @@ function scrollbar:update(dt)
 			listo.offsety = 0
 		end
 		
-		if autoscroll == true then
-			if listo.itemheight ~= lastheight then
+		if autoscroll then
+			if listo.itemheight > lastheight then
 				self.lastheight = listo.itemheight
 				self:Scroll(self.maxy)
 			end
@@ -127,11 +128,9 @@ function scrollbar:update(dt)
 	
 	elseif bartype == "horizontal" then
 		
-		self.lastwidth = self.width
-		
 		local parent = self.parent
-		local listo = self.parent.parent.parent
-		local width = self.parent.width * (listo.width/listo.itemwidth)
+		local listo  = self.parent.parent.parent
+		local width  = self.parent.width * (listo.width/listo.itemwidth)
 		
 		if width < 20 then
 			self.width = 20
@@ -143,7 +142,7 @@ function scrollbar:update(dt)
 		self.x = parent.x + self.staticx
 		self.y = parent.y + self.staticy
 			
-		if dragging == true then
+		if dragging then
 			if self.staticx ~= self.lastx then
 				if listo.OnScroll then
 					listo.OnScroll(listo)
@@ -153,18 +152,18 @@ function scrollbar:update(dt)
 			self.staticx = self.startx + (x - self.clickx)
 		end
 		
-		local space = (self.maxx - parent.x)
-		local remaining = (0 + self.staticx)
-		local percent = remaining/space
-		local extra = listo.extra * percent
+		local space      = (self.maxx - parent.x)
+		local remaining  = (0 + self.staticx)
+		local percent    = remaining/space
+		local extra      = listo.extrawidth * percent
 		local autoscroll = self.autoscroll
-		local lastwidth = self.lastwidth
+		local lastwidth  = self.lastwidth
 		
 		listo.offsetx = 0 + extra
 		
 		if self.staticx > space then
 			self.staticx = space
-			listo.offsetx = listo.extra
+			listo.offsetx = listo.extrawidth
 		end
 					
 		if self.staticx < 0 then
@@ -172,17 +171,17 @@ function scrollbar:update(dt)
 			listo.offsetx = 0
 		end
 		
-		if autoscroll == true then
-			if self.width ~= lastwidth then
-				self.width = self.width
+		if autoscroll then
+			if listo.itemwidth > lastwidth then
+				self.lastwidth = listo.itemwidth
 				self:Scroll(self.maxx)
 			end
 		end
 			
 	end
 	
-	if self.Update then
-		self.Update(self, dt)
+	if update then
+		update(self, dt)
 	end
 	
 end
@@ -195,22 +194,24 @@ function scrollbar:draw()
 
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
-	local skins			= loveframes.skins.available
-	local skinindex		= loveframes.config["ACTIVESKIN"]
-	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
-	local selfskin 		= self.skin
-	local skin 			= skins[selfskin] or skins[skinindex]
-	local drawfunc		= skin.DrawScrollBar or skins[defaultskin].DrawScrollBar
+	local skins         = loveframes.skins.available
+	local skinindex     = loveframes.config["ACTIVESKIN"]
+	local defaultskin   = loveframes.config["DEFAULTSKIN"]
+	local selfskin      = self.skin
+	local skin          = skins[selfskin] or skins[skinindex]
+	local drawfunc      = skin.DrawScrollBar or skins[defaultskin].DrawScrollBar
+	local draw          = self.Draw
+	local drawcount     = loveframes.drawcount
 	
-	loveframes.drawcount = loveframes.drawcount + 1
+	loveframes.drawcount = drawcount + 1
 	self.draworder = loveframes.drawcount
 		
-	if self.Draw ~= nil then
-		self.Draw(self)
+	if draw then
+		draw(self)
 	else
 		drawfunc(self)
 	end
@@ -224,13 +225,13 @@ end
 function scrollbar:mousepressed(x, y, button)
 
 	local visible = self.visible
-	local hover = self.hover
+	local hover   = self.hover
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
-	if hover == false then
+	if not hover then
 		return
 	end
 	
@@ -242,7 +243,7 @@ function scrollbar:mousepressed(x, y, button)
 	
 	local dragging = self.dragging
 	
-	if dragging == false then
+	if not dragging then
 		
 		if button == "l" then
 		
@@ -267,11 +268,11 @@ function scrollbar:mousereleased(x, y, button)
 
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
-	if self.dragging == true then
+	if self.dragging then
 		self.dragging = false
 	end
 
@@ -303,8 +304,9 @@ end
 --]]---------------------------------------------------------
 function scrollbar:Scroll(amount)
 
-	local bartype = self.bartype
-	local listo = self.parent.parent.parent
+	local bartype  = self.bartype
+	local listo    = self.parent.parent.parent
+	local onscroll = listo.OnScroll
 	
 	if bartype == "vertical" then
 		local newy = (self.y + amount)
@@ -328,8 +330,28 @@ function scrollbar:Scroll(amount)
 		end
 	end
 	
-	if listo.OnScroll then
-		listo.OnScroll(listo)
+	if onscroll then
+		onscroll(listo)
 	end
+	
+end
+
+--[[---------------------------------------------------------
+	- func: IsDragging()
+	- desc: gets whether the object is being dragged or not
+--]]---------------------------------------------------------
+function scrollbar:IsDragging()
+
+	return self.dragging
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetBarType()
+	- desc: gets the object's bartype
+--]]---------------------------------------------------------
+function scrollbar:GetBarType()
+
+	return self.bartype
 	
 end

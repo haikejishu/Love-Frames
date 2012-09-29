@@ -1,9 +1,9 @@
 --[[------------------------------------------------
-	-- Löve Frames --
-	-- Copyright 2012 Kenny Shields --
+	-- Love Frames - A GUI library for LOVE --
+	-- Copyright (c) 2012 Kenny Shields --
 --]]------------------------------------------------
 
--- closebutton clas
+-- closebutton class
 closebutton = class("closebutton", base)
 closebutton:include(loveframes.templates.default)
 
@@ -13,13 +13,13 @@ closebutton:include(loveframes.templates.default)
 --]]---------------------------------------------------------
 function closebutton:initialize()
 
-	self.type			= "closebutton"
-	self.width 			= 80
-	self.height 		= 25
-	self.internal		= true
-	self.hover			= false
-	self.down			= false
-	self.OnClick		= function() end
+	self.type           = "closebutton"
+	self.width          = 80
+	self.height         = 25
+	self.internal       = true
+	self.hover          = false
+	self.down           = false
+	self.OnClick        = function() end
 	
 end
 
@@ -29,41 +29,44 @@ end
 --]]---------------------------------------------------------
 function closebutton:update(dt)
 	
-	local visible = self.visible
+	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
-	if visible == false then
-		if alwaysupdate == false then
+	if not visible then
+		if not alwaysupdate then
 			return
 		end
 	end
 	
 	self:CheckHover()
 	
-	local hover = self.hover
-	local down = self.down
+	local hover       = self.hover
+	local down        = self.down
 	local hoverobject = loveframes.hoverobject
+	local parent      = self.parent
+	local base        = loveframes.base
+	local update      = self.Update
 	
-	if hover == false then
+	if not hover then
 		self.down = false
-	elseif hover == true then
+	else
 		if loveframes.hoverobject == self then
 			self.down = true
 		end
 	end
 	
-	if down == false and hoverobject == self then
+	if not down and hoverobject == self then
 		self.hover = true
 	end
 	
 	-- move to parent if there is a parent
-	if self.parent ~= loveframes.base then
-		self.x = self.parent.x + self.staticx
-		self.y = self.parent.y + self.staticy
+	if parent ~= base then
+		self.x = parent.x + self.staticx
+		self.y = parent.y + self.staticy
 	end
 	
-	if self.Update then
-		self.Update(self, dt)
+	if update then
+		update(self, dt)
 	end
 
 end
@@ -76,22 +79,24 @@ function closebutton:draw()
 	
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
-	local skins			= loveframes.skins.available
-	local skinindex		= loveframes.config["ACTIVESKIN"]
-	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
-	local selfskin 		= self.skin
-	local skin 			= skins[selfskin] or skins[skinindex]
-	local drawfunc		= skin.DrawCloseButton or skins[defaultskin].DrawCloseButton
+	local skins         = loveframes.skins.available
+	local skinindex     = loveframes.config["ACTIVESKIN"]
+	local defaultskin   = loveframes.config["DEFAULTSKIN"]
+	local selfskin      = self.skin
+	local skin          = skins[selfskin] or skins[skinindex]
+	local drawfunc      = skin.DrawCloseButton or skins[defaultskin].DrawCloseButton
+	local draw          = self.Draw
+	local drawcount     = loveframes.drawcount
 	
-	loveframes.drawcount = loveframes.drawcount + 1
+	loveframes.drawcount = drawcount + 1
 	self.draworder = loveframes.drawcount
 		
-	if self.Draw ~= nil then
-		self.Draw(self)
+	if draw then
+		draw(self)
 	else
 		drawfunc(self)
 	end
@@ -106,13 +111,13 @@ function closebutton:mousepressed(x, y, button)
 	
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
 	local hover = self.hover
 	
-	if hover == true and button == "l" then
+	if hover and button == "l" then
 	
 		local baseparent = self:GetBaseParent()
 	
@@ -135,16 +140,17 @@ function closebutton:mousereleased(x, y, button)
 	
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
-	local hover = self.hover
+	local hover   = self.hover
+	local onclick = self.OnClick
 	
-	if hover == true and self.down == true then
+	if hover and self.down then
 	
 		if button == "l" then
-			self.OnClick(x, y, self)
+			onclick(x, y, self)
 		end
 		
 	end

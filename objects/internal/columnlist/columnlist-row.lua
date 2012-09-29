@@ -1,9 +1,9 @@
 --[[------------------------------------------------
-	-- Löve Frames --
-	-- Copyright 2012 Kenny Shields --
+	-- Love Frames - A GUI library for LOVE --
+	-- Copyright (c) 2012 Kenny Shields --
 --]]------------------------------------------------
 
--- columnlistrow object
+-- columnlistrow class
 columnlistrow = class("columnlistrow", base)
 columnlistrow:include(loveframes.templates.default)
 
@@ -13,17 +13,16 @@ columnlistrow:include(loveframes.templates.default)
 --]]---------------------------------------------------------
 function columnlistrow:initialize(parent, data)
 
-	self.type 			= "columnlistrow"
-	self.parent			= parent
-	self.colorindex		= self.parent.rowcolorindex
-	self.font			= loveframes.basicfontsmall
-	self.textcolor		= {0, 0, 0, 255}
-	self.width 			= 80
-	self.height 		= 25
-	self.textx			= 5
-	self.texty			= 5
-	self.internal		= true
-	self.columndata 	= data
+	self.type           = "columnlistrow"
+	self.parent         = parent
+	self.colorindex     = self.parent.rowcolorindex
+	self.font           = loveframes.basicfontsmall
+	self.width          = 80
+	self.height         = 25
+	self.textx          = 5
+	self.texty          = 5
+	self.internal       = true
+	self.columndata     = data
 	
 end
 
@@ -33,25 +32,29 @@ end
 --]]---------------------------------------------------------
 function columnlistrow:update(dt)
 	
-	local visible = self.visible
+	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
-	if visible == false then
-		if alwaysupdate == false then
+	if not visible then
+		if not alwaysupdate then
 			return
 		end
 	end
 	
+	local parent = self.parent
+	local base   = loveframes.base
+	local update = self.Update
+	
 	self:CheckHover()
 	
 	-- move to parent if there is a parent
-	if self.parent ~= loveframes.base then
-		self.x = self.parent.x + self.staticx
-		self.y = self.parent.y + self.staticy
+	if parent ~= base then
+		self.x = parent.x + self.staticx
+		self.y = parent.y + self.staticy
 	end
 	
-	if self.Update then
-		self.Update(self, dt)
+	if update then
+		update(self, dt)
 	end
 
 end
@@ -68,30 +71,22 @@ function columnlistrow:draw()
 		return
 	end
 	
-	local cwidth, cheight 	= self:GetParent():GetParent():GetColumnSize()
-	local x 				= self.textx
-	local textcolor 		= self.textcolor
-	local skins			= loveframes.skins.available
-	local skinindex		= loveframes.config["ACTIVESKIN"]
-	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
-	local selfskin 		= self.skin
-	local skin 			= skins[selfskin] or skins[skinindex]
-	local drawfunc		= skin.DrawColumnListRow or skins[defaultskin].DrawColumnListRow
+	local skins             = loveframes.skins.available
+	local skinindex         = loveframes.config["ACTIVESKIN"]
+	local defaultskin       = loveframes.config["DEFAULTSKIN"]
+	local selfskin          = self.skin
+	local skin              = skins[selfskin] or skins[skinindex]
+	local drawfunc          = skin.DrawColumnListRow or skins[defaultskin].DrawColumnListRow
+	local draw              = self.Draw
+	local drawcount         = loveframes.drawcount
 	
-	loveframes.drawcount = loveframes.drawcount + 1
+	loveframes.drawcount = drawcount + 1
 	self.draworder = loveframes.drawcount
 		
-	if self.Draw ~= nil then
-		self.Draw(self)
+	if draw then
+		draw(self)
 	else
 		drawfunc(self)
-	end
-	
-	for k, v in ipairs(self.columndata) do
-		love.graphics.setFont(self.font)
-		love.graphics.setColor(unpack(textcolor))
-		love.graphics.print(v, self.x + x, self.y + self.texty)
-		x = x + cwidth
 	end
 	
 end
@@ -102,11 +97,11 @@ end
 --]]---------------------------------------------------------
 function columnlistrow:mousepressed(x, y, button)
 
-	if self.visible == false then
+	if not self.visible then
 		return
 	end
 	
-	if self.hover == true and button == "l" then
+	if self.hover and button == "l" then
 	
 		local baseparent = self:GetBaseParent()
 	
@@ -124,17 +119,18 @@ end
 --]]---------------------------------------------------------
 function columnlistrow:mousereleased(x, y, button)
 
-	if self.visible == false then
+	if not self.visible then
 		return
 	end
 	
-	if self.hover == true and button == "l" then
+	if self.hover and button == "l" then
 	
-		local parent1 = self:GetParent()
-		local parent2 = parent1:GetParent()
+		local parent1      = self:GetParent()
+		local parent2      = parent1:GetParent()
+		local onrowclicked = parent2.OnRowClicked
 		
-		if parent2.OnRowClicked then
-			parent2.OnRowClicked(parent2, self, self.columndata)
+		if onrowclicked then
+			onrowclicked(parent2, self, self.columndata)
 		end
 		
 	end
@@ -149,6 +145,26 @@ function columnlistrow:SetTextPos(x, y)
 
 	self.textx = x
 	self.texty = y
+
+end
+
+--[[---------------------------------------------------------
+	- func: GetTextX()
+	- desc: gets the object's text x position
+--]]---------------------------------------------------------
+function columnlistrow:GetTextX()
+
+	return self.textx
+
+end
+
+--[[---------------------------------------------------------
+	- func: GetTextY()
+	- desc: gets the object's text y position
+--]]---------------------------------------------------------
+function columnlistrow:GetTextY()
+
+	return self.texty
 
 end
 
@@ -183,11 +199,11 @@ function columnlistrow:GetColorIndex()
 end
 
 --[[---------------------------------------------------------
-	- func: SetTextColor(color)
-	- desc: sets the object's text color
+	- func: GetColumnData()
+	- desc: gets the object's column data
 --]]---------------------------------------------------------
-function columnlistrow:SetTextColor(color)
+function columnlistrow:GetColumnData()
 
-	self.textcolor = color
-
+	return self.columndata
+	
 end

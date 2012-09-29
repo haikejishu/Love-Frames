@@ -1,6 +1,6 @@
 --[[------------------------------------------------
-	-- Löve Frames --
-	-- Copyright 2012 Kenny Shields --
+	-- Love Frames - A GUI library for LOVE --
+	-- Copyright (c) 2012 Kenny Shields --
 --]]------------------------------------------------
 
 -- multichoicelist class
@@ -13,25 +13,25 @@ multichoicelist:include(loveframes.templates.default)
 --]]---------------------------------------------------------
 function multichoicelist:initialize(object)
 	
-	self.type			= "multichoice-list"
-	self.parent			= loveframes.base
-	self.list			= object
-	self.x 				= object.x
-	self.y				= object.y + self.list.height
-	self.width 			= self.list.width
-	self.height 		= 0
-	self.clickx 		= 0
-	self.clicky 		= 0
-	self.padding		= self.list.listpadding
-	self.spacing		= self.list.listspacing
-	self.offsety		= 0
-	self.offsetx		= 0
-	self.extra			= 0
-	self.canremove		= false
-	self.internal		= true
-	self.vbar			= false
-	self.children		= {}
-	self.internals		= {}
+	self.type           = "multichoice-list"
+	self.parent         = loveframes.base
+	self.list           = object
+	self.x              = object.x
+	self.y              = object.y + self.list.height
+	self.width          = self.list.width
+	self.height         = 0
+	self.clickx         = 0
+	self.clicky         = 0
+	self.padding        = self.list.listpadding
+	self.spacing        = self.list.listspacing
+	self.offsety        = 0
+	self.offsetx        = 0
+	self.extra          = 0
+	self.canremove      = false
+	self.internal       = true
+	self.vbar           = false
+	self.children       = {}
+	self.internals      = {}
 	
 	for k, v in ipairs(object.choices) do
 		local row = multichoicerow:new()
@@ -49,24 +49,29 @@ end
 --]]---------------------------------------------------------
 function multichoicelist:update(dt)
 	
-	local visible = self.visible
+	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
-	if visible == false then
-		if alwaysupdate == false then
+	if not visible then
+		if not alwaysupdate then
 			return
 		end
 	end
 	
-	local width = love.graphics.getWidth()
-	local height = love.graphics.getHeight()
-	local x, y = love.mouse.getPosition()
-	local selfcol = loveframes.util.BoundingBox(x, self.x, y, self.y, 1, self.width, 1, self.height)
+	local width     = love.graphics.getWidth()
+	local height    = love.graphics.getHeight()
+	local x, y      = love.mouse.getPosition()
+	local selfcol   = loveframes.util.BoundingBox(x, self.x, y, self.y, 1, self.width, 1, self.height)
+	local parent    = self.parent
+	local base      = loveframes.base
+	local upadte    = self.Update
+	local internals = self.internals
+	local children  = self.children
 	
 	-- move to parent if there is a parent
-	if self.parent ~= loveframes.base then
-		self.x = self.parent.x + self.staticx
-		self.y = self.parent.y + self.staticy
+	if parent ~= base then
+		self.x = parent.x + self.staticx
+		self.y = parent.y + self.staticy
 	end
 		
 	if self.x < 0 then
@@ -85,19 +90,19 @@ function multichoicelist:update(dt)
 		self.y = height - self.height
 	end
 	
-	for k, v in ipairs(self.internals) do
+	for k, v in ipairs(internals) do
 		v:update(dt)
 	end
 	
-	for k, v in ipairs(self.children) do
+	for k, v in ipairs(children) do
 		v:update(dt)
 		v:SetClickBounds(self.x, self.y, self.width, self.height)
 		v.y = (v.parent.y + v.staticy) - self.offsety
 		v.x = (v.parent.x + v.staticx) - self.offsetx
 	end
 	
-	if self.Update then
-		self.Update(self, dt)
+	if upadte then
+		upadte(self, dt)
 	end
 	
 end
@@ -107,45 +112,53 @@ end
 	- desc: draws the object
 --]]---------------------------------------------------------
 function multichoicelist:draw()
-	
-	loveframes.drawcount = loveframes.drawcount + 1
-	self.draworder = loveframes.drawcount
 
-	local stencilfunc 	= function() love.graphics.rectangle("fill", self.x, self.y, self.width, self.height) end
-	local stencil 		= love.graphics.newStencil(stencilfunc)
-	local skins			= loveframes.skins.available
-	local skinindex		= loveframes.config["ACTIVESKIN"]
-	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
-	local selfskin 		= self.skin
-	local skin 			= skins[selfskin] or skins[skinindex]
-	local drawfunc		= skin.DrawMultiChoiceList or skins[defaultskin].DrawMultiChoiceList
+	local visible      = self.visible
 	
-	loveframes.drawcount = loveframes.drawcount + 1
+	if not visible then
+		return
+	end
+	
+	local stencilfunc   = function() love.graphics.rectangle("fill", self.x, self.y, self.width, self.height) end
+	local stencil       = love.graphics.newStencil(stencilfunc)
+	local skins         = loveframes.skins.available
+	local skinindex     = loveframes.config["ACTIVESKIN"]
+	local defaultskin   = loveframes.config["DEFAULTSKIN"]
+	local selfskin      = self.skin
+	local skin          = skins[selfskin] or skins[skinindex]
+	local drawfunc      = skin.DrawMultiChoiceList or skins[defaultskin].DrawMultiChoiceList
+	local drawoverfunc  = skin.DrawOverMultiChoiceList or skins[defaultskin].DrawOverMultiChoiceList
+	local draw          = self.Draw
+	local drawcount     = loveframes.drawcount
+	local internals     = self.internals
+	local children      = self.children
+	
+	loveframes.drawcount = drawcount + 1
 	self.draworder = loveframes.drawcount
 		
-	if self.Draw ~= nil then
-		self.Draw(self)
+	if draw then
+		draw(self)
 	else
 		drawfunc(self)
 	end
 		
-	for k, v in ipairs(self.internals) do
+	for k, v in ipairs(internals) do
 		v:draw()
 	end
 		
 	love.graphics.setStencil(stencil)
 		
-	for k, v in ipairs(self.children) do
+	for k, v in ipairs(children) do
 		local col = loveframes.util.BoundingBox(self.x, v.x, self.y, v.y, self.width, v.width, self.height, v.height)
-		if col == true then
+		if col then
 			v:draw()
 		end
 	end
 		
 	love.graphics.setStencil()
 	
-	if self.Draw == nil and skin.DrawOverMultiChoiceList then
-		skin.DrawOverMultiChoiceList(self)
+	if not draw then
+		drawoverfunc(self)
 	end
 	
 end
@@ -156,32 +169,36 @@ end
 --]]---------------------------------------------------------
 function multichoicelist:mousepressed(x, y, button)
 	
-	if self.visible == false then
+	local visible = self.visible
+	
+	if not visible then
 		return
 	end
 	
-	local selfcol = loveframes.util.BoundingBox(x, self.x, y, self.y, 1, self.width, 1, self.height)
-	local toplist = self:IsTopList()
+	local selfcol   = loveframes.util.BoundingBox(x, self.x, y, self.y, 1, self.width, 1, self.height)
+	local toplist   = self:IsTopList()
+	local internals = self.internals
+	local children  = self.children
 	
-	if selfcol == false and button == "l" and self.canremove == true then
+	if not selfcol and self.canremove and button == "l" then
 		self:Close()
 	end
 	
-	if self.vbar == true and toplist == true then
+	if self.vbar and toplist then
 	
 		if button == "wu" then
-			self.internals[1].internals[1].internals[1]:Scroll(-5)
+			internals[1].internals[1].internals[1]:Scroll(-5)
 		elseif button == "wd" then
-			self.internals[1].internals[1].internals[1]:Scroll(5)
+			internals[1].internals[1].internals[1]:Scroll(5)
 		end
 		
 	end
 	
-	for k, v in ipairs(self.internals) do
+	for k, v in ipairs(internals) do
 		v:mousepressed(x, y, button)
 	end
 	
-	for k, v in ipairs(self.children) do
+	for k, v in ipairs(children) do
 		v:mousepressed(x, y, button)
 	end
 
@@ -193,17 +210,22 @@ end
 --]]---------------------------------------------------------
 function multichoicelist:mousereleased(x, y, button)
 	
-	if self.visible == false then
+	local visible = self.visible
+	
+	if not visible then
 		return
 	end
 	
+	local internals = self.internals
+	local children  = self.children
+	
 	self.canremove = true
 	
-	for k, v in ipairs(self.internals) do
+	for k, v in ipairs(internals) do
 		v:mousereleased(x, y, button)
 	end
 	
-	for k, v in ipairs(self.children) do
+	for k, v in ipairs(children) do
 		v:mousereleased(x, y, button)
 	end
 
@@ -234,10 +256,12 @@ end
 --]]---------------------------------------------------------
 function multichoicelist:RemoveItem(object)
 
-	for k, v in ipairs(self.children) do
+	local children = self.children
+	
+	for k, v in ipairs(children) do
 	
 		if v == object then
-			table.remove(self.children, k)
+			table.remove(children, k)
 		end
 		
 	end
@@ -267,14 +291,15 @@ function multichoicelist:CalculateSize()
 		self.height = love.graphics.getHeight()
 	end
 	
-	local numitems = #self.children
-	local height = self.height
-	local padding = self.padding
-	local spacing = self.spacing
+	local numitems   = #self.children
+	local height     = self.height
+	local padding    = self.padding
+	local spacing    = self.spacing
 	local itemheight = self.padding
-	local vbar = self.vbar
+	local vbar       = self.vbar
+	local children   = self.children
 	
-	for k, v in ipairs(self.children) do
+	for k, v in ipairs(children) do
 		itemheight = itemheight + v.height + spacing
 	end
 		
@@ -284,7 +309,7 @@ function multichoicelist:CalculateSize()
 		
 		self.extra = self.itemheight - height
 			
-		if vbar == false then
+		if not vbar then
 			local scroll = scrollbody:new(self, "vertical")
 			table.insert(self.internals, scroll)
 			self.vbar = true
@@ -292,7 +317,7 @@ function multichoicelist:CalculateSize()
 			
 	else
 			
-		if vbar == true then
+		if vbar then
 			self.internals[1]:Remove()
 			self.vbar = false
 			self.offsety = 0
@@ -309,10 +334,10 @@ end
 function multichoicelist:RedoLayout()
 
 	local children = self.children
-	local padding = self.padding
-	local spacing = self.spacing
-	local starty = padding
-	local vbar = self.vbar
+	local padding  = self.padding
+	local spacing  = self.spacing
+	local starty   = padding
+	local vbar     = self.vbar
 	
 	if #children > 0 then
 	
@@ -321,12 +346,12 @@ function multichoicelist:RedoLayout()
 			v.staticx = padding
 			v.staticy = starty
 				
-			if vbar == true then
-				v.width = (self.width - self.internals[1].width) - padding*2
+			if vbar then
+				v.width = (self.width - self.internals[1].width) - padding * 2
 				self.internals[1].staticx = self.width - self.internals[1].width
 				self.internals[1].height = self.height
 			else
-				v.width = self.width - padding*2
+				v.width = self.width - padding * 2
 			end
 				
 			starty = starty + v.height

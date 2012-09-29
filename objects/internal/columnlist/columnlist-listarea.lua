@@ -1,9 +1,9 @@
 --[[------------------------------------------------
-	-- Löve Frames --
-	-- Copyright 2012 Kenny Shields --
+	-- Love Frames - A GUI library for LOVE --
+	-- Copyright (c) 2012 Kenny Shields --
 --]]------------------------------------------------
 
--- columnlistarea object
+-- columnlistarea class
 columnlistarea = class("columnlistarea", base)
 columnlistarea:include(loveframes.templates.default)
 
@@ -13,22 +13,23 @@ columnlistarea:include(loveframes.templates.default)
 --]]---------------------------------------------------------
 function columnlistarea:initialize(parent)
 	
-	self.type 				= "columnlistarea"
-	self.display			= "vertical"
-	self.parent				= parent
-	self.width 				= 80
-	self.height 			= 25
-	self.clickx 			= 0
-	self.clicky 			= 0
-	self.offsety			= 0
-	self.offsetx			= 0
-	self.extra				= 0
-	self.rowcolorindex		= 1
-	self.rowcolorindexmax	= 2
-	self.bar				= false
-	self.internal			= true
-	self.internals 			= {}
-	self.children			= {}
+	self.type               = "columnlistarea"
+	self.display            = "vertical"
+	self.parent             = parent
+	self.width              = 80
+	self.height             = 25
+	self.clickx             = 0
+	self.clicky             = 0
+	self.offsety            = 0
+	self.offsetx            = 0
+	self.extrawidth         = 0
+	self.extraheight        = 0
+	self.rowcolorindex      = 1
+	self.rowcolorindexmax   = 2
+	self.bar                = false
+	self.internal           = true
+	self.internals          = {}
+	self.children           = {}
 
 end
 
@@ -38,40 +39,43 @@ end
 --]]---------------------------------------------------------
 function columnlistarea:update(dt)
 	
-	local visible = self.visible
+	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
-	if visible == false then
-		if alwaysupdate == false then
+	if not visible then
+		if not alwaysupdate then
 			return
 		end
 	end
 	
 	local cwidth, cheight = self.parent:GetColumnSize()
+	local parent          = self.parent
+	local base            = loveframes.base
+	local update          = self.Update
+	local internals       = self.internals
+	local children        = self.children
 	
 	self:CheckHover()
 	
 	-- move to parent if there is a parent
-	if self.parent ~= loveframes.base then
-		self.x = self.parent.x + self.staticx
-		self.y = self.parent.y + self.staticy
+	if parent ~= base then
+		self.x = parent.x + self.staticx
+		self.y = parent.y + self.staticy
 	end
 	
-	for k, v in ipairs(self.internals) do
+	for k, v in ipairs(internals) do
 		v:update(dt)
 	end
 	
-	for k, v in ipairs(self.children) do
-	
+	for k, v in ipairs(children) do
 		v:update(dt)
 		v:SetClickBounds(self.x, self.y, self.width, self.height)
 		v.y = (v.parent.y + v.staticy) - self.offsety + cheight
 		v.x = (v.parent.x + v.staticx) - self.offsetx
-		
 	end
 	
-	if self.Update then
-		self.Update(self, dt)
+	if update then
+		update(self, dt)
 	end
 
 end
@@ -84,31 +88,36 @@ function columnlistarea:draw()
 
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
-	local stencilfunc 	= function() love.graphics.rectangle("fill", self.x, self.y, self.width, self.height) end
-	local stencil 		= love.graphics.newStencil(stencilfunc)
-	local skins			= loveframes.skins.available
-	local skinindex		= loveframes.config["ACTIVESKIN"]
-	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
-	local selfskin 		= self.skin
-	local skin 			= skins[selfskin] or skins[skinindex]
-	local drawfunc		= skin.DrawColumnListArea or skins[defaultskin].DrawColumnListArea
+	local stencilfunc   = function() love.graphics.rectangle("fill", self.x, self.y, self.width, self.height) end
+	local stencil       = love.graphics.newStencil(stencilfunc)
+	local skins         = loveframes.skins.available
+	local skinindex     = loveframes.config["ACTIVESKIN"]
+	local defaultskin   = loveframes.config["DEFAULTSKIN"]
+	local selfskin      = self.skin
+	local skin          = skins[selfskin] or skins[skinindex]
+	local drawfunc      = skin.DrawColumnListArea or skins[defaultskin].DrawColumnListArea
+	local drawoverfunc  = skin.DrawOverColumnListArea or skins[defaultskin].DrawOverColumnListArea
+	local draw          = self.Draw
+	local drawcount     = loveframes.drawcount
+	local internals     = self.internals
+	local children      = self.children
 	
-	loveframes.drawcount = loveframes.drawcount + 1
+	loveframes.drawcount = drawcount + 1
 	self.draworder = loveframes.drawcount
 		
-	if self.Draw ~= nil then
-		self.Draw(self)
+	if draw then
+		draw(self)
 	else
 		drawfunc(self)
 	end
 	
 	love.graphics.setStencil(stencil)
 	
-	for k, v in ipairs(self.children) do
+	for k, v in ipairs(children) do
 		local col = loveframes.util.BoundingBox(self.x, v.x, self.y, v.y, self.width, v.width, self.height, v.height)
 		if col == true then
 			v:draw()
@@ -117,11 +126,11 @@ function columnlistarea:draw()
 	
 	love.graphics.setStencil()
 	
-	for k, v in ipairs(self.internals) do
+	for k, v in ipairs(internals) do
 		v:draw()
 	end
 	
-	if self.Draw == nil then
+	if not draw then
 		skin.DrawOverColumnListArea(self)
 	end
 	
@@ -133,9 +142,11 @@ end
 --]]---------------------------------------------------------
 function columnlistarea:mousepressed(x, y, button)
 
-	local toplist = self:IsTopList()
+	local toplist   = self:IsTopList()
+	local internals = self.internals
+	local children  = self.children
 	
-	if self.hover == true and button == "l" then
+	if self.hover and button == "l" then
 		
 		local baseparent = self:GetBaseParent()
 	
@@ -145,27 +156,23 @@ function columnlistarea:mousepressed(x, y, button)
 		
 	end
 	
-	if self.bar == true then
+	if self.bar and toplist then
 	
-		if toplist == true then
-	
-			local bar = self:GetScrollBar()
+		local bar = self:GetScrollBar()
 			
-			if button == "wu" then
-				bar:Scroll(-5)
-			elseif button == "wd" then
-				bar:Scroll(5)
-			end
-			
+		if button == "wu" then
+			bar:Scroll(-5)
+		elseif button == "wd" then
+			bar:Scroll(5)
 		end
 		
 	end
 	
-	for k, v in ipairs(self.internals) do
+	for k, v in ipairs(internals) do
 		v:mousepressed(x, y, button)
 	end
 	
-	for k, v in ipairs(self.children) do
+	for k, v in ipairs(children) do
 		v:mousepressed(x, y, button)
 	end
 	
@@ -177,11 +184,14 @@ end
 --]]---------------------------------------------------------
 function columnlistarea:mousereleased(x, y, button)
 
-	for k, v in ipairs(self.internals) do
+	local internals = self.internals
+	local children  = self.children
+	
+	for k, v in ipairs(internals) do
 		v:mousereleased(x, y, button)
 	end
 	
-	for k, v in ipairs(self.children) do
+	for k, v in ipairs(children) do
 		v:mousereleased(x, y, button)
 	end
 
@@ -193,15 +203,16 @@ end
 --]]---------------------------------------------------------
 function columnlistarea:CalculateSize()
 	
-	local iw, ih = self.parent:GetColumnSize()
-	local numitems = #self.children
-	local height = self.height
-	local width = self.width
-	local itemheight = ih
-	local itemwidth	= 0
-	local bar = self.bar
+	local iw, ih      = self.parent:GetColumnSize()
+	local numitems    = #self.children
+	local height      = self.height
+	local width       = self.width
+	local itemheight  = ih
+	local itemwidth	  = 0
+	local bar         = self.bar
+	local children    = self.children
 	
-	for k, v in ipairs(self.children) do
+	for k, v in ipairs(children) do
 		itemheight = itemheight + v.height
 	end
 		
@@ -209,9 +220,9 @@ function columnlistarea:CalculateSize()
 		
 	if self.itemheight > height then
 		
-		self.extra = self.itemheight - height
+		self.extraheight = self.itemheight - height
 			
-		if bar == false then
+		if not bar then
 			table.insert(self.internals, scrollbody:new(self, "vertical"))
 			self.bar = true
 			self:GetScrollBar().autoscroll = self.parent.autoscroll
@@ -219,7 +230,7 @@ function columnlistarea:CalculateSize()
 			
 	else
 			
-		if bar == true then
+		if bar then
 			self.internals[1]:Remove()
 			self.bar = false
 			self.offsety = 0
@@ -236,10 +247,10 @@ end
 function columnlistarea:RedoLayout()
 	
 	local children = self.children
-	local starty = 0
-	local startx = 0
-	local bar = self.bar
-	local display = self.display
+	local starty   = 0
+	local startx   = 0
+	local bar      = self.bar
+	local display  = self.display
 	
 	if #children > 0 then
 	
@@ -250,7 +261,7 @@ function columnlistarea:RedoLayout()
 			v.staticx = startx
 			v.staticy = starty
 				
-			if bar == true then
+			if bar then
 				v:SetWidth(self.width - self.internals[1].width)
 				self.internals[1].staticx = self.width - self.internals[1].width
 				self.internals[1].height = self.height
@@ -276,7 +287,7 @@ function columnlistarea:AddRow(data)
 
 	local row = columnlistrow:new(self, data)
 	
-	local colorindex = self.rowcolorindex
+	local colorindex    = self.rowcolorindex
 	local colorindexmax = self.rowcolorindexmax
 	
 	if colorindex == colorindexmax then
@@ -298,16 +309,15 @@ end
 --]]---------------------------------------------------------
 function columnlistarea:GetScrollBar()
 
-	if self.bar ~= false then
+	local internals = self.internals
 	
-		local scrollbar = self.internals[1].internals[1].internals[1]
-		
+	if self.bar then
+		local scrollbody = internals[1]
+		local scrollarea = scrollbody.internals[1]
+		local scrollbar  = scrollarea.internals[1]
 		return scrollbar
-		
 	else
-		
 		return false
-	
 	end
 	
 end
@@ -321,8 +331,9 @@ function columnlistarea:Sort(column, desc)
 	self.rowcolorindex = 1
 	
 	local colorindexmax = self.rowcolorindexmax
+	local children      = self.children
 	
-	table.sort(self.children, function(a, b)
+	table.sort(children, function(a, b)
 		if desc then
             return a.columndata[column] < b.columndata[column]
         else
@@ -330,7 +341,7 @@ function columnlistarea:Sort(column, desc)
 		end
 	end)
 	
-	for k, v in ipairs(self.children) do
+	for k, v in ipairs(children) do
 	
 		local colorindex = self.rowcolorindex
 		

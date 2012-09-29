@@ -1,9 +1,9 @@
 --[[------------------------------------------------
-	-- Löve Frames --
-	-- Copyright 2012 Kenny Shields --
+	-- Love Frames - A GUI library for LOVE --
+	-- Copyright (c) 2012 Kenny Shields --
 --]]------------------------------------------------
 
--- button clas
+-- collapsiblecategory class
 collapsiblecategory = class("collapsiblecategory", base)
 collapsiblecategory:include(loveframes.templates.default)
 
@@ -13,17 +13,17 @@ collapsiblecategory:include(loveframes.templates.default)
 --]]---------------------------------------------------------
 function collapsiblecategory:initialize()
 
-	self.type			= "collapsiblecategory"
-	self.text 			= "Category"
-	self.width			= 200
-	self.height			= 25
-	self.closedheight	= 25
-	self.padding		= 5
-	self.internal		= false
-	self.open			= false
-	self.down		 	= false
-	self.children		= {}
-	self.OnOpenedClosed	= nil
+	self.type           = "collapsiblecategory"
+	self.text           = "Category"
+	self.width          = 200
+	self.height         = 25
+	self.closedheight   = 25
+	self.padding        = 5
+	self.internal       = false
+	self.open           = false
+	self.down           = false
+	self.children       = {}
+	self.OnOpenedClosed = nil
 	
 end
 
@@ -33,34 +33,37 @@ end
 --]]---------------------------------------------------------
 function collapsiblecategory:update(dt)
 	
-	local visible = self.visible
+	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
-	if visible == false then
-		if alwaysupdate == false then
+	if not visible then
+		if not alwaysupdate then
 			return
 		end
 	end
 	
-	local open = self.open
-	local children = self.children
+	local open      = self.open
+	local children  = self.children
 	local curobject = children[1]
+	local parent    = self.parent
+	local base      = loveframes.base
+	local update    = self.Update
 	
 	self:CheckHover()
 	
 	-- move to parent if there is a parent
-	if self.parent ~= loveframes.base and self.parent.type ~= "list" then
+	if parent ~= base and parent.type ~= "list" then
 		self.x = self.parent.x + self.staticx
 		self.y = self.parent.y + self.staticy
 	end
 	
 	if open == true then
-		curobject:SetWidth(self.width - self.padding*2)
+		curobject:SetWidth(self.width - self.padding * 2)
 		curobject:update(dt)
 	end
 	
-	if self.Update then
-		self.Update(self, dt)
+	if update then
+		update(self, dt)
 	end
 
 end
@@ -77,26 +80,28 @@ function collapsiblecategory:draw()
 		return
 	end
 	
-	local open 			= self.open
-	local children 		= self.children
-	local curobject 	= children[1]
-	local skins			= loveframes.skins.available
-	local skinindex		= loveframes.config["ACTIVESKIN"]
-	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
-	local selfskin 		= self.skin
-	local skin 			= skins[selfskin] or skins[skinindex]
-	local drawfunc		= skin.DrawCollapsibleCategory or skins[defaultskin].DrawCollapsibleCategory
+	local open          = self.open
+	local children      = self.children
+	local curobject     = children[1]
+	local skins         = loveframes.skins.available
+	local skinindex     = loveframes.config["ACTIVESKIN"]
+	local defaultskin   = loveframes.config["DEFAULTSKIN"]
+	local selfskin      = self.skin
+	local skin          = skins[selfskin] or skins[skinindex]
+	local drawfunc      = skin.DrawCollapsibleCategory or skins[defaultskin].DrawCollapsibleCategory
+	local draw          = self.Draw
+	local drawcount     = loveframes.drawcount
 	
-	loveframes.drawcount = loveframes.drawcount + 1
+	loveframes.drawcount = drawcount + 1
 	self.draworder = loveframes.drawcount
 		
-	if self.Draw ~= nil then
-		self.Draw(self)
+	if draw then
+		draw(self)
 	else
 		drawfunc(self)
 	end
 	
-	if open == true then
+	if open then
 		curobject:draw()
 	end
 	
@@ -110,20 +115,20 @@ function collapsiblecategory:mousepressed(x, y, button)
 
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
-	local hover = self.hover
-	local open = self.open
-	local children = self.children
+	local hover     = self.hover
+	local open      = self.open
+	local children  = self.children
 	local curobject = children[1]
 	
-	if hover == true then
+	if hover then
 	
 		local col = loveframes.util.BoundingBox(self.x, x, self.y, y, self.width, 1, self.closedheight, 1)
 		
-		if button == "l" and col == true then
+		if button == "l" and col then
 			
 			local baseparent = self:GetBaseParent()
 	
@@ -138,7 +143,7 @@ function collapsiblecategory:mousepressed(x, y, button)
 		
 	end
 	
-	if open == true then
+	if open then
 		curobject:mousepressed(x, y, button)
 	end
 	
@@ -152,22 +157,22 @@ function collapsiblecategory:mousereleased(x, y, button)
 	
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
-	local hover = self.hover
-	local down = self.down
+	local hover     = self.hover
+	local down      = self.down
 	local clickable = self.clickable
-	local enabled = self.enabled
-	local open = self.open
-	local col = loveframes.util.BoundingBox(self.x, x, self.y, y, self.width, 1, self.closedheight, 1)
-	local children = self.children
+	local enabled   = self.enabled
+	local open      = self.open
+	local col       = loveframes.util.BoundingBox(self.x, x, self.y, y, self.width, 1, self.closedheight, 1)
+	local children  = self.children
 	local curobject = children[1]
 	
-	if hover == true and button == "l" and col == true and self.down == true then
+	if hover and col and down and button == "l" then
 			
-		if open == true then
+		if open then
 			self:SetOpen(false)
 		else
 			self:SetOpen(true)
@@ -177,7 +182,7 @@ function collapsiblecategory:mousereleased(x, y, button)
 		
 	end
 	
-	if open == true then
+	if open then
 		curobject:mousepressed(x, y, button)
 	end
 
@@ -209,7 +214,7 @@ end
 --]]---------------------------------------------------------
 function collapsiblecategory:SetObject(object)
 	
-	local children = self.children
+	local children  = self.children
 	local curobject = children[1]
 	
 	if curobject then
@@ -232,7 +237,7 @@ end
 --]]---------------------------------------------------------
 function collapsiblecategory:GetObject()
 
-	local children = self.children
+	local children  = self.children
 	local curobject = children[1]
 	
 	if curobject then
@@ -289,25 +294,30 @@ end
 --]]---------------------------------------------------------
 function collapsiblecategory:SetOpen(bool)
 
-	local children = self.children
-	local curobject = children[1]
+	local children        = self.children
+	local curobject       = children[1]
+	local closedheight    = self.closedheight
+	local padding         = self.padding
+	local curobjectheight = curobject.height
+	local onopenedclosed  = self.OnOpenedClosed
 	
 	self.open = bool
 	
-	if bool == false then
-		self.height = self.closedheight
+	if not bool then
+		self.height = closedheight
 		if curobject then
 			curobject:SetVisible(false)
 		end
 	else
-		self.height = self.closedheight + self.padding*2 + curobject.height
+		self.height = closedheight + padding * 2 + curobjectheight
 		if curobject then
 			curobject:SetVisible(true)
 		end
 	end
-			
-	if self.OnOpenedClosed then
-		self.OnOpenedClosed(self)
+	
+	-- call the on opened closed callback if it exists
+	if onopenedclosed then
+		onopenedclosed(self)
 	end
 	
 end

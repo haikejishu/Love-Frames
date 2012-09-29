@@ -1,6 +1,6 @@
 --[[------------------------------------------------
-	-- Löve Frames --
-	-- Copyright 2012 Kenny Shields --
+	-- Love Frames - A GUI library for LOVE --
+	-- Copyright (c) 2012 Kenny Shields --
 --]]------------------------------------------------
 
 -- checkbox class
@@ -13,18 +13,18 @@ checkbox:include(loveframes.templates.default)
 --]]---------------------------------------------------------
 function checkbox:initialize()
 
-	self.type			= "checkbox"
-	self.width 			= 0
-	self.height 		= 0
-	self.boxwidth 		= 20
-	self.boxheight 		= 20
-	self.font			= loveframes.basicfont
-	self.checked		= false
-	self.lastvalue		= false
-	self.internal		= false
-	self.down			= true
-	self.internals		= {}
-	self.OnChanged		= nil
+	self.type           = "checkbox"
+	self.width          = 0
+	self.height         = 0
+	self.boxwidth       = 20
+	self.boxheight      = 20
+	self.font           = loveframes.basicfont
+	self.checked        = false
+	self.lastvalue      = false
+	self.internal       = false
+	self.down           = true
+	self.internals      = {}
+	self.OnChanged      = nil
 	
 end
 
@@ -37,59 +37,67 @@ function checkbox:update(dt)
 	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
-	if visible == false then
-		if alwaysupdate == false then
+	if not visible then
+		if not alwaysupdate then
 			return
 		end
 	end
 	
 	self:CheckHover()
 	
-	if self.hover == false then
+	local hover     = self.hover
+	local internals = self.internals
+	local boxwidth  = self.boxwidth
+	local boxheight = self.boxheight
+	local parent    = self.parent
+	local base      = loveframes.base
+	local update    = self.Update
+	
+	if not hover then
 		self.down = false
-	elseif self.hover == true then
+	else
 		if loveframes.hoverobject == self then
 			self.down = true
 		end
 	end
 	
-	if self.down == false and loveframes.hoverobject == self then
+	if not self.down and loveframes.hoverobject == self then
 		self.hover = true
 	end
 	
 	-- move to parent if there is a parent
-	if self.parent ~= loveframes.base and self.parent.type ~= "list" then
+	if parent ~= base and parent.type ~= "list" then
 		self.x = self.parent.x + self.staticx
 		self.y = self.parent.y + self.staticy
 	end
 	
-	if self.internals[1] then
+	if internals[1] then
 	
-		self.width = self.boxwidth + 5 + self.internals[1].width
+		self.width = boxwidth + 5 + internals[1].width
 		
-		if self.internals[1].height == self.boxheight then
-			self.height = self.boxheight
+		if internals[1].height == boxheight then
+			self.height = boxheight
 		else
-			if self.internals[1].height > self.boxheight then
-				self.height = self.internals[1].height
+			if internals[1].height > boxheight then
+				self.height = internals[1].height
 			else
-				self.height = self.boxheight
+				self.height = boxheight
 			end
 		end
 		
 	else
 	
-		self.width = self.boxwidth
-		self.height = self.boxheight
+		self.width = boxwidth
+		self.height = boxheight
 		
 	end
 	
-	for k, v in ipairs(self.internals) do
+	for k, v in ipairs(internals) do
 		v:update(dt)
 	end
 	
-	if self.Update then
-		self.Update(self, dt)
+	if update then
+		update(self, dt)
 	end
 
 end
@@ -102,27 +110,30 @@ function checkbox:draw()
 	
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 
-	local skins			= loveframes.skins.available
-	local skinindex		= loveframes.config["ACTIVESKIN"]
-	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
-	local selfskin 		= self.skin
-	local skin 			= skins[selfskin] or skins[skinindex]
-	local drawfunc		= skin.DrawCheckBox or skins[defaultskin].DrawCheckBox
+	local skins         = loveframes.skins.available
+	local skinindex     = loveframes.config["ACTIVESKIN"]
+	local defaultskin   = loveframes.config["DEFAULTSKIN"]
+	local selfskin      = self.skin
+	local skin          = skins[selfskin] or skins[skinindex]
+	local drawfunc      = skin.DrawCheckBox or skins[defaultskin].DrawCheckBox
+	local draw          = self.Draw
+	local internals     = self.internals
+	local drawcount     = loveframes.drawcount
 	
-	loveframes.drawcount = loveframes.drawcount + 1
+	loveframes.drawcount = drawcount + 1
 	self.draworder = loveframes.drawcount
 		
-	if self.Draw ~= nil then
-		self.Draw(self)
+	if draw then
+		draw(self)
 	else
 		drawfunc(self)
 	end
 	
-	for k, v in ipairs(self.internals) do
+	for k, v in ipairs(internals) do
 		v:draw()
 	end
 	
@@ -136,13 +147,13 @@ function checkbox:mousepressed(x, y, button)
 
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
 	local hover = self.hover
 	
-	if hover == true and button == "l" then
+	if hover and button == "l" then
 		
 		local baseparent = self:GetBaseParent()
 	
@@ -165,23 +176,24 @@ function checkbox:mousereleased(x, y, button)
 	
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
-	local hover = self.hover
-	local checked = self.checked
+	local hover     = self.hover
+	local checked   = self.checked
+	local onchanged = self.OnChanged
 	
-	if hover == true and button == "l" then
+	if hover and button == "l" then
 	
-		if checked == true then
+		if checked then
 			self.checked = false
 		else
 			self.checked = true
 		end
 		
-		if self.OnChanged then
-			self.OnChanged(self)
+		if onchanged then
+			onchanged(self)
 		end
 		
 	end
@@ -194,6 +206,9 @@ end
 --]]---------------------------------------------------------
 function checkbox:SetText(text)
 
+	local boxwidth  = self.boxwidth
+	local boxheight = self.boxheight
+	
 	if text ~= "" then
 		
 		self.internals = {}
@@ -205,10 +220,10 @@ function checkbox:SetText(text)
 		textobject:SetFont(self.font)
 		textobject:SetText(text)
 		textobject.Update = function(object, dt)
-			if object.height > self.boxheight then
-				object:SetPos(self.boxwidth + 5, 0)
+			if object.height > boxheight then
+				object:SetPos(boxwidth + 5, 0)
 			else
-				object:SetPos(self.boxwidth + 5, self.boxheight/2 - object.height/2)
+				object:SetPos(boxwidth + 5, boxheight/2 - object.height/2)
 			end
 		end
 		
@@ -216,8 +231,8 @@ function checkbox:SetText(text)
 		
 	else
 	
-		self.width = self.boxwidth
-		self.height = self.boxheight
+		self.width     = boxwidth
+		self.height    = boxheight
 		self.internals = {}
 		
 	end
@@ -231,7 +246,7 @@ end
 function checkbox:GetText()
 
 	local internals = self.internals
-	local text = internals[1]
+	local text      = internals[1]
 	
 	if text then
 		return text.text
@@ -247,7 +262,7 @@ end
 --]]---------------------------------------------------------
 function checkbox:SetSize(width, height)
 
-	self.boxwidth = width
+	self.boxwidth  = width
 	self.boxheight = height
 	
 end
@@ -278,10 +293,12 @@ end
 --]]---------------------------------------------------------
 function checkbox:SetChecked(bool)
 
+	local onchanged = self.OnChanged
+	
 	self.checked = bool
 	
-	if self.OnChanged then
-		self.OnChanged(self)
+	if onchanged then
+		onchanged(self)
 	end
 	
 end
@@ -303,7 +320,7 @@ end
 function checkbox:SetFont(font)
 
 	local internals = self.internals
-	local text = internals[1]
+	local text      = internals[1]
 	
 	self.font = font
 	

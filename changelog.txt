@@ -1,4 +1,66 @@
 ================================================
+Version 0.9.3.2 - Alpha (Spetember 29 - 2012)
+================================================
+[ADDED] a new text input method: SetMultiline(bool)
+[ADDED] a new text input method: GetVerticalScrollBody()
+[ADDED] a new text input method: GetHorizontalScrollBody()
+[ADDED] a new text input method: SetText(text)
+[ADDED] a new text input method: HasVerticalScrollBar()
+[ADDED] a new text input method: HasHorizontalScrollBar()
+[ADDED] a new text input method: GetFont()
+[ADDED] a new text input method: GetTextColor()
+[ADDED] a new text input method: GetLineNumbersPanel()
+[ADDED] a new text input method: GetMultiline()
+[ADDED] a new text input method: GetTextX()
+[ADDED] a new text input method: GetTextY()
+[ADDED] a new text input method: IsAllTextSelected()
+[ADDED] a new text input method: GetLines()
+[ADDED] a new text input method: GetOffsetX()
+[ADDED] a new text input method: GetOffsetY()
+[ADDED] a new text input method: GetIndicatorX()
+[ADDED] a new text input method: GetIndicatorY()
+[ADDED] a new text input method: GetLineNumbersEnabled()
+[ADDED] a new text input method: GetItemWidth()
+[ADDED] a new text input method: GetItemHeight()
+[ADDED] a new text input method: SetTabReplacement(tabreplacement)
+[ADDED] a new text input method: GetTabReplacement()
+[ADDED] a new scroll area method: GetBarType()
+[ADDED] a new scroll bar method: IsDragging()
+[ADDED] a new scroll bar method: GetBarType()
+[ADDED] a new scroll button method: GetScrollType()
+[ADDED] a new tab button method: GetText()
+[ADDED] a new tab button method: GetImage()
+[ADDED] a new tab button method: GetTabNumber()
+[ADDED] a new column list header method: GetName()
+[ADDED] a new column list row method: GetColumnData()
+[ADDED] a new multichoice method: SetText(text)
+[ADDED] a new multichoice method: GetText()
+[ADDED] a new multichoice row method: GetText()
+[ADDED] a new progressbar method: GetBarWidth()
+[ADDED] a new internal object: linenumberspanel
+[ADDED] multiline support for the text input object
+[ADDED] ability to select all text within a text input
+
+[FIXED] progressbar object not positioning itself properly if it's parent was the base object
+[FIXED] a typeo in the syntax of loveframes.util.SplitString (was "SplitSring", changed to "SplitString")
+[FIXED] the tooltip object not disapearing if it was visible when it's object's visibility was changed to false
+[FIXED] the text input object's x offset not being adjusted initially when the width of it's text would would become wider than it's drawing area
+
+[CHANGED] massive code cleanup for optimization and 
+[CHANGED] frames can now be parent to other objects
+[CHANGED] textinput:RunBlink() to textinput:UpdateIndicator()
+[CHANGED] textinput:GetBlinkerVisisbility() to textinput:GetIndicatorVisisbility()
+[CHANGED] textinput:MoveBlinker(num, exact) to textinput:MoveIndicator(num, exact)
+[CHANGED] scrollbars now only autoscroll when their list's item width/height is greater thant their previous list's previous item width/height
+[CHANGED] cleaned up the code for the default skins
+[CHANGED] the text input object's text is no longer drawn internally by the object and should now be draw within the object's skin drawing function
+[CHANGED] the column list row object's text is no longer drawn internally by the object and should now be draw within the object's skin drawing function
+
+[REMOVED] textinput:SetTextColor(color)
+[REMOVED] textinput:GetTextColor()
+[REMOVED] columnlistrow:SetTextColor()
+
+================================================
 Version 0.9.3.1 - Alpha (Spetember 2 - 2012)
 ================================================
 [ADDED] numpad enter key support for textinput.OnEnter

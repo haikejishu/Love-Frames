@@ -3,21 +3,24 @@
 	-- Copyright (c) 2012 Kenny Shields --
 --]]------------------------------------------------
 
--- panel class
-panel = class("panel", base)
-panel:include(loveframes.templates.default)
+-- linenumberspanel class
+linenumberspanel = class("linenumberspanel", base)
+linenumberspanel:include(loveframes.templates.default)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-function panel:initialize()
+function linenumberspanel:initialize(parent)
 	
-	self.type           = "panel"
-	self.width          = 200
-	self.height         = 50
-	self.internal       = false
-	self.children       = {}
+	self.parent         = parent
+	self.type           = "linenumberspanel"
+	self.width          = 5
+	self.height         = 5
+	self.offsety        = 0
+	self.staticx        = 0
+	self.staticy        = 0
+	self.internal       = true
 	
 end
 
@@ -25,7 +28,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the element
 --]]---------------------------------------------------------
-function panel:update(dt)
+function linenumberspanel:update(dt)
 	
 	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -36,22 +39,28 @@ function panel:update(dt)
 		end
 	end
 	
-	local children = self.children
-	local parent   = self.parent
-	local base     = loveframes.base
-	local update   = self.Update
+	local parent          = self.parent
+	local base            = loveframes.base
+	local update          = self.Update
+	local height          = self.parent.height
+	local parentinternals = parent.internals
+	
+	self.height    = height
+	self.offsety   = self.parent.offsety - self.parent.textoffsety
 	
 	-- move to parent if there is a parent
-	if parent ~= base and parent.type ~= "list" then
+	if parent ~= base then
 		self.x = self.parent.x + self.staticx
 		self.y = self.parent.y + self.staticy
 	end
 	
-	self:CheckHover()
-
-	for k, v in ipairs(children) do
-		v:update(dt)
+	if parentinternals[1] ~= self then
+		self:Remove()
+		table.insert(parentinternals, 1, self)
+		return
 	end
+	
+	self:CheckHover()
 	
 	if update then
 		update(self, dt)
@@ -63,7 +72,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function panel:draw()
+function linenumberspanel:draw()
 	
 	local visible = self.visible
 	
@@ -71,29 +80,33 @@ function panel:draw()
 		return
 	end
 	
-	local children      = self.children
 	local skins         = loveframes.skins.available
 	local skinindex     = loveframes.config["ACTIVESKIN"]
 	local defaultskin   = loveframes.config["DEFAULTSKIN"]
 	local selfskin      = self.skin
 	local skin          = skins[selfskin] or skins[skinindex]
-	local drawfunc      = skin.DrawPanel or skins[defaultskin].DrawPanel
+	local drawfunc      = skin.DrawLineNumbersPanel or skins[defaultskin].DrawLineNumbersPanel
 	local draw          = self.Draw
 	local drawcount     = loveframes.drawcount
+	local stencilfunc   = function() love.graphics.rectangle("fill", self.parent.x, self.parent.y, self.width, self.height) end
+	local stencil       = love.graphics.newStencil(stencilfunc)
+	
+	if self.parent.hbar then
+		stencilfunc = function() love.graphics.rectangle("fill", self.parent.x, self.parent.y, self.width, self.parent.height - 16) end
+	end
 	
 	loveframes.drawcount = drawcount + 1
 	self.draworder = loveframes.drawcount
-		
+	
+	love.graphics.setStencil(stencilfunc)
+	
 	if draw then
 		draw(self)
 	else
 		drawfunc(self)
 	end
-		
-	-- loop through the object's children and draw them
-	for k, v in ipairs(children) do
-		v:draw()
-	end
+	
+	love.graphics.setStencil()
 	
 end
 
@@ -101,7 +114,7 @@ end
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
-function panel:mousepressed(x, y, button)
+function linenumberspanel:mousepressed(x, y, button)
 
 	local visible = self.visible
 	
@@ -109,8 +122,7 @@ function panel:mousepressed(x, y, button)
 		return
 	end
 	
-	local children = self.children
-	local hover    = self.hover
+	local hover = self.hover
 	
 	if hover and button == "l" then
 	
@@ -122,27 +134,28 @@ function panel:mousepressed(x, y, button)
 		
 	end
 	
-	for k, v in ipairs(children) do
-		v:mousepressed(x, y, button)
-	end
-	
 end
 
 --[[---------------------------------------------------------
 	- func: mousereleased(x, y, button)
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
-function panel:mousereleased(x, y, button)
+function linenumberspanel:mousereleased(x, y, button)
 
 	local visible  = self.visible
-	local children = self.children
 	
 	if not visible then
 		return
 	end
 	
-	for k, v in ipairs(children) do
-		v:mousereleased(x, y, button)
-	end
+end
+
+--[[---------------------------------------------------------
+	- func: GetOffsetY()
+	- desc: gets the object's y offset
+--]]---------------------------------------------------------
+function linenumberspanel:GetOffsetY()
+
+	return self.offsety
 	
 end

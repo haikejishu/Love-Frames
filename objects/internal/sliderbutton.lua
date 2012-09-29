@@ -1,9 +1,9 @@
 --[[------------------------------------------------
-	-- Löve Frames --
-	-- Copyright 2012 Kenny Shields --
+	-- Love Frames - A GUI library for LOVE --
+	-- Copyright (c) 2012 Kenny Shields --
 --]]------------------------------------------------
 
--- closebutton clas
+-- sliderbutton class
 sliderbutton = class("sliderbutton", base)
 sliderbutton:include(loveframes.templates.default)
 
@@ -13,20 +13,20 @@ sliderbutton:include(loveframes.templates.default)
 --]]---------------------------------------------------------
 function sliderbutton:initialize(parent)
 
-	self.type			= "sliderbutton"
-	self.width 			= 10
-	self.height 		= 20
-	self.staticx		= 0
-	self.staticy		= 0
-	self.startx			= 0
-	self.clickx			= 0
-	self.starty			= 0
-	self.clicky			= 0
-	self.intervals		= true
-	self.internal		= true
-	self.down			= false
-	self.dragging		= false
-	self.parent			= parent
+	self.type           = "sliderbutton"
+	self.width          = 10
+	self.height         = 20
+	self.staticx        = 0
+	self.staticy        = 0
+	self.startx         = 0
+	self.clickx         = 0
+	self.starty         = 0
+	self.clicky         = 0
+	self.intervals      = true
+	self.internal       = true
+	self.down           = false
+	self.dragging       = false
+	self.parent         = parent
 	
 end
 
@@ -36,49 +36,52 @@ end
 --]]---------------------------------------------------------
 function sliderbutton:update(dt)
 	
-	local visible = self.visible
+	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
-	if visible == false then
-		if alwaysupdate == false then
+	if not visible then
+		if not alwaysupdate then
 			return
 		end
 	end
 	
 	self:CheckHover()
 	
-	local x, y 			= love.mouse.getPosition()
-	local intervals 	= self.intervals
-	local progress 		= 0
-	local nvalue 		= 0
-	local pvalue 		= self.parent.value
-	local hover 		= self.hover
-	local down 			= self.down
-	local hoverobject 	= loveframes.hoverobject
-	local parent 		= self.parent
-	local slidetype 	= parent.slidetype
-	local dragging 		= self.dragging
+	local x, y          = love.mouse.getPosition()
+	local intervals     = self.intervals
+	local progress      = 0
+	local nvalue        = 0
+	local pvalue        = self.parent.value
+	local hover         = self.hover
+	local down          = self.down
+	local hoverobject   = loveframes.hoverobject
+	local parent        = self.parent
+	local slidetype     = parent.slidetype
+	local dragging      = self.dragging
+	local parent        = self.parent
+	local base          = loveframes.base
+	local update        = self.Update
 	
-	if hover == false then
+	if not hover then
 		self.down = false
-	elseif hover == true then
+	else
 		if hoverobject == self then
 			self.down = true
 		end
 	end
 	
-	if down == false and hoverobject == self then
+	if not down and hoverobject == self then
 		self.hover = true
 	end
 	
 	-- move to parent if there is a parent
-	if self.parent ~= loveframes.base then
-		self.x = self.parent.x + self.staticx
-		self.y = self.parent.y + self.staticy
+	if parent ~= base then
+		self.x = parent.x + self.staticx
+		self.y = parent.y + self.staticy
 	end
 	
 	-- start calculations if the button is being dragged
-	if dragging == true then
+	if dragging then
 	
 		-- calculations for horizontal sliders
 		if slidetype == "horizontal" then
@@ -142,8 +145,8 @@ function sliderbutton:update(dt)
 		end
 	end
 	
-	if self.Update then
-		self.Update(self, dt)
+	if update then
+		update(self, dt)
 	end
 
 end
@@ -156,22 +159,24 @@ function sliderbutton:draw()
 	
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
-	local skins			= loveframes.skins.available
-	local skinindex		= loveframes.config["ACTIVESKIN"]
-	local defaultskin 	= loveframes.config["DEFAULTSKIN"]
-	local selfskin 		= self.skin
-	local skin 			= skins[selfskin] or skins[skinindex]
-	local drawfunc		= skin.DrawSliderButton or skins[defaultskin].DrawSliderButton
+	local skins         = loveframes.skins.available
+	local skinindex     = loveframes.config["ACTIVESKIN"]
+	local defaultskin   = loveframes.config["DEFAULTSKIN"]
+	local selfskin      = self.skin
+	local skin          = skins[selfskin] or skins[skinindex]
+	local drawfunc      = skin.DrawSliderButton or skins[defaultskin].DrawSliderButton
+	local draw          = self.Draw
+	local drawcount     = loveframes.drawcount
 	
-	loveframes.drawcount = loveframes.drawcount + 1
+	loveframes.drawcount = drawcount + 1
 	self.draworder = loveframes.drawcount
 		
-	if self.Draw ~= nil then
-		self.Draw(self)
+	if draw then
+		draw(self)
 	else
 		drawfunc(self)
 	end
@@ -186,13 +191,13 @@ function sliderbutton:mousepressed(x, y, button)
 	
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
 	local hover = self.hover
 	
-	if hover == true and button == "l" then
+	if hover and button == "l" then
 	
 		local baseparent = self:GetBaseParent()
 		
@@ -200,12 +205,12 @@ function sliderbutton:mousepressed(x, y, button)
 			baseparent:MakeTop()
 		end
 		
-		self.down = true
-		self.dragging = true
-		self.startx = self.staticx
-		self.clickx = x
-		self.starty = self.staticy
-		self.clicky = y
+		self.down              = true
+		self.dragging          = true
+		self.startx            = self.staticx
+		self.clickx            = x
+		self.starty            = self.staticy
+		self.clicky            = y
 		loveframes.hoverobject = self
 		
 	end
@@ -220,7 +225,7 @@ function sliderbutton:mousereleased(x, y, button)
 	
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
