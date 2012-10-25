@@ -1,4 +1,16 @@
 ================================================
+Version 0.9.4.1 - Alpha (October 25 - 2012)
+================================================
+[ADDED] support for using the delete key in text input objects
+
+[FIXED] textinupt:GetText() only returning the first line of a multiline text input
+[FIXED] an error that occurred when clicking a multiline text input object after setting the object's text to an empty string with textinput:SetText("")
+[FIXED] incorrect positioning of the text input object's indicator when using the left or right arrow keys to move the object's indicator to a different line
+[FIXED] the text input object not creating a new line correctly in certain situations
+
+[CHANGED] textinput:GetText() now returns the object's text with line breaks
+
+================================================
 Version 0.9.4 - Alpha (October 22 - 2012)
 ================================================
 [ADDED] a new base method: SetDrawOrder()

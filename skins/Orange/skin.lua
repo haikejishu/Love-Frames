@@ -112,8 +112,6 @@ skin.controls.multichoicerow_text_font              = smallfont
 -- tooltip
 skin.controls.tooltip_border_color                  = bordercolor
 skin.controls.tooltip_body_color                    = {255, 255, 255, 255}
-skin.controls.tooltip_text_color                    = {0, 0, 0, 255}
-skin.controls.tooltip_text_font                     = smallfont
 
 -- text input
 skin.controls.textinput_border_color                = bordercolor
@@ -946,13 +944,11 @@ function skin.DrawToolTip(object)
 	local height             = object:GetHeight()
 	local bodycolor          = skin.controls.tooltip_body_color
 	local bordercolor        = skin.controls.tooltip_border_color
-	local textcolor          = skin.controls.tooltip_text_color
 	
 	love.graphics.setColor(unpack(bodycolor))
 	love.graphics.rectangle("fill", x, y, width, height)
 	love.graphics.setColor(unpack(bordercolor))
 	skin.OutlinedRectangle(x, y, width, height)
-	love.graphics.setColor(unpack(textcolor))
 	
 end
 

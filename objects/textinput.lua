@@ -467,10 +467,10 @@ function textinput:RunKey(key, unicode)
 	self.unicode = unicode
 	
 	if key == "left" then
-		self:MoveIndicator(-1)
 		local indicatorx = self.indicatorx
 		indicatornum = self.indicatornum
 		if not multiline then
+			self:MoveIndicator(-1)
 			if indicatorx <= self.x and indicatornum ~= 0 then
 				local width = self.font:getWidth(text:sub(indicatornum, indicatornum + 1))
 				self.offsetx = self.offsetx - width
@@ -484,13 +484,15 @@ function textinput:RunKey(key, unicode)
 					local numchars = #lines[self.line]
 					self:MoveIndicator(numchars)
 				end
+			else
+				self:MoveIndicator(-1)
 			end
 		end
 	elseif key == "right" then
-		self:MoveIndicator(1)
 		local indicatorx = self.indicatorx
 		indicatornum = self.indicatornum
 		if not multiline then
+			self:MoveIndicator(1)
 			if indicatorx >= (self.x + swidth) and indicatornum ~= #text then
 				local width = self.font:getWidth(text:sub(indicatornum, indicatornum))
 				self.offsetx = self.offsetx + width
@@ -503,6 +505,8 @@ function textinput:RunKey(key, unicode)
 					self.line = line + 1
 					self:MoveIndicator(0, true)
 				end
+			else
+				self:MoveIndicator(1)
 			end
 		end
 	elseif key == "up" then
@@ -510,7 +514,7 @@ function textinput:RunKey(key, unicode)
 			if line > 1 then
 				self.line = line - 1
 				if indicatornum > #lines[self.line] then
-					indicatornum = #lines[self.line]
+					self.indicatornum = #lines[self.line]
 				end
 			end
 		end
@@ -519,7 +523,7 @@ function textinput:RunKey(key, unicode)
 			if line < #lines then
 				self.line = line + 1
 				if indicatornum > #lines[self.line] then
-					indicatornum = #lines[self.line]
+					self.indicatornum = #lines[self.line]
 				end
 			end
 		end
@@ -530,13 +534,12 @@ function textinput:RunKey(key, unicode)
 		if not editable then
 			return
 		end
-		local curindicatornum = self.indicatornum
 		if alltextselected then
 			self:Clear()
 			self.alltextselected = false
 			indicatornum = self.indicatornum
 		else
-			if text ~= "" then
+			if text ~= "" and indicatornum ~= 0 then
 				text = self:RemoveFromeText(indicatornum)
 				self:MoveIndicator(-1)
 				if ontextchanged then
@@ -545,7 +548,7 @@ function textinput:RunKey(key, unicode)
 				lines[line] = text
 			end
 			if multiline then
-				if line > 1 and curindicatornum == 0 then
+				if line > 1 and indicatornum == 0 then
 					local newindicatornum = 0
 					local oldtext         = lines[line]
 					table.remove(lines, line)
@@ -562,6 +565,28 @@ function textinput:RunKey(key, unicode)
 			local cwidth = font:getWidth(text:sub(#text))
 			if self.offsetx ~= 0 then
 				self.offsetx = self.offsetx - cwidth
+			end
+		end
+	elseif key == "delete" then
+		if alltextselected then
+			self:Clear()
+			self.alltextselected = false
+			indicatornum = self.indicatornum
+		else
+			if text ~= "" and indicatornum < #text then
+				text = self:RemoveFromeText(indicatornum + 1)
+				if ontextchanged then
+					ontextchanged(self, "")
+				end
+				lines[line] = text
+			elseif indicatornum == #text and line < #lines then
+				local oldtext = lines[line + 1]
+				if #oldtext > 0 then
+					newindicatornum = #lines[self.line]
+					lines[self.line] = lines[self.line] .. oldtext
+				end
+				table.remove(lines, line + 1)
+				print(indicatornum, #text)
 			end
 		end
 	elseif key == "return" or key == "kpenter" then
@@ -583,7 +608,7 @@ function textinput:RunKey(key, unicode)
 			if indicatornum == 0 then
 				newtext = self.lines[line]
 				self.lines[line] = ""
-			elseif indicatornum > 1 and indicatornum < #self.lines[line] then
+			elseif indicatornum > 0 and indicatornum < #self.lines[line] then
 				newtext = self.lines[line]:sub(indicatornum + 1, #self.lines[line])
 				self.lines[line] = self.lines[line]:sub(1, indicatornum)
 			end
@@ -800,14 +825,10 @@ function textinput:RemoveFromeText(p)
 	local text         = curline
 	local indicatornum = self.indicatornum
 	
-	if indicatornum ~= 0 then
 		local part1 = text:sub(1, p - 1)
 		local part2 = text:sub(p + 1)
 		local new = part1 .. part2
 		return new
-	end
-	
-	return text
 	
 end
 
@@ -1109,7 +1130,11 @@ function textinput:SetText(text)
 	if multiline then
 		text = text:gsub(string.char(92) .. string.char(110), string.char(10))
 		local t = loveframes.util.SplitString(text, string.char(10))
-		self.lines = t
+		if #t > 0 then
+			self.lines = t
+		else
+			self.lines = {""}
+		end
 	else
 		text = text:gsub(string.char(92) .. string.char(110), "")
 		text = text:gsub(string.char(10), "")
@@ -1125,13 +1150,13 @@ end
 --]]---------------------------------------------------------
 function textinput:GetText()
 
-	local multiline = self.mutliline
+	local multiline = self.multiline
 	local lines     = self.lines
 	local text      = ""
 	
 	if multiline then
 		for k, v in ipairs(lines) do
-			text = text .. v
+			text = text .. v .. "\n"
 		end
 	else
 		text = lines[1]
