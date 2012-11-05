@@ -13,50 +13,50 @@ textinput = class("textinput", base)
 
 function textinput:initialize()
 
-	self.type               = "textinput"
-	self.keydown            = "none"
-	self.tabreplacement     = "        "
-	self.font               = loveframes.basicfont
-	self.width              = 200
-	self.height             = 25
-	self.delay              = 0
-	self.offsetx            = 0
-	self.offsety            = 0
-	self.indincatortime     = 0
-	self.indicatornum       = 0
-	self.indicatorx         = 0
-	self.indicatory         = 0
-	self.textx              = 0
-	self.texty              = 0
-	self.textoffsetx        = 5
-	self.textoffsety        = 5
-	self.unicode            = 0
-	self.limit              = 0
-	self.line               = 1
-	self.itemwidth          = 0
-	self.itemheight         = 0
-	self.extrawidth         = 0
-	self.extraheight        = 0
-	self.rightpadding       = 0
-	self.bottompadding      = 0
-	self.lastclicktime      = 0
-	self.maxx               = 0
-	self.usable             = {}
-	self.unusable           = {}
-	self.lines              = {""}
-	self.internals          = {}
-	self.showindicator      = true
-	self.focus              = false
-	self.multiline          = false
-	self.vbar               = false
-	self.hbar               = false
-	self.alltextselected    = false
-	self.linenumbers        = true
-	self.linenumberspanel   = false
-	self.editable           = true
-	self.internal           = false
-	self.OnEnter            = nil
-	self.OnTextChanged      = nil
+	self.type             = "textinput"
+	self.keydown          = "none"
+	self.tabreplacement   = "        "
+	self.font             = loveframes.basicfont
+	self.width            = 200
+	self.height           = 25
+	self.delay            = 0
+	self.offsetx          = 0
+	self.offsety          = 0
+	self.indincatortime   = 0
+	self.indicatornum     = 0
+	self.indicatorx       = 0
+	self.indicatory       = 0
+	self.textx            = 0
+	self.texty            = 0
+	self.textoffsetx      = 5
+	self.textoffsety      = 5
+	self.unicode          = 0
+	self.limit            = 0
+	self.line             = 1
+	self.itemwidth        = 0
+	self.itemheight       = 0
+	self.extrawidth       = 0
+	self.extraheight      = 0
+	self.rightpadding     = 0
+	self.bottompadding    = 0
+	self.lastclicktime    = 0
+	self.maxx             = 0
+	self.usable           = {}
+	self.unusable         = {}
+	self.lines            = {""}
+	self.internals        = {}
+	self.showindicator    = true
+	self.focus            = false
+	self.multiline        = false
+	self.vbar             = false
+	self.hbar             = false
+	self.alltextselected  = false
+	self.linenumbers      = true
+	self.linenumberspanel = false
+	self.editable         = true
+	self.internal         = false
+	self.OnEnter          = nil
+	self.OnTextChanged    = nil
 	
 end
 
@@ -412,7 +412,6 @@ function textinput:keypressed(key, unicode)
 	
 	self:RunKey(key, unicode)
 	
-	
 end
 
 --[[---------------------------------------------------------
@@ -461,6 +460,7 @@ function textinput:RunKey(key, unicode)
 	local multiline       = self.multiline
 	local alltextselected = self.alltextselected
 	local editable        = self.editable
+	local initialtext     = self:GetText()
 	local ontextchanged   = self.OnTextChanged
 	local onenter         = self.OnEnter
 	
@@ -531,9 +531,13 @@ function textinput:RunKey(key, unicode)
 			
 	-- key input checking system
 	if key == "backspace" then
+		
+		ckey = key
+		
 		if not editable then
 			return
 		end
+		
 		if alltextselected then
 			self:Clear()
 			self.alltextselected = false
@@ -542,9 +546,6 @@ function textinput:RunKey(key, unicode)
 			if text ~= "" and indicatornum ~= 0 then
 				text = self:RemoveFromeText(indicatornum)
 				self:MoveIndicator(-1)
-				if ontextchanged then
-					ontextchanged(self, "")
-				end
 				lines[line] = text
 			end
 			if multiline then
@@ -567,7 +568,11 @@ function textinput:RunKey(key, unicode)
 				self.offsetx = self.offsetx - cwidth
 			end
 		end
+		
 	elseif key == "delete" then
+	
+		ckey = key
+		
 		if alltextselected then
 			self:Clear()
 			self.alltextselected = false
@@ -575,9 +580,6 @@ function textinput:RunKey(key, unicode)
 		else
 			if text ~= "" and indicatornum < #text then
 				text = self:RemoveFromeText(indicatornum + 1)
-				if ontextchanged then
-					ontextchanged(self, "")
-				end
 				lines[line] = text
 			elseif indicatornum == #text and line < #lines then
 				local oldtext = lines[line + 1]
@@ -586,24 +588,26 @@ function textinput:RunKey(key, unicode)
 					lines[self.line] = lines[self.line] .. oldtext
 				end
 				table.remove(lines, line + 1)
-				print(indicatornum, #text)
 			end
 		end
+		
 	elseif key == "return" or key == "kpenter" then
-	
+		
+		ckey = key
+		
 		-- call onenter if it exists
 		if onenter then
 			onenter(self, text)
 		end
 		
-		if alltextselected then
-			self.alltextselected = false
-			self:Clear()
-			indicatornum = self.indicatornum
-		end
-		
 		-- newline calculations for multiline mode
 		if multiline then
+			if alltextselected then
+				self.alltextselected = false
+				self:Clear()
+				indicatornum = self.indicatornum
+				line = self.line
+			end
 			local newtext = "" 
 			if indicatornum == 0 then
 				newtext = self.lines[line]
@@ -623,11 +627,15 @@ function textinput:RunKey(key, unicode)
 		end
 		
 	elseif key == "tab" then
+	
+		ckey = key
+		
 		for i=1, #self.tabreplacement do
 			local number = string.byte(self.tabreplacement:sub(i, i))
 			self.lines[self.line] = self:AddIntoText(number, self.indicatornum)
 			self:MoveIndicator(1)
 		end
+		
 	else
 		if unicode > 31 and unicode < 127 then
 		
@@ -692,11 +700,6 @@ function textinput:RunKey(key, unicode)
 				self:MoveIndicator(1)
 			end
 			
-			-- call on text changed it if exists
-			if ontextchanged then
-				ontextchanged(self, ckey)
-			end
-			
 			lines     = self.lines
 			line      = self.line
 			curline   = lines[line]
@@ -712,6 +715,13 @@ function textinput:RunKey(key, unicode)
 				end
 			end
 		end
+		
+	end
+	
+	local curtext = self:GetText()
+	
+	if ontextchanged and initialtext ~= curtext then
+		ontextchanged(self, ckey)
 	end
 	
 end

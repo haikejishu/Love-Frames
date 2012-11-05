@@ -26,6 +26,7 @@ function text:initialize()
 	self.lines          = 1
 	self.formattedtext  = {}
 	self.original       = {}
+	self.ignorenewlines = false
 	self.internal       = false
 	
 end
@@ -162,8 +163,11 @@ function text:SetText(t)
 			
 		elseif dtype == "string" then
 			
+			if self.ignorenewlines == false then
+				v = v:gsub(string.char(92) .. string.char(110), string.char(10))
+			end
+			
 			v = v:gsub(string.char(9), "    ")
-			v = v:gsub(string.char(92) .. string.char(110), string.char(10))
 			
 			local parts = loveframes.util.SplitString(v, " ")
 					
@@ -331,6 +335,7 @@ function text:DrawText()
 
 	local textdata = self.formattedtext
 	local font     = self.font
+	local theight  = font:getHeight("a")
 	local x        = self.x
 	local y        = self.y
 	
@@ -338,11 +343,18 @@ function text:DrawText()
 		
 		local text  = v.text
 		local color = v.color
-				
-		love.graphics.setFont(font)
-		love.graphics.setColor(unpack(color))
-		love.graphics.printf(text, x + v.x, y + v.y, 0, "left")
-	
+		
+		if self.parent.type == "list" then
+			if (y + v.y) <= (self.parent.y + self.parent.height) and self.y + ((v.y + theight)) >= self.parent.y then
+				love.graphics.setFont(font)
+				love.graphics.setColor(unpack(color))
+				love.graphics.printf(text, x + v.x, y + v.y, 0, "left")
+			end
+		else
+			love.graphics.setFont(font)
+			love.graphics.setColor(unpack(color))
+			love.graphics.printf(text, x + v.x, y + v.y, 0, "left")
+		end
 	end
 	
 end
@@ -432,5 +444,25 @@ end
 function text:GetLines()
 
 	return self.lines
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetIgnoreNewlines(bool)
+	- desc: sets whether the object should ignore \n or not
+--]]---------------------------------------------------------
+function text:SetIgnoreNewlines(bool)
+
+	self.ignorenewlines = bool
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetIgnoreNewlines()
+	- desc: gets whether the object should ignore \n or not
+--]]---------------------------------------------------------
+function text:GetIgnoreNewlines()
+
+	return self.ignorenewlines
 	
 end

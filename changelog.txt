@@ -1,4 +1,39 @@
 ================================================
+Version 0.9.4.2 - Alpha (November 5 - 2012)
+================================================
+[ADDED] a new text object method: SetIgnoreNewlines(bool)
+[ADDED] a new text object method: GetIgnoreNewlines()
+[ADDED] a new text image method: SetOrientation(orientation)
+[ADDED] a new text image method: GetOrientation()
+[ADDED] a new text image method: SetScaleX(scalex)
+[ADDED] a new text image method: GetScaleX()
+[ADDED] a new text image method: SetScaleY(scaley)
+[ADDED] a new text image method: GetScaleY()
+[ADDED] a new text image method: SetScale(scalex, scaley)
+[ADDED] a new text image method: GetScale()
+[ADDED] a new text image method: SetOffsetX(x)
+[ADDED] a new text image method: GetOffsetX()
+[ADDED] a new text image method: SetOffsetY(y)
+[ADDED] a new text image method: GetOffsetY()
+[ADDED] a new text image method: SetOffset(x, y)
+[ADDED] a new text image method: GetOffset()
+[ADDED] a new text image method: SetShearX(x)
+[ADDED] a new text image method: GetShearX()
+[ADDED] a new text image method: SetShearY(y)
+[ADDED] a new text image method: GetShearY()
+[ADDED] a new text image method: SetShear(x, y)
+[ADDED] a new text image method: GetShear()
+
+[FIXED] an error that ocurred after pressing enter on a multiline text input while all of it's text was selected
+[FIXED] text in a single line text input always being cleared when the enter key was pressed
+[FIXED] a syntax error in both default skin files that caused imaged to draw incorrect when they had a custom color
+[FIXED] an error that would occur when a tab button was being drawn while no font had been set
+[FIXED] textinput.OnTextChanged being called to early when using the backspace key or the delete key
+
+[CHANGED] tab buttons no longer calculate their width from within their internal drawing function and should be sized externally from now on
+[CHANGED] the text object now calculates what characters should be drawn while in a list object to improve performance with list objects that contain large amounts of text
+
+================================================
 Version 0.9.4.1 - Alpha (October 25 - 2012)
 ================================================
 [ADDED] support for using the delete key in text input objects

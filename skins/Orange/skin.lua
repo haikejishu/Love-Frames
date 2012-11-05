@@ -441,17 +441,24 @@ end
 --]]---------------------------------------------------------
 function skin.DrawImage(object)
 	
-	local x     = object:GetX()
-	local y     = object:GetY()
-	local image = object.image
-	local color = object.imagecolor
+	local x           = object:GetX()
+	local y           = object:GetY()
+	local orientation = object:GetOrientation()
+	local scalex      = object:GetScaleX()
+	local scaley      = object:GetScaleY()
+	local offsetx     = object:GetOffsetX()
+	local offsety     = object:GetOffsetY()
+	local shearx      = object:GetShearX()
+	local sheary      = object:GetShearY()
+	local image       = object.image
+	local color       = object.imagecolor
 	
 	if color then
 		love.graphics.setColor(unpack(color))
-		love.graphics.draw(image)
+		love.graphics.draw(image, x, y, orientation, scalex, scaley, offsetx, offsety, shearx, sheary)
 	else
 		love.graphics.setColor(255, 255, 255, 255)
-		love.graphics.draw(image, x, y)
+		love.graphics.draw(image, x, y, orientation, scalex, scaley, offsetx, offsety, shearx, sheary)
 	end
 	
 end
@@ -766,6 +773,18 @@ function skin.DrawTabButton(object)
 	if image then
 		imagewidth = image:getWidth()
 		imageheight = image:getHeight()
+		object.width = imagewidth + 15 + twidth
+		if imageheight > theight then
+			parent:SetTabHeight(imageheight + 5)
+			object.height = imageheight + 5
+		else
+			parent:SetTabHeight(theight + 5)
+			object.height = theight + 5
+		end
+	else
+		object.width = 10 + twidth
+		parent:SetTabHeight(theight + 5)
+		object.height = theight + 5
 	end
 	
 	if tabnumber == ptabnumber then

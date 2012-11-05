@@ -12,22 +12,23 @@ tabs = class("tabpanel", base)
 --]]---------------------------------------------------------
 function tabs:initialize()
 	
-	self.type           = "tabs"
-	self.width          = 100
-	self.height         = 50
-	self.clickx         = 0
-	self.clicky         = 0
-	self.offsetx        = 0
-	self.tab            = 1
-	self.tabnumber      = 1
-	self.padding        = 5
-	self.tabheight      = 25
-	self.autosize       = true
-	self.internal       = false
-	self.tooltipfont    = loveframes.basicfontsmall
-	self.tabs           = {}
-	self.internals      = {}
-	self.children       = {}
+	self.type              = "tabs"
+	self.width             = 100
+	self.height            = 50
+	self.clickx            = 0
+	self.clicky            = 0
+	self.offsetx           = 0
+	self.tab               = 1
+	self.tabnumber         = 1
+	self.padding           = 5
+	self.tabheight         = 25
+	self.previoustabheight = 25
+	self.autosize          = true
+	self.internal          = false
+	self.tooltipfont       = loveframes.basicfontsmall
+	self.tabs              = {}
+	self.internals         = {}
+	self.children          = {}
 	
 end
 
@@ -46,20 +47,20 @@ function tabs:update(dt)
 		end
 	end
 	
-	local x, y          = love.mouse.getPosition()
-	local tabheight     = self.tabheight
-	local padding       = self.padding
-	local autosize      = self.autosize
-	local tabheight     = self.tabheight
-	local padding       = self.padding
-	local autosize      = self.autosize
-	local children      = self.children
-	local numchildren   = #children
-	local internals     = self.internals
-	local tab           = self.tab
-	local parent        = self.parent
-	local base          = loveframes.base
-	local update        = self.Update
+	local x, y              = love.mouse.getPosition()
+	local tabheight         = self.tabheight
+	local padding           = self.padding
+	local autosize          = self.autosize
+	local padding           = self.padding
+	local autosize          = self.autosize
+	local children          = self.children
+	local numchildren       = #children
+	local internals         = self.internals
+	local tab               = self.tab
+	local parent            = self.parent
+	local autosize          = self.autosize
+	local base              = loveframes.base
+	local update            = self.Update
 	
 	-- move to parent if there is a parent
 	if parent ~= base then
@@ -251,23 +252,19 @@ end
 --]]---------------------------------------------------------
 function tabs:AddTab(name, object, tip, image)
 
-	local tabheight  = self.tabheight
-	local padding    = self.padding
-	local autosize   = self.autosize
-	local retainsize = object.retainsize
-	local tabnumber  = self.tabnumber
-	local internals  = self.internals
+	local padding   = self.padding
+	local autosize  = self.autosize
+	local tabnumber = self.tabnumber
+	local tabheight = self.tabheight
+	local internals = self.internals
 	
 	object:Remove()
 	object.parent = self
 	object.staticx = 0
 	object.staticy = 0
-	object:SetWidth(self.width - 10)
-	object:SetHeight(self.height - 35)
 	
 	table.insert(self.children, object)
 	internals[tabnumber] = tabbutton:new(self, name, tabnumber, tip, image)
-	internals[tabnumber].height = self.tabheight
 	self.tabnumber = tabnumber + 1
 	
 	for k, v in ipairs(internals) do
@@ -434,9 +431,25 @@ end
 --]]---------------------------------------------------------
 function tabs:SetTabHeight(height)
 
-	local internals = self.internals
+	local autosize          = self.autosize
+	local padding           = self.padding
+	local previoustabheight = self.previoustabheight
+	local children          = self.children
+	local internals         = self.internals
 	
 	self.tabheight = height
+	
+	local tabheight = self.tabheight
+	
+	if tabheight ~= previoustabheight then
+		for k, v in ipairs(children) do
+			local retainsize = v.retainsize
+			if autosize and not retainsize then
+				v:SetSize(self.width - padding*2, (self.height - tabheight) - padding*2)
+			end
+		end
+		self.previoustabheight = tabheight
+	end
 	
 	for k, v in ipairs(internals) do
 		if v.type == "tabbutton" then

@@ -13,6 +13,7 @@ tabbutton = class("tabbutton", base)
 function tabbutton:initialize(parent, text, tabnumber, tip, image)
 
 	self.type           = "tabbutton"
+	self.font           = loveframes.smallfont
 	self.text           = text
 	self.tabnumber      = tabnumber
 	self.parent         = parent
@@ -83,8 +84,6 @@ function tabbutton:draw()
 		return
 	end
 	
-	local font          = love.graphics.getFont()
-	local width         = font:getWidth(self.text)
 	local image         = self.image
 	local skins         = loveframes.skins.available
 	local skinindex     = loveframes.config["ACTIVESKIN"]
@@ -102,13 +101,6 @@ function tabbutton:draw()
 		draw(self)
 	else
 		drawfunc(self)
-	end
-	
-	if image then
-		local imagewidth = image:getWidth()
-		self.width = imagewidth + 15 + width
-	else
-		self.width = 10 + width
 	end
 	
 end
