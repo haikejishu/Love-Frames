@@ -204,8 +204,8 @@ end
 --]]---------------------------------------------------------
 function image:SetScale(scalex, scaley)
 
-	self.scalex = x
-	self.scaley = y
+	self.scalex = scalex
+	self.scaley = scaley
 	
 end
 

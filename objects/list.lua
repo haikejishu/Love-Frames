@@ -12,25 +12,27 @@ list = class("list", base)
 --]]---------------------------------------------------------
 function list:initialize()
 	
-	self.type           = "list"
-	self.display        = "vertical"
-	self.width          = 300
-	self.height         = 150
-	self.clickx         = 0
-	self.clicky         = 0
-	self.padding        = 0
-	self.spacing        = 0
-	self.offsety        = 0
-	self.offsetx        = 0
-	self.extrawidth     = 0
-	self.extraheight    = 0
-	self.internal       = false
-	self.hbar           = false
-	self.vbar           = false
-	self.autoscroll     = false
-	self.internals      = {}
-	self.children       = {}
-	self.OnScroll       = nil
+	self.type                   = "list"
+	self.display                = "vertical"
+	self.width                  = 300
+	self.height                 = 150
+	self.clickx                 = 0
+	self.clicky                 = 0
+	self.padding                = 0
+	self.spacing                = 0
+	self.offsety                = 0
+	self.offsetx                = 0
+	self.extrawidth             = 0
+	self.extraheight            = 0
+	self.buttonscrollamount     = 0.10
+	self.mousewheelscrollamount = 5
+	self.internal               = false
+	self.hbar                   = false
+	self.vbar                   = false
+	self.autoscroll             = false
+	self.internals              = {}
+	self.children               = {}
+	self.OnScroll               = nil
 	
 end
 
@@ -157,12 +159,13 @@ function list:mousepressed(x, y, button)
 		return
 	end
 	
-	local toplist 	= self:IsTopList()
-	local hover 	= self.hover
-	local vbar 		= self.vbar
-	local hbar 		= self.hbar
-	local children 	= self.children
-	local internals = self.internals
+	local toplist 	   = self:IsTopList()
+	local hover 	   = self.hover
+	local vbar 		   = self.vbar
+	local hbar 		   = self.hbar
+	local scrollamount = self.mousewheelscrollamount
+	local children 	   = self.children
+	local internals    = self.internals
 	
 	if hover and button == "l" then
 		
@@ -181,9 +184,9 @@ function list:mousepressed(x, y, button)
 			local bar = self:GetScrollBar()
 			
 			if button == "wu" then
-				bar:Scroll(-5)
+				bar:Scroll(-scrollamount)
 			elseif button == "wd" then
-				bar:Scroll(5)
+				bar:Scroll(scrollamount)
 			end
 			
 		end
@@ -554,5 +557,47 @@ function list:SetAutoScroll(bool)
 	if scrollbar then
 		scrollbar.autoscroll = bool
 	end
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetButtonScrollAmount(speed)
+	- desc: sets the scroll amount of the object's scrollbar
+			buttons
+--]]---------------------------------------------------------
+function list:SetButtonScrollAmount(amount)
+
+	self.buttonscrollamount = amount
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetButtonScrollAmount()
+	- desc: gets the scroll amount of the object's scrollbar
+			buttons
+--]]---------------------------------------------------------
+function list:GetButtonScrollAmount()
+
+	return self.buttonscrollamount
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetMouseWheelScrollAmount(amount)
+	- desc: sets the scroll amount of the mouse wheel
+--]]---------------------------------------------------------
+function list:SetMouseWheelScrollAmount(amount)
+
+	self.mousewheelscrollamount = amount
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetMouseWheelScrollAmount()
+	- desc: gets the scroll amount of the mouse wheel
+--]]---------------------------------------------------------
+function list:GetButtonScrollAmount()
+
+	return self.mousewheelscrollamount
 	
 end

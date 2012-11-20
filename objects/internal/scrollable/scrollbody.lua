@@ -44,7 +44,7 @@ function scrollbody:initialize(parent, bartype)
 			upbutton.staticx = 0 + self.width - upbutton.width
 			upbutton.staticy = 0
 			if object.down and object.hover then
-				bar:Scroll(-0.10)
+				bar:Scroll(-self.parent.buttonscrollamount)
 			end
 		end
 			
@@ -54,7 +54,7 @@ function scrollbody:initialize(parent, bartype)
 			downbutton.staticx = 0 + self.width - downbutton.width
 			downbutton.staticy = 0 + self.height - downbutton.height
 			if object.down and object.hover then
-				bar:Scroll(0.10)
+				bar:Scroll(self.parent.buttonscrollamount)
 			end
 		end
 		
@@ -69,7 +69,7 @@ function scrollbody:initialize(parent, bartype)
 			leftbutton.staticx = 0
 			leftbutton.staticy = 0
 			if object.down and object.hover then
-				bar:Scroll(-0.10)
+				bar:Scroll(-self.parent.buttonscrollamount)
 			end
 		end
 			
@@ -79,7 +79,7 @@ function scrollbody:initialize(parent, bartype)
 			rightbutton.staticx = 0 + self.width - rightbutton.width
 			rightbutton.staticy = 0
 			if object.down and object.hover then
-				bar:Scroll(0.10)
+				bar:Scroll(self.parent.buttonscrollamount)
 			end
 		end
 		

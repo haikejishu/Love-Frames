@@ -1034,3 +1034,23 @@ function base:GetDrawOrder()
 	return self.draworder
 	
 end
+
+--[[---------------------------------------------------------
+	- func: SetProperty(name, value)
+	- desc: sets a property on the object
+--]]---------------------------------------------------------
+function base:SetProperty(name, value)
+
+	self[name] = value
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetProperty(name)
+	- desc: gets the value of an object's property
+--]]---------------------------------------------------------
+function base:GetProperty(name)
+
+	return self[name]
+	
+end

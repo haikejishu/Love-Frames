@@ -8,27 +8,22 @@ loveframes = {}
 
 -- library info
 loveframes.info                      = {}
-loveframes.info.author               = "Nikolai Resokav"
-loveframes.info.version              = "0.9.4.2"
+loveframes.info.author               = "Kenny Shields"
+loveframes.info.version              = "0.9.4.3"
 loveframes.info.stage                = "Alpha"
 
 -- library configurations
 loveframes.config                    = {}
-loveframes.config["DIRECTORY"]       = "libraries/loveframes"
+loveframes.config["DIRECTORY"]       = ""
 loveframes.config["DEFAULTSKIN"]     = "Blue"
 loveframes.config["ACTIVESKIN"]      = "Blue"
 loveframes.config["INDEXSKINIMAGES"] = true
-loveframes.config["DEBUG"]           = true
+loveframes.config["DEBUG"]           = false
 
 -- misc library vars
 loveframes.drawcount                 = 0
-loveframes.lastselection             = 0
-loveframes.selectiondelay            = 0.05
-loveframes.selectionstartdelay       = 0.50
-loveframes.selecting                 = false
 loveframes.hoverobject               = false
 loveframes.modalobject               = false
-loveframes.selectedobject            = false
 loveframes.basicfont                 = love.graphics.newFont(12)
 loveframes.basicfontsmall            = love.graphics.newFont(10)
 
@@ -42,35 +37,35 @@ function loveframes.load()
 	local dir = loveframes.config["DIRECTORY"]
 	
 	-- require the internal base libraries
-	require(dir .. "/third-party/middleclass")
-	require(dir .. "/util")
-	require(dir .. "/skins")
-	require(dir .. "/templates")
-	require(dir .. "/debug")
+	require(dir .. ".third-party.middleclass")
+	require(dir .. ".util")
+	require(dir .. ".skins")
+	require(dir .. ".templates")
+	require(dir .. ".debug")
 	
 	-- create a list of gui objects and skins
-	local objects = loveframes.util.GetDirContents(dir .. "/objects")
-	local skins = loveframes.util.GetDirContents(dir .. "/skins")
-	local templates = loveframes.util.GetDirContents(dir .. "/templates")
+	local objects   = loveframes.util.GetDirectoryContents(dir .. "/objects")
+	local skins     = loveframes.util.GetDirectoryContents(dir .. "/skins")
+	local templates = loveframes.util.GetDirectoryContents(dir .. "/templates")
 	
 	-- loop through a list of all gui objects and require them
 	for k, v in ipairs(objects) do
 		if v.extension == "lua" then
-			require(v.path .. "/" ..v.name)
+			require(v.requirepath)
 		end
 	end
 	
 	-- loop through a list of all gui templates and require them
 	for k, v in ipairs(templates) do
 		if v.extension == "lua" then
-			require(v.path .. "/" ..v.name)
+			require(v.requirepath)
 		end
 	end
 	
 	-- loop through a list of all gui skins and require them
 	for k, v in ipairs(skins) do
 		if v.extension == "lua" then
-			require(v.path .. "/" ..v.name)
+			require(v.requirepath)
 		end
 	end
 	

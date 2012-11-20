@@ -1,4 +1,20 @@
 ================================================
+Version 0.9.4.3 - Alpha (November 20 - 2012)
+================================================
+[ADDED] a new base method: SetProperty(name, value)
+[ADDED] a new base method: GetProperty(name)
+[ADDED] a new list method: SetButtonScrollAmount(amount)
+[ADDED] a new list method: GetButtonScrollAmount()
+[ADDED] a new list method: SetMouseWheelScrollAmount(amount)
+[ADDED] a new list method: GetMouseWheelScrollAmount()
+
+[FIXED] a typo in the changelog
+[FIXED] image:SetScale(scalex, scaley) not working correctly
+
+[CHANGED] loveframes.util.GetDirContents(dir, t) to loveframes.util.GetDirectoryContents(dir, t)
+[CHANGED] arguments passed to require() to use "." instead of "/" which should fix file loading issues on certain systems
+
+================================================
 Version 0.9.4.2 - Alpha (November 5 - 2012)
 ================================================
 [ADDED] a new text object method: SetIgnoreNewlines(bool)
@@ -28,7 +44,7 @@ Version 0.9.4.2 - Alpha (November 5 - 2012)
 [FIXED] text in a single line text input always being cleared when the enter key was pressed
 [FIXED] a syntax error in both default skin files that caused imaged to draw incorrect when they had a custom color
 [FIXED] an error that would occur when a tab button was being drawn while no font had been set
-[FIXED] textinput.OnTextChanged being called to early when using the backspace key or the delete key
+[FIXED] textinput.OnTextChanged being called too early when using the backspace key or the delete key
 
 [CHANGED] tab buttons no longer calculate their width from within their internal drawing function and should be sized externally from now on
 [CHANGED] the text object now calculates what characters should be drawn while in a list object to improve performance with list objects that contain large amounts of text

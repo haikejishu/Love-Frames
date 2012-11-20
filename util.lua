@@ -126,35 +126,16 @@ function loveframes.util.GetAllObjects(object, t)
 end
 
 --[[---------------------------------------------------------
-	- func: GetDirContents(directory, table)
+	- func: GetDirectoryContents(directory, table)
 	- desc: gets the contents of a directory and all of
 			it's subdirectories
 --]]---------------------------------------------------------
-function loveframes.util.GetDirContents(dir, t)
+function loveframes.util.GetDirectoryContents(dir, t)
 
-	local dir = dir
-	local t = t or {}
+	local dir   = dir
+	local t     = t or {}
 	local files = love.filesystem.enumerate(dir)
-	local dirs = {}
-	
-	-- local function to restore a string to it's original state after being split
-	local function restore(t)
-	
-		local s = ""
-		
-		t[#t] = nil
-		
-		for k, v in ipairs(t) do
-			if k ~= #t then
-				s = s .. v .. "."
-			else
-				s = s .. v
-			end
-		end
-		
-		return s
-		
-	end
+	local dirs  = {}
 	
 	for k, v in ipairs(files) do
 	
@@ -163,23 +144,25 @@ function loveframes.util.GetDirContents(dir, t)
 		if isdir == true then
 			table.insert(dirs, dir.. "/" ..v)
 		else
-			local parts = loveframes.util.SplitString(v, "([.])")
+			local parts     = loveframes.util.SplitString(v, "([.])")
 			local extension = parts[#parts]
-			local name = restore(parts)
-			table.insert(t, {path = dir, fullpath = dir.. "/" ..v, name = name, extension = extension})
+			parts[#parts]   = nil
+			local name      = table.concat(parts)
+			table.insert(t, {path = dir, fullpath = dir.. "/" ..v, requirepath = dir .. "." ..name, name = name, extension = extension})
 		end
 		
 	end
 	
 	if #dirs > 0 then
 		for k, v in ipairs(dirs) do
-			t = loveframes.util.GetDirContents(v, t)
+			t = loveframes.util.GetDirectoryContents(v, t)
 		end
 	end
 	
 	return t
 	
 end
+
 
 --[[---------------------------------------------------------
 	- func: Round(num, idp)
