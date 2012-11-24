@@ -4,25 +4,27 @@
 --]]------------------------------------------------
 
 -- multichoice class
-multichoice = class("multichoice", base)
+local newobject = loveframes.NewObject("multichoice", "loveframes_object_multichoice", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-function multichoice:initialize()
+function newobject:initialize()
 
-	self.type               = "multichoice"
-	self.choice             = ""
-	self.text               = "Select an option"
-	self.width              = 200
-	self.height             = 25
-	self.listpadding        = 0
-	self.listspacing        = 0
-	self.haslist            = false
-	self.internal           = false
-	self.choices            = {}
-	self.listheight         = nil
+	self.type                   = "multichoice"
+	self.choice                 = ""
+	self.text                   = "Select an option"
+	self.width                  = 200
+	self.height                 = 25
+	self.listpadding            = 0
+	self.listspacing            = 0
+	self.buttonscrollamount     = 0.10
+	self.mousewheelscrollamount = 5
+	self.haslist                = false
+	self.internal               = false
+	self.choices                = {}
+	self.listheight             = nil
 	
 end
 
@@ -30,7 +32,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the object
 --]]---------------------------------------------------------
-function multichoice:update(dt)
+function newobject:update(dt)
 
 	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -63,7 +65,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function multichoice:draw()
+function newobject:draw()
 	
 	local visible = self.visible
 	
@@ -95,7 +97,7 @@ end
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
-function multichoice:mousepressed(x, y, button)
+function newobject:mousepressed(x, y, button)
 	
 	local visible = self.visible
 	
@@ -115,7 +117,7 @@ function multichoice:mousepressed(x, y, button)
 		end
 		
 		self.haslist = true
-		self.list = multichoicelist:new(self)
+		self.list = loveframes.objects["multichoicelist"]:new(self)
 		loveframes.hoverobject = self
 		
 	end
@@ -126,7 +128,7 @@ end
 	- func: mousereleased(x, y, button)
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
-function multichoice:mousereleased(x, y, button)
+function newobject:mousereleased(x, y, button)
 	
 	local visible = self.visible
 	
@@ -140,7 +142,7 @@ end
 	- func: AddChoice(choice)
 	- desc: adds a choice to the current list of choices
 --]]---------------------------------------------------------
-function multichoice:AddChoice(choice)
+function newobject:AddChoice(choice)
 
 	local choices = self.choices
 	table.insert(choices, choice)
@@ -151,7 +153,7 @@ end
 	- func: SetChoice(choice)
 	- desc: sets the current choice
 --]]---------------------------------------------------------
-function multichoice:SetChoice(choice)
+function newobject:SetChoice(choice)
 
 	self.choice = choice
 	
@@ -161,7 +163,7 @@ end
 	- func: SelectChoice(choice)
 	- desc: selects a choice
 --]]---------------------------------------------------------
-function multichoice:SelectChoice(choice)
+function newobject:SelectChoice(choice)
 
 	local onchoiceselected = self.OnChoiceSelected
 	
@@ -178,7 +180,7 @@ end
 	- func: SetListHeight(height)
 	- desc: sets the height of the list of choices
 --]]---------------------------------------------------------
-function multichoice:SetListHeight(height)
+function newobject:SetListHeight(height)
 
 	self.listheight = height
 	
@@ -188,7 +190,7 @@ end
 	- func: SetPadding(padding)
 	- desc: sets the padding of the list of choices
 --]]---------------------------------------------------------
-function multichoice:SetPadding(padding)
+function newobject:SetPadding(padding)
 
 	self.listpadding = padding
 	
@@ -198,7 +200,7 @@ end
 	- func: SetSpacing(spacing)
 	- desc: sets the spacing of the list of choices
 --]]---------------------------------------------------------
-function multichoice:SetSpacing(spacing)
+function newobject:SetSpacing(spacing)
 
 	self.listspacing = spacing
 	
@@ -208,7 +210,7 @@ end
 	- func: GetValue()
 	- desc: gets the value (choice) of the object
 --]]---------------------------------------------------------
-function multichoice:GetValue()
+function newobject:GetValue()
 
 	return self.choice
 	
@@ -218,7 +220,7 @@ end
 	- func: GetChoice()
 	- desc: gets the current choice (same as get value)
 --]]---------------------------------------------------------
-function multichoice:GetChoice()
+function newobject:GetChoice()
 
 	return self.choice
 	
@@ -228,7 +230,7 @@ end
 	- func: SetText(text)
 	- desc: sets the object's text
 --]]---------------------------------------------------------
-function multichoice:SetText(text)
+function newobject:SetText(text)
 
 	self.text = text
 	
@@ -238,8 +240,50 @@ end
 	- func: GetText()
 	- desc: gets the object's text
 --]]---------------------------------------------------------
-function multichoice:GetText()
+function newobject:GetText()
 
 	return self.text
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetButtonScrollAmount(speed)
+	- desc: sets the scroll amount of the object's scrollbar
+			buttons
+--]]---------------------------------------------------------
+function newobject:SetButtonScrollAmount(amount)
+
+	self.buttonscrollamount = amount
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetButtonScrollAmount()
+	- desc: gets the scroll amount of the object's scrollbar
+			buttons
+--]]---------------------------------------------------------
+function newobject:GetButtonScrollAmount()
+
+	return self.buttonscrollamount
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetMouseWheelScrollAmount(amount)
+	- desc: sets the scroll amount of the mouse wheel
+--]]---------------------------------------------------------
+function newobject:SetMouseWheelScrollAmount(amount)
+
+	self.mousewheelscrollamount = amount
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetMouseWheelScrollAmount()
+	- desc: gets the scroll amount of the mouse wheel
+--]]---------------------------------------------------------
+function newobject:GetButtonScrollAmount()
+
+	return self.mousewheelscrollamount
 	
 end

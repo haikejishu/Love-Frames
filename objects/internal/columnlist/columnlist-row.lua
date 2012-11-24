@@ -4,13 +4,13 @@
 --]]------------------------------------------------
 
 -- columnlistrow class
-columnlistrow = class("columnlistrow", base)
+local newobject = loveframes.NewObject("columnlistrow", "loveframes_object_columnlistrow", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: intializes the element
 --]]---------------------------------------------------------
-function columnlistrow:initialize(parent, data)
+function newobject:initialize(parent, data)
 
 	self.type           = "columnlistrow"
 	self.parent         = parent
@@ -32,7 +32,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the object
 --]]---------------------------------------------------------
-function columnlistrow:update(dt)
+function newobject:update(dt)
 	
 	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -65,7 +65,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function columnlistrow:draw()
+function newobject:draw()
 
 	local visible = self.visible
 	
@@ -97,7 +97,7 @@ end
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
-function columnlistrow:mousepressed(x, y, button)
+function newobject:mousepressed(x, y, button)
 
 	if not self.visible then
 		return
@@ -119,7 +119,7 @@ end
 	- func: mousereleased(x, y, button)
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
-function columnlistrow:mousereleased(x, y, button)
+function newobject:mousereleased(x, y, button)
 
 	if not self.visible then
 		return
@@ -143,7 +143,7 @@ end
 	- func: SetTextPos(x, y)
 	- desc: sets the positions of the object's text
 --]]---------------------------------------------------------
-function columnlistrow:SetTextPos(x, y)
+function newobject:SetTextPos(x, y)
 
 	self.textx = x
 	self.texty = y
@@ -154,7 +154,7 @@ end
 	- func: GetTextX()
 	- desc: gets the object's text x position
 --]]---------------------------------------------------------
-function columnlistrow:GetTextX()
+function newobject:GetTextX()
 
 	return self.textx
 
@@ -164,7 +164,7 @@ end
 	- func: GetTextY()
 	- desc: gets the object's text y position
 --]]---------------------------------------------------------
-function columnlistrow:GetTextY()
+function newobject:GetTextY()
 
 	return self.texty
 
@@ -174,7 +174,7 @@ end
 	- func: SetFont(font)
 	- desc: sets the object's font
 --]]---------------------------------------------------------
-function columnlistrow:SetFont(font)
+function newobject:SetFont(font)
 
 	self.font = font
 
@@ -184,7 +184,7 @@ end
 	- func: GetFont()
 	- desc: gets the object's font
 --]]---------------------------------------------------------
-function columnlistrow:GetFont()
+function newobject:GetFont()
 
 	return self.font
 
@@ -194,7 +194,7 @@ end
 	- func: GetColorIndex()
 	- desc: gets the object's color index
 --]]---------------------------------------------------------
-function columnlistrow:GetColorIndex()
+function newobject:GetColorIndex()
 
 	return self.colorindex
 
@@ -204,7 +204,7 @@ end
 	- func: GetColumnData()
 	- desc: gets the object's column data
 --]]---------------------------------------------------------
-function columnlistrow:GetColumnData()
+function newobject:GetColumnData()
 
 	return self.columndata
 	

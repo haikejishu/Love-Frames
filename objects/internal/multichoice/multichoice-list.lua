@@ -4,37 +4,39 @@
 --]]------------------------------------------------
 
 -- multichoicelist class
-multichoicelist = class("multichoicelist", base)
+local newobject = loveframes.NewObject("multichoicelist", "loveframes_object_multichoicelist", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-function multichoicelist:initialize(object)
+function newobject:initialize(object)
 	
-	self.type           = "multichoice-list"
-	self.parent         = loveframes.base
-	self.list           = object
-	self.x              = object.x
-	self.y              = object.y + self.list.height
-	self.width          = self.list.width
-	self.height         = 0
-	self.clickx         = 0
-	self.clicky         = 0
-	self.padding        = self.list.listpadding
-	self.spacing        = self.list.listspacing
-	self.offsety        = 0
-	self.offsetx        = 0
-	self.extrawidth     = 0
-	self.extraheight    = 0
-	self.canremove      = false
-	self.internal       = true
-	self.vbar           = false
-	self.children       = {}
-	self.internals      = {}
+	self.type                   = "multichoice-list"
+	self.parent                 = loveframes.base
+	self.list                   = object
+	self.x                      = object.x
+	self.y                      = object.y + self.list.height
+	self.width                  = self.list.width
+	self.height                 = 0
+	self.clickx                 = 0
+	self.clicky                 = 0
+	self.padding                = self.list.listpadding
+	self.spacing                = self.list.listspacing
+	self.buttonscrollamount     = object.buttonscrollamount
+	self.mousewheelscrollamount = object.mousewheelscrollamount
+	self.offsety                = 0
+	self.offsetx                = 0
+	self.extrawidth             = 0
+	self.extraheight            = 0
+	self.canremove              = false
+	self.internal               = true
+	self.vbar                   = false
+	self.children               = {}
+	self.internals              = {}
 	
 	for k, v in ipairs(object.choices) do
-		local row = multichoicerow:new()
+		local row = loveframes.objects["multichoicerow"]:new()
 		row:SetText(v)
 		self:AddItem(row)
 	end
@@ -50,7 +52,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the object
 --]]---------------------------------------------------------
-function multichoicelist:update(dt)
+function newobject:update(dt)
 	
 	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -114,7 +116,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function multichoicelist:draw()
+function newobject:draw()
 
 	local visible      = self.visible
 	
@@ -170,7 +172,7 @@ end
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
-function multichoicelist:mousepressed(x, y, button)
+function newobject:mousepressed(x, y, button)
 	
 	local visible = self.visible
 	
@@ -182,6 +184,7 @@ function multichoicelist:mousepressed(x, y, button)
 	local toplist   = self:IsTopList()
 	local internals = self.internals
 	local children  = self.children
+	local scrollamount = self.mousewheelscrollamount
 	
 	if not selfcol and self.canremove and button == "l" then
 		self:Close()
@@ -190,9 +193,9 @@ function multichoicelist:mousepressed(x, y, button)
 	if self.vbar and toplist then
 	
 		if button == "wu" then
-			internals[1].internals[1].internals[1]:Scroll(-5)
+			internals[1].internals[1].internals[1]:Scroll(-scrollamount)
 		elseif button == "wd" then
-			internals[1].internals[1].internals[1]:Scroll(5)
+			internals[1].internals[1].internals[1]:Scroll(scrollamount)
 		end
 		
 	end
@@ -211,7 +214,7 @@ end
 	- func: mousereleased(x, y, button)
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
-function multichoicelist:mousereleased(x, y, button)
+function newobject:mousereleased(x, y, button)
 	
 	local visible = self.visible
 	
@@ -238,7 +241,7 @@ end
 	- func: AddItem(object)
 	- desc: adds an item to the object
 --]]---------------------------------------------------------
-function multichoicelist:AddItem(object)
+function newobject:AddItem(object)
 	
 	if object.type ~= "multichoice-row" then
 		return
@@ -257,7 +260,7 @@ end
 	- func: RemoveItem(object)
 	- desc: removes an item from the object
 --]]---------------------------------------------------------
-function multichoicelist:RemoveItem(object)
+function newobject:RemoveItem(object)
 
 	local children = self.children
 	
@@ -278,7 +281,7 @@ end
 	- func: CalculateSize()
 	- desc: calculates the size of the object's children
 --]]---------------------------------------------------------
-function multichoicelist:CalculateSize()
+function newobject:CalculateSize()
 
 	self.height = self.padding
 	
@@ -313,7 +316,7 @@ function multichoicelist:CalculateSize()
 		self.extraheight = self.itemheight - height
 			
 		if not vbar then
-			local scroll = scrollbody:new(self, "vertical")
+			local scroll = loveframes.objects["scrollbody"]:new(self, "vertical")
 			table.insert(self.internals, scroll)
 			self.vbar = true
 		end
@@ -334,7 +337,7 @@ end
 	- func: RedoLayout()
 	- desc: used to redo the layour of the object
 --]]---------------------------------------------------------
-function multichoicelist:RedoLayout()
+function newobject:RedoLayout()
 
 	local children = self.children
 	local padding  = self.padding
@@ -370,7 +373,7 @@ end
 	- func: SetPadding(amount)
 	- desc: sets the object's padding
 --]]---------------------------------------------------------
-function multichoicelist:SetPadding(amount)
+function newobject:SetPadding(amount)
 
 	self.padding = amount
 	
@@ -380,13 +383,13 @@ end
 	- func: SetSpacing(amount)
 	- desc: sets the object's spacing
 --]]---------------------------------------------------------
-function multichoicelist:SetSpacing(amount)
+function newobject:SetSpacing(amount)
 
 	self.spacing = amount
 	
 end
 
-function multichoicelist:Close()
+function newobject:Close()
 
 	self:Remove()
 	self.list.haslist = false

@@ -6,7 +6,8 @@
 -- debug library
 loveframes.debug = {}
 
-local font       = love.graphics.newFont(10)
+local font       = loveframes.basicfontsmall
+local centerarea = {210, 5, 585, 590}
 local loremipsum = 
 [[Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean laoreet massa mattis tortor faucibus non congue mauris mattis. Aliquam ultricies scelerisque mi, sit amet tempor metus pharetra vel. Etiam eu arcu a dolor porttitor condimentum in malesuada urna. Mauris vel nulla mi, quis aliquet neque. In aliquet turpis eget purus malesuada tincidunt. Donec rutrum purus vel diam suscipit vehicula. Cras sem nibh, tempus at dictum non, consequat non justo. In sed tellus nec orci scelerisque scelerisque id vitae leo. Maecenas pharetra, nibh eget commodo gravida, augue nisl blandit dui, ut malesuada augue dui nec erat. Phasellus nec mauris pharetra metus iaculis viverra sit amet ut tortor. Duis et viverra magna. Nunc orci dolor, placerat a iaculis non, mattis sed nibh. 
  
@@ -52,72 +53,73 @@ function loveframes.debug.draw()
 		end
 	end
 	
-	-- font for debug text
+	-- main font
 	love.graphics.setFont(font)
 	
-	love.graphics.setColor(0, 0, 0, 150)
-	love.graphics.rectangle("fill", 5, 5, 200, 250)
+	-- main box
+	love.graphics.setColor(0, 0, 0, 200)
+	love.graphics.rectangle("fill", 5, 30, 200, 220)
 	
-	love.graphics.setColor(0, 0, 0, 50)
-	love.graphics.rectangle("fill", 10, 10, 190, 20)
+	-------------------------------------------------------
+	-- library information section
+	-------------------------------------------------------
 	love.graphics.setColor(255, 0, 0, 255)
-	love.graphics.print("Library Information", 15, 15)
+	love.graphics.print("Library Information", 10, 35)
 	
 	love.graphics.setColor(255, 255, 255, 255)
-	love.graphics.print("Author: " ..author, 15, 30)
-	love.graphics.print("Version: " ..version, 15, 40)
-	love.graphics.print("Stage: " ..stage, 15, 50)
-	love.graphics.print("Base Directory: " ..basedir, 15, 60)
+	love.graphics.print("Author: " ..author, 15, 50)
+	love.graphics.print("Version: " ..version, 15, 60)
+	love.graphics.print("Stage: " ..stage, 15, 70)
+	love.graphics.print("Base Directory: " ..basedir, 15, 80)
 	
-	-- object information box
-	love.graphics.setColor(0, 0, 0, 50)
-	love.graphics.rectangle("fill", 10, 80, 190, 20)
+	-------------------------------------------------------
+	-- object information section
+	-------------------------------------------------------
 	love.graphics.setColor(255, 0, 0, 255)
-	love.graphics.print("Object Information", 15, 85)
+	love.graphics.print("Object Information", 10, 95)
 	
 	love.graphics.setColor(255, 255, 255, 255)
 	
 	if #cols > 0 then
-		love.graphics.print("Type: " ..topcol.type, 15, 100)
+		love.graphics.print("Type: " ..topcol.type, 15, 110)
 	else
-		love.graphics.print("Type: none", 10, 100)
+		love.graphics.print("Type: none", 10, 120)
 	end
 	
 	if topcol.children then
-		love.graphics.print("# of children: " .. #topcol.children, 15, 110)
+		love.graphics.print("# of children: " .. #topcol.children, 15, 120)
 	else
-		love.graphics.print("# of children: 0", 15, 110)
+		love.graphics.print("# of children: 0", 15, 120)
 	end
 	
 	if topcol.internals then
-		love.graphics.print("# of internals: " .. #topcol.internals, 15, 120)
+		love.graphics.print("# of internals: " .. #topcol.internals, 15, 130)
 	else
-		love.graphics.print("# of internals: 0", 15, 120)
+		love.graphics.print("# of internals: 0", 15, 130)
 	end
 	
-	love.graphics.print("X: " ..topcol.x, 15, 130)
-	love.graphics.print("Y: " ..topcol.y, 15, 140)
-	love.graphics.print("Width: " ..topcol.width, 15, 150)
-	love.graphics.print("Height: " ..topcol.height, 15, 160)
+	love.graphics.print("X: " ..topcol.x, 15, 140)
+	love.graphics.print("Y: " ..topcol.y, 15, 150)
+	love.graphics.print("Width: " ..topcol.width, 15, 160)
+	love.graphics.print("Height: " ..topcol.height, 15, 170)
 	
-	-- Miscellaneous box
-	love.graphics.setColor(0, 0, 0, 50)
-	love.graphics.rectangle("fill", 10, 190, 190, 20)
+	-------------------------------------------------------
+	-- miscellaneous section
+	-------------------------------------------------------
 	love.graphics.setColor(255, 0, 0, 255)
-	love.graphics.print("Miscellaneous", 15, 195)
+	love.graphics.print("Miscellaneous", 10, 185)
 	
 	love.graphics.setColor(255, 255, 255, 255)
-	
-	love.graphics.print("LOVE Version: " ..loveversion, 15, 210)
-	love.graphics.print("FPS: " ..fps, 15, 220)
-	love.graphics.print("Delta Time: " ..deltatime, 15, 230)
-	love.graphics.print("Total Objects: " ..#objects, 15, 240)
+	love.graphics.print("LOVE Version: " ..loveversion, 15, 200)
+	love.graphics.print("FPS: " ..fps, 15, 210)
+	love.graphics.print("Delta Time: " ..deltatime, 15, 220)
+	love.graphics.print("Total Objects: " ..#objects, 15, 230)
 	
 	-- outline the object that the mouse is hovering over
 	love.graphics.setColor(255, 204, 51, 255)
 	love.graphics.setLine(2, "smooth")
 	love.graphics.rectangle("line", topcol.x - 1, topcol.y - 1, topcol.width + 2, topcol.height + 2)
-
+	
 end
 
 --[[---------------------------------------------------------
@@ -132,8 +134,8 @@ function loveframes.debug.ExamplesMenu()
 	------------------------------------
 	local examplesframe = loveframes.Create("frame")
 	examplesframe:SetName("Examples List")
-	examplesframe:SetSize(200, love.graphics.getHeight() - 330)
-	examplesframe:SetPos(5, 325)
+	examplesframe:SetSize(200, love.graphics.getHeight() - 325)
+	examplesframe:SetPos(5, 320)
 	
 	------------------------------------
 	-- examples list
@@ -154,7 +156,7 @@ function loveframes.debug.ExamplesMenu()
 	
 		local frame1 = loveframes.Create("frame")
 		frame1:SetName("Button")
-		frame1:Center()
+		frame1:CenterWithinArea(unpack(centerarea))
 		
 		local button1 = loveframes.Create("button", frame1)
 		button1:SetWidth(200)
@@ -182,7 +184,7 @@ function loveframes.debug.ExamplesMenu()
 	
 		local frame1 = loveframes.Create("frame")
 		frame1:SetName("Checkbox")
-		frame1:Center()
+		frame1:CenterWithinArea(unpack(centerarea))
 		frame1:SetHeight(85)
 		
 		local checkbox1 = loveframes.Create("checkbox", frame1)
@@ -210,7 +212,7 @@ function loveframes.debug.ExamplesMenu()
 		local frame1 = loveframes.Create("frame")
 		frame1:SetName("Collapsible Category")
 		frame1:SetSize(500, 300)
-		frame1:Center()
+		frame1:CenterWithinArea(unpack(centerarea))
 		
 		local panel1 = loveframes.Create("panel")
 		panel1:SetHeight(230)
@@ -234,7 +236,7 @@ function loveframes.debug.ExamplesMenu()
 		local frame1 = loveframes.Create("frame")
 		frame1:SetName("Column List")
 		frame1:SetSize(500, 300)
-		frame1:Center()
+		frame1:CenterWithinArea(unpack(centerarea))
 		
 		local list1 = loveframes.Create("columnlist", frame1)
 		list1:SetPos(5, 30)
@@ -260,7 +262,7 @@ function loveframes.debug.ExamplesMenu()
 	
 		local frame1 = loveframes.Create("frame")
 		frame1:SetName("Frame")
-		frame1:Center()
+		frame1:CenterWithinArea(unpack(centerarea))
 		
 		local text1 = loveframes.Create("text", frame1)
 		text1:SetText("This is an example frame.")
@@ -302,7 +304,7 @@ function loveframes.debug.ExamplesMenu()
 		local frame1 = loveframes.Create("frame")
 		frame1:SetName("Image")
 		frame1:SetSize(138, 315)
-		frame1:Center()
+		frame1:CenterWithinArea(unpack(centerarea))
 		
 		local image1 = loveframes.Create("image", frame1)
 		image1:SetImage("resources/images/carlsagan.png")
@@ -394,7 +396,7 @@ function loveframes.debug.ExamplesMenu()
 		local frame1 = loveframes.Create("frame")
 		frame1:SetName("Image Button")
 		frame1:SetSize(138, 163)
-		frame1:Center()
+		frame1:CenterWithinArea(unpack(centerarea))
 		
 		local imagebutton1 = loveframes.Create("imagebutton", frame1)
 		imagebutton1:SetImage("resources/images/carlsagan.png")
@@ -414,7 +416,7 @@ function loveframes.debug.ExamplesMenu()
 		local frame1 = loveframes.Create("frame")
 		frame1:SetName("List")
 		frame1:SetSize(500, 455)
-		frame1:Center()
+		frame1:CenterWithinArea(unpack(centerarea))
 		
 		local list1 = loveframes.Create("list", frame1)
 		list1:SetPos(5, 30)
@@ -499,7 +501,7 @@ function loveframes.debug.ExamplesMenu()
 		local frame1 = loveframes.Create("frame")
 		frame1:SetName("Multichoice")
 		frame1:SetSize(210, 60)
-		frame1:Center()
+		frame1:CenterWithinArea(unpack(centerarea))
 		
 		local multichoice1 = loveframes.Create("multichoice", frame1)
 		multichoice1:SetPos(5, 30)
@@ -521,7 +523,7 @@ function loveframes.debug.ExamplesMenu()
 		local frame1 = loveframes.Create("frame")
 		frame1:SetName("Panel")
 		frame1:SetSize(210, 85)
-		frame1:Center()
+		frame1:CenterWithinArea(unpack(centerarea))
 		
 		local panel1 = loveframes.Create("panel", frame1)
 		panel1:SetPos(5, 30)
@@ -539,7 +541,7 @@ function loveframes.debug.ExamplesMenu()
 		local frame1 = loveframes.Create("frame")
 		frame1:SetName("Progress Bar")
 		frame1:SetSize(500, 160)
-		frame1:Center()
+		frame1:CenterWithinArea(unpack(centerarea))
 		
 		local progressbar1 = loveframes.Create("progressbar", frame1)
 		progressbar1:SetPos(5, 30)
@@ -570,7 +572,7 @@ function loveframes.debug.ExamplesMenu()
 		slider1:SetPos(5, 135)
 		slider1:SetWidth(490)
 		slider1:SetText("Progressbar lerp rate")
-		slider1:SetMinMax(1, 50)
+		slider1:SetMinMax(0, 50)
 		slider1:SetDecimals(0)
 		slider1.OnValueChanged = function(object2, value)
 			progressbar1:SetLerpRate(value)
@@ -601,7 +603,7 @@ function loveframes.debug.ExamplesMenu()
 		local frame1 = loveframes.Create("frame")
 		frame1:SetName("Slider")
 		frame1:SetSize(300, 275)
-		frame1:Center()
+		frame1:CenterWithinArea(unpack(centerarea))
 		
 		local slider1 = loveframes.Create("slider", frame1)
 		slider1:SetPos(5, 30)
@@ -631,7 +633,7 @@ function loveframes.debug.ExamplesMenu()
 		local frame1 = loveframes.Create("frame")
 		frame1:SetName("Tabs")
 		frame1:SetSize(500, 300)
-		frame1:Center()
+		frame1:CenterWithinArea(unpack(centerarea))
 		
 		local tabs1 = loveframes.Create("tabs", frame1)
 		tabs1:SetPos(5, 30)
@@ -668,7 +670,7 @@ function loveframes.debug.ExamplesMenu()
 		local frame1 = loveframes.Create("frame")
 		frame1:SetName("Text")
 		frame1:SetSize(500, 300)
-		frame1:Center()
+		frame1:CenterWithinArea(unpack(centerarea))
 		
 		local list1 = loveframes.Create("list", frame1)
 		list1:SetPos(5, 30)
@@ -676,11 +678,9 @@ function loveframes.debug.ExamplesMenu()
 		list1:SetPadding(5)
 		list1:SetSpacing(5)
 		
-		--for i=1, 5 do
-			local text1 = loveframes.Create("text")
-			text1:SetText(loremipsum)
-			list1:AddItem(text1)
-		--end
+		local text1 = loveframes.Create("text")
+		text1:SetText(loremipsum)
+		list1:AddItem(text1)
 		
 	end
 	exampleslist:AddItem(textexample)
@@ -695,7 +695,7 @@ function loveframes.debug.ExamplesMenu()
 		local frame1 = loveframes.Create("frame")
 		frame1:SetName("Text Input")
 		frame1:SetSize(500, 90)
-		frame1:Center()
+		frame1:CenterWithinArea(unpack(centerarea))
 		
 		local textinput1 = loveframes.Create("textinput", frame1)
 		textinput1:SetPos(5, 30)
@@ -714,14 +714,14 @@ function loveframes.debug.ExamplesMenu()
 		togglebutton.OnClick = function(object)
 			if textinput1.multiline then
 				frame1:SetHeight(90)
-				frame1:Center()
+				frame1:CenterWithinArea(unpack(centerarea))
 				togglebutton:SetPos(5, 60)
 				textinput1:SetMultiline(false)
 				textinput1:SetHeight(25)
 				textinput1:SetText("")
 			else
 				frame1:SetHeight(365)
-				frame1:Center()
+				frame1:CenterWithinArea(unpack(centerarea))
 				togglebutton:SetPos(5, 335)
 				textinput1:SetMultiline(true)
 				textinput1:SetHeight(300)
@@ -745,7 +745,7 @@ function loveframes.debug.SkinSelector()
 	local frame = loveframes.Create("frame")
 	frame:SetName("Skin Selector")
 	frame:SetSize(200, 60)
-	frame:SetPos(5, 260)
+	frame:SetPos(5, 255)
 
 	local skinslist = loveframes.Create("multichoice", frame)
 	skinslist:SetPos(5, 30)

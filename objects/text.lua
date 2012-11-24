@@ -9,13 +9,13 @@
 --]]------------------------------------------------
 
 -- text class
-text = class("text", base)
+local newobject = loveframes.NewObject("text", "loveframes_object_text", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-function text:initialize()
+function newobject:initialize()
 
 	self.type           = "text"
 	self.text           = ""
@@ -35,7 +35,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the object
 --]]---------------------------------------------------------
-function text:update(dt)
+function newobject:update(dt)
 
 	if not self.visible then
 		if not self.alwaysupdate then
@@ -65,7 +65,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function text:draw()
+function newobject:draw()
 
 	if not self.visible then
 		return
@@ -97,7 +97,7 @@ end
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
-function text:mousepressed(x, y, button)
+function newobject:mousepressed(x, y, button)
 
 	local visible = self.visible
 	
@@ -123,7 +123,7 @@ end
 	- func: SetText(text)
 	- desc: sets the object's text
 --]]---------------------------------------------------------
-function text:SetText(t)
+function newobject:SetText(t)
 	
 	local dtype   = type(t)
 	local maxw    = self.maxw
@@ -311,7 +311,7 @@ end
 	- func: GetText()
 	- desc: gets the object's text
 --]]---------------------------------------------------------
-function text:GetText()
+function newobject:GetText()
 
 	return self.text
 	
@@ -321,7 +321,7 @@ end
 	- func: GetFormattedText()
 	- desc: gets the object's formatted text
 --]]---------------------------------------------------------
-function text:GetFormattedText()
+function newobject:GetFormattedText()
 
 	return self.formattedtext
 	
@@ -331,7 +331,7 @@ end
 	- func: Format()
 	- desc: formats the text
 --]]---------------------------------------------------------
-function text:DrawText()
+function newobject:DrawText()
 
 	local textdata = self.formattedtext
 	local font     = self.font
@@ -363,7 +363,7 @@ end
 	- func: SetMaxWidth(width)
 	- desc: sets the object's maximum width
 --]]---------------------------------------------------------
-function text:SetMaxWidth(width)
+function newobject:SetMaxWidth(width)
 
 	self.maxw = width
 	self:SetText(self.original)
@@ -374,7 +374,7 @@ end
 	- func: GetMaxWidth()
 	- desc: gets the object's maximum width
 --]]---------------------------------------------------------
-function text:GetMaxWidth()
+function newobject:GetMaxWidth()
 
 	return self.maxw
 	
@@ -384,7 +384,7 @@ end
 	- func: SetWidth(width)
 	- desc: sets the object's width
 --]]---------------------------------------------------------
-function text:SetWidth(width)
+function newobject:SetWidth(width)
 
 	self:SetMaxWidth(width)
 	
@@ -394,7 +394,7 @@ end
 	- func: SetHeight()
 	- desc: sets the object's height
 --]]---------------------------------------------------------
-function text:SetHeight(height)
+function newobject:SetHeight(height)
 	
 	return
 	
@@ -404,7 +404,7 @@ end
 	- func: SetSize()
 	- desc: sets the object's size
 --]]---------------------------------------------------------
-function text:SetSize(width, height)
+function newobject:SetSize(width, height)
 
 	self:SetMaxWidth(width)
 	
@@ -415,7 +415,7 @@ end
 	- desc: sets the object's font
 	- note: font argument must be a font object
 --]]---------------------------------------------------------
-function text:SetFont(font)
+function newobject:SetFont(font)
 
 	local original = self.original
 	
@@ -431,7 +431,7 @@ end
 	- func: GetFont()
 	- desc: gets the object's font
 --]]---------------------------------------------------------
-function text:GetFont()
+function newobject:GetFont()
 
 	return self.font
 	
@@ -441,7 +441,7 @@ end
 	- func: GetLines()
 	- desc: gets the number of lines the object's text uses
 --]]---------------------------------------------------------
-function text:GetLines()
+function newobject:GetLines()
 
 	return self.lines
 	
@@ -451,7 +451,7 @@ end
 	- func: SetIgnoreNewlines(bool)
 	- desc: sets whether the object should ignore \n or not
 --]]---------------------------------------------------------
-function text:SetIgnoreNewlines(bool)
+function newobject:SetIgnoreNewlines(bool)
 
 	self.ignorenewlines = bool
 	
@@ -461,7 +461,7 @@ end
 	- func: GetIgnoreNewlines()
 	- desc: gets whether the object should ignore \n or not
 --]]---------------------------------------------------------
-function text:GetIgnoreNewlines()
+function newobject:GetIgnoreNewlines()
 
 	return self.ignorenewlines
 	

@@ -4,13 +4,13 @@
 --]]------------------------------------------------
 
 -- scrollbutton clas
-scrollbutton = class("scrollbutton", base)
+local newobject = loveframes.NewObject("scrollbutton", "loveframes_object_scrollbutton", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-function scrollbutton:initialize(scrolltype)
+function newobject:initialize(scrolltype)
 
 	self.type           = "scrollbutton"
 	self.scrolltype     = scrolltype
@@ -29,7 +29,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the object
 --]]---------------------------------------------------------
-function scrollbutton:update(dt)
+function newobject:update(dt)
 	
 	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -75,7 +75,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function scrollbutton:draw()
+function newobject:draw()
 	
 	local visible = self.visible
 	
@@ -107,7 +107,7 @@ end
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
-function scrollbutton:mousepressed(x, y, button)
+function newobject:mousepressed(x, y, button)
 
 	local visible = self.visible
 	
@@ -136,7 +136,7 @@ end
 	- func: mousereleased(x, y, button)
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
-function scrollbutton:mousereleased(x, y, button)
+function newobject:mousereleased(x, y, button)
 	
 	local visible = self.visible
 	
@@ -164,7 +164,7 @@ end
 	- func: SetText(text)
 	- desc: sets the object's text
 --]]---------------------------------------------------------
-function scrollbutton:SetText(text)
+function newobject:SetText(text)
 
 	return
 	
@@ -175,7 +175,7 @@ end
 	- func: GetScrollType()
 	- desc: gets the object's scroll type
 --]]---------------------------------------------------------
-function scrollbutton:GetScrollType()
+function newobject:GetScrollType()
 
 	return self.scrolltype
 	

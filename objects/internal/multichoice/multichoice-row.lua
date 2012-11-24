@@ -4,13 +4,13 @@
 --]]------------------------------------------------
 
 -- multichoicerow class
-multichoicerow = class("multichoicerow", base)
+local newobject = loveframes.NewObject("multichoicerow", "loveframes_object_multichoicerow", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-function multichoicerow:initialize()
+function newobject:initialize()
 	
 	self.type           = "multichoice-row"
 	self.text           = ""
@@ -30,7 +30,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the object
 --]]---------------------------------------------------------
-function multichoicerow:update(dt)
+function newobject:update(dt)
 	
 	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -75,7 +75,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function multichoicerow:draw()
+function newobject:draw()
 	
 	local visible = self.visible
 	
@@ -106,7 +106,7 @@ end
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
-function multichoicerow:mousepressed(x, y, button)
+function newobject:mousepressed(x, y, button)
 	
 	local visible = self.visible
 	
@@ -129,7 +129,7 @@ end
 	- func: mousereleased(x, y, button)
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
-function multichoicerow:mousereleased(x, y, button)
+function newobject:mousereleased(x, y, button)
 	
 	local visible = self.visible
 	
@@ -152,7 +152,7 @@ end
 	- func: keypressed(key)
 	- desc: called when the player presses a key
 --]]---------------------------------------------------------
-function multichoicerow:keypressed(key, unicode)
+function newobject:keypressed(key, unicode)
 
 	local text           = self.text
 	local selectedobject = loveframes.selectedobject
@@ -167,7 +167,7 @@ end
 	- func: SetText(text)
 	- desc: sets the object's text
 --]]---------------------------------------------------------
-function multichoicerow:SetText(text)
+function newobject:SetText(text)
 
 	self.text = text
 	
@@ -177,7 +177,7 @@ end
 	- func: GetText()
 	- desc: gets the object's text
 --]]---------------------------------------------------------
-function multichoicerow:GetText()
+function newobject:GetText()
 
 	return self.text
 	

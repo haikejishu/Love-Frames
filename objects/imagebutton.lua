@@ -4,13 +4,13 @@
 --]]------------------------------------------------
 
 -- imagebutton class
-imagebutton = class("imagebutton", base)
+local newobject = loveframes.NewObject("imagebutton", "loveframes_object_imagebutton", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-function imagebutton:initialize()
+function newobject:initialize()
 
 	self.type           = "imagebutton"
 	self.text           = "Image Button"
@@ -29,7 +29,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the object
 --]]---------------------------------------------------------
-function imagebutton:update(dt)
+function newobject:update(dt)
 	
 	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -77,7 +77,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function imagebutton:draw()
+function newobject:draw()
 	
 	local visible = self.visible
 	
@@ -109,7 +109,7 @@ end
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
-function imagebutton:mousepressed(x, y, button)
+function newobject:mousepressed(x, y, button)
 
 	local visible = self.visible
 	
@@ -138,7 +138,7 @@ end
 	- func: mousereleased(x, y, button)
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
-function imagebutton:mousereleased(x, y, button)
+function newobject:mousereleased(x, y, button)
 	
 	local visible = self.visible
 	
@@ -168,7 +168,7 @@ end
 	- func: SetText(text)
 	- desc: sets the object's text
 --]]---------------------------------------------------------
-function imagebutton:SetText(text)
+function newobject:SetText(text)
 
 	self.text = text
 	
@@ -178,7 +178,7 @@ end
 	- func: GetText()
 	- desc: gets the object's text
 --]]---------------------------------------------------------
-function imagebutton:GetText()
+function newobject:GetText()
 
 	return self.text
 	
@@ -188,7 +188,7 @@ end
 	- func: SetClickable(bool)
 	- desc: sets whether the object can be clicked or not
 --]]---------------------------------------------------------
-function imagebutton:SetClickable(bool)
+function newobject:SetClickable(bool)
 
 	self.clickable = bool
 	
@@ -198,7 +198,7 @@ end
 	- func: GetClickable(bool)
 	- desc: gets whether the object can be clicked or not
 --]]---------------------------------------------------------
-function imagebutton:GetClickable()
+function newobject:GetClickable()
 
 	return self.clickable
 	
@@ -208,7 +208,7 @@ end
 	- func: SetClickable(bool)
 	- desc: sets whether the object is enabled or not
 --]]---------------------------------------------------------
-function imagebutton:SetEnabled(bool)
+function newobject:SetEnabled(bool)
 
 	self.enabled = bool
 	
@@ -218,7 +218,7 @@ end
 	- func: GetEnabled()
 	- desc: gets whether the object is enabled or not
 --]]---------------------------------------------------------
-function imagebutton:GetEnabled()
+function newobject:GetEnabled()
 
 	return self.enabled
 	
@@ -228,7 +228,7 @@ end
 	- func: SetImage(image)
 	- desc: sets the object's image
 --]]---------------------------------------------------------
-function imagebutton:SetImage(image)
+function newobject:SetImage(image)
 
 	if type(image) == "string" then
 		self.image = love.graphics.newImage(image)
@@ -242,7 +242,7 @@ end
 	- func: GetImage()
 	- desc: gets whether the object is enabled or not
 --]]---------------------------------------------------------
-function imagebutton:GetImage()
+function newobject:GetImage()
 
 	return self.image
 
@@ -252,7 +252,7 @@ end
 	- func: SizeToImage()
 	- desc: makes the object the same size as it's image
 --]]---------------------------------------------------------
-function imagebutton:SizeToImage()
+function newobject:SizeToImage()
 
 	local image = self.image
 	

@@ -4,13 +4,13 @@
 --]]------------------------------------------------
 
 -- list class
-list = class("list", base)
+local newobject = loveframes.NewObject("list", "loveframes_object_list", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-function list:initialize()
+function newobject:initialize()
 	
 	self.type                   = "list"
 	self.display                = "vertical"
@@ -40,7 +40,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the object
 --]]---------------------------------------------------------
-function list:update(dt)
+function newobject:update(dt)
 	
 	local visible 		= self.visible
 	local alwaysupdate 	= self.alwaysupdate
@@ -95,7 +95,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function list:draw()
+function newobject:draw()
 	
 	local visible = self.visible
 	
@@ -151,7 +151,7 @@ end
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
-function list:mousepressed(x, y, button)
+function newobject:mousepressed(x, y, button)
 	
 	local visible = self.visible
 	
@@ -207,7 +207,7 @@ end
 	- func: AddItem(object)
 	- desc: adds an item to the object
 --]]---------------------------------------------------------
-function list:AddItem(object)
+function newobject:AddItem(object)
 	
 	if object.type == "frame" then
 		return
@@ -232,7 +232,7 @@ end
 	- func: RemoveItem(object)
 	- desc: removes an item from the object
 --]]---------------------------------------------------------
-function list:RemoveItem(object)
+function newobject:RemoveItem(object)
 
 	object:Remove()
 	self:CalculateSize()
@@ -244,7 +244,7 @@ end
 	- func: CalculateSize()
 	- desc: calculates the size of the object's children
 --]]---------------------------------------------------------
-function list:CalculateSize()
+function newobject:CalculateSize()
 	
 	local numitems 		= #self.children
 	local height 		= self.height
@@ -274,7 +274,7 @@ function list:CalculateSize()
 			self.extraheight = itemheight - height
 			
 			if not vbar then
-				local scrollbar = scrollbody:new(self, display)
+				local scrollbar = loveframes.objects["scrollbody"]:new(self, display)
 				table.insert(internals, scrollbar)
 				self.vbar = true
 				self:GetScrollBar().autoscroll = self.autoscroll
@@ -306,7 +306,7 @@ function list:CalculateSize()
 			self.extrawidth = itemwidth - width
 			
 			if not hbar then
-				local scrollbar = scrollbody:new(self, display)
+				local scrollbar = loveframes.objects["scrollbody"]:new(self, display)
 				table.insert(internals, scrollbar)
 				self.hbar = true
 				self:GetScrollBar().autoscroll = self.autoscroll
@@ -331,7 +331,7 @@ end
 	- func: RedoLayout()
 	- desc: used to redo the layour of the object
 --]]---------------------------------------------------------
-function list:RedoLayout()
+function newobject:RedoLayout()
 	
 	local children 	= self.children
 	local padding 	= self.padding
@@ -407,7 +407,7 @@ end
 	- func: SetDisplayType(type)
 	- desc: sets the object's display type
 --]]---------------------------------------------------------
-function list:SetDisplayType(type)
+function newobject:SetDisplayType(type)
 
 	local children 		= self.children
 	local numchildren 	= #children
@@ -430,7 +430,7 @@ end
 	- func: GetDisplayType()
 	- desc: gets the object's display type
 --]]---------------------------------------------------------
-function list:GetDisplayType()
+function newobject:GetDisplayType()
 
 	return self.display
 	
@@ -440,7 +440,7 @@ end
 	- func: SetPadding(amount)
 	- desc: sets the object's padding
 --]]---------------------------------------------------------
-function list:SetPadding(amount)
+function newobject:SetPadding(amount)
 
 	local children 		= self.children
 	local numchildren 	= #children
@@ -458,7 +458,7 @@ end
 	- func: SetSpacing(amount)
 	- desc: sets the object's spacing
 --]]---------------------------------------------------------
-function list:SetSpacing(amount)
+function newobject:SetSpacing(amount)
 
 	local children 		= self.children
 	local numchildren 	= #children
@@ -476,7 +476,7 @@ end
 	- func: Clear()
 	- desc: removes all of the object's children
 --]]---------------------------------------------------------
-function list:Clear()
+function newobject:Clear()
 	
 	self.children = {}
 	self:CalculateSize()
@@ -488,7 +488,7 @@ end
 	- func: SetWidth(width)
 	- desc: sets the object's width
 --]]---------------------------------------------------------
-function list:SetWidth(width)
+function newobject:SetWidth(width)
 
 	self.width = width
 	self:CalculateSize()
@@ -500,7 +500,7 @@ end
 	- func: SetHeight(height)
 	- desc: sets the object's height
 --]]---------------------------------------------------------
-function list:SetHeight(height)
+function newobject:SetHeight(height)
 
 	self.height = height
 	self:CalculateSize()
@@ -512,7 +512,7 @@ end
 	- func: GetSize()
 	- desc: gets the object's size
 --]]---------------------------------------------------------
-function list:SetSize(width, height)
+function newobject:SetSize(width, height)
 
 	self.width = width
 	self.height = height
@@ -525,7 +525,7 @@ end
 	- func: GetScrollBar()
 	- desc: gets the object's scroll bar
 --]]---------------------------------------------------------
-function list:GetScrollBar()
+function newobject:GetScrollBar()
 
 	local vbar       = self.vbar
 	local hbar       = self.hbar
@@ -548,7 +548,7 @@ end
 			auto scroll to the bottom when a new object is
 			added to the list
 --]]---------------------------------------------------------
-function list:SetAutoScroll(bool)
+function newobject:SetAutoScroll(bool)
 
 	local scrollbar = self:GetScrollBar()
 	
@@ -565,7 +565,7 @@ end
 	- desc: sets the scroll amount of the object's scrollbar
 			buttons
 --]]---------------------------------------------------------
-function list:SetButtonScrollAmount(amount)
+function newobject:SetButtonScrollAmount(amount)
 
 	self.buttonscrollamount = amount
 	
@@ -576,7 +576,7 @@ end
 	- desc: gets the scroll amount of the object's scrollbar
 			buttons
 --]]---------------------------------------------------------
-function list:GetButtonScrollAmount()
+function newobject:GetButtonScrollAmount()
 
 	return self.buttonscrollamount
 	
@@ -586,7 +586,7 @@ end
 	- func: SetMouseWheelScrollAmount(amount)
 	- desc: sets the scroll amount of the mouse wheel
 --]]---------------------------------------------------------
-function list:SetMouseWheelScrollAmount(amount)
+function newobject:SetMouseWheelScrollAmount(amount)
 
 	self.mousewheelscrollamount = amount
 	
@@ -596,7 +596,7 @@ end
 	- func: GetMouseWheelScrollAmount()
 	- desc: gets the scroll amount of the mouse wheel
 --]]---------------------------------------------------------
-function list:GetButtonScrollAmount()
+function newobject:GetButtonScrollAmount()
 
 	return self.mousewheelscrollamount
 	

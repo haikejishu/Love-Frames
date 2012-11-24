@@ -4,13 +4,13 @@
 --]]------------------------------------------------
 
 -- panel class
-panel = class("panel", base)
+local newobject = loveframes.NewObject("panel", "loveframes_object_panel", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-function panel:initialize()
+function newobject:initialize()
 	
 	self.type           = "panel"
 	self.width          = 200
@@ -24,7 +24,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the element
 --]]---------------------------------------------------------
-function panel:update(dt)
+function newobject:update(dt)
 	
 	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -62,7 +62,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function panel:draw()
+function newobject:draw()
 	
 	local visible = self.visible
 	
@@ -100,7 +100,7 @@ end
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
-function panel:mousepressed(x, y, button)
+function newobject:mousepressed(x, y, button)
 
 	local visible = self.visible
 	
@@ -131,7 +131,7 @@ end
 	- func: mousereleased(x, y, button)
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
-function panel:mousereleased(x, y, button)
+function newobject:mousereleased(x, y, button)
 
 	local visible  = self.visible
 	local children = self.children

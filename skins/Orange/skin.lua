@@ -20,7 +20,7 @@ skin.controls = {}
 
 -- frame
 skin.controls.frame_border_color                    = bordercolor
-skin.controls.frame_body_color                      = {255, 255, 255, 150}
+skin.controls.frame_body_color                      = {232, 232, 232, 255}
 skin.controls.frame_top_color                       = {255, 153, 0, 255}
 skin.controls.frame_name_color                      = {255, 255, 255, 255}
 skin.controls.frame_name_font                       = smallfont
@@ -399,8 +399,10 @@ function skin.DrawCloseButton(object)
 
 	local x                = object:GetX()
 	local y                = object:GetY()
+	local staticx          = object:GetStaticX()
 	local width            = object:GetWidth()
 	local height           = object:GetHeight()
+	local parentwidth      = object.parent:GetWidth()
 	local index	           = loveframes.config["ACTIVESKIN"]
 	local font             = skin.controls.button_text_font
 	local twidth           = font:getWidth("X")
@@ -431,6 +433,10 @@ function skin.DrawCloseButton(object)
 		love.graphics.setColor(unpack(bodynohovercolor))
 		love.graphics.draw(image, x, y)
 		
+	end
+	
+	if staticx ~= (parentwidth - 20) then
+		object:SetPos(parentwidth - 20, 4)
 	end
 	
 end

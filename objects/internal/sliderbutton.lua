@@ -4,13 +4,13 @@
 --]]------------------------------------------------
 
 -- sliderbutton class
-sliderbutton = class("sliderbutton", base)
+local newobject = loveframes.NewObject("sliderbutton", "loveframes_object_sliderbutton", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-function sliderbutton:initialize(parent)
+function newobject:initialize(parent)
 
 	self.type           = "sliderbutton"
 	self.width          = 10
@@ -36,7 +36,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the object
 --]]---------------------------------------------------------
-function sliderbutton:update(dt)
+function newobject:update(dt)
 	
 	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -108,7 +108,6 @@ function sliderbutton:update(dt)
 			
 		end
 		
-		-- 
 		if nvalue > self.parent.max then
 			nvalue = self.parent.max
 		end
@@ -119,6 +118,10 @@ function sliderbutton:update(dt)
 		
 		self.parent.value = nvalue
 		
+		if self.parent.value == -0 then
+			self.parent.value = math.abs(self.parent.value)
+		end
+	
 		if nvalue ~= pvalue and nvalue >= self.parent.min and nvalue <= self.parent.max then
 			if self.parent.OnValueChanged then
 				self.parent.OnValueChanged(self.parent, self.parent.value)
@@ -157,7 +160,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function sliderbutton:draw()
+function newobject:draw()
 	
 	local visible = self.visible
 	
@@ -189,7 +192,7 @@ end
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
-function sliderbutton:mousepressed(x, y, button)
+function newobject:mousepressed(x, y, button)
 	
 	local visible = self.visible
 	
@@ -223,7 +226,7 @@ end
 	- func: mousereleased(x, y, button)
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
-function sliderbutton:mousereleased(x, y, button)
+function newobject:mousereleased(x, y, button)
 	
 	local visible = self.visible
 	
@@ -240,7 +243,7 @@ end
 	- func: MoveToX(x)
 	- desc: moves the object to the specified x position
 --]]---------------------------------------------------------
-function sliderbutton:MoveToX(x)
+function newobject:MoveToX(x)
 
 	self.staticx = x
 	
@@ -250,7 +253,7 @@ end
 	- func: MoveToY(y)
 	- desc: moves the object to the specified y position
 --]]---------------------------------------------------------
-function sliderbutton:MoveToY(y)
+function newobject:MoveToY(y)
 
 	self.staticy = y
 	

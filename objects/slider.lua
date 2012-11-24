@@ -4,13 +4,13 @@
 --]]------------------------------------------------
 
 -- slider class
-slider = class("slider", base)
+local newobject = loveframes.NewObject("slider", "loveframes_object_slider", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-function slider:initialize()
+function newobject:initialize()
 
 	self.type           = "slider"
 	self.text           = "Slider"
@@ -26,7 +26,7 @@ function slider:initialize()
 	self.OnValueChanged	= nil
 	
 	-- create the slider button
-	table.insert(self.internals, sliderbutton:new(self))
+	table.insert(self.internals, loveframes.objects["sliderbutton"]:new(self))
 	
 	-- set initial value to minimum
 	self:SetValue(self.min)
@@ -37,7 +37,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the object
 --]]---------------------------------------------------------
-function slider:update(dt)
+function newobject:update(dt)
 
 	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -85,7 +85,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function slider:draw()
+function newobject:draw()
 
 	local visible = self.visible
 	
@@ -123,7 +123,7 @@ end
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
-function slider:mousepressed(x, y, button)
+function newobject:mousepressed(x, y, button)
 
 	local visible = self.visible
 	
@@ -182,7 +182,7 @@ end
 	- func: SetValue(value)
 	- desc: sets the object's value
 --]]---------------------------------------------------------
-function slider:SetValue(value)
+function newobject:SetValue(value)
 
 	if value > self.max then
 		return
@@ -228,7 +228,7 @@ end
 	- func: GetValue()
 	- desc: gets the object's value
 --]]---------------------------------------------------------
-function slider:GetValue()
+function newobject:GetValue()
 
 	return self.value
 	
@@ -238,7 +238,7 @@ end
 	- func: SetMax(max)
 	- desc: sets the object's maximum value
 --]]---------------------------------------------------------
-function slider:SetMax(max)
+function newobject:SetMax(max)
 
 	self.max = max
 	
@@ -252,7 +252,7 @@ end
 	- func: GetMax()
 	- desc: gets the object's maximum value
 --]]---------------------------------------------------------
-function slider:GetMax()
+function newobject:GetMax()
 
 	return self.max
 	
@@ -262,7 +262,7 @@ end
 	- func: SetMin(min)
 	- desc: sets the object's minimum value
 --]]---------------------------------------------------------
-function slider:SetMin(min)
+function newobject:SetMin(min)
 
 	self.min = min
 	
@@ -276,7 +276,7 @@ end
 	- func: GetMin()
 	- desc: gets the object's minimum value
 --]]---------------------------------------------------------
-function slider:GetMin()
+function newobject:GetMin()
 
 	return self.min
 	
@@ -286,7 +286,7 @@ end
 	- func: SetMinMax()
 	- desc: sets the object's minimum and maximum values
 --]]---------------------------------------------------------
-function slider:SetMinMax(min, max)
+function newobject:SetMinMax(min, max)
 
 	self.min = min
 	self.max = max
@@ -305,7 +305,7 @@ end
 	- func: GetMinMax()
 	- desc: gets the object's minimum and maximum values
 --]]---------------------------------------------------------
-function slider:GetMinMax()
+function newobject:GetMinMax()
 
 	return self.min, self.max
 	
@@ -315,7 +315,7 @@ end
 	- func: SetText(name)
 	- desc: sets the objects's text
 --]]---------------------------------------------------------
-function slider:SetText(text)
+function newobject:SetText(text)
 
 	self.text = text
 	
@@ -325,7 +325,7 @@ end
 	- func: GetText()
 	- desc: gets the objects's text
 --]]---------------------------------------------------------
-function slider:GetText()
+function newobject:GetText()
 
 	return self.text
 	
@@ -335,7 +335,7 @@ end
 	- func: SetDecimals(decimals)
 	- desc: sets the objects's decimals
 --]]---------------------------------------------------------
-function slider:SetDecimals(decimals)
+function newobject:SetDecimals(decimals)
 
 	self.decimals = decimals
 	
@@ -345,7 +345,7 @@ end
 	- func: SetButtonSize(width, height)
 	- desc: sets the objects's button size
 --]]---------------------------------------------------------
-function slider:SetButtonSize(width, height)
+function newobject:SetButtonSize(width, height)
 	
 	local internals    = self.internals
 	local sliderbutton = internals[1]
@@ -361,7 +361,7 @@ end
 	- func: GetButtonSize()
 	- desc: gets the objects's button size
 --]]---------------------------------------------------------
-function slider:GetButtonSize()
+function newobject:GetButtonSize()
 
 	local internals    = self.internals
 	local sliderbutton = internals[1]
@@ -378,7 +378,7 @@ end
 	- func: SetSlideType(slidetype)
 	- desc: sets the objects's slide type
 --]]---------------------------------------------------------
-function slider:SetSlideType(slidetype)
+function newobject:SetSlideType(slidetype)
 
 	self.slidetype = slidetype
 	
@@ -392,7 +392,7 @@ end
 	- func: GetSlideType()
 	- desc: gets the objects's slide type
 --]]---------------------------------------------------------
-function slider:GetSlideType()
+function newobject:GetSlideType()
 
 	return self.slidetype
 	

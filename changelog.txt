@@ -1,4 +1,34 @@
 ================================================
+Version 0.9.4.4 - Alpha (November 24 - 2012)
+================================================
+[ADDED] a new text input method: SetButtonScrollAmount(amount)
+[ADDED] a new text input method: GetButtonScrollAmount()
+[ADDED] a new text input method: SetMouseWheelScrollAmount(amount)
+[ADDED] a new text input method: GetMouseWheelScrollAmount()
+[ADDED] a new multichoice method: SetButtonScrollAmount(amount)
+[ADDED] a new multichoice method: GetButtonScrollAmount()
+[ADDED] a new multichoice method: SetMouseWheelScrollAmount(amount)
+[ADDED] a new multichoice method: GetMouseWheelScrollAmount()
+[ADDED] a new column list method: SetButtonScrollAmount(amount)
+[ADDED] a new column list method: GetButtonScrollAmount()
+[ADDED] a new column list method: SetMouseWheelScrollAmount(amount)
+[ADDED] a new column list method: GetMouseWheelScrollAmount()
+[ADDED] a new frame method: SetParentLocked(bool)
+[ADDED] a new frame method: GetParentLocked()
+[ADDED] a new base method: CenterWithinArea(x, y, width, height)
+[ADDED] a new library function: loveframes.NewObject(id, name, inherit_from_base)
+
+[FIXED] an error that would occur when clicking a scroll button on a multiline text input or a multichoice list
+[FIXED] a button calculation error that caused the button object to flash while moving the cursor out of it's bounding box while it was down
+[FIXED] several errors that could occur when a collapsible category did not have an object
+[FIXED] the value of the slider object becoming -0 in certain situations
+
+[CHANGED] the close button object is no longer positioned internally by the frame object and should now be positioned by it's skin drawing function
+[CHANGED] all Love Frames objects are now stored within loveframes.objects
+[CHANGED] frames are now draggable when parented to any object
+[CHANGED] the look of the debug overlay
+
+================================================
 Version 0.9.4.3 - Alpha (November 20 - 2012)
 ================================================
 [ADDED] a new base method: SetProperty(name, value)

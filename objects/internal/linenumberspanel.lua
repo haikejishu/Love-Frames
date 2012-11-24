@@ -4,13 +4,13 @@
 --]]------------------------------------------------
 
 -- linenumberspanel class
-linenumberspanel = class("linenumberspanel", base)
+local newobject = loveframes.NewObject("linenumberspanel", "loveframes_object_linenumberspanel", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-function linenumberspanel:initialize(parent)
+function newobject:initialize(parent)
 	
 	self.parent         = parent
 	self.type           = "linenumberspanel"
@@ -30,7 +30,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the element
 --]]---------------------------------------------------------
-function linenumberspanel:update(dt)
+function newobject:update(dt)
 	
 	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -74,7 +74,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function linenumberspanel:draw()
+function newobject:draw()
 	
 	local visible = self.visible
 	
@@ -116,7 +116,7 @@ end
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
-function linenumberspanel:mousepressed(x, y, button)
+function newobject:mousepressed(x, y, button)
 
 	local visible = self.visible
 	
@@ -142,7 +142,7 @@ end
 	- func: mousereleased(x, y, button)
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
-function linenumberspanel:mousereleased(x, y, button)
+function newobject:mousereleased(x, y, button)
 
 	local visible  = self.visible
 	
@@ -156,7 +156,7 @@ end
 	- func: GetOffsetY()
 	- desc: gets the object's y offset
 --]]---------------------------------------------------------
-function linenumberspanel:GetOffsetY()
+function newobject:GetOffsetY()
 
 	return self.offsety
 	

@@ -4,13 +4,13 @@
 --]]------------------------------------------------
 
 -- modalbackground class
-modalbackground = class("modalbackground", base)
+local newobject = loveframes.NewObject("modalbackground", "loveframes_object_modalbackground", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-function modalbackground:initialize(object)
+function newobject:initialize(object)
 	
 	self.type           = "modalbackground"
 	self.width          = love.graphics.getWidth()
@@ -36,7 +36,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the element
 --]]---------------------------------------------------------
-function modalbackground:update(dt)
+function newobject:update(dt)
 	
 	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -74,7 +74,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function modalbackground:draw()
+function newobject:draw()
 	
 	if not self.visible then
 		return

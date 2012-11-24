@@ -4,13 +4,13 @@
 --]]------------------------------------------------
 
 -- tabbutton class
-tabbutton = class("tabbutton", base)
+local newobject = loveframes.NewObject("tabbutton", "loveframes_object_tabbutton", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-function tabbutton:initialize(parent, text, tabnumber, tip, image)
+function newobject:initialize(parent, text, tabnumber, tip, image)
 
 	self.type           = "tabbutton"
 	self.font           = loveframes.smallfont
@@ -26,7 +26,7 @@ function tabbutton:initialize(parent, text, tabnumber, tip, image)
 	self.image          = nil
 	
 	if tip then
-		self.tooltip = tooltip:new(self, tip)
+		self.tooltip = loveframes.objects["tooltip"]:new(self, tip)
 		self.tooltip:SetFollowCursor(false)
 		self.tooltip:SetOffsets(0, -5)
 	end
@@ -44,7 +44,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the object
 --]]---------------------------------------------------------
-function tabbutton:update(dt)
+function newobject:update(dt)
 	
 	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -78,7 +78,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function tabbutton:draw()
+function newobject:draw()
 	
 	if not self.visible then
 		return
@@ -109,7 +109,7 @@ end
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
-function tabbutton:mousepressed(x, y, button)
+function newobject:mousepressed(x, y, button)
 
 	local visible = self.visible
 	
@@ -138,7 +138,7 @@ end
 	- func: mousereleased(x, y, button)
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
-function tabbutton:mousereleased(x, y, button)
+function newobject:mousereleased(x, y, button)
 	
 	local visible = self.visible
 	
@@ -166,7 +166,7 @@ end
 	- func: SetText(text)
 	- desc: sets the object's text
 --]]---------------------------------------------------------
-function tabbutton:SetText(text)
+function newobject:SetText(text)
 
 	self.text = text
 	
@@ -176,7 +176,7 @@ end
 	- func: GetText()
 	- desc: gets the object's text
 --]]---------------------------------------------------------
-function tabbutton:GetText()
+function newobject:GetText()
 
 	return self.text
 	
@@ -186,7 +186,7 @@ end
 	- func: SetImage(image)
 	- desc: adds an image to the object
 --]]---------------------------------------------------------
-function tabbutton:SetImage(image)
+function newobject:SetImage(image)
 
 	if type(image) == "string" then
 		self.image = love.graphics.newImage(image)
@@ -200,7 +200,7 @@ end
 	- func: GetImage()
 	- desc: gets the object's image
 --]]---------------------------------------------------------
-function tabbutton:GetImage()
+function newobject:GetImage()
 
 	return self.image
 	
@@ -210,7 +210,7 @@ end
 	- func: GetTabNumber()
 	- desc: gets the object's tab number
 --]]---------------------------------------------------------
-function tabbutton:GetTabNumber()
+function newobject:GetTabNumber()
 
 	return self.tabnumber
 	

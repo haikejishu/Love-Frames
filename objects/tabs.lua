@@ -4,13 +4,13 @@
 --]]------------------------------------------------
 
 -- tabs class
-tabs = class("tabpanel", base)
+local newobject = loveframes.NewObject("tabs", "loveframes_object_tabs", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-function tabs:initialize()
+function newobject:initialize()
 	
 	self.type              = "tabs"
 	self.width             = 100
@@ -36,7 +36,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the element
 --]]---------------------------------------------------------
-function tabs:update(dt)
+function newobject:update(dt)
 	
 	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -100,7 +100,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function tabs:draw()
+function newobject:draw()
 	
 	local visible = self.visible
 	
@@ -149,7 +149,7 @@ end
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
-function tabs:mousepressed(x, y, button)
+function newobject:mousepressed(x, y, button)
 	
 	local visible = self.visible
 	
@@ -224,7 +224,7 @@ end
 	- func: mousereleased(x, y, button)
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
-function tabs:mousereleased(x, y, button)
+function newobject:mousereleased(x, y, button)
 
 	local visible     = self.visible
 	local children    = self.children
@@ -250,7 +250,7 @@ end
 	- func: AddTab(name, object, tip, image)
 	- desc: adds a new tab to the tab panel
 --]]---------------------------------------------------------
-function tabs:AddTab(name, object, tip, image)
+function newobject:AddTab(name, object, tip, image)
 
 	local padding   = self.padding
 	local autosize  = self.autosize
@@ -264,7 +264,7 @@ function tabs:AddTab(name, object, tip, image)
 	object.staticy = 0
 	
 	table.insert(self.children, object)
-	internals[tabnumber] = tabbutton:new(self, name, tabnumber, tip, image)
+	internals[tabnumber] = loveframes.objects["tabbutton"]:new(self, name, tabnumber, tip, image)
 	self.tabnumber = tabnumber + 1
 	
 	for k, v in ipairs(internals) do
@@ -285,7 +285,7 @@ end
 	- desc: creates scroll buttons fot the tab panel
 	- note: for internal use only
 --]]---------------------------------------------------------
-function tabs:AddScrollButtons()
+function newobject:AddScrollButtons()
 
 	local internals = self.internals
 	
@@ -295,7 +295,7 @@ function tabs:AddScrollButtons()
 		end
 	end
 	
-	local leftbutton = scrollbutton:new("left")
+	local leftbutton = loveframes.objects["scrollbutton"]:new("left")
 	leftbutton.parent = self
 	leftbutton:SetPos(0, 0)
 	leftbutton:SetSize(15, 25)
@@ -316,7 +316,7 @@ function tabs:AddScrollButtons()
 		end
 	end
 	
-	local rightbutton = scrollbutton:new("right")
+	local rightbutton = loveframes.objects["scrollbutton"]:new("right")
 	rightbutton.parent = self
 	rightbutton:SetPos(self.width - 15, 0)
 	rightbutton:SetSize(15, 25)
@@ -347,7 +347,7 @@ end
 	- func: GetWidthOfButtons()
 	- desc: gets the total width of all of the tab buttons
 --]]---------------------------------------------------------
-function tabs:GetWidthOfButtons()
+function newobject:GetWidthOfButtons()
 
 	local width     = 0
 	local internals = self.internals
@@ -366,7 +366,7 @@ end
 	- func: GetHeightOfButtons()
 	- desc: gets the height of one tab button
 --]]---------------------------------------------------------
-function tabs:GetHeightOfButtons()
+function newobject:GetHeightOfButtons()
 	
 	return self.tabheight
 	
@@ -376,7 +376,7 @@ end
 	- func: SwitchToTab(tabnumber)
 	- desc: makes the specified tab the active tab
 --]]---------------------------------------------------------
-function tabs:SwitchToTab(tabnumber)
+function newobject:SwitchToTab(tabnumber)
 	
 	local children = self.children
 	
@@ -393,7 +393,7 @@ end
 	- func: SetScrollButtonSize(width, height)
 	- desc: sets the size of the scroll buttons
 --]]---------------------------------------------------------
-function tabs:SetScrollButtonSize(width, height)
+function newobject:SetScrollButtonSize(width, height)
 
 	local internals = self.internals
 	
@@ -409,7 +409,7 @@ end
 	- func: SetPadding(paddint)
 	- desc: sets the padding for the tab panel
 --]]---------------------------------------------------------
-function tabs:SetPadding(padding)
+function newobject:SetPadding(padding)
 
 	self.padding = padding
 	
@@ -419,7 +419,7 @@ end
 	- func: SetPadding(paddint)
 	- desc: gets the padding of the tab panel
 --]]---------------------------------------------------------
-function tabs:GetPadding()
+function newobject:GetPadding()
 
 	return self.padding
 	
@@ -429,7 +429,7 @@ end
 	- func: SetTabHeight(height)
 	- desc: sets the height of the tab buttons
 --]]---------------------------------------------------------
-function tabs:SetTabHeight(height)
+function newobject:SetTabHeight(height)
 
 	local autosize          = self.autosize
 	local padding           = self.padding
@@ -463,7 +463,7 @@ end
 	- func: SetToolTipFont(font)
 	- desc: sets the height of the tab buttons
 --]]---------------------------------------------------------
-function tabs:SetToolTipFont(font)
+function newobject:SetToolTipFont(font)
 
 	local internals = self.internals
 	
@@ -479,7 +479,7 @@ end
 	- func: GetTabNumber()
 	- desc: gets the object's tab number
 --]]---------------------------------------------------------
-function tabs:GetTabNumber()
+function newobject:GetTabNumber()
 
 	return self.tab
 	

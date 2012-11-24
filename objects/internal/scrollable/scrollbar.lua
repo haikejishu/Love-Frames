@@ -4,13 +4,13 @@
 --]]------------------------------------------------
 
 -- scrollbar class
-scrollbar = class("scrollbar", base)
+local newobject = loveframes.NewObject("scrollbar", "loveframes_object_scrollbar", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-function scrollbar:initialize(parent, bartype)
+function newobject:initialize(parent, bartype)
 
 	self.type           = "scrollbar"
 	self.bartype        = bartype
@@ -51,7 +51,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the object
 --]]---------------------------------------------------------
-function scrollbar:update(dt)
+function newobject:update(dt)
 	
 	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -193,7 +193,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function scrollbar:draw()
+function newobject:draw()
 
 	local visible = self.visible
 	
@@ -225,7 +225,7 @@ end
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
-function scrollbar:mousepressed(x, y, button)
+function newobject:mousepressed(x, y, button)
 
 	local visible = self.visible
 	local hover   = self.hover
@@ -267,7 +267,7 @@ end
 	- func: mousereleased(x, y, button)
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
-function scrollbar:mousereleased(x, y, button)
+function newobject:mousereleased(x, y, button)
 
 	local visible = self.visible
 	
@@ -285,7 +285,7 @@ end
 	- func: SetMaxX(x)
 	- desc: sets the object's max x position
 --]]---------------------------------------------------------
-function scrollbar:SetMaxX(x)
+function newobject:SetMaxX(x)
 
 	self.maxx = x
 	
@@ -295,7 +295,7 @@ end
 	- func: SetMaxY(y)
 	- desc: sets the object's max y position
 --]]---------------------------------------------------------
-function scrollbar:SetMaxY(y)
+function newobject:SetMaxY(y)
 
 	self.maxy = y
 	
@@ -305,7 +305,7 @@ end
 	- func: Scroll(amount)
 	- desc: scrolls the object
 --]]---------------------------------------------------------
-function scrollbar:Scroll(amount)
+function newobject:Scroll(amount)
 
 	local bartype  = self.bartype
 	local listo    = self.parent.parent.parent
@@ -343,7 +343,7 @@ end
 	- func: IsDragging()
 	- desc: gets whether the object is being dragged or not
 --]]---------------------------------------------------------
-function scrollbar:IsDragging()
+function newobject:IsDragging()
 
 	return self.dragging
 	
@@ -353,7 +353,7 @@ end
 	- func: GetBarType()
 	- desc: gets the object's bartype
 --]]---------------------------------------------------------
-function scrollbar:GetBarType()
+function newobject:GetBarType()
 
 	return self.bartype
 	

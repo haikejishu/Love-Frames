@@ -4,14 +4,13 @@
 --]]------------------------------------------------
 
 -- frame class
-frame = class("frame", base)
-
+local newobject = loveframes.NewObject("frame", "loveframes_object_frame", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-function frame:initialize()
+function newobject:initialize()
 	
 	self.type               = "frame"
 	self.name               = "Frame"
@@ -22,6 +21,7 @@ function frame:initialize()
 	self.internal           = false
 	self.draggable          = true
 	self.screenlocked       = false
+	self.parentlocked       = false
 	self.dragging           = false
 	self.modal              = false
 	self.modalbackground    = false
@@ -31,7 +31,7 @@ function frame:initialize()
 	self.OnClose            = nil
 	
 	-- create the close button for the frame
-	local close = closebutton:new()
+	local close = loveframes.objects["closebutton"]:new()
 	close.parent = self
 	close:SetSize(16, 16)
 	close.OnClick = function()
@@ -50,7 +50,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the element
 --]]---------------------------------------------------------
-function frame:update(dt)
+function newobject:update(dt)
 	
 	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -66,6 +66,7 @@ function frame:update(dt)
 	local close             = self.internals[1]
 	local dragging          = self.dragging
 	local screenlocked      = self.screenlocked
+	local parentlocked      = self.parentlocked
 	local modal             = self.modal
 	local base              = loveframes.base
 	local basechildren      = base.children
@@ -76,7 +77,6 @@ function frame:update(dt)
 	local parent            = self.parent
 	local update            = self.Update
 	
-	close:SetPos(self.width - 20, 4)
 	self:CheckHover()
 	
 	-- dragging check
@@ -84,11 +84,14 @@ function frame:update(dt)
 		if parent == base then
 			self.x = x - self.clickx
 			self.y = y - self.clicky
+		else
+			self.staticx = x - self.clickx
+			self.staticy = y - self.clicky
 		end
 	end
 	
 	-- if screenlocked then keep within screen
-	if screenlocked == true then
+	if screenlocked then
 	
 		local width = love.graphics.getWidth()
 		local height = love.graphics.getHeight()
@@ -106,6 +109,28 @@ function frame:update(dt)
 		end
 		if self.y + selfheight > height then
 			self.y = height - selfheight
+		end
+		
+	end
+	
+	if parentlocked then
+	
+		local width = self.parent.width
+		local height = self.parent.height
+		local selfwidth = self.width
+		local selfheight = self.height
+		
+		if self.staticx < 0 then
+			self.staticx = 0
+		end
+		if self.staticx + selfwidth > width then
+			self.staticx = width - selfwidth
+		end
+		if self.staticy < 0 then
+			self.staticy = 0
+		end
+		if self.staticy + selfheight > height then
+			self.staticy = height - selfheight
 		end
 		
 	end
@@ -158,7 +183,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function frame:draw()
+function newobject:draw()
 	
 	local visible = self.visible
 	
@@ -201,7 +226,7 @@ end
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
-function frame:mousepressed(x, y, button)
+function newobject:mousepressed(x, y, button)
 
 	local visible = self.visible
 	
@@ -215,6 +240,8 @@ function frame:mousepressed(x, y, button)
 	local internals = self.internals
 	local children  = self.children
 	local dragging  = self.dragging
+	local parent    = self.parent
+	local base      = loveframes.base
 	
 	if selfcol then
 	
@@ -223,8 +250,13 @@ function frame:mousepressed(x, y, button)
 		-- initiate dragging if not currently dragging
 		if not dragging and top and button == "l" then
 			if y < self.y + 25 and self.draggable then
-				self.clickx = x - self.x
-				self.clicky = y - self.y
+				if parent == base then
+					self.clickx = x - self.x
+					self.clicky = y - self.y
+				else
+					self.clickx = x - self.staticx
+					self.clicky = y - self.staticy
+				end
 				self.dragging = true
 			end
 		end
@@ -249,7 +281,7 @@ end
 	- func: mousereleased(x, y, button)
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
-function frame:mousereleased(x, y, button)
+function newobject:mousereleased(x, y, button)
 	
 	local visible = self.visible
 	
@@ -280,7 +312,7 @@ end
 	- func: SetName(name)
 	- desc: sets the frame's name
 --]]---------------------------------------------------------
-function frame:SetName(name)
+function newobject:SetName(name)
 
 	self.name = name
 	
@@ -290,7 +322,7 @@ end
 	- func: GetName()
 	- desc: gets the frame's name
 --]]---------------------------------------------------------
-function frame:GetName()
+function newobject:GetName()
 
 	return self.name
 	
@@ -300,7 +332,7 @@ end
 	- func: SetDraggable(true/false)
 	- desc: sets whether the frame can be dragged or not
 --]]---------------------------------------------------------
-function frame:SetDraggable(bool)
+function newobject:SetDraggable(bool)
 
 	self.draggable = bool
 	
@@ -310,7 +342,7 @@ end
 	- func: GetDraggable()
 	- desc: gets whether the frame can be dragged ot not
 --]]---------------------------------------------------------
-function frame:GetDraggable()
+function newobject:GetDraggable()
 
 	return self.draggable
 	
@@ -322,7 +354,7 @@ end
 	- desc: sets whether the frame can be moved passed the
 			boundaries of the window or not
 --]]---------------------------------------------------------
-function frame:SetScreenLocked(bool)
+function newobject:SetScreenLocked(bool)
 
 	self.screenlocked = bool
 	
@@ -333,7 +365,7 @@ end
 	- desc: gets whether the frame can be moved passed the
 			boundaries of window or not
 --]]---------------------------------------------------------
-function frame:GetScreenLocked()
+function newobject:GetScreenLocked()
 
 	return self.screenlocked
 	
@@ -343,7 +375,7 @@ end
 	- func: ShowCloseButton(bool)
 	- desc: sets whether the close button should be drawn
 --]]---------------------------------------------------------
-function frame:ShowCloseButton(bool)
+function newobject:ShowCloseButton(bool)
 
 	local close = self.internals[1]
 
@@ -357,7 +389,7 @@ end
 	- desc: makes the object the top object in the drawing
 			order
 --]]---------------------------------------------------------
-function frame:MakeTop()
+function newobject:MakeTop()
 	
 	local x, y            = love.mouse.getPosition()
 	local key             = 0
@@ -402,7 +434,7 @@ end
 	- desc: makes the object the top object in the drawing
 			order
 --]]---------------------------------------------------------
-function frame:SetModal(bool)
+function newobject:SetModal(bool)
 
 	local modalobject = loveframes.modalobject
 	local mbackground = self.modalbackground
@@ -424,7 +456,7 @@ function frame:SetModal(bool)
 		loveframes.modalobject = self
 		
 		if not mbackground then
-			self.modalbackground = modalbackground:new(self)
+			self.modalbackground = loveframes.objects["modalbackground"]:new(self)
 			self.modal = true
 		end
 		
@@ -451,7 +483,7 @@ end
 	- desc: gets whether or not the object is in a modal
 			state
 --]]---------------------------------------------------------
-function frame:GetModal()
+function newobject:GetModal()
 
 	return self.modal
 	
@@ -461,7 +493,7 @@ end
 	- func: SetVisible(bool)
 	- desc: set's whether the object is visible or not
 --]]---------------------------------------------------------
-function frame:SetVisible(bool)
+function newobject:SetVisible(bool)
 
 	local children    = self.children
 	local internals   = self.internals
@@ -476,5 +508,27 @@ function frame:SetVisible(bool)
 	if self.showclose then
 		closebutton.visible = bool
 	end
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetParentLocked(bool)
+	- desc: sets whether the frame can be moved passed the
+			boundaries of it's parent or not
+--]]---------------------------------------------------------
+function newobject:SetParentLocked(bool)
+
+	self.parentlocked = bool
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetParentLocked(bool)
+	- desc: gets whether the frame can be moved passed the
+			boundaries of it's parent or not
+--]]---------------------------------------------------------
+function newobject:GetParentLocked()
+
+	return self.parentlocked
 	
 end

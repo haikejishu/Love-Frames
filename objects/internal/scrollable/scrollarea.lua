@@ -4,13 +4,13 @@
 --]]------------------------------------------------
 
 -- scrollarea class
-scrollarea = class("scrollarea", base)
+local newobject = loveframes.NewObject("scrollarea", "loveframes_object_scrollarea", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-function scrollarea:initialize(parent, bartype)
+function newobject:initialize(parent, bartype)
 	
 	self.type           = "scroll-area"
 	self.bartype        = bartype
@@ -23,7 +23,7 @@ function scrollarea:initialize(parent, bartype)
 	self.internal       = true
 	self.internals      = {}
 	
-	table.insert(self.internals, scrollbar:new(self, bartype))
+	table.insert(self.internals, loveframes.objects["scrollbar"]:new(self, bartype))
 	
 	-- apply template properties to the object
 	loveframes.templates.ApplyToObject(self)
@@ -34,7 +34,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the object
 --]]---------------------------------------------------------
-function scrollarea:update(dt)
+function newobject:update(dt)
 	
 	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -123,7 +123,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function scrollarea:draw()
+function newobject:draw()
 
 	local visible = self.visible
 	
@@ -160,7 +160,7 @@ end
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
-function scrollarea:mousepressed(x, y, button)
+function newobject:mousepressed(x, y, button)
 	
 	local visible = self.visible
 	
@@ -213,7 +213,7 @@ end
 	- func: mousereleased(x, y, button)
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
-function scrollarea:mousereleased(x, y, button)
+function newobject:mousereleased(x, y, button)
 	
 	local visible = self.visible
 	
@@ -237,7 +237,7 @@ end
 	- func: GetBarType()
 	- desc: gets the object's bar type
 --]]---------------------------------------------------------
-function scrollarea:GetBarType()
+function newobject:GetBarType()
 	
 	return self.bartype
 	

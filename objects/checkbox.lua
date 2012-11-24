@@ -4,13 +4,13 @@
 --]]------------------------------------------------
 
 -- checkbox class
-checkbox = class("checkbox", base)
+local newobject = loveframes.NewObject("checkbox", "loveframes_object_checkbox", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-function checkbox:initialize()
+function newobject:initialize()
 
 	self.type           = "checkbox"
 	self.width          = 0
@@ -31,7 +31,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the object
 --]]---------------------------------------------------------
-function checkbox:update(dt)
+function newobject:update(dt)
 	
 	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -105,7 +105,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function checkbox:draw()
+function newobject:draw()
 	
 	local visible = self.visible
 	
@@ -142,7 +142,7 @@ end
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
-function checkbox:mousepressed(x, y, button)
+function newobject:mousepressed(x, y, button)
 
 	local visible = self.visible
 	
@@ -171,7 +171,7 @@ end
 	- func: mousereleased(x, y, button)
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
-function checkbox:mousereleased(x, y, button)
+function newobject:mousereleased(x, y, button)
 	
 	local visible = self.visible
 	
@@ -203,7 +203,7 @@ end
 	- func: keypressed(key)
 	- desc: called when the player presses a key
 --]]---------------------------------------------------------
-function checkbox:keypressed(key, unicode)
+function newobject:keypressed(key, unicode)
 
 	local checked        = self.checked
 	local onchanged      = self.OnChanged
@@ -227,7 +227,7 @@ end
 	- func: SetText(text)
 	- desc: sets the object's text
 --]]---------------------------------------------------------
-function checkbox:SetText(text)
+function newobject:SetText(text)
 
 	local boxwidth  = self.boxwidth
 	local boxheight = self.boxheight
@@ -266,7 +266,7 @@ end
 	- func: GetText()
 	- desc: gets the object's text
 --]]---------------------------------------------------------
-function checkbox:GetText()
+function newobject:GetText()
 
 	local internals = self.internals
 	local text      = internals[1]
@@ -283,7 +283,7 @@ end
 	- func: SetSize(width, height)
 	- desc: sets the object's size
 --]]---------------------------------------------------------
-function checkbox:SetSize(width, height)
+function newobject:SetSize(width, height)
 
 	self.boxwidth  = width
 	self.boxheight = height
@@ -294,7 +294,7 @@ end
 	- func: SetWidth(width)
 	- desc: sets the object's width
 --]]---------------------------------------------------------
-function checkbox:SetWidth(width)
+function newobject:SetWidth(width)
 
 	self.boxwidth = width
 	
@@ -304,7 +304,7 @@ end
 	- func: SetHeight(height)
 	- desc: sets the object's height
 --]]---------------------------------------------------------
-function checkbox:SetHeight(height)
+function newobject:SetHeight(height)
 
 	self.boxheight = height
 	
@@ -314,7 +314,7 @@ end
 	- func: SetChecked(bool)
 	- desc: sets whether the object is checked or not
 --]]---------------------------------------------------------
-function checkbox:SetChecked(bool)
+function newobject:SetChecked(bool)
 
 	local onchanged = self.OnChanged
 	
@@ -330,7 +330,7 @@ end
 	- func: GetChecked()
 	- desc: gets whether the object is checked or not
 --]]---------------------------------------------------------
-function checkbox:GetChecked()
+function newobject:GetChecked()
 
 	return self.checked
 	
@@ -340,7 +340,7 @@ end
 	- func: SetFont(font)
 	- desc: sets the font of the object's text
 --]]---------------------------------------------------------
-function checkbox:SetFont(font)
+function newobject:SetFont(font)
 
 	local internals = self.internals
 	local text      = internals[1]
@@ -354,40 +354,40 @@ function checkbox:SetFont(font)
 end
 
 --[[---------------------------------------------------------
-	- func: checkbox:GetFont()
+	- func: newobject:GetFont()
 	- desc: gets the font of the object's text
 --]]---------------------------------------------------------
-function checkbox:GetFont()
+function newobject:GetFont()
 
 	return self.font
 
 end
 
 --[[---------------------------------------------------------
-	- func: checkbox:GetBoxHeight()
+	- func: newobject:GetBoxHeight()
 	- desc: gets the object's box size
 --]]---------------------------------------------------------
-function checkbox:GetBoxSize()
+function newobject:GetBoxSize()
 
 	return self.boxwidth, self.boxheight
 	
 end
 
 --[[---------------------------------------------------------
-	- func: checkbox:GetBoxWidth()
+	- func: newobject:GetBoxWidth()
 	- desc: gets the object's box width
 --]]---------------------------------------------------------
-function checkbox:GetBoxWidth()
+function newobject:GetBoxWidth()
 
 	return self.boxwidth
 	
 end
 
 --[[---------------------------------------------------------
-	- func: checkbox:GetBoxHeight()
+	- func: newobject:GetBoxHeight()
 	- desc: gets the object's box height
 --]]---------------------------------------------------------
-function checkbox:GetBoxHeight()
+function newobject:GetBoxHeight()
 
 	return self.boxheight
 	

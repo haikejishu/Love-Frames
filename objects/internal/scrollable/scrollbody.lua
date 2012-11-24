@@ -4,13 +4,13 @@
 --]]------------------------------------------------
 
 -- scrollbar class
-scrollbody = class("scrollbody", base)
+local newobject = loveframes.NewObject("scrollbody", "loveframes_object_scrollbody", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-function scrollbody:initialize(parent, bartype)
+function newobject:initialize(parent, bartype)
 	
 	self.type           = "scrollbody"
 	self.bartype        = bartype
@@ -32,13 +32,13 @@ function scrollbody:initialize(parent, bartype)
 		self.staticy    = self.parent.height - self.height
 	end
 	
-	table.insert(self.internals, scrollarea:new(self, bartype))
+	table.insert(self.internals, loveframes.objects["scrollarea"]:new(self, bartype))
 	
 	local bar = self.internals[1].internals[1]
 	
 	if self.bartype == "vertical" then 
 	
-		local upbutton          = scrollbutton:new("up")
+		local upbutton          = loveframes.objects["scrollbutton"]:new("up")
 		upbutton.parent         = self
 		upbutton.Update	= function(object, dt)
 			upbutton.staticx = 0 + self.width - upbutton.width
@@ -48,7 +48,7 @@ function scrollbody:initialize(parent, bartype)
 			end
 		end
 			
-		local downbutton        = scrollbutton:new("down")
+		local downbutton        = loveframes.objects["scrollbutton"]:new("down")
 		downbutton.parent       = self
 		downbutton.Update = function(object, dt)
 			downbutton.staticx = 0 + self.width - downbutton.width
@@ -63,7 +63,7 @@ function scrollbody:initialize(parent, bartype)
 		
 	elseif self.bartype == "horizontal" then
 		
-		local leftbutton        = scrollbutton:new("left")
+		local leftbutton        = loveframes.objects["scrollbutton"]:new("left")
 		leftbutton.parent       = self
 		leftbutton.Update = function(object, dt)
 			leftbutton.staticx = 0
@@ -73,7 +73,7 @@ function scrollbody:initialize(parent, bartype)
 			end
 		end
 			
-		local rightbutton       = scrollbutton:new("right")
+		local rightbutton       = loveframes.objects["scrollbutton"]:new("right")
 		rightbutton.parent      = self
 		rightbutton.Update = function(object, dt)
 			rightbutton.staticx = 0 + self.width - rightbutton.width
@@ -97,7 +97,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the object
 --]]---------------------------------------------------------
-function scrollbody:update(dt)
+function newobject:update(dt)
 	
 	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -135,7 +135,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function scrollbody:draw()
+function newobject:draw()
 
 	local visible = self.visible
 	

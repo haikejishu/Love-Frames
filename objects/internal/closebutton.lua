@@ -4,13 +4,13 @@
 --]]------------------------------------------------
 
 -- closebutton class
-closebutton = class("closebutton", base)
+local newobject = loveframes.NewObject("closebutton", "loveframes_object_closebutton", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-function closebutton:initialize()
+function newobject:initialize()
 
 	self.type           = "closebutton"
 	self.width          = 80
@@ -29,7 +29,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the object
 --]]---------------------------------------------------------
-function closebutton:update(dt)
+function newobject:update(dt)
 	
 	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -77,7 +77,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function closebutton:draw()
+function newobject:draw()
 	
 	local visible = self.visible
 	
@@ -108,7 +108,7 @@ end
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
-function closebutton:mousepressed(x, y, button)
+function newobject:mousepressed(x, y, button)
 	
 	local visible = self.visible
 	
@@ -137,7 +137,7 @@ end
 	- func: mousereleased(x, y, button)
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
-function closebutton:mousereleased(x, y, button)
+function newobject:mousereleased(x, y, button)
 	
 	local visible = self.visible
 	

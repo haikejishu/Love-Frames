@@ -4,13 +4,13 @@
 --]]------------------------------------------------
 
 -- collapsiblecategory class
-collapsiblecategory = class("collapsiblecategory", base)
+local newobject = loveframes.NewObject("collapsiblecategory", "loveframes_object_collapsiblecategory", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-function collapsiblecategory:initialize()
+function newobject:initialize()
 
 	self.type           = "collapsiblecategory"
 	self.text           = "Category"
@@ -30,7 +30,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the object
 --]]---------------------------------------------------------
-function collapsiblecategory:update(dt)
+function newobject:update(dt)
 	
 	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -56,7 +56,7 @@ function collapsiblecategory:update(dt)
 		self.y = self.parent.y + self.staticy
 	end
 	
-	if open == true then
+	if open and curobject then
 		curobject:SetWidth(self.width - self.padding * 2)
 		curobject:update(dt)
 	end
@@ -71,7 +71,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function collapsiblecategory:draw()
+function newobject:draw()
 	
 	local visible = self.visible
 	
@@ -100,7 +100,7 @@ function collapsiblecategory:draw()
 		drawfunc(self)
 	end
 	
-	if open then
+	if open and curobject then
 		curobject:draw()
 	end
 	
@@ -110,7 +110,7 @@ end
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
-function collapsiblecategory:mousepressed(x, y, button)
+function newobject:mousepressed(x, y, button)
 
 	local visible = self.visible
 	
@@ -142,7 +142,7 @@ function collapsiblecategory:mousepressed(x, y, button)
 		
 	end
 	
-	if open then
+	if open and curobject then
 		curobject:mousepressed(x, y, button)
 	end
 	
@@ -152,7 +152,7 @@ end
 	- func: mousereleased(x, y, button)
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
-function collapsiblecategory:mousereleased(x, y, button)
+function newobject:mousereleased(x, y, button)
 	
 	local visible = self.visible
 	
@@ -181,7 +181,7 @@ function collapsiblecategory:mousereleased(x, y, button)
 		
 	end
 	
-	if open then
+	if open and curobject then
 		curobject:mousepressed(x, y, button)
 	end
 
@@ -191,7 +191,7 @@ end
 	- func: SetText(text)
 	- desc: sets the object's text
 --]]---------------------------------------------------------
-function collapsiblecategory:SetText(text)
+function newobject:SetText(text)
 
 	self.text = text
 	
@@ -201,7 +201,7 @@ end
 	- func: GetText()
 	- desc: gets the object's text
 --]]---------------------------------------------------------
-function collapsiblecategory:GetText()
+function newobject:GetText()
 
 	return self.text
 	
@@ -211,7 +211,7 @@ end
 	- func: SetObject(object)
 	- desc: sets the category's object
 --]]---------------------------------------------------------
-function collapsiblecategory:SetObject(object)
+function newobject:SetObject(object)
 	
 	local children  = self.children
 	local curobject = children[1]
@@ -234,7 +234,7 @@ end
 	- func: SetObject(object)
 	- desc: sets the category's object
 --]]---------------------------------------------------------
-function collapsiblecategory:GetObject()
+function newobject:GetObject()
 
 	local children  = self.children
 	local curobject = children[1]
@@ -251,7 +251,7 @@ end
 	- func: SetSize(width, height)
 	- desc: sets the object's size
 --]]---------------------------------------------------------
-function collapsiblecategory:SetSize(width, height)
+function newobject:SetSize(width, height)
 
 	self.width = width
 	
@@ -261,7 +261,7 @@ end
 	- func: SetHeight(height)
 	- desc: sets the object's height
 --]]---------------------------------------------------------
-function collapsiblecategory:SetHeight(height)
+function newobject:SetHeight(height)
 
 	return
 	
@@ -271,7 +271,7 @@ end
 	- func: SetClosedHeight(height)
 	- desc: sets the object's closed height
 --]]---------------------------------------------------------
-function collapsiblecategory:SetClosedHeight(height)
+function newobject:SetClosedHeight(height)
 
 	self.closedheight = height
 	
@@ -281,7 +281,7 @@ end
 	- func: GetClosedHeight()
 	- desc: gets the object's closed height
 --]]---------------------------------------------------------
-function collapsiblecategory:GetClosedHeight()
+function newobject:GetClosedHeight()
 
 	return self.closedheight
 	
@@ -291,13 +291,12 @@ end
 	- func: SetOpen(bool)
 	- desc: sets whether the object is opened or closed
 --]]---------------------------------------------------------
-function collapsiblecategory:SetOpen(bool)
+function newobject:SetOpen(bool)
 
 	local children        = self.children
 	local curobject       = children[1]
 	local closedheight    = self.closedheight
 	local padding         = self.padding
-	local curobjectheight = curobject.height
 	local onopenedclosed  = self.OnOpenedClosed
 	
 	self.open = bool
@@ -305,11 +304,13 @@ function collapsiblecategory:SetOpen(bool)
 	if not bool then
 		self.height = closedheight
 		if curobject then
+			local curobjectheight = curobject.height
 			curobject:SetVisible(false)
 		end
 	else
-		self.height = closedheight + padding * 2 + curobjectheight
 		if curobject then
+			local curobjectheight = curobject.height
+			self.height = closedheight + padding * 2 + curobjectheight
 			curobject:SetVisible(true)
 		end
 	end
@@ -325,7 +326,7 @@ end
 	- func: GetOpen()
 	- desc: gets whether the object is opened or closed
 --]]---------------------------------------------------------
-function collapsiblecategory:GetOpen()
+function newobject:GetOpen()
 
 	return self.opened
 

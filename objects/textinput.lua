@@ -4,59 +4,61 @@
 --]]------------------------------------------------
 
 -- textinput class
-textinput = class("textinput", base)
+local newobject = loveframes.NewObject("textinput", "loveframes_object_textinput", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
 
-function textinput:initialize()
+function newobject:initialize()
 
-	self.type             = "textinput"
-	self.keydown          = "none"
-	self.tabreplacement   = "        "
-	self.font             = loveframes.basicfont
-	self.width            = 200
-	self.height           = 25
-	self.delay            = 0
-	self.offsetx          = 0
-	self.offsety          = 0
-	self.indincatortime   = 0
-	self.indicatornum     = 0
-	self.indicatorx       = 0
-	self.indicatory       = 0
-	self.textx            = 0
-	self.texty            = 0
-	self.textoffsetx      = 5
-	self.textoffsety      = 5
-	self.unicode          = 0
-	self.limit            = 0
-	self.line             = 1
-	self.itemwidth        = 0
-	self.itemheight       = 0
-	self.extrawidth       = 0
-	self.extraheight      = 0
-	self.rightpadding     = 0
-	self.bottompadding    = 0
-	self.lastclicktime    = 0
-	self.maxx             = 0
-	self.usable           = {}
-	self.unusable         = {}
-	self.lines            = {""}
-	self.internals        = {}
-	self.showindicator    = true
-	self.focus            = false
-	self.multiline        = false
-	self.vbar             = false
-	self.hbar             = false
-	self.alltextselected  = false
-	self.linenumbers      = true
-	self.linenumberspanel = false
-	self.editable         = true
-	self.internal         = false
-	self.OnEnter          = nil
-	self.OnTextChanged    = nil
+	self.type                   = "textinput"
+	self.keydown                = "none"
+	self.tabreplacement         = "        "
+	self.font                   = loveframes.basicfont
+	self.width                  = 200
+	self.height                 = 25
+	self.delay                  = 0
+	self.offsetx                = 0
+	self.offsety                = 0
+	self.indincatortime         = 0
+	self.indicatornum           = 0
+	self.indicatorx             = 0
+	self.indicatory             = 0
+	self.textx                  = 0
+	self.texty                  = 0
+	self.textoffsetx            = 5
+	self.textoffsety            = 5
+	self.unicode                = 0
+	self.limit                  = 0
+	self.line                   = 1
+	self.itemwidth              = 0
+	self.itemheight             = 0
+	self.extrawidth             = 0
+	self.extraheight            = 0
+	self.rightpadding           = 0
+	self.bottompadding          = 0
+	self.lastclicktime          = 0
+	self.maxx                   = 0
+	self.buttonscrollamount     = 0.10
+	self.mousewheelscrollamount = 5
+	self.usable                 = {}
+	self.unusable               = {}
+	self.lines                  = {""}
+	self.internals              = {}
+	self.showindicator          = true
+	self.focus                  = false
+	self.multiline              = false
+	self.vbar                   = false
+	self.hbar                   = false
+	self.alltextselected        = false
+	self.linenumbers            = true
+	self.linenumberspanel       = false
+	self.editable               = true
+	self.internal               = false
+	self.OnEnter                = nil
+	self.OnTextChanged          = nil
 	
 end
 
@@ -64,7 +66,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the object
 --]]---------------------------------------------------------
-function textinput:update(dt)
+function newobject:update(dt)
 
 	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -156,7 +158,7 @@ function textinput:update(dt)
 		
 		if itemheight > height then
 			if not vbar then
-				local scrollbody = scrollbody:new(self, "vertical")
+				local scrollbody = loveframes.objects["scrollbody"]:new(self, "vertical")
 				scrollbody.internals[1].internals[1].autoscroll = false
 				table.insert(self.internals, scrollbody)
 				self.vbar = true
@@ -181,7 +183,7 @@ function textinput:update(dt)
 		
 		if itemwidth > width then
 			if not hbar then
-				local scrollbody = scrollbody:new(self, "horizontal")
+				local scrollbody = loveframes.objects["scrollbody"]:new(self, "horizontal")
 				scrollbody.internals[1].internals[1].autoscroll = false
 				table.insert(self.internals, scrollbody)
 				self.hbar = true
@@ -208,7 +210,7 @@ function textinput:update(dt)
 		
 		if self.linenumbers then
 			if not self.linenumberspanel then
-				local linenumberspanel = linenumberspanel:new(self)
+				local linenumberspanel = loveframes.objects["linenumberspanel"]:new(self)
 				table.insert(self.internals, linenumberspanel)
 				self.linenumberspanel = true
 			end
@@ -235,7 +237,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function textinput:draw()
+function newobject:draw()
 
 	local visible = self.visible
 	
@@ -289,7 +291,7 @@ end
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
-function textinput:mousepressed(x, y, button)
+function newobject:mousepressed(x, y, button)
 
 	local visible = self.visible
 	
@@ -302,6 +304,7 @@ function textinput:mousepressed(x, y, button)
 	local internals = self.internals
 	local vbar = self.vbar
 	local hbar = self.hbar
+	local scrollamount = self.mousewheelscrollamount
 	
 	if hover and button == "l" then
 	
@@ -336,24 +339,24 @@ function textinput:mousepressed(x, y, button)
 		if button == "wu" then
 			if vbar and not hbar then
 				local vbar = self:GetVerticalScrollBody().internals[1].internals[1]
-				vbar:Scroll(-5)
+				vbar:Scroll(-scrollamount)
 			elseif vbar and hbar then
 				local vbar = self:GetVerticalScrollBody().internals[1].internals[1]
-				vbar:Scroll(-5)
+				vbar:Scroll(-scrollamount)
 			elseif not vbar and hbar then
 				local hbar = self:GetHorizontalScrollBody().internals[1].internals[1]
-				hbar:Scroll(-5)
+				hbar:Scroll(-scrollamount)
 			end
 		elseif button == "wd" then
 			if vbar and not hbar then
 				local vbar = self:GetVerticalScrollBody().internals[1].internals[1]
-				vbar:Scroll(5)
+				vbar:Scroll(scrollamount)
 			elseif vbar and hbar then
 				local vbar = self:GetVerticalScrollBody().internals[1].internals[1]
-				vbar:Scroll(5)
+				vbar:Scroll(scrollamount)
 			elseif not vbar and hbar then
 				local hbar = self:GetHorizontalScrollBody().internals[1].internals[1]
-				hbar:Scroll(5)
+				hbar:Scroll(scrollamount)
 			end
 		end
 	end
@@ -368,7 +371,7 @@ end
 	- func: mousereleased(x, y, button)
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
-function textinput:mousereleased(x, y, button)
+function newobject:mousereleased(x, y, button)
 
 	local visible = self.visible
 	
@@ -388,7 +391,7 @@ end
 	- func: keypressed(key)
 	- desc: called when the player presses a key
 --]]---------------------------------------------------------
-function textinput:keypressed(key, unicode)
+function newobject:keypressed(key, unicode)
 
 	local visible = self.visible
 	
@@ -418,7 +421,7 @@ end
 	- func: keyreleased(key)
 	- desc: called when the player releases a key
 --]]---------------------------------------------------------
-function textinput:keyreleased(key)
+function newobject:keyreleased(key)
 
 	local visible = self.visible
 	
@@ -434,7 +437,7 @@ end
 	- func: RunKey(key, unicode)
 	- desc: runs a key event on the object
 --]]---------------------------------------------------------
-function textinput:RunKey(key, unicode)
+function newobject:RunKey(key, unicode)
 	
 	local visible = self.visible
 	local focus   = self.focus
@@ -730,7 +733,7 @@ end
 	- func: MoveIndicator(num, exact)
 	- desc: moves the object's indicator
 --]]---------------------------------------------------------
-function textinput:MoveIndicator(num, exact)
+function newobject:MoveIndicator(num, exact)
 
 	local lines        = self.lines
 	local line         = self.line
@@ -761,7 +764,7 @@ end
 	- desc: updates the object's text insertion position 
 			indicator
 --]]---------------------------------------------------------
-function textinput:UpdateIndicator()
+function newobject:UpdateIndicator()
 
 	local time              = love.timer.getTime()
 	local indincatortime    = self.indincatortime
@@ -808,7 +811,7 @@ end
 	- desc: adds text into the object's text a given 
 			position
 --]]---------------------------------------------------------
-function textinput:AddIntoText(t, p)
+function newobject:AddIntoText(t, p)
 
 	local lines    = self.lines
 	local line     = self.line
@@ -827,7 +830,7 @@ end
 	- desc: removes text from the object's text a given 
 			position
 --]]---------------------------------------------------------
-function textinput:RemoveFromeText(p)
+function newobject:RemoveFromeText(p)
 
 	local lines        = self.lines
 	local line         = self.line
@@ -846,7 +849,7 @@ end
 	- func: GetTextCollisions(x, y)
 	- desc: gets text collisions with the mouse
 --]]---------------------------------------------------------
-function textinput:GetTextCollisions(x, y)
+function newobject:GetTextCollisions(x, y)
 
 	local font      = self.font
 	local lines     = self.lines
@@ -957,7 +960,7 @@ end
 	- func: PositionText()
 	- desc: positions the object's text
 --]]---------------------------------------------------------
-function textinput:PositionText()
+function newobject:PositionText()
 
 	local multiline        = self.multiline
 	local x                = self.x
@@ -988,7 +991,7 @@ end
 	- func: SetTextOffsetX(num)
 	- desc: sets the object's text x offset
 --]]---------------------------------------------------------
-function textinput:SetTextOffsetX(num)
+function newobject:SetTextOffsetX(num)
 
 	self.textoffsetx = num
 	
@@ -998,7 +1001,7 @@ end
 	- func: SetTextOffsetY(num)
 	- desc: sets the object's text y offset
 --]]---------------------------------------------------------
-function textinput:SetTextOffsetY(num)
+function newobject:SetTextOffsetY(num)
 
 	self.textoffsety = num
 	
@@ -1008,7 +1011,7 @@ end
 	- func: SetFont(font)
 	- desc: sets the object's font
 --]]---------------------------------------------------------
-function textinput:SetFont(font)
+function newobject:SetFont(font)
 
 	self.font = font
 	
@@ -1018,7 +1021,7 @@ end
 	- func: GetFont()
 	- desc: gets the object's font
 --]]---------------------------------------------------------
-function textinput:GetFont()
+function newobject:GetFont()
 
 	return self.font
 	
@@ -1028,7 +1031,7 @@ end
 	- func: SetFocus(focus)
 	- desc: sets the object's focus
 --]]---------------------------------------------------------
-function textinput:SetFocus(focus)
+function newobject:SetFocus(focus)
 
 	self.focus = focus
 	
@@ -1038,7 +1041,7 @@ end
 	- func: GetFocus()
 	- desc: gets the object's focus
 --]]---------------------------------------------------------
-function textinput:GetFocus()
+function newobject:GetFocus()
 
 	return self.focus
 	
@@ -1048,7 +1051,7 @@ end
 	- func: GetIndicatorVisibility()
 	- desc: gets the object's indicator visibility
 --]]---------------------------------------------------------
-function textinput:GetIndicatorVisibility()
+function newobject:GetIndicatorVisibility()
 
 	return self.showindicator
 	
@@ -1058,7 +1061,7 @@ end
 	- func: SetLimit(limit)
 	- desc: sets the object's text limit
 --]]---------------------------------------------------------
-function textinput:SetLimit(limit)
+function newobject:SetLimit(limit)
 
 	self.limit = limit
 	
@@ -1069,7 +1072,7 @@ end
 	- desc: sets what characters can be used for the 
 			object's text
 --]]---------------------------------------------------------
-function textinput:SetUsable(usable)
+function newobject:SetUsable(usable)
 
 	self.usable = usable
 	
@@ -1080,7 +1083,7 @@ end
 	- desc: gets what characters can be used for the 
 			object's text
 --]]---------------------------------------------------------
-function textinput:GetUsable()
+function newobject:GetUsable()
 
 	return self.usable
 	
@@ -1091,7 +1094,7 @@ end
 	- desc: sets what characters can not be used for the 
 			object's text
 --]]---------------------------------------------------------
-function textinput:SetUnusable(unusable)
+function newobject:SetUnusable(unusable)
 
 	self.unusable = unusable
 	
@@ -1102,7 +1105,7 @@ end
 	- desc: gets what characters can not be used for the 
 			object's text
 --]]---------------------------------------------------------
-function textinput:GetUnusable()
+function newobject:GetUnusable()
 
 	return self.unusable
 	
@@ -1112,7 +1115,7 @@ end
 	- func: Clear()
 	- desc: clears the object's text
 --]]---------------------------------------------------------
-function textinput:Clear()
+function newobject:Clear()
 
 	self.lines          = {""}
 	self.line           = 1
@@ -1126,7 +1129,7 @@ end
 	- func: SetText(text)
 	- desc: sets the object's text
 --]]---------------------------------------------------------
-function textinput:SetText(text)
+function newobject:SetText(text)
 
 	local tabreplacement = self.tabreplacement
 	local multiline      = self.multiline
@@ -1158,7 +1161,7 @@ end
 	- func: GetText()
 	- desc: gets the object's text
 --]]---------------------------------------------------------
-function textinput:GetText()
+function newobject:GetText()
 
 	local multiline = self.multiline
 	local lines     = self.lines
@@ -1181,7 +1184,7 @@ end
 	- desc: enables or disables allowing multiple lines for
 			text entry
 --]]---------------------------------------------------------
-function textinput:SetMultiline(bool)
+function newobject:SetMultiline(bool)
 
 	local text  = ""
 	local lines = self.lines
@@ -1208,7 +1211,7 @@ end
 	- desc: gets whether or not the object is using multiple
 			lines
 --]]---------------------------------------------------------
-function textinput:GetMultiLine()
+function newobject:GetMultiLine()
 
 	return self.multiline
 	
@@ -1218,7 +1221,7 @@ end
 	- func: GetVerticalScrollBody()
 	- desc: gets the object's vertical scroll body
 --]]---------------------------------------------------------
-function textinput:GetVerticalScrollBody()
+function newobject:GetVerticalScrollBody()
 
 	local vbar      = self.vbar
 	local internals = self.internals
@@ -1240,7 +1243,7 @@ end
 	- func: GetHorizontalScrollBody()
 	- desc: gets the object's horizontal scroll body
 --]]---------------------------------------------------------
-function textinput:GetHorizontalScrollBody()
+function newobject:GetHorizontalScrollBody()
 
 	local hbar      = self.hbar
 	local internals = self.internals
@@ -1263,7 +1266,7 @@ end
 	- desc: gets whether or not the object has a vertical
 			scroll bar
 --]]---------------------------------------------------------
-function textinput:HasVerticalScrollBar()
+function newobject:HasVerticalScrollBar()
 
 	return self.vbar
 	
@@ -1274,7 +1277,7 @@ end
 	- desc: gets whether or not the object has a horizontal
 			scroll bar
 --]]---------------------------------------------------------
-function textinput:HasHorizontalScrollBar()
+function newobject:HasHorizontalScrollBar()
 
 	return self.hbar
 	
@@ -1284,7 +1287,7 @@ end
 	- func: GetLineNumbersPanel()
 	- desc: gets the object's line numbers panel
 --]]---------------------------------------------------------
-function textinput:GetLineNumbersPanel()
+function newobject:GetLineNumbersPanel()
 
 	local panel     = self.linenumberspanel
 	local internals = self.internals
@@ -1307,7 +1310,7 @@ end
 	- desc: sets whether or not to show line numbers when
 			using multiple lines
 --]]---------------------------------------------------------
-function textinput:ShowLineNumbers(bool)
+function newobject:ShowLineNumbers(bool)
 
 	local multiline = self.multiline
 	
@@ -1321,7 +1324,7 @@ end
 	- func: GetTextX()
 	- desc: gets the object's text x
 --]]---------------------------------------------------------
-function textinput:GetTextX()
+function newobject:GetTextX()
 
 	return self.textx
 	
@@ -1331,7 +1334,7 @@ end
 	- func: GetTextY()
 	- desc: gets the object's text y
 --]]---------------------------------------------------------
-function textinput:GetTextY()
+function newobject:GetTextY()
 
 	return self.texty
 	
@@ -1342,7 +1345,7 @@ end
 	- desc: gets whether or not all of the object's text is
 			selected
 --]]---------------------------------------------------------
-function textinput:IsAllTextSelected()
+function newobject:IsAllTextSelected()
 
 	return self.alltextselected
 	
@@ -1352,7 +1355,7 @@ end
 	- func: GetLines()
 	- desc: gets the object's lines
 --]]---------------------------------------------------------
-function textinput:GetLines()
+function newobject:GetLines()
 
 	return self.lines
 	
@@ -1362,7 +1365,7 @@ end
 	- func: GetOffsetX()
 	- desc: gets the object's x offset
 --]]---------------------------------------------------------
-function textinput:GetOffsetX()
+function newobject:GetOffsetX()
 
 	return self.offsetx
 	
@@ -1372,7 +1375,7 @@ end
 	- func: GetOffsetY()
 	- desc: gets the object's y offset
 --]]---------------------------------------------------------
-function textinput:GetOffsetY()
+function newobject:GetOffsetY()
 
 	return self.offsety
 	
@@ -1382,7 +1385,7 @@ end
 	- func: GetIndicatorX()
 	- desc: gets the object's indicator's xpos
 --]]---------------------------------------------------------
-function textinput:GetIndicatorX()
+function newobject:GetIndicatorX()
 
 	return self.indicatorx
 	
@@ -1392,7 +1395,7 @@ end
 	- func: GetIndicatorY()
 	- desc: gets the object's indicator's ypos
 --]]---------------------------------------------------------
-function textinput:GetIndicatorY()
+function newobject:GetIndicatorY()
 
 	return self.indicatory
 	
@@ -1403,7 +1406,7 @@ end
 	- desc: gets whether line numbers are enabled on the
 			object or not
 --]]---------------------------------------------------------
-function textinput:GetLineNumbersEnabled()
+function newobject:GetLineNumbersEnabled()
 
 	return self.linenumbers
 	
@@ -1413,7 +1416,7 @@ end
 	- func: GetItemWidth()
 	- desc: gets the object's item width
 --]]---------------------------------------------------------
-function textinput:GetItemWidth()
+function newobject:GetItemWidth()
 
 	return self.itemwidth
 	
@@ -1423,7 +1426,7 @@ end
 	- func: GetItemHeight()
 	- desc: gets the object's item height
 --]]---------------------------------------------------------
-function textinput:GetItemHeight()
+function newobject:GetItemHeight()
 
 	return self.itemheight
 	
@@ -1433,7 +1436,7 @@ end
 	- func: SetTabReplacement(tabreplacement)
 	- desc: sets a string to replace tabs with
 --]]---------------------------------------------------------
-function textinput:SetTabReplacement(tabreplacement)
+function newobject:SetTabReplacement(tabreplacement)
 
 	self.tabreplacement = tabreplacement
 	
@@ -1443,7 +1446,7 @@ end
 	- func: GetTabReplacement()
 	- desc: gets the object's tab replacement
 --]]---------------------------------------------------------
-function textinput:GetTabReplacement()
+function newobject:GetTabReplacement()
 
 	return self.tabreplacement
 	
@@ -1454,7 +1457,7 @@ end
 	- desc: sets whether or not the user can edit the
 			object's text
 --]]---------------------------------------------------------
-function textinput:SetEditable(bool)
+function newobject:SetEditable(bool)
 
 	self.editable = bool
 	
@@ -1465,8 +1468,50 @@ end
 	- desc: gets whether or not the user can edit the
 			object's text
 --]]---------------------------------------------------------
-function textinput:GetEditable()
+function newobject:GetEditable()
 
 	return self.editable
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetButtonScrollAmount(speed)
+	- desc: sets the scroll amount of the object's scrollbar
+			buttons
+--]]---------------------------------------------------------
+function newobject:SetButtonScrollAmount(amount)
+
+	self.buttonscrollamount = amount
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetButtonScrollAmount()
+	- desc: gets the scroll amount of the object's scrollbar
+			buttons
+--]]---------------------------------------------------------
+function newobject:GetButtonScrollAmount()
+
+	return self.buttonscrollamount
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetMouseWheelScrollAmount(amount)
+	- desc: sets the scroll amount of the mouse wheel
+--]]---------------------------------------------------------
+function newobject:SetMouseWheelScrollAmount(amount)
+
+	self.mousewheelscrollamount = amount
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetMouseWheelScrollAmount()
+	- desc: gets the scroll amount of the mouse wheel
+--]]---------------------------------------------------------
+function newobject:GetButtonScrollAmount()
+
+	return self.mousewheelscrollamount
 	
 end

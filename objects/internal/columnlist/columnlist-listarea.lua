@@ -4,31 +4,33 @@
 --]]------------------------------------------------
 
 -- columnlistarea class
-columnlistarea = class("columnlistarea", base)
+local newobject = loveframes.NewObject("columnlistarea", "loveframes_object_columnlistarea", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: intializes the element
 --]]---------------------------------------------------------
-function columnlistarea:initialize(parent)
+function newobject:initialize(parent)
 	
-	self.type               = "columnlistarea"
-	self.display            = "vertical"
-	self.parent             = parent
-	self.width              = 80
-	self.height             = 25
-	self.clickx             = 0
-	self.clicky             = 0
-	self.offsety            = 0
-	self.offsetx            = 0
-	self.extrawidth         = 0
-	self.extraheight        = 0
-	self.rowcolorindex      = 1
-	self.rowcolorindexmax   = 2
-	self.bar                = false
-	self.internal           = true
-	self.internals          = {}
-	self.children           = {}
+	self.type                   = "columnlistarea"
+	self.display                = "vertical"
+	self.parent                 = parent
+	self.width                  = 80
+	self.height                 = 25
+	self.clickx                 = 0
+	self.clicky                 = 0
+	self.offsety                = 0
+	self.offsetx                = 0
+	self.extrawidth             = 0
+	self.extraheight            = 0
+	self.rowcolorindex          = 1
+	self.rowcolorindexmax       = 2
+	self.buttonscrollamount     = parent.buttonscrollamount
+	self.mousewheelscrollamount = parent.mousewheelscrollamount
+	self.bar                    = false
+	self.internal               = true
+	self.internals              = {}
+	self.children               = {}
 
 	-- apply template properties to the object
 	loveframes.templates.ApplyToObject(self)
@@ -39,7 +41,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the object
 --]]---------------------------------------------------------
-function columnlistarea:update(dt)
+function newobject:update(dt)
 	
 	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -86,7 +88,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function columnlistarea:draw()
+function newobject:draw()
 
 	local visible = self.visible
 	
@@ -142,11 +144,12 @@ end
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
-function columnlistarea:mousepressed(x, y, button)
+function newobject:mousepressed(x, y, button)
 
-	local toplist   = self:IsTopList()
-	local internals = self.internals
-	local children  = self.children
+	local toplist      = self:IsTopList()
+	local scrollamount = self.mousewheelscrollamount
+	local internals    = self.internals
+	local children     = self.children
 	
 	if self.hover and button == "l" then
 		
@@ -163,9 +166,9 @@ function columnlistarea:mousepressed(x, y, button)
 		local bar = self:GetScrollBar()
 			
 		if button == "wu" then
-			bar:Scroll(-5)
+			bar:Scroll(-scrollamount)
 		elseif button == "wd" then
-			bar:Scroll(5)
+			bar:Scroll(scrollamount)
 		end
 		
 	end
@@ -184,7 +187,7 @@ end
 	- func: mousereleased(x, y, button)
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
-function columnlistarea:mousereleased(x, y, button)
+function newobject:mousereleased(x, y, button)
 
 	local internals = self.internals
 	local children  = self.children
@@ -203,7 +206,7 @@ end
 	- func: CalculateSize()
 	- desc: calculates the size of the object's children
 --]]---------------------------------------------------------
-function columnlistarea:CalculateSize()
+function newobject:CalculateSize()
 	
 	local iw, ih      = self.parent:GetColumnSize()
 	local numitems    = #self.children
@@ -225,7 +228,7 @@ function columnlistarea:CalculateSize()
 		self.extraheight = self.itemheight - height
 			
 		if not bar then
-			table.insert(self.internals, scrollbody:new(self, "vertical"))
+			table.insert(self.internals, loveframes.objects["scrollbody"]:new(self, "vertical"))
 			self.bar = true
 			self:GetScrollBar().autoscroll = self.parent.autoscroll
 		end
@@ -246,7 +249,7 @@ end
 	- func: RedoLayout()
 	- desc: used to redo the layour of the object
 --]]---------------------------------------------------------
-function columnlistarea:RedoLayout()
+function newobject:RedoLayout()
 	
 	local children = self.children
 	local starty   = 0
@@ -285,9 +288,9 @@ end
 	- func: AddRow(data)
 	- desc: adds a row to the object
 --]]---------------------------------------------------------
-function columnlistarea:AddRow(data)
+function newobject:AddRow(data)
 
-	local row = columnlistrow:new(self, data)
+	local row = loveframes.objects["columnlistrow"]:new(self, data)
 	
 	local colorindex    = self.rowcolorindex
 	local colorindexmax = self.rowcolorindexmax
@@ -309,7 +312,7 @@ end
 	- func: GetScrollBar()
 	- desc: gets the object's scroll bar
 --]]---------------------------------------------------------
-function columnlistarea:GetScrollBar()
+function newobject:GetScrollBar()
 
 	local internals = self.internals
 	
@@ -328,7 +331,7 @@ end
 	- func: Sort()
 	- desc: sorts the object's children
 --]]---------------------------------------------------------
-function columnlistarea:Sort(column, desc)
+function newobject:Sort(column, desc)
 	
 	self.rowcolorindex = 1
 	
@@ -366,7 +369,7 @@ end
 	- func: Clear()
 	- desc: removes all items from the object's list
 --]]---------------------------------------------------------
-function columnlistarea:Clear()
+function newobject:Clear()
 
 	self.children = {}
 	self:CalculateSize()

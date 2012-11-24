@@ -86,7 +86,8 @@ function loveframes.templates.Register(template)
 	local registeredobjects = loveframes.templates.objects
 	local name              = template.name
 	local properties        = template.properties
-	local objects           = template.objects
+	local objects           = loveframes.objects
+	local base              = objects["base"]
 	local found             = false
 	local foundall          = false
 	
@@ -96,7 +97,7 @@ function loveframes.templates.Register(template)
 	end
 	
 	if name == "Base" then
-		_G["base"]:include(template.properties["*"])
+		base:include(template.properties["*"])
 	end
 	
 	-- insert the template into the available templates table

@@ -4,13 +4,13 @@
 --]]------------------------------------------------
 
 -- progressbar class
-progressbar = class("progressbar", base)
+local newobject = loveframes.NewObject("progressbar", "loveframes_object_progressbar", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-function progressbar:initialize()
+function newobject:initialize()
 
 	self.type           = "progressbar"
 	self.width          = 100
@@ -34,7 +34,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the object
 --]]---------------------------------------------------------
-function progressbar:update(dt)
+function newobject:update(dt)
 
 	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -125,7 +125,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function progressbar:draw()
+function newobject:draw()
 	
 	local visible = self.visible
 	
@@ -157,7 +157,7 @@ end
 	- func: SetMax(max)
 	- desc: sets the object's maximum value
 --]]---------------------------------------------------------
-function progressbar:SetMax(max)
+function newobject:SetMax(max)
 
 	self.max = max
 	
@@ -167,7 +167,7 @@ end
 	- func: GetMax()
 	- desc: gets the object's maximum value
 --]]---------------------------------------------------------
-function progressbar:GetMax()
+function newobject:GetMax()
 
 	return self.max
 	
@@ -177,7 +177,7 @@ end
 	- func: SetMin(min)
 	- desc: sets the object's minimum value
 --]]---------------------------------------------------------
-function progressbar:SetMin(min)
+function newobject:SetMin(min)
 
 	self.min = min
 	
@@ -187,7 +187,7 @@ end
 	- func: GetMin()
 	- desc: gets the object's minimum value
 --]]---------------------------------------------------------
-function progressbar:GetMin()
+function newobject:GetMin()
 
 	return self.min
 	
@@ -197,7 +197,7 @@ end
 	- func: SetMinMax()
 	- desc: sets the object's minimum and maximum values
 --]]---------------------------------------------------------
-function progressbar:SetMinMax(min, max)
+function newobject:SetMinMax(min, max)
 
 	self.min = min
 	self.max = max
@@ -208,7 +208,7 @@ end
 	- func: GetMinMax()
 	- desc: gets the object's minimum and maximum values
 --]]---------------------------------------------------------
-function progressbar:GetMinMax()
+function newobject:GetMinMax()
 
 	return self.min, self.max
 	
@@ -218,7 +218,7 @@ end
 	- func: SetValue(value)
 	- desc: sets the object's value
 --]]---------------------------------------------------------
-function progressbar:SetValue(value)
+function newobject:SetValue(value)
 
 	local lerp = self.lerp
 	
@@ -237,7 +237,7 @@ end
 	- func: GetValue()
 	- desc: gets the object's value
 --]]---------------------------------------------------------
-function progressbar:GetValue()
+function newobject:GetValue()
 
 	return self.value
 	
@@ -248,7 +248,7 @@ end
 	- desc: sets whether or not the object should lerp
 			when changing between values
 --]]---------------------------------------------------------
-function progressbar:SetLerp(bool)
+function newobject:SetLerp(bool)
 
 	self.lerp = bool
 	self.lerpto = self:GetValue()
@@ -261,7 +261,7 @@ end
 	- desc: gets whether or not the object should lerp
 			when changing between values
 --]]---------------------------------------------------------
-function progressbar:GetLerp()
+function newobject:GetLerp()
 
 	return self.lerp
 	
@@ -271,7 +271,7 @@ end
 	- func: SetLerpRate(rate)
 	- desc: sets the object's lerp rate
 --]]---------------------------------------------------------
-function progressbar:SetLerpRate(rate)
+function newobject:SetLerpRate(rate)
 
 	self.lerprate = rate
 	
@@ -281,7 +281,7 @@ end
 	- func: GetLerpRate()
 	- desc: gets the object's lerp rate
 --]]---------------------------------------------------------
-function progressbar:GetLerpRate()
+function newobject:GetLerpRate()
 
 	return self.lerprate
 	
@@ -292,7 +292,7 @@ end
 	- desc: gets whether or not the object has reached it's
 			maximum value
 --]]---------------------------------------------------------
-function progressbar:GetCompleted()
+function newobject:GetCompleted()
 
 	return self.completed
 	
@@ -302,7 +302,7 @@ end
 	- func: GetBarWidth()
 	- desc: gets the object's bar width
 --]]---------------------------------------------------------
-function progressbar:GetBarWidth()
+function newobject:GetBarWidth()
 	
 	return self.barwidth
 	

@@ -4,13 +4,13 @@
 --]]------------------------------------------------
 
 -- columnlistheader class
-columnlistheader = class("columnlistheader", base)
+local newobject = loveframes.NewObject("columnlistheader", "loveframes_object_columnlistheader", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: intializes the element
 --]]---------------------------------------------------------
-function columnlistheader:initialize(name, parent)
+function newobject:initialize(name, parent)
 	
 	self.type       = "columnlistheader"
 	self.parent     = parent
@@ -52,7 +52,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the object
 --]]---------------------------------------------------------
-function columnlistheader:update(dt)
+function newobject:update(dt)
 	
 	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -97,7 +97,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function columnlistheader:draw()
+function newobject:draw()
 
 	local visible = self.visible
 	
@@ -129,7 +129,7 @@ end
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
-function columnlistheader:mousepressed(x, y, button)
+function newobject:mousepressed(x, y, button)
 
 	if self.hover and button == "l" then
 		
@@ -150,7 +150,7 @@ end
 	- func: mousereleased(x, y, button)
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
-function columnlistheader:mousereleased(x, y, button)
+function newobject:mousereleased(x, y, button)
 
 	if not self.visible then
 		return
@@ -176,7 +176,7 @@ end
 	- func: GetName()
 	- desc: gets the object's name
 --]]---------------------------------------------------------
-function columnlistheader:GetName()
+function newobject:GetName()
 
 	return self.name
 	

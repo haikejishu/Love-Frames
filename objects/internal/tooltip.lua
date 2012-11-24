@@ -4,13 +4,13 @@
 --]]------------------------------------------------
 
 -- tooltip clas
-tooltip = class("tooltip", base)
+local newobject = loveframes.NewObject("tooltip", "loveframes_object_tooltip", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-function tooltip:initialize(object, text, width)
+function newobject:initialize(object, text, width)
 
 	local width = width or 0
 	
@@ -45,7 +45,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the object
 --]]---------------------------------------------------------
-function tooltip:update(dt)
+function newobject:update(dt)
 
 	local visible      = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -122,7 +122,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function tooltip:draw()
+function newobject:draw()
 	
 	local visible = self.visible
 	
@@ -163,7 +163,7 @@ end
 	- desc: sets whether or not the tooltip should follow the
 			cursor
 --]]---------------------------------------------------------
-function tooltip:SetFollowCursor(bool)
+function newobject:SetFollowCursor(bool)
 
 	self.followcursor = bool
 	
@@ -173,7 +173,7 @@ end
 	- func: SetObject(object)
 	- desc: sets the tooltip's object
 --]]---------------------------------------------------------
-function tooltip:SetObject(object)
+function newobject:SetObject(object)
 
 	self.object = object
 	
@@ -183,7 +183,7 @@ end
 	- func: SetText(text)
 	- desc: sets the tooltip's text
 --]]---------------------------------------------------------
-function tooltip:SetText(text)
+function newobject:SetText(text)
 
 	self.text:SetText(text)
 	self.text2 = text
@@ -194,7 +194,7 @@ end
 	- func: SetTextMaxWidth(text)
 	- desc: sets the tooltip's text max width
 --]]---------------------------------------------------------
-function tooltip:SetTextMaxWidth(width)
+function newobject:SetTextMaxWidth(width)
 
 	self.text:SetMaxWidth(width)
 	
@@ -204,7 +204,7 @@ end
 	- func: SetOffsets(xoffset, yoffset)
 	- desc: sets the tooltip's x and y offset
 --]]---------------------------------------------------------
-function tooltip:SetOffsets(xoffset, yoffset)
+function newobject:SetOffsets(xoffset, yoffset)
 
 	self.xoffset = xoffset
 	self.yoffset = yoffset
@@ -215,7 +215,7 @@ end
 	- func: SetPadding(padding)
 	- desc: sets the tooltip's padding
 --]]---------------------------------------------------------
-function tooltip:SetPadding(padding)
+function newobject:SetPadding(padding)
 
 	self.padding = padding
 	
@@ -225,7 +225,7 @@ end
 	- func: SetFont(font)
 	- desc: sets the tooltip's font
 --]]---------------------------------------------------------
-function tooltip:SetFont(font)
+function newobject:SetFont(font)
 
 	self.text:SetFont(font)
 	

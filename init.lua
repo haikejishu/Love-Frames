@@ -9,7 +9,7 @@ loveframes = {}
 -- library info
 loveframes.info                      = {}
 loveframes.info.author               = "Kenny Shields"
-loveframes.info.version              = "0.9.4.3"
+loveframes.info.version              = "0.9.4.4"
 loveframes.info.stage                = "Alpha"
 
 -- library configurations
@@ -26,6 +26,7 @@ loveframes.hoverobject               = false
 loveframes.modalobject               = false
 loveframes.basicfont                 = love.graphics.newFont(12)
 loveframes.basicfontsmall            = love.graphics.newFont(10)
+loveframes.objects                   = {}
 
 --[[---------------------------------------------------------
 	- func: load()
@@ -70,7 +71,7 @@ function loveframes.load()
 	end
 	
 	-- create the base gui object
-	loveframes.base = base:new()
+	loveframes.base = loveframes.objects["base"]:new()
 	
 end
 
@@ -80,9 +81,9 @@ end
 --]]---------------------------------------------------------
 function loveframes.update(dt)
 
-	local object = loveframes.base
+	local base = loveframes.base
 	
-	object:update(dt)
+	base:update(dt)
 
 end
 
@@ -92,13 +93,13 @@ end
 --]]---------------------------------------------------------
 function loveframes.draw()
 
-	local object = loveframes.base
+	local base = loveframes.base
 	
 	-- set the drawcount to zero
 	loveframes.drawcount = 0
 	
 	-- draw the base object
-	object:draw()
+	base:draw()
 	
 	-- draw the debug library
 	loveframes.debug.draw()
@@ -111,9 +112,9 @@ end
 --]]---------------------------------------------------------
 function loveframes.mousepressed(x, y, button)
 
-	local object = loveframes.base
+	local base = loveframes.base
 	
-	object:mousepressed(x, y, button)
+	base:mousepressed(x, y, button)
 	
 end
 
@@ -123,9 +124,9 @@ end
 --]]---------------------------------------------------------
 function loveframes.mousereleased(x, y, button)
 
-	local object = loveframes.base
+	local base = loveframes.base
 	
-	object:mousereleased(x, y, button)
+	base:mousereleased(x, y, button)
 	
 	-- reset the hover object
 	if button == "l" then
@@ -141,9 +142,9 @@ end
 --]]---------------------------------------------------------
 function loveframes.keypressed(key, unicode)
 
-	local object = loveframes.base
+	local base = loveframes.base
 	
-	object:keypressed(key, unicode)
+	base:keypressed(key, unicode)
 	
 end
 
@@ -153,9 +154,9 @@ end
 --]]---------------------------------------------------------
 function loveframes.keyreleased(key)
 
-	local object = loveframes.base
+	local base = loveframes.base
 	
-	object:keyreleased(key)
+	base:keyreleased(key)
 	
 end
 
@@ -169,13 +170,15 @@ function loveframes.Create(data, parent)
 	
 	if type(data) == "string" then
 	
-		-- make sure the object specified is valid
-		if not _G[data] then
+		local objects = loveframes.objects
+		local object  = objects[data]
+		
+		if not object then
 			loveframes.util.Error("Error creating object: Invalid object '" ..data.. "'.")
 		end
 		
 		-- create the object
-		local object = _G[data]:new()
+		object = object:new()
 		
 		-- apply template properties to the object
 		loveframes.templates.ApplyToObject(object)
@@ -266,6 +269,28 @@ function loveframes.Create(data, parent)
 		return objects
 		
 	end
+	
+end
+
+--[[---------------------------------------------------------
+	- func: NewObject(id, name, inherit_from_base)
+	- desc: creates a new object
+--]]---------------------------------------------------------
+function loveframes.NewObject(id, name, inherit_from_base)
+	
+	local objects = loveframes.objects
+	local object  = false
+	
+	if inherit_from_base then
+		local base  = objects["base"]
+		object      = class(name, base)
+		objects[id] = object
+	else
+		object      = class(name)
+		objects[id] = object
+	end
+	
+	return object
 	
 end
 
