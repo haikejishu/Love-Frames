@@ -1,4 +1,9 @@
 ================================================
+Version 0.9.4.5 - Alpha (November 28 - 2012)
+================================================
+[FIXED] text inputs not losing focus in certain situations
+
+================================================
 Version 0.9.4.4 - Alpha (November 24 - 2012)
 ================================================
 [ADDED] a new text input method: SetButtonScrollAmount(amount)

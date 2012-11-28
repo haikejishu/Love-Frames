@@ -9,7 +9,7 @@ loveframes = {}
 -- library info
 loveframes.info                      = {}
 loveframes.info.author               = "Kenny Shields"
-loveframes.info.version              = "0.9.4.4"
+loveframes.info.version              = "0.9.4.5"
 loveframes.info.stage                = "Alpha"
 
 -- library configurations
@@ -24,6 +24,7 @@ loveframes.config["DEBUG"]           = false
 loveframes.drawcount                 = 0
 loveframes.hoverobject               = false
 loveframes.modalobject               = false
+loveframes.inputobject               = false
 loveframes.basicfont                 = love.graphics.newFont(12)
 loveframes.basicfontsmall            = love.graphics.newFont(10)
 loveframes.objects                   = {}
@@ -178,33 +179,33 @@ function loveframes.Create(data, parent)
 		end
 		
 		-- create the object
-		object = object:new()
+		local newobject = object:new()
 		
 		-- apply template properties to the object
 		loveframes.templates.ApplyToObject(object)
 		
 		-- if the object is a tooltip, return it and go no further
 		if data == "tooltip" then
-			return object
+			return newobject
 		end
 		
 		-- remove the object if it is an internal
-		if object.internal then
-			object:Remove()
+		if newobject.internal then
+			newobject:Remove()
 			return
 		end
 		
 		-- parent the new object by default to the base gui object
-		object.parent = loveframes.base
-		table.insert(loveframes.base.children, object)
+		newobject.parent = loveframes.base
+		table.insert(loveframes.base.children, newobject)
 		
 		-- if the parent argument is not nil, make that argument the object's new parent
 		if parent then
-			object:SetParent(parent)
+			newobject:SetParent(parent)
 		end
 		
 		-- return the object for further manipulation
-		return object
+		return newobject
 		
 	elseif type(data) == "table" then
 

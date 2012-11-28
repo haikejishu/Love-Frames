@@ -77,30 +77,36 @@ function newobject:update(dt)
 		end
 	end
 	
-	local time      = love.timer.getTime()
-	local keydown   = self.keydown
-	local unicode   = self.unicode
-	local parent    = self.parent
-	local base      = loveframes.base
-	local update    = self.Update
-	local theight   = self.font:getHeight("a")
-	local delay     = self.delay
-	local lines     = self.lines
-	local numlines  = #lines
-	local multiline = self.multiline
-	local width     = self.width
-	local height    = self.height
-	local vbar      = self.vbar
-	local hbar      = self.hbar
-	local internals = self.internals
-	
 	-- check to see if the object is being hovered over
 	self:CheckHover()
+	
+	local time        = love.timer.getTime()
+	local keydown     = self.keydown
+	local unicode     = self.unicode
+	local parent      = self.parent
+	local base        = loveframes.base
+	local update      = self.Update
+	local theight     = self.font:getHeight("a")
+	local delay       = self.delay
+	local lines       = self.lines
+	local numlines    = #lines
+	local multiline   = self.multiline
+	local width       = self.width
+	local height      = self.height
+	local vbar        = self.vbar
+	local hbar        = self.hbar
+	local inputobject = loveframes.inputobject
+	local internals   = self.internals
 	
 	-- move to parent if there is a parent
 	if parent ~= base then
 		self.x = self.parent.x + self.staticx
 		self.y = self.parent.y + self.staticy
+	end
+	
+	if inputobject ~= self then
+		self.focus = false
+		self.alltextselected = false
 	end
 	
 	-- keydown check
@@ -299,44 +305,41 @@ function newobject:mousepressed(x, y, button)
 		return
 	end
 	
-	local hover = self.hover
-	local time  = love.timer.getTime()
-	local internals = self.internals
-	local vbar = self.vbar
-	local hbar = self.hbar
+	local hover        = self.hover
+	local internals    = self.internals
+	local vbar         = self.vbar
+	local hbar         = self.hbar
 	local scrollamount = self.mousewheelscrollamount
-	
-	if hover and button == "l" then
-	
-		local baseparent = self:GetBaseParent()
-
-		if baseparent and baseparent.type == "frame" then
-			baseparent:MakeTop()
-		end
-		
-		self.focus = true
-		
-		if not self.alltextselected then
-			if time > self.lastclicktime and time < (self.lastclicktime + 0.25) then
-				self.alltextselected = true
-			end
-		else
-			self.alltextselected = false
-		end
-		
-		self.lastclicktime = time
-		
-		self:GetTextCollisions(x, y)
-				
-	else
-		if not hover then
-			self.focus = false
-			self.alltextselected = false
-		end
-	end
+	local time         = love.timer.getTime()
+	local inputobject  = loveframes.inputobject
 	
 	if hover then
-		if button == "wu" then
+	
+		if button == "l" then
+			
+			if inputobject ~= self then
+				loveframes.inputobject = self
+			end
+			
+			if not self.alltextselected then
+				if time > self.lastclicktime and time < (self.lastclicktime + 0.25) then
+					self.alltextselected = true
+				end
+			else
+				self.alltextselected = false
+			end
+			
+			self.focus = true
+			self.lastclicktime = time
+			self:GetTextCollisions(x, y)
+			
+			local baseparent = self:GetBaseParent()
+
+			if baseparent and baseparent.type == "frame" then
+				baseparent:MakeTop()
+			end
+			
+		elseif button == "wu" then
 			if vbar and not hbar then
 				local vbar = self:GetVerticalScrollBody().internals[1].internals[1]
 				vbar:Scroll(-scrollamount)
@@ -359,6 +362,13 @@ function newobject:mousepressed(x, y, button)
 				hbar:Scroll(scrollamount)
 			end
 		end
+		
+	else
+	
+		if inputobject == self then
+			loveframes.inputobject = false
+		end
+	
 	end
 	
 	for k, v in ipairs(internals) do
@@ -446,7 +456,7 @@ function newobject:RunKey(key, unicode)
 		return
 	end
 	
-	if not self.focus then
+	if not focus then
 		return
 	end
 	
@@ -1033,7 +1043,13 @@ end
 --]]---------------------------------------------------------
 function newobject:SetFocus(focus)
 
+	local inputobject = loveframes.inputobject
+	
 	self.focus = focus
+	
+	if inputobject == self then
+		loveframes.inputobject = false
+	end
 	
 end
 

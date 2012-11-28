@@ -616,9 +616,20 @@ end
 --]]---------------------------------------------------------
 function newobject:IsTopCollision()
 
-	local cols = loveframes.util.GetCollisions()
+	local cols      = loveframes.util.GetCollisions()
 	local draworder = self.draworder
-	local top = true
+	local found     = false
+	local top       = true
+	
+	for k, v in ipairs(cols) do
+		if v == self then
+			found = true
+		end
+	end
+	
+	if not found then
+		return false
+	end
 	
 	-- loop through the object's parent's children
 	for k, v in ipairs(cols) do
@@ -715,7 +726,7 @@ function newobject:CheckHover()
 	end
 	
 	-- this chunk of code handles mouse enter and exit
-	if self.hover == true then
+	if self.hover then
 	
 		if not self.calledmousefunc then
 		
