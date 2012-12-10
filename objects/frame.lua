@@ -12,23 +12,23 @@ local newobject = loveframes.NewObject("frame", "loveframes_object_frame", true)
 --]]---------------------------------------------------------
 function newobject:initialize()
 	
-	self.type               = "frame"
-	self.name               = "Frame"
-	self.width              = 300
-	self.height             = 150
-	self.clickx             = 0
-	self.clicky             = 0
-	self.internal           = false
-	self.draggable          = true
-	self.screenlocked       = false
-	self.parentlocked       = false
-	self.dragging           = false
-	self.modal              = false
-	self.modalbackground    = false
-	self.showclose          = true
-	self.internals          = {}
-	self.children           = {}
-	self.OnClose            = nil
+	self.type            = "frame"
+	self.name            = "Frame"
+	self.width           = 300
+	self.height          = 150
+	self.clickx          = 0
+	self.clicky          = 0
+	self.internal        = false
+	self.draggable       = true
+	self.screenlocked    = false
+	self.parentlocked    = false
+	self.dragging        = false
+	self.modal           = false
+	self.modalbackground = false
+	self.showclose       = true
+	self.internals       = {}
+	self.children        = {}
+	self.OnClose         = nil
 	
 	-- create the close button for the frame
 	local close = loveframes.objects["closebutton"]:new()

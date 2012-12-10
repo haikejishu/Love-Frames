@@ -59,6 +59,8 @@ function newobject:initialize()
 	self.internal               = false
 	self.OnEnter                = nil
 	self.OnTextChanged          = nil
+	self.OnFocusGained          = nil
+	self.OnFocusLost            = nil
 	
 end
 
@@ -305,13 +307,16 @@ function newobject:mousepressed(x, y, button)
 		return
 	end
 	
-	local hover        = self.hover
-	local internals    = self.internals
-	local vbar         = self.vbar
-	local hbar         = self.hbar
-	local scrollamount = self.mousewheelscrollamount
-	local time         = love.timer.getTime()
-	local inputobject  = loveframes.inputobject
+	local hover         = self.hover
+	local internals     = self.internals
+	local vbar          = self.vbar
+	local hbar          = self.hbar
+	local scrollamount  = self.mousewheelscrollamount
+	local focus         = self.focus
+	local onfocusgained = self.OnFocusGained
+	local onfocuslost   = self.OnFocusLost
+	local time          = love.timer.getTime()
+	local inputobject   = loveframes.inputobject
 	
 	if hover then
 	
@@ -332,6 +337,10 @@ function newobject:mousepressed(x, y, button)
 			self.focus = true
 			self.lastclicktime = time
 			self:GetTextCollisions(x, y)
+			
+			if onfocusgained and not focus then
+				onfocusgained(self)
+			end
 			
 			local baseparent = self:GetBaseParent()
 
@@ -367,6 +376,9 @@ function newobject:mousepressed(x, y, button)
 	
 		if inputobject == self then
 			loveframes.inputobject = false
+			if onfocuslost then
+				onfocuslost(self)
+			end
 		end
 	
 	end
@@ -541,15 +553,15 @@ function newobject:RunKey(key, unicode)
 			end
 		end
 	end
+	
+	if not editable then
+		return
+	end
 			
 	-- key input checking system
 	if key == "backspace" then
 		
 		ckey = key
-		
-		if not editable then
-			return
-		end
 		
 		if alltextselected then
 			self:Clear()
@@ -584,6 +596,10 @@ function newobject:RunKey(key, unicode)
 		
 	elseif key == "delete" then
 	
+		if not editable then
+			return
+		end
+			
 		ckey = key
 		
 		if alltextselected then
@@ -651,10 +667,6 @@ function newobject:RunKey(key, unicode)
 		
 	else
 		if unicode > 31 and unicode < 127 then
-		
-			if not editable then
-				return
-			end
 		
 			if alltextselected then
 				self.alltextselected = false
@@ -1043,9 +1055,21 @@ end
 --]]---------------------------------------------------------
 function newobject:SetFocus(focus)
 
-	local inputobject = loveframes.inputobject
+	local inputobject   = loveframes.inputobject
+	local onfocusgained = self.OnFocusGained
+	local onfocuslost   = self.OnFocusLost
 	
 	self.focus = focus
+	
+	if focus then
+		if onfocusgained then
+			onfocusgained(self)
+		end
+	else
+		if onfocuslost then
+			onfocuslost(self)
+		end
+	end
 	
 	if inputobject == self then
 		loveframes.inputobject = false

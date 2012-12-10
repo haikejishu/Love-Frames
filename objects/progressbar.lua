@@ -12,21 +12,21 @@ local newobject = loveframes.NewObject("progressbar", "loveframes_object_progres
 --]]---------------------------------------------------------
 function newobject:initialize()
 
-	self.type           = "progressbar"
-	self.width          = 100
-	self.height         = 25
-	self.min            = 0
-	self.max            = 10
-	self.value          = 0
-	self.barwidth       = 0
-	self.lerprate       = 1000
-	self.lerpvalue      = 0
-	self.lerpto         = 0
-	self.lerpfrom       = 0
-	self.completed      = false
-	self.lerp           = false
-	self.internal       = false
-	self.OnComplete     = nil
+	self.type       = "progressbar"
+	self.width      = 100
+	self.height     = 25
+	self.min        = 0
+	self.max        = 10
+	self.value      = 0
+	self.barwidth   = 0
+	self.lerprate   = 1000
+	self.lerpvalue  = 0
+	self.lerpto     = 0
+	self.lerpfrom   = 0
+	self.completed  = false
+	self.lerp       = false
+	self.internal   = false
+	self.OnComplete = nil
 	
 end
 

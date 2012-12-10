@@ -230,18 +230,6 @@ function loveframes.util.SplitString(str, pat)
 end
 
 --[[---------------------------------------------------------
-	- func: TrimString(string)
-	- desc: trims spaces off of the beginning and end of
-			a string
-	- note: i take no credit for this function
---]]---------------------------------------------------------
-function loveframes.util.TrimString(s)
-
-	return (s:gsub("^%s*(.-)%s*$", "%1"))
-	
-end
-
---[[---------------------------------------------------------
 	- func: RemoveAll()
 	- desc: removes all gui elements
 --]]---------------------------------------------------------

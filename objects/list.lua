@@ -329,18 +329,18 @@ end
 
 --[[---------------------------------------------------------
 	- func: RedoLayout()
-	- desc: used to redo the layour of the object
+	- desc: used to redo the layout of the object
 --]]---------------------------------------------------------
 function newobject:RedoLayout()
 	
-	local children 	= self.children
-	local padding 	= self.padding
-	local spacing 	= self.spacing
-	local starty 	= padding
-	local startx 	= padding
-	local vbar 		= self.vbar
-	local hbar 		= self.hbar
-	local display 	= self.display
+	local children = self.children
+	local padding  = self.padding
+	local spacing  = self.spacing
+	local starty   = padding
+	local startx   = padding
+	local vbar     = self.vbar
+	local hbar     = self.hbar
+	local display  = self.display
 	
 	if #children > 0 then
 	

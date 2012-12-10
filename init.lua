@@ -9,7 +9,7 @@ loveframes = {}
 -- library info
 loveframes.info                      = {}
 loveframes.info.author               = "Kenny Shields"
-loveframes.info.version              = "0.9.4.5"
+loveframes.info.version              = "0.9.4.6"
 loveframes.info.stage                = "Alpha"
 
 -- library configurations
@@ -45,7 +45,11 @@ function loveframes.load()
 	require(dir .. ".templates")
 	require(dir .. ".debug")
 	
-	-- create a list of gui objects and skins
+	-- replace all "." with "/" in the directory setting
+	dir = dir:gsub("%.", "/")
+	loveframes.config["DIRECTORY"] = dir
+	
+	-- create a list of gui objects, skins and templates
 	local objects   = loveframes.util.GetDirectoryContents(dir .. "/objects")
 	local skins     = loveframes.util.GetDirectoryContents(dir .. "/skins")
 	local templates = loveframes.util.GetDirectoryContents(dir .. "/templates")
@@ -72,7 +76,8 @@ function loveframes.load()
 	end
 	
 	-- create the base gui object
-	loveframes.base = loveframes.objects["base"]:new()
+	local base = loveframes.objects["base"]
+	loveframes.base = base:new()
 	
 end
 

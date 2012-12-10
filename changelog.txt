@@ -1,4 +1,16 @@
 ================================================
+Version 0.9.4.6 - Alpha (December 10 - 2012)
+================================================
+[ADDED] a new textinput event callback: OnFocusGained(object)
+[ADDED] a new textinput event callback: OnFocusLost(object)
+
+[FIXED] the textinput object accepting input from the tab and delete keys when object.editable was set to false
+
+[CHANGED] all "." are now replaced with "/" in loveframes.config["DIRECTORY"] after all inernal Love Frames libraries have been loaded (this is to prevent filesystem errors)
+
+[REMOVED] loveframes.util.TrimString(string)
+
+================================================
 Version 0.9.4.5 - Alpha (November 28 - 2012)
 ================================================
 [FIXED] text inputs not losing focus in certain situations
