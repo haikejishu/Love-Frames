@@ -85,9 +85,6 @@ function newobject:update(dt)
 				local x, y = love.mouse.getPosition()
 				self.x = x + self.xoffset
 				self.y = y - self.height + self.yoffset
-			else
-				self.x = object.x + self.xoffset
-				self.y = object.y - self.height + self.yoffset
 			end
 			
 			if not top then
@@ -176,6 +173,8 @@ end
 function newobject:SetObject(object)
 
 	self.object = object
+	self.x = object.x
+	self.y = object.y
 	
 end
 

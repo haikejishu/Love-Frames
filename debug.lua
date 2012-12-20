@@ -124,7 +124,7 @@ end
 
 --[[---------------------------------------------------------
 	- func: ExamplesMenu()
-	- desc: generates a list of examples of LÖVE Frames
+	- desc: generates a list of examples of Love Frames
 			objects
 --]]---------------------------------------------------------
 function loveframes.debug.ExamplesMenu()

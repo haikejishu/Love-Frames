@@ -1,4 +1,11 @@
 ================================================
+Version 0.9.4.7 - Alpha (December 19 - 2012)
+================================================
+[FIXED] textinput:SetFocus(focus) not working properly
+
+[CHANGED] the tooltip object is now positionable via the standard positioning methods when not set to follow the cursor
+
+================================================
 Version 0.9.4.6 - Alpha (December 10 - 2012)
 ================================================
 [ADDED] a new textinput event callback: OnFocusGained(object)

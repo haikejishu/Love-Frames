@@ -1062,17 +1062,17 @@ function newobject:SetFocus(focus)
 	self.focus = focus
 	
 	if focus then
+		loveframes.inputobject = self
 		if onfocusgained then
 			onfocusgained(self)
 		end
 	else
+		if inputobject == self then
+			loveframes.inputobject = false
+		end
 		if onfocuslost then
 			onfocuslost(self)
 		end
-	end
-	
-	if inputobject == self then
-		loveframes.inputobject = false
 	end
 	
 end
