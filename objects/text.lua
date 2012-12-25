@@ -24,9 +24,13 @@ function newobject:initialize()
 	self.height         = 5
 	self.maxw           = 0
 	self.lines          = 1
+	self.shadowxoffset  = 1
+	self.shadowyoffset  = 1
 	self.formattedtext  = {}
 	self.original       = {}
+	self.shadowcolor    = {}
 	self.ignorenewlines = false
+	self.shadow         = false
 	self.internal       = false
 	
 end
@@ -338,6 +342,10 @@ function newobject:DrawText()
 	local theight  = font:getHeight("a")
 	local x        = self.x
 	local y        = self.y
+	local shadow   = self.shadow
+	local shadowxoffset = self.shadowxoffset
+	local shadowyoffset = self.shadowyoffset
+	local shadowcolor = self.shadowcolor
 	
 	for k, v in ipairs(textdata) do
 		
@@ -347,13 +355,21 @@ function newobject:DrawText()
 		if self.parent.type == "list" then
 			if (y + v.y) <= (self.parent.y + self.parent.height) and self.y + ((v.y + theight)) >= self.parent.y then
 				love.graphics.setFont(font)
+				if shadow then
+					love.graphics.setColor(unpack(shadowcolor))
+					love.graphics.print(text, x + v.x + shadowxoffset, y + v.y + shadowyoffset)
+				end
 				love.graphics.setColor(unpack(color))
-				love.graphics.printf(text, x + v.x, y + v.y, 0, "left")
+				love.graphics.print(text, x + v.x, y + v.y)
 			end
 		else
 			love.graphics.setFont(font)
+			if shadow then
+				love.graphics.setColor(unpack(shadowcolor))
+				love.graphics.print(text, x + v.x + shadowxoffset, y + v.y + shadowyoffset)
+			end
 			love.graphics.setColor(unpack(color))
-			love.graphics.printf(text, x + v.x, y + v.y, 0, "left")
+			love.graphics.print(text, x + v.x, y + v.y)
 		end
 	end
 	
@@ -464,5 +480,68 @@ end
 function newobject:GetIgnoreNewlines()
 
 	return self.ignorenewlines
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetShadow(bool)
+	- desc: sets whether or not the object should draw a
+			shadow behind it's text
+--]]---------------------------------------------------------
+function newobject:SetShadow(bool)
+
+	self.shadow = bool
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetShadow()
+	- desc: gets whether or not the object should draw a
+			shadow behind it's text
+--]]---------------------------------------------------------
+function newobject:GetShadow()
+
+	return self.shadow
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetShadowOffsets(offsetx, offsety)
+	- desc: sets the object's x and y shadow offsets
+--]]---------------------------------------------------------
+function newobject:SetShadowOffsets(offsetx, offsety)
+
+	self.shadowxoffset = offsetx
+	self.shadowyoffset = offsety
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetShadowOffsets()
+	- desc: gets the object's x and y shadow offsets
+--]]---------------------------------------------------------
+function newobject:GetShadowOffsets()
+
+	return self.shadowxoffset, self.shadowyoffset
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetShadowColor(r, g, b, a)
+	- desc: sets the object's shadow color
+--]]---------------------------------------------------------
+function newobject:SetShadowColor(r, g, b, a)
+	
+	self.shadowcolor = {r, g, b, a}
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetShadowColor()
+	- desc: gets the object's shadow color
+--]]---------------------------------------------------------
+function newobject:GetShadowColor()
+	
+	return self.shadowcolor
 	
 end

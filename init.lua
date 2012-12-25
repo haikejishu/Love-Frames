@@ -9,7 +9,7 @@ loveframes = {}
 -- library info
 loveframes.info                      = {}
 loveframes.info.author               = "Kenny Shields"
-loveframes.info.version              = "0.9.4.7"
+loveframes.info.version              = "0.9.4.8"
 loveframes.info.stage                = "Alpha"
 
 -- library configurations
@@ -187,7 +187,7 @@ function loveframes.Create(data, parent)
 		local newobject = object:new()
 		
 		-- apply template properties to the object
-		loveframes.templates.ApplyToObject(object)
+		loveframes.templates.ApplyToObject(newobject)
 		
 		-- if the object is a tooltip, return it and go no further
 		if data == "tooltip" then

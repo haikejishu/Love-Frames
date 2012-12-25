@@ -16,7 +16,7 @@ function newobject:initialize(name, parent)
 	self.parent     = parent
 	self.name       = name
 	self.width      = 80
-	self.height     = 16
+	self.height     = self.parent.columnheight
 	self.hover      = false
 	self.down       = false
 	self.clickable  = true

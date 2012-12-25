@@ -13,8 +13,8 @@ local newobject = loveframes.NewObject("closebutton", "loveframes_object_closebu
 function newobject:initialize()
 
 	self.type           = "closebutton"
-	self.width          = 80
-	self.height         = 25
+	self.width          = 16
+	self.height         = 16
 	self.internal       = true
 	self.hover          = false
 	self.down           = false

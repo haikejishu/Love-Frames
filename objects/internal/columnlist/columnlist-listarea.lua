@@ -208,14 +208,14 @@ end
 --]]---------------------------------------------------------
 function newobject:CalculateSize()
 	
-	local iw, ih      = self.parent:GetColumnSize()
-	local numitems    = #self.children
-	local height      = self.height
-	local width       = self.width
-	local itemheight  = ih
-	local itemwidth	  = 0
-	local bar         = self.bar
-	local children    = self.children
+	local columnheight = self.parent.columnheight
+	local numitems     = #self.children
+	local height       = self.height
+	local width        = self.width
+	local itemheight   = columnheight
+	local itemwidth    = 0
+	local bar          = self.bar      
+	local children     = self.children
 	
 	for k, v in ipairs(children) do
 		itemheight = itemheight + v.height
@@ -340,9 +340,9 @@ function newobject:Sort(column, desc)
 	
 	table.sort(children, function(a, b)
 		if desc then
-            return a.columndata[column] < b.columndata[column]
+            return (tonumber(a.columndata[column]) or a.columndata[column]) < (tonumber(b.columndata[column]) or b.columndata[column])
         else
-			return a.columndata[column] > b.columndata[column]
+			return (tonumber(a.columndata[column]) or a.columndata[column]) > (tonumber(b.columndata[column]) or b.columndata[column])
 		end
 	end)
 	

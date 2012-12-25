@@ -1,4 +1,20 @@
 ================================================
+Version 0.9.4.8 - Alpha (December 24 - 2012)
+================================================
+[ADDED] a new text method: SetShadow(bool)
+[ADDED] a new text method: GetShadow()
+[ADDED] a new text method: SetShadowOffsets(offsetx, offsety)
+[ADDED] a new text method: GetShadowOffsets()
+[ADDED] a new text method: SetShadowColor(r, g, b, a)
+[ADDED] a new text method: GetShadowColor()
+[ADDED] a new columnlist method: SetColumnHeight(height)
+
+[FIXED] templates not being applied to objects
+
+[CHANGED] the columnlistarea object now has better sorting
+[CHANGED] the frame object no longer sets the size of it's close button
+
+================================================
 Version 0.9.4.7 - Alpha (December 19 - 2012)
 ================================================
 [FIXED] textinput:SetFocus(focus) not working properly

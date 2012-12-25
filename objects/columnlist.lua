@@ -15,6 +15,7 @@ function newobject:initialize()
 	self.type                   = "columnlist"
 	self.width                  = 300
 	self.height                 = 100
+	self.columnheight           = 16
 	self.buttonscrollamount     = 0.10
 	self.mousewheelscrollamount = 5
 	self.autoscroll             = false
@@ -214,12 +215,13 @@ function newobject:AddColumn(name)
 
 	local internals = self.internals
 	local list      = internals[1]
+	local width     = self.width
 	local height    = self.height
 	
 	loveframes.objects["columnlistheader"]:new(name, self)
 	self:AdjustColumns()
 	
-	list:SetSize(self.width, height)
+	list:SetSize(width, height)
 	list:SetPos(0, 0)
 	
 end
@@ -396,5 +398,26 @@ end
 function newobject:GetButtonScrollAmount()
 
 	return self.mousewheelscrollamount
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetColumnHeight(height)
+	- desc: sets the height of the object's columns
+--]]---------------------------------------------------------
+function newobject:SetColumnHeight(height)
+
+	local children = self.children
+	local internals = self.internals
+	local list = internals[1]
+	
+	self.columnheight = height
+	
+	for k, v in ipairs(children) do
+		v:SetHeight(height)
+	end
+	
+	list:CalculateSize()
+	list:RedoLayout()
 	
 end
