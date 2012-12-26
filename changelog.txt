@@ -1,4 +1,14 @@
 ================================================
+Version 0.9.4.9 - Alpha (December 26 - 2012)
+================================================
+[ADDED] a new default skin: Blue (basic)
+[ADDED] a new default skin: Orange (basic)
+[ADDED] a new skins library function: loveframes.skins.GetAvailalbe()
+
+[CHANGED] the license from CC BY-SA 3.0 to CC BY 3.0
+[CHANGED] made minor improvements to the default skins
+
+================================================
 Version 0.9.4.8 - Alpha (December 24 - 2012)
 ================================================
 [ADDED] a new text method: SetShadow(bool)

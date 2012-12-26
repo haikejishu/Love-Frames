@@ -6,7 +6,7 @@
 -- debug library
 loveframes.debug = {}
 
-local font       = loveframes.basicfontsmall
+local font = loveframes.basicfontsmall
 local centerarea = {210, 5, 585, 590}
 local loremipsum = 
 [[Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean laoreet massa mattis tortor faucibus non congue mauris mattis. Aliquam ultricies scelerisque mi, sit amet tempor metus pharetra vel. Etiam eu arcu a dolor porttitor condimentum in malesuada urna. Mauris vel nulla mi, quis aliquet neque. In aliquet turpis eget purus malesuada tincidunt. Donec rutrum purus vel diam suscipit vehicula. Cras sem nibh, tempus at dictum non, consequat non justo. In sed tellus nec orci scelerisque scelerisque id vitae leo. Maecenas pharetra, nibh eget commodo gravida, augue nisl blandit dui, ut malesuada augue dui nec erat. Phasellus nec mauris pharetra metus iaculis viverra sit amet ut tortor. Duis et viverra magna. Nunc orci dolor, placerat a iaculis non, mattis sed nibh. 
@@ -34,16 +34,16 @@ function loveframes.debug.draw()
 		return
 	end
 	
-	local cols        = loveframes.util.GetCollisions()
-	local topcol      = {type = none, children = {}, x = 0, y = 0, width = 0, height = 0}
-	local objects     = loveframes.util.GetAllObjects()
-	local author      = loveframes.info.author
-	local version     = loveframes.info.version
-	local stage       = loveframes.info.stage
-	local basedir     = loveframes.config["DIRECTORY"]
+	local cols = loveframes.util.GetCollisions()
+	local topcol = {type = none, children = {}, x = 0, y = 0, width = 0, height = 0}
+	local objects = loveframes.util.GetAllObjects()
+	local author = loveframes.info.author
+	local version = loveframes.info.version
+	local stage = loveframes.info.stage
+	local basedir = loveframes.config["DIRECTORY"]
 	local loveversion = love._version
-	local fps         = love.timer.getFPS()
-	local deltatime   = love.timer.getDelta()
+	local fps = love.timer.getFPS()
+	local deltatime = love.timer.getDelta()
 	
 	-- set the top most collision object
 	for k, v in ipairs(cols) do

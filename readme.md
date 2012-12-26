@@ -6,13 +6,13 @@ Love Frames is a GUI library for [LOVE](https://love2d.org/). For information on
 
 ## License
 
-Love Frames is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0) license.
-For more information on this license, please read license.txt or visit this web page: http://creativecommons.org/licenses/by-sa/3.0/
+Love Frames is licensed under the Creative Commons Attribution 3.0 Unported (CC BY 3.0) license.
+For more information on this license, please read license.txt or visit this web page: http://creativecommons.org/licenses/by/3.0/
 
 ## Credits
 
 Created by Kenny Shields
 
-**Third Party Libraries**
+**Third-Party Libraries**
 
-- middleclass: kikito - https://github.com/kikito/middleclass
+- middleclass by kikito - https://github.com/kikito/middleclass

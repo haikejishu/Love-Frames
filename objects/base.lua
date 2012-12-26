@@ -711,7 +711,7 @@ function newobject:CheckHover()
 		
 			local baseparent = self:GetBaseParent()
 			
-			if baseparent ~= modalobject and self.type ~= "multichoice-row" then
+			if baseparent ~= modalobject and self.type ~= "multichoicerow" then
 			
 				self.hover = false
 				

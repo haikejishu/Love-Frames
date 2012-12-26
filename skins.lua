@@ -57,3 +57,14 @@ function loveframes.skins.Register(skin)
 	end
 	
 end
+
+--[[---------------------------------------------------------
+	- func: GetAvailable()
+	- desc: gets all available skins
+--]]---------------------------------------------------------
+function loveframes.skins.GetAvailable()
+
+	local available = loveframes.skins.available
+	return available
+	
+end

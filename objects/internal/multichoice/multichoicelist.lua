@@ -12,7 +12,7 @@ local newobject = loveframes.NewObject("multichoicelist", "loveframes_object_mul
 --]]---------------------------------------------------------
 function newobject:initialize(object)
 	
-	self.type                   = "multichoice-list"
+	self.type                   = "multichoicelist"
 	self.parent                 = loveframes.base
 	self.list                   = object
 	self.x                      = object.x
@@ -243,7 +243,7 @@ end
 --]]---------------------------------------------------------
 function newobject:AddItem(object)
 	
-	if object.type ~= "multichoice-row" then
+	if object.type ~= "multichoicerow" then
 		return
 	end
 	

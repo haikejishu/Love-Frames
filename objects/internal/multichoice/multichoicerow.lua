@@ -12,7 +12,7 @@ local newobject = loveframes.NewObject("multichoicerow", "loveframes_object_mult
 --]]---------------------------------------------------------
 function newobject:initialize()
 	
-	self.type           = "multichoice-row"
+	self.type           = "multichoicerow"
 	self.text           = ""
 	self.width          = 50
 	self.height         = 25

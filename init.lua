@@ -9,7 +9,7 @@ loveframes = {}
 -- library info
 loveframes.info                      = {}
 loveframes.info.author               = "Kenny Shields"
-loveframes.info.version              = "0.9.4.8"
+loveframes.info.version              = "0.9.4.9"
 loveframes.info.stage                = "Alpha"
 
 -- library configurations
@@ -50,8 +50,8 @@ function loveframes.load()
 	loveframes.config["DIRECTORY"] = dir
 	
 	-- create a list of gui objects, skins and templates
-	local objects   = loveframes.util.GetDirectoryContents(dir .. "/objects")
-	local skins     = loveframes.util.GetDirectoryContents(dir .. "/skins")
+	local objects = loveframes.util.GetDirectoryContents(dir .. "/objects")
+	local skins = loveframes.util.GetDirectoryContents(dir .. "/skins")
 	local templates = loveframes.util.GetDirectoryContents(dir .. "/templates")
 	
 	-- loop through a list of all gui objects and require them
@@ -88,7 +88,6 @@ end
 function loveframes.update(dt)
 
 	local base = loveframes.base
-	
 	base:update(dt)
 
 end
@@ -100,14 +99,9 @@ end
 function loveframes.draw()
 
 	local base = loveframes.base
-	
-	-- set the drawcount to zero
-	loveframes.drawcount = 0
-	
-	-- draw the base object
 	base:draw()
 	
-	-- draw the debug library
+	loveframes.drawcount = 0
 	loveframes.debug.draw()
 	
 end
@@ -119,7 +113,6 @@ end
 function loveframes.mousepressed(x, y, button)
 
 	local base = loveframes.base
-	
 	base:mousepressed(x, y, button)
 	
 end
@@ -131,7 +124,6 @@ end
 function loveframes.mousereleased(x, y, button)
 
 	local base = loveframes.base
-	
 	base:mousereleased(x, y, button)
 	
 	-- reset the hover object
@@ -149,7 +141,6 @@ end
 function loveframes.keypressed(key, unicode)
 
 	local base = loveframes.base
-	
 	base:keypressed(key, unicode)
 	
 end
@@ -161,7 +152,6 @@ end
 function loveframes.keyreleased(key)
 
 	local base = loveframes.base
-	
 	base:keyreleased(key)
 	
 end
@@ -177,7 +167,7 @@ function loveframes.Create(data, parent)
 	if type(data) == "string" then
 	
 		local objects = loveframes.objects
-		local object  = objects[data]
+		local object = objects[data]
 		
 		if not object then
 			loveframes.util.Error("Error creating object: Invalid object '" ..data.. "'.")
@@ -285,14 +275,14 @@ end
 function loveframes.NewObject(id, name, inherit_from_base)
 	
 	local objects = loveframes.objects
-	local object  = false
+	local object = false
 	
 	if inherit_from_base then
-		local base  = objects["base"]
-		object      = class(name, base)
+		local base = objects["base"]
+		object = class(name, base)
 		objects[id] = object
 	else
-		object      = class(name)
+		object = class(name)
 		objects[id] = object
 	end
 	
