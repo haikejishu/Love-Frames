@@ -1,4 +1,9 @@
 ================================================
+Version 0.9.4.10 - Alpha (December 26 - 2012)
+================================================
+[FIXED] registration errors for the new default skins
+
+================================================
 Version 0.9.4.9 - Alpha (December 26 - 2012)
 ================================================
 [ADDED] a new default skin: Blue (basic)

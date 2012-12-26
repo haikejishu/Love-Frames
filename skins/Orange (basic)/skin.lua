@@ -7,7 +7,7 @@
 local skin = {}
 
 -- skin info (you always need this in a skin)
-skin.name = "Orange (Basic)"
+skin.name = "Orange (basic)"
 skin.author = "Nikolai Resokav"
 skin.version = "1.0"
 
