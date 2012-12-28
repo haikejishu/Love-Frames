@@ -12,28 +12,28 @@ local newobject = loveframes.NewObject("multichoicelist", "loveframes_object_mul
 --]]---------------------------------------------------------
 function newobject:initialize(object)
 	
-	self.type                   = "multichoicelist"
-	self.parent                 = loveframes.base
-	self.list                   = object
-	self.x                      = object.x
-	self.y                      = object.y + self.list.height
-	self.width                  = self.list.width
-	self.height                 = 0
-	self.clickx                 = 0
-	self.clicky                 = 0
-	self.padding                = self.list.listpadding
-	self.spacing                = self.list.listspacing
-	self.buttonscrollamount     = object.buttonscrollamount
+	self.type = "multichoicelist"
+	self.parent = loveframes.base
+	self.list = object
+	self.x = object.x
+	self.y = object.y + self.list.height
+	self.width = self.list.width
+	self.height = 0
+	self.clickx = 0
+	self.clicky = 0
+	self.padding = self.list.listpadding
+	self.spacing = self.list.listspacing
+	self.buttonscrollamount = object.buttonscrollamount
 	self.mousewheelscrollamount = object.mousewheelscrollamount
-	self.offsety                = 0
-	self.offsetx                = 0
-	self.extrawidth             = 0
-	self.extraheight            = 0
-	self.canremove              = false
-	self.internal               = true
-	self.vbar                   = false
-	self.children               = {}
-	self.internals              = {}
+	self.offsety = 0
+	self.offsetx = 0
+	self.extrawidth = 0
+	self.extraheight = 0
+	self.canremove = false
+	self.internal = true
+	self.vbar = false
+	self.children = {}
+	self.internals = {}
 	
 	for k, v in ipairs(object.choices) do
 		local row = loveframes.objects["multichoicerow"]:new()
@@ -54,7 +54,7 @@ end
 --]]---------------------------------------------------------
 function newobject:update(dt)
 	
-	local visible      = self.visible
+	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
 	if not visible then
@@ -63,15 +63,15 @@ function newobject:update(dt)
 		end
 	end
 	
-	local width     = love.graphics.getWidth()
-	local height    = love.graphics.getHeight()
-	local x, y      = love.mouse.getPosition()
-	local selfcol   = loveframes.util.BoundingBox(x, self.x, y, self.y, 1, self.width, 1, self.height)
-	local parent    = self.parent
-	local base      = loveframes.base
-	local upadte    = self.Update
+	local width = love.graphics.getWidth()
+	local height = love.graphics.getHeight()
+	local x, y = love.mouse.getPosition()
+	local selfcol = loveframes.util.BoundingBox(x, self.x, y, self.y, 1, self.width, 1, self.height)
+	local parent = self.parent
+	local base = loveframes.base
+	local upadte = self.Update
 	local internals = self.internals
-	local children  = self.children
+	local children = self.children
 	
 	-- move to parent if there is a parent
 	if parent ~= base then
@@ -118,25 +118,25 @@ end
 --]]---------------------------------------------------------
 function newobject:draw()
 
-	local visible      = self.visible
+	local visible = self.visible
 	
 	if not visible then
 		return
 	end
 	
-	local stencilfunc   = function() love.graphics.rectangle("fill", self.x, self.y, self.width, self.height) end
-	local stencil       = love.graphics.newStencil(stencilfunc)
-	local skins         = loveframes.skins.available
-	local skinindex     = loveframes.config["ACTIVESKIN"]
-	local defaultskin   = loveframes.config["DEFAULTSKIN"]
-	local selfskin      = self.skin
-	local skin          = skins[selfskin] or skins[skinindex]
-	local drawfunc      = skin.DrawMultiChoiceList or skins[defaultskin].DrawMultiChoiceList
-	local drawoverfunc  = skin.DrawOverMultiChoiceList or skins[defaultskin].DrawOverMultiChoiceList
-	local draw          = self.Draw
-	local drawcount     = loveframes.drawcount
-	local internals     = self.internals
-	local children      = self.children
+	local stencilfunc = function() love.graphics.rectangle("fill", self.x, self.y, self.width, self.height) end
+	local stencil = love.graphics.newStencil(stencilfunc)
+	local skins = loveframes.skins.available
+	local skinindex = loveframes.config["ACTIVESKIN"]
+	local defaultskin = loveframes.config["DEFAULTSKIN"]
+	local selfskin = self.skin
+	local skin = skins[selfskin] or skins[skinindex]
+	local drawfunc = skin.DrawMultiChoiceList or skins[defaultskin].DrawMultiChoiceList
+	local drawoverfunc = skin.DrawOverMultiChoiceList or skins[defaultskin].DrawOverMultiChoiceList
+	local draw = self.Draw
+	local drawcount = loveframes.drawcount
+	local internals = self.internals
+	local children = self.children
 	
 	-- set the object's draw order
 	self:SetDrawOrder()
@@ -180,10 +180,10 @@ function newobject:mousepressed(x, y, button)
 		return
 	end
 	
-	local selfcol   = loveframes.util.BoundingBox(x, self.x, y, self.y, 1, self.width, 1, self.height)
-	local toplist   = self:IsTopList()
+	local selfcol = loveframes.util.BoundingBox(x, self.x, y, self.y, 1, self.width, 1, self.height)
+	local toplist = self:IsTopList()
 	local internals = self.internals
-	local children  = self.children
+	local children = self.children
 	local scrollamount = self.mousewheelscrollamount
 	
 	if not selfcol and self.canremove and button == "l" then
@@ -191,13 +191,11 @@ function newobject:mousepressed(x, y, button)
 	end
 	
 	if self.vbar and toplist then
-	
 		if button == "wu" then
 			internals[1].internals[1].internals[1]:Scroll(-scrollamount)
 		elseif button == "wd" then
 			internals[1].internals[1].internals[1]:Scroll(scrollamount)
 		end
-		
 	end
 	
 	for k, v in ipairs(internals) do
@@ -223,7 +221,7 @@ function newobject:mousereleased(x, y, button)
 	end
 	
 	local internals = self.internals
-	local children  = self.children
+	local children = self.children
 	
 	self.canremove = true
 	
@@ -248,7 +246,6 @@ function newobject:AddItem(object)
 	end
 	
 	object.parent = self
-	
 	table.insert(self.children, object)
 	
 	self:CalculateSize()
@@ -265,11 +262,9 @@ function newobject:RemoveItem(object)
 	local children = self.children
 	
 	for k, v in ipairs(children) do
-	
 		if v == object then
 			table.remove(children, k)
 		end
-		
 	end
 	
 	self:CalculateSize()
@@ -297,13 +292,13 @@ function newobject:CalculateSize()
 		self.height = love.graphics.getHeight()
 	end
 	
-	local numitems   = #self.children
-	local height     = self.height
-	local padding    = self.padding
-	local spacing    = self.spacing
+	local numitems = #self.children
+	local height = self.height
+	local padding = self.padding
+	local spacing = self.spacing
 	local itemheight = self.padding
-	local vbar       = self.vbar
-	local children   = self.children
+	local vbar = self.vbar
+	local children = self.children
 	
 	for k, v in ipairs(children) do
 		itemheight = itemheight + v.height + spacing
@@ -312,23 +307,18 @@ function newobject:CalculateSize()
 	self.itemheight = (itemheight - spacing) + padding
 		
 	if self.itemheight > height then
-		
 		self.extraheight = self.itemheight - height
-			
 		if not vbar then
 			local scroll = loveframes.objects["scrollbody"]:new(self, "vertical")
 			table.insert(self.internals, scroll)
 			self.vbar = true
 		end
-			
 	else
-			
 		if vbar then
 			self.internals[1]:Remove()
 			self.vbar = false
 			self.offsety = 0
 		end
-			
 	end
 	
 end
@@ -340,18 +330,15 @@ end
 function newobject:RedoLayout()
 
 	local children = self.children
-	local padding  = self.padding
-	local spacing  = self.spacing
-	local starty   = padding
-	local vbar     = self.vbar
+	local padding = self.padding
+	local spacing = self.spacing
+	local starty = padding
+	local vbar = self.vbar
 	
 	if #children > 0 then
-	
 		for k, v in ipairs(children) do
-			
 			v.staticx = padding
 			v.staticy = starty
-				
 			if vbar then
 				v.width = (self.width - self.internals[1].width) - padding * 2
 				self.internals[1].staticx = self.width - self.internals[1].width
@@ -359,12 +346,9 @@ function newobject:RedoLayout()
 			else
 				v.width = self.width - padding * 2
 			end
-				
 			starty = starty + v.height
 			starty = starty + spacing
-			
 		end
-		
 	end
 	
 end
@@ -389,9 +373,13 @@ function newobject:SetSpacing(amount)
 	
 end
 
+--[[---------------------------------------------------------
+	- func: Close()
+	- desc: closes the object
+--]]---------------------------------------------------------
 function newobject:Close()
 
 	self:Remove()
 	self.list.haslist = false
-		
+	
 end

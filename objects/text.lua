@@ -17,21 +17,21 @@ local newobject = loveframes.NewObject("text", "loveframes_object_text", true)
 --]]---------------------------------------------------------
 function newobject:initialize()
 
-	self.type           = "text"
-	self.text           = ""
-	self.font           = loveframes.basicfont
-	self.width          = 5
-	self.height         = 5
-	self.maxw           = 0
-	self.lines          = 1
-	self.shadowxoffset  = 1
-	self.shadowyoffset  = 1
-	self.formattedtext  = {}
-	self.original       = {}
-	self.shadowcolor    = {}
+	self.type = "text"
+	self.text = ""
+	self.font = loveframes.basicfont
+	self.width = 5
+	self.height = 5
+	self.maxw = 0
+	self.lines = 1
+	self.shadowxoffset = 1
+	self.shadowyoffset = 1
+	self.formattedtext = {}
+	self.original = {}
+	self.shadowcolor = {0, 0, 0, 255}
 	self.ignorenewlines = false
-	self.shadow         = false
-	self.internal       = false
+	self.shadow = false
+	self.internal = false
 	
 end
 
@@ -48,7 +48,7 @@ function newobject:update(dt)
 	end
 	
 	local parent = self.parent
-	local base   = loveframes.base
+	local base = loveframes.base
 	local update = self.Update
 	
 	self:CheckHover()
@@ -75,14 +75,14 @@ function newobject:draw()
 		return
 	end
 	
-	local skins         = loveframes.skins.available
-	local skinindex     = loveframes.config["ACTIVESKIN"]
-	local defaultskin   = loveframes.config["DEFAULTSKIN"]
-	local selfskin      = self.skin
-	local skin          = skins[selfskin] or skins[skinindex]
-	local drawfunc      = skin.DrawText or skins[defaultskin].DrawText
-	local draw          = self.Draw
-	local drawcount     = loveframes.drawcount
+	local skins = loveframes.skins.available
+	local skinindex = loveframes.config["ACTIVESKIN"]
+	local defaultskin = loveframes.config["DEFAULTSKIN"]
+	local selfskin = self.skin
+	local skin = skins[selfskin] or skins[skinindex]
+	local drawfunc = skin.DrawText or skins[defaultskin].DrawText
+	local draw = self.Draw
+	local drawcount = loveframes.drawcount
 	
 	-- set the object's draw order
 	self:SetDrawOrder()
@@ -112,13 +112,10 @@ function newobject:mousepressed(x, y, button)
 	local hover = self.hover
 	
 	if hover and button == "l" then
-		
 		local baseparent = self:GetBaseParent()
-	
 		if baseparent and baseparent.type == "frame" then
 			baseparent:MakeTop()
 		end
-		
 	end
 	
 end
@@ -129,13 +126,13 @@ end
 --]]---------------------------------------------------------
 function newobject:SetText(t)
 	
-	local dtype   = type(t)
-	local maxw    = self.maxw
-	local font    = self.font
+	local dtype = type(t)
+	local maxw = self.maxw
+	local font = self.font
 	local inserts = {}
 	local tdata, prevcolor
 	
-	self.text          = ""
+	self.text = ""
 	self.formattedtext = {}
 	
 	if dtype == "string" then
@@ -152,58 +149,39 @@ function newobject:SetText(t)
 	end
 	
 	for k, v in ipairs(tdata) do
-		
 		local dtype = type(v)
-		
 		if k == 1 and dtype ~= "table" then
 			prevcolor = {0, 0, 0, 255}
 		end
-		
 		if dtype == "table" then
 			prevcolor = v
 		elseif dtype == "number" then
-			
 			table.insert(self.formattedtext, {color = prevcolor, text = tostring(v)})
-			
 		elseif dtype == "string" then
-			
 			if self.ignorenewlines == false then
 				v = v:gsub(string.char(92) .. string.char(110), string.char(10))
 			end
-			
 			v = v:gsub(string.char(9), "    ")
-			
 			local parts = loveframes.util.SplitString(v, " ")
-					
 			for i, j in ipairs(parts) do
 				table.insert(self.formattedtext, {color = prevcolor, text = j})
 			end
-			
 		end
-		
 	end
 	
 	if maxw > 0 then
-	
 		for k, v in ipairs(self.formattedtext) do
-					
 			local data  = v.text
 			local width = font:getWidth(data)
 			local curw  = 0
 			local new   = ""
 			local key   = k
-			
 			if width > maxw then
-					
 				table.remove(self.formattedtext, k)
-				
-				for n=1, #data do
-							
+				for n=1, #data do	
 					local item = data:sub(n, n)
 					local itemw = font:getWidth(item)
-					
 					if n ~= #data then
-						
 						if (curw + itemw) > maxw then
 							table.insert(inserts, {key = key, color = v.color, text = new})
 							new = item
@@ -213,53 +191,41 @@ function newobject:SetText(t)
 							new = new .. item
 							curw = curw + itemw
 						end
-						
 					else
 						new = new .. item
 						table.insert(inserts, {key = key, color = v.color, text = new})
 					end
-							
 				end
-						
 			end
-					
 		end
-		
 	end
 	
 	for k, v in ipairs(inserts) do
 		table.insert(self.formattedtext, v.key, {color = v.color, text = v.text})
 	end
 	
-	local textdata       = self.formattedtext
-	local maxw           = self.maxw
-	local font           = self.font
-	local height         = font:getHeight("a")
-	local twidth         = 0
-	local drawx          = 0
-	local drawy          = 0
-	local lines          = 0
-	local totalwidth     = 0
-	local x              = self.x
-	local y              = self.y
+	local textdata = self.formattedtext
+	local maxw = self.maxw
+	local font = self.font
+	local height = font:getHeight("a")
+	local twidth = 0
+	local drawx = 0
+	local drawy = 0
+	local lines = 0
+	local totalwidth = 0
+	local x = self.x
+	local y = self.y
 	local prevtextwidth  = 0
 	
 	for k, v in ipairs(textdata) do
-		
 		local text = v.text
 		local color = v.color
-		
 		if type(text) == "string" then
-		
 			self.text = self.text .. text
-			
 			local width = font:getWidth(text)
 			totalwidth = totalwidth + width
-			
 			if maxw > 0 then
-			
 				if k ~= 1 then
-					
 					if string.byte(text) == 10 then
 						twidth = 0
 						drawx = 0
@@ -278,27 +244,18 @@ function newobject:SetText(t)
 				else
 					twidth = twidth + width
 				end
-				
 				prevtextwidth = width
-			
 				v.x = drawx
 				v.y = drawy
-				
 			else
-			
 				if k ~= 1 then
 					drawx = drawx + prevtextwidth
 				end
-				
 				prevtextwidth = width
-				
 				v.x = drawx
 				v.y = drawy
-				
 			end
-			
 		end
-	
 	end
 	
 	if maxw > 0 then
@@ -306,7 +263,7 @@ function newobject:SetText(t)
 	else
 		self.width = totalwidth
 	end
-			
+	
 	self.height = drawy + height
 	
 end
@@ -338,20 +295,18 @@ end
 function newobject:DrawText()
 
 	local textdata = self.formattedtext
-	local font     = self.font
+	local font = self.font
 	local theight  = font:getHeight("a")
-	local x        = self.x
-	local y        = self.y
-	local shadow   = self.shadow
+	local x = self.x
+	local y = self.y
+	local shadow = self.shadow
 	local shadowxoffset = self.shadowxoffset
 	local shadowyoffset = self.shadowyoffset
 	local shadowcolor = self.shadowcolor
 	
 	for k, v in ipairs(textdata) do
-		
 		local text  = v.text
 		local color = v.color
-		
 		if self.parent.type == "list" then
 			if (y + v.y) <= (self.parent.y + self.parent.height) and self.y + ((v.y + theight)) >= self.parent.y then
 				love.graphics.setFont(font)

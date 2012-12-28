@@ -12,18 +12,18 @@ local newobject = loveframes.NewObject("columnlist", "loveframes_object_columnli
 --]]---------------------------------------------------------
 function newobject:initialize()
 	
-	self.type                   = "columnlist"
-	self.width                  = 300
-	self.height                 = 100
-	self.columnheight           = 16
-	self.buttonscrollamount     = 0.10
+	self.type = "columnlist"
+	self.width = 300
+	self.height = 100
+	self.columnheight = 16
+	self.buttonscrollamount = 0.10
 	self.mousewheelscrollamount = 5
-	self.autoscroll             = false
-	self.internal               = false
-	self.children               = {}
-	self.internals              = {}
-	self.OnRowClicked           = nil
-	self.OnScroll               = nil
+	self.autoscroll = false
+	self.internal = false
+	self.children = {}
+	self.internals = {}
+	self.OnRowClicked = nil
+	self.OnScroll = nil
 
 	local list = loveframes.objects["columnlistarea"]:new(self)
 	table.insert(self.internals, list)
@@ -45,11 +45,11 @@ function newobject:update(dt)
 		end
 	end
 	
-	local parent    = self.parent
-	local base      = loveframes.base
-	local children  = self.children
+	local parent = self.parent
+	local base = loveframes.base
+	local children = self.children
 	local internals = self.internals
-	local update    = self.Update
+	local update = self.Update
 	
 	self:CheckHover()
 	
@@ -85,16 +85,16 @@ function newobject:draw()
 		return
 	end
 	
-	local children      = self.children
-	local internals     = self.internals
-	local skins         = loveframes.skins.available
-	local skinindex     = loveframes.config["ACTIVESKIN"]
-	local defaultskin   = loveframes.config["DEFAULTSKIN"]
-	local selfskin      = self.skin
-	local skin          = skins[selfskin] or skins[skinindex]
-	local drawfunc      = skin.DrawColumnList or skins[defaultskin].DrawColumnList
-	local draw          = self.Draw
-	local drawcount     = loveframes.drawcount
+	local children = self.children
+	local internals = self.internals
+	local skins = loveframes.skins.available
+	local skinindex = loveframes.config["ACTIVESKIN"]
+	local defaultskin = loveframes.config["DEFAULTSKIN"]
+	local selfskin = self.skin
+	local skin = skins[selfskin] or skins[skinindex]
+	local drawfunc = skin.DrawColumnList or skins[defaultskin].DrawColumnList
+	local draw = self.Draw
+	local drawcount = loveframes.drawcount
 	
 	-- set the object's draw order
 	self:SetDrawOrder()
@@ -127,7 +127,7 @@ function newobject:mousepressed(x, y, button)
 		return
 	end
 	
-	local hover     = self.hover
+	local hover = self.hover
 	local children  = self.children
 	local internals = self.internals
 	
@@ -183,16 +183,16 @@ end
 function newobject:AdjustColumns()
 
 	local width = self.width
-	local bar   = self.internals[1].bar
+	local bar = self.internals[1].bar
 	
 	if bar then
 		width = width - self.internals[1].internals[1].width
 	end
 	
-	local children    = self.children
+	local children = self.children
 	local numchildren = #children
 	local columnwidth = width/numchildren
-	local x           = 0
+	local x = 0
 	
 	for k, v in ipairs(children) do
 		if bar == true then
@@ -214,9 +214,9 @@ end
 function newobject:AddColumn(name)
 
 	local internals = self.internals
-	local list      = internals[1]
-	local width     = self.width
-	local height    = self.height
+	local list = internals[1]
+	local width = self.width
+	local height = self.height
 	
 	loveframes.objects["columnlistheader"]:new(name, self)
 	self:AdjustColumns()
@@ -233,7 +233,7 @@ end
 function newobject:AddRow(...)
 
 	local internals = self.internals
-	local list      = internals[1]
+	local list = internals[1]
 	
 	list:AddRow(arg)
 	
@@ -245,7 +245,7 @@ end
 --]]---------------------------------------------------------
 function newobject:GetColumnSize()
 
-	local children    = self.children
+	local children = self.children
 	local numchildren = #self.children
 	
 	if numchildren > 0 then
@@ -266,7 +266,7 @@ end
 function newobject:SetSize(width, height)
 	
 	local internals = self.internals
-	local list      = internals[1]
+	local list = internals[1]
 	
 	self.width = width
 	self.height = height
@@ -283,7 +283,7 @@ end
 function newobject:SetWidth(width)
 	
 	local internals = self.internals
-	local list      = internals[1]
+	local list = internals[1]
 	
 	self.width = width
 	
@@ -299,7 +299,7 @@ end
 function newobject:SetHeight(height)
 	
 	local internals = self.internals
-	local list      = internals[1]
+	local list = internals[1]
 	
 	self.height = height
 	
@@ -316,7 +316,7 @@ end
 function newobject:SetMaxColorIndex(num)
 
 	local internals = self.internals
-	local list      = internals[1]
+	local list = internals[1]
 	
 	list.colorindexmax = num
 	
@@ -329,7 +329,7 @@ end
 function newobject:Clear()
 
 	local internals = self.internals
-	local list      = internals[1]
+	local list = internals[1]
 	
 	list:Clear()
 	
@@ -344,7 +344,7 @@ end
 function newobject:SetAutoScroll(bool)
 
 	local internals = self.internals
-	local list      = internals[1]
+	local list = internals[1]
 	local scrollbar = list:GetScrollBar()
 	
 	self.autoscroll = bool

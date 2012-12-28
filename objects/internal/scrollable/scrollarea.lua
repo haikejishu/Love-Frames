@@ -12,16 +12,16 @@ local newobject = loveframes.NewObject("scrollarea", "loveframes_object_scrollar
 --]]---------------------------------------------------------
 function newobject:initialize(parent, bartype)
 	
-	self.type           = "scroll-area"
-	self.bartype        = bartype
-	self.parent         = parent
-	self.x              = 0
-	self.y              = 0
-	self.scrolldelay    = 0
-	self.delayamount    = 0.05
-	self.down           = false
-	self.internal       = true
-	self.internals      = {}
+	self.type = "scroll-area"
+	self.bartype = bartype
+	self.parent = parent
+	self.x = 0
+	self.y = 0
+	self.scrolldelay = 0
+	self.delayamount = 0.05
+	self.down = false
+	self.internal = true
+	self.internals = {}
 	
 	table.insert(self.internals, loveframes.objects["scrollbar"]:new(self, bartype))
 	
@@ -36,7 +36,7 @@ end
 --]]---------------------------------------------------------
 function newobject:update(dt)
 	
-	local visible      = self.visible
+	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
 	if not visible then
@@ -46,7 +46,7 @@ function newobject:update(dt)
 	end
 	
 	local parent = self.parent
-	local base   = loveframes.base
+	local base = loveframes.base
 	local update = self.Update
 	
 	-- move to parent if there is a parent
@@ -57,34 +57,32 @@ function newobject:update(dt)
 	
 	self:CheckHover()
 	
-	local parent      = self.parent
-	local pinternals  = parent.internals
-	local button      = pinternals[2]
-	local bartype     = self.bartype
-	local time        = love.timer.getTime()
-	local x, y        = love.mouse.getPosition()
-	local listo       = parent.parent
-	local down        = self.down
+	local parent = self.parent
+	local pinternals = parent.internals
+	local button = pinternals[2]
+	local bartype = self.bartype
+	local time = love.timer.getTime()
+	local x, y = love.mouse.getPosition()
+	local listo = parent.parent
+	local down = self.down
 	local scrolldelay = self.scrolldelay
 	local delayamount = self.delayamount
-	local internals   = self.internals
-	local bar         = internals[1]
-	local hover       = self.hover
+	local internals = self.internals
+	local bar = internals[1]
+	local hover = self.hover
 	
 	if button then
-	
 		if bartype == "vertical" then
-			self.staticx	= 0
-			self.staticy	= button.height - 1
-			self.width 		= parent.width
-			self.height 	= parent.height - button.height*2 + 2
+			self.staticx = 0
+			self.staticy = button.height - 1
+			self.width = parent.width
+			self.height = parent.height - button.height*2 + 2
 		elseif bartype == "horizontal" then
-			self.staticx	= button.width - 1
-			self.staticy	= 0
-			self.width 		= parent.width - button.width*2 + 2
-			self.height 	= parent.height
+			self.staticx = button.width - 1
+			self.staticy = 0
+			self.width = parent.width - button.width*2 + 2
+			self.height = parent.height
 		end
-		
 	end
 	
 	if down then
@@ -131,15 +129,15 @@ function newobject:draw()
 		return
 	end
 	
-	local internals     = self.internals
-	local skins         = loveframes.skins.available
-	local skinindex     = loveframes.config["ACTIVESKIN"]
-	local defaultskin   = loveframes.config["DEFAULTSKIN"]
-	local selfskin      = self.skin
-	local skin          = skins[selfskin] or skins[skinindex]
-	local drawfunc      = skin.DrawScrollArea or skins[defaultskin].DrawScrollArea
-	local draw          = self.Draw
-	local drawcount     = loveframes.drawcount
+	local internals = self.internals
+	local skins = loveframes.skins.available
+	local skinindex = loveframes.config["ACTIVESKIN"]
+	local defaultskin = loveframes.config["DEFAULTSKIN"]
+	local selfskin = self.skin
+	local skin = skins[selfskin] or skins[skinindex]
+	local drawfunc = skin.DrawScrollArea or skins[defaultskin].DrawScrollArea
+	local draw = self.Draw
+	local drawcount = loveframes.drawcount
 	
 	-- set the object's draw order
 	self:SetDrawOrder()
@@ -168,23 +166,20 @@ function newobject:mousepressed(x, y, button)
 		return
 	end
 	
-	local listo       = self.parent.parent
-	local time        = love.timer.getTime()
-	local internals   = self.internals
-	local bar         = internals[1]
-	local hover       = self.hover
+	local listo = self.parent.parent
+	local time = love.timer.getTime()
+	local internals = self.internals
+	local bar = internals[1]
+	local hover = self.hover
 	local delayamount = self.delayamount
 	
 	if hover and button == "l" then
 		self.down = true
 		self.scrolldelay = time + delayamount + 0.5
-		
 		local baseparent = self:GetBaseParent()
-		
 		if baseparent and baseparent.type == "frame" then
 			baseparent:MakeTop()
 		end
-			
 		if self.bartype == "vertical" then
 			if y > self.internals[1].y then
 				bar:Scroll(bar.height)
@@ -198,9 +193,7 @@ function newobject:mousepressed(x, y, button)
 				bar:Scroll(-bar.width)
 			end
 		end
-		
 		loveframes.hoverobject = self
-		
 	end
 	
 	for k, v in ipairs(internals) do

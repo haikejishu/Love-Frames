@@ -12,14 +12,14 @@ local newobject = loveframes.NewObject("multichoicerow", "loveframes_object_mult
 --]]---------------------------------------------------------
 function newobject:initialize()
 	
-	self.type           = "multichoicerow"
-	self.text           = ""
-	self.width          = 50
-	self.height         = 25
-	self.hover          = false
-	self.internal       = true
-	self.down           = false
-	self.canclick       = false
+	self.type = "multichoicerow"
+	self.text = ""
+	self.width = 50
+	self.height = 25
+	self.hover = false
+	self.internal = true
+	self.down = false
+	self.canclick = false
 	
 	-- apply template properties to the object
 	loveframes.templates.ApplyToObject(self)
@@ -32,7 +32,7 @@ end
 --]]---------------------------------------------------------
 function newobject:update(dt)
 	
-	local visible      = self.visible
+	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
 	if not visible then
@@ -42,7 +42,7 @@ function newobject:update(dt)
 	end
 	
 	local parent = self.parent
-	local base   = loveframes.base
+	local base = loveframes.base
 	local update = self.Update
 	
 	self:CheckHover()
@@ -83,13 +83,13 @@ function newobject:draw()
 		return
 	end
 	
-	local skins         = loveframes.skins.available
-	local skinindex     = loveframes.config["ACTIVESKIN"]
-	local defaultskin   = loveframes.config["DEFAULTSKIN"]
-	local selfskin      = self.skin
-	local skin          = skins[selfskin] or skins[skinindex]
-	local drawfunc      = skin.DrawMultiChoiceRow or skins[defaultskin].DrawMultiChoiceRow
-	local draw          = self.Draw
+	local skins = loveframes.skins.available
+	local skinindex = loveframes.config["ACTIVESKIN"]
+	local defaultskin = loveframes.config["DEFAULTSKIN"]
+	local selfskin = self.skin
+	local skin = skins[selfskin] or skins[skinindex]
+	local drawfunc = skin.DrawMultiChoiceRow or skins[defaultskin].DrawMultiChoiceRow
+	local draw = self.Draw
 	
 	-- set the object's draw order
 	self:SetDrawOrder()
@@ -117,10 +117,8 @@ function newobject:mousepressed(x, y, button)
 	local hover = self.hover
 	
 	if hover and button == "l" then
-	
 		self.down = true
 		loveframes.hoverobject = self
-		
 	end
 
 end
@@ -154,7 +152,7 @@ end
 --]]---------------------------------------------------------
 function newobject:keypressed(key, unicode)
 
-	local text           = self.text
+	local text = self.text
 	local selectedobject = loveframes.selectedobject
 	
 	if key == "return" and selectedobject == self then

@@ -12,18 +12,18 @@ local newobject = loveframes.NewObject("tabbutton", "loveframes_object_tabbutton
 --]]---------------------------------------------------------
 function newobject:initialize(parent, text, tabnumber, tip, image)
 
-	self.type           = "tabbutton"
-	self.font           = loveframes.smallfont
-	self.text           = text
-	self.tabnumber      = tabnumber
-	self.parent         = parent
-	self.staticx        = 0
-	self.staticy        = 0
-	self.width          = 50
-	self.height         = 25
-	self.internal       = true
-	self.down           = false
-	self.image          = nil
+	self.type = "tabbutton"
+	self.font = loveframes.smallfont
+	self.text = text
+	self.tabnumber = tabnumber
+	self.parent = parent
+	self.staticx = 0
+	self.staticy = 0
+	self.width = 50
+	self.height = 25
+	self.internal = true
+	self.down = false
+	self.image = nil
 	
 	if tip then
 		self.tooltip = loveframes.objects["tooltip"]:new(self, tip)
@@ -46,7 +46,7 @@ end
 --]]---------------------------------------------------------
 function newobject:update(dt)
 	
-	local visible      = self.visible
+	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
 	if not visible then
@@ -56,7 +56,7 @@ function newobject:update(dt)
 	end
 	
 	local parent = self.parent
-	local base   = loveframes.base
+	local base = loveframes.base
 	local update = self.Update
 	
 	self:CheckHover()
@@ -84,15 +84,15 @@ function newobject:draw()
 		return
 	end
 	
-	local image         = self.image
-	local skins         = loveframes.skins.available
-	local skinindex     = loveframes.config["ACTIVESKIN"]
-	local defaultskin   = loveframes.config["DEFAULTSKIN"]
-	local selfskin      = self.skin
-	local skin          = skins[selfskin] or skins[skinindex]
-	local drawfunc      = skin.DrawTabButton or skins[defaultskin].DrawTabButton
-	local draw          = self.Draw
-	local drawcount     = loveframes.drawcount
+	local image = self.image
+	local skins = loveframes.skins.available
+	local skinindex = loveframes.config["ACTIVESKIN"]
+	local defaultskin = loveframes.config["DEFAULTSKIN"]
+	local selfskin = self.skin
+	local skin = skins[selfskin] or skins[skinindex]
+	local drawfunc = skin.DrawTabButton or skins[defaultskin].DrawTabButton
+	local draw = self.Draw
+	local drawcount = loveframes.drawcount
 	
 	-- set the object's draw order
 	self:SetDrawOrder()
@@ -120,16 +120,12 @@ function newobject:mousepressed(x, y, button)
 	local hover = self.hover
 	
 	if hover and button == "l" then
-		
 		local baseparent = self:GetBaseParent()
-	
 		if baseparent and baseparent.type == "frame" then
 			baseparent:MakeTop()
 		end
-	
 		self.down = true
 		loveframes.hoverobject = self
-		
 	end
 	
 end
@@ -146,16 +142,14 @@ function newobject:mousereleased(x, y, button)
 		return
 	end
 	
-	local hover     = self.hover
-	local parent    = self.parent
+	local hover = self.hover
+	local parent = self.parent
 	local tabnumber = self.tabnumber
 	
 	if hover and button == "l" then
-	
 		if button == "l" then
 			parent:SwitchToTab(tabnumber)
 		end
-		
 	end
 	
 	self.down = false

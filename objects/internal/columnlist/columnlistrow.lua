@@ -12,16 +12,16 @@ local newobject = loveframes.NewObject("columnlistrow", "loveframes_object_colum
 --]]---------------------------------------------------------
 function newobject:initialize(parent, data)
 
-	self.type           = "columnlistrow"
-	self.parent         = parent
-	self.colorindex     = self.parent.rowcolorindex
-	self.font           = loveframes.basicfontsmall
-	self.width          = 80
-	self.height         = 25
-	self.textx          = 5
-	self.texty          = 5
-	self.internal       = true
-	self.columndata     = data
+	self.type = "columnlistrow"
+	self.parent = parent
+	self.colorindex = self.parent.rowcolorindex
+	self.font = loveframes.basicfontsmall
+	self.width = 80
+	self.height = 25
+	self.textx = 5
+	self.texty = 5
+	self.internal = true
+	self.columndata = data
 	
 	-- apply template properties to the object
 	loveframes.templates.ApplyToObject(self)
@@ -34,7 +34,7 @@ end
 --]]---------------------------------------------------------
 function newobject:update(dt)
 	
-	local visible      = self.visible
+	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
 	if not visible then
@@ -44,7 +44,7 @@ function newobject:update(dt)
 	end
 	
 	local parent = self.parent
-	local base   = loveframes.base
+	local base = loveframes.base
 	local update = self.Update
 	
 	self:CheckHover()
@@ -73,14 +73,14 @@ function newobject:draw()
 		return
 	end
 	
-	local skins             = loveframes.skins.available
-	local skinindex         = loveframes.config["ACTIVESKIN"]
-	local defaultskin       = loveframes.config["DEFAULTSKIN"]
-	local selfskin          = self.skin
-	local skin              = skins[selfskin] or skins[skinindex]
-	local drawfunc          = skin.DrawColumnListRow or skins[defaultskin].DrawColumnListRow
-	local draw              = self.Draw
-	local drawcount         = loveframes.drawcount
+	local skins = loveframes.skins.available
+	local skinindex = loveframes.config["ACTIVESKIN"]
+	local defaultskin = loveframes.config["DEFAULTSKIN"]
+	local selfskin = self.skin
+	local skin = skins[selfskin] or skins[skinindex]
+	local drawfunc = skin.DrawColumnListRow or skins[defaultskin].DrawColumnListRow
+	local draw = self.Draw
+	local drawcount = loveframes.drawcount
 	
 	-- set the object's draw order
 	self:SetDrawOrder()
@@ -104,13 +104,10 @@ function newobject:mousepressed(x, y, button)
 	end
 	
 	if self.hover and button == "l" then
-	
 		local baseparent = self:GetBaseParent()
-	
 		if baseparent and baseparent.type == "frame" then
 			baseparent:MakeTop()
 		end
-		
 	end
 
 end
@@ -127,8 +124,8 @@ function newobject:mousereleased(x, y, button)
 	
 	if self.hover and button == "l" then
 	
-		local parent1      = self:GetParent()
-		local parent2      = parent1:GetParent()
+		local parent1 = self:GetParent()
+		local parent2 = parent1:GetParent()
 		local onrowclicked = parent2.OnRowClicked
 		
 		if onrowclicked then

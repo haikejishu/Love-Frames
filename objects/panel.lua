@@ -12,11 +12,11 @@ local newobject = loveframes.NewObject("panel", "loveframes_object_panel", true)
 --]]---------------------------------------------------------
 function newobject:initialize()
 	
-	self.type           = "panel"
-	self.width          = 200
-	self.height         = 50
-	self.internal       = false
-	self.children       = {}
+	self.type = "panel"
+	self.width = 200
+	self.height = 50
+	self.internal = false
+	self.children = {}
 	
 end
 
@@ -36,9 +36,9 @@ function newobject:update(dt)
 	end
 	
 	local children = self.children
-	local parent   = self.parent
-	local base     = loveframes.base
-	local update   = self.Update
+	local parent = self.parent
+	local base = loveframes.base
+	local update = self.Update
 	
 	-- move to parent if there is a parent
 	if parent ~= base and parent.type ~= "list" then
@@ -70,15 +70,15 @@ function newobject:draw()
 		return
 	end
 	
-	local children      = self.children
-	local skins         = loveframes.skins.available
-	local skinindex     = loveframes.config["ACTIVESKIN"]
-	local defaultskin   = loveframes.config["DEFAULTSKIN"]
-	local selfskin      = self.skin
-	local skin          = skins[selfskin] or skins[skinindex]
-	local drawfunc      = skin.DrawPanel or skins[defaultskin].DrawPanel
-	local draw          = self.Draw
-	local drawcount     = loveframes.drawcount
+	local children = self.children
+	local skins = loveframes.skins.available
+	local skinindex = loveframes.config["ACTIVESKIN"]
+	local defaultskin = loveframes.config["DEFAULTSKIN"]
+	local selfskin = self.skin
+	local skin = skins[selfskin] or skins[skinindex]
+	local drawfunc = skin.DrawPanel or skins[defaultskin].DrawPanel
+	local draw = self.Draw
+	local drawcount = loveframes.drawcount
 	
 	-- set the object's draw order
 	self:SetDrawOrder()
@@ -109,16 +109,13 @@ function newobject:mousepressed(x, y, button)
 	end
 	
 	local children = self.children
-	local hover    = self.hover
+	local hover = self.hover
 	
 	if hover and button == "l" then
-	
 		local baseparent = self:GetBaseParent()
-	
 		if baseparent and baseparent.type == "frame" then
 			baseparent:MakeTop()
 		end
-		
 	end
 	
 	for k, v in ipairs(children) do

@@ -1,4 +1,16 @@
 ================================================
+Version 0.9.4.11 - Alpha (December 28 - 2012)
+================================================
+[ADDED] a new textinput method: SetAutoScroll(bool)
+[ADDED] a new textinput method: GetAutoScroll()
+
+[FIXED] a couple of typos in the changelog
+[FIXED] a sliderbutton calculation error that caused the sliderbutton object to flash while moving the cursor out of it's bounding box while it was down
+
+[CHANGED] cleaned up a lot of code
+[CHANGED] the text object's shadow color now defaults to black
+
+================================================
 Version 0.9.4.10 - Alpha (December 26 - 2012)
 ================================================
 [FIXED] registration errors for the new default skins
@@ -8,7 +20,7 @@ Version 0.9.4.9 - Alpha (December 26 - 2012)
 ================================================
 [ADDED] a new default skin: Blue (basic)
 [ADDED] a new default skin: Orange (basic)
-[ADDED] a new skins library function: loveframes.skins.GetAvailalbe()
+[ADDED] a new skins library function: loveframes.skins.GetAvailable()
 
 [CHANGED] the license from CC BY-SA 3.0 to CC BY 3.0
 [CHANGED] made minor improvements to the default skins
@@ -214,7 +226,7 @@ Version 0.9.3.2 - Alpha (Spetember 29 - 2012)
 [ADDED] ability to select all text within a text input
 
 [FIXED] progressbar object not positioning itself properly if it's parent was the base object
-[FIXED] a typeo in the syntax of loveframes.util.SplitString (was "SplitSring", changed to "SplitString")
+[FIXED] a typo in the syntax of loveframes.util.SplitString (was "SplitSring", changed to "SplitString")
 [FIXED] the tooltip object not disapearing if it was visible when it's object's visibility was changed to false
 [FIXED] the text input object's x offset not being adjusted initially when the width of it's text would would become wider than it's drawing area
 

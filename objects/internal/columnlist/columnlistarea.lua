@@ -12,25 +12,25 @@ local newobject = loveframes.NewObject("columnlistarea", "loveframes_object_colu
 --]]---------------------------------------------------------
 function newobject:initialize(parent)
 	
-	self.type                   = "columnlistarea"
-	self.display                = "vertical"
-	self.parent                 = parent
-	self.width                  = 80
-	self.height                 = 25
-	self.clickx                 = 0
-	self.clicky                 = 0
-	self.offsety                = 0
-	self.offsetx                = 0
-	self.extrawidth             = 0
-	self.extraheight            = 0
-	self.rowcolorindex          = 1
-	self.rowcolorindexmax       = 2
-	self.buttonscrollamount     = parent.buttonscrollamount
+	self.type = "columnlistarea"
+	self.display = "vertical"
+	self.parent = parent
+	self.width = 80
+	self.height = 25
+	self.clickx = 0
+	self.clicky = 0
+	self.offsety = 0
+	self.offsetx = 0
+	self.extrawidth = 0
+	self.extraheight = 0
+	self.rowcolorindex = 1
+	self.rowcolorindexmax = 2
+	self.buttonscrollamount = parent.buttonscrollamount
 	self.mousewheelscrollamount = parent.mousewheelscrollamount
-	self.bar                    = false
-	self.internal               = true
-	self.internals              = {}
-	self.children               = {}
+	self.bar = false
+	self.internal = true
+	self.internals = {}
+	self.children = {}
 
 	-- apply template properties to the object
 	loveframes.templates.ApplyToObject(self)
@@ -43,7 +43,7 @@ end
 --]]---------------------------------------------------------
 function newobject:update(dt)
 	
-	local visible      = self.visible
+	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
 	if not visible then
@@ -53,11 +53,11 @@ function newobject:update(dt)
 	end
 	
 	local cwidth, cheight = self.parent:GetColumnSize()
-	local parent          = self.parent
-	local base            = loveframes.base
-	local update          = self.Update
-	local internals       = self.internals
-	local children        = self.children
+	local parent = self.parent
+	local base = loveframes.base
+	local update = self.Update
+	local internals = self.internals
+	local children = self.children
 	
 	self:CheckHover()
 	
@@ -96,19 +96,19 @@ function newobject:draw()
 		return
 	end
 	
-	local stencilfunc   = function() love.graphics.rectangle("fill", self.x, self.y, self.width, self.height) end
-	local stencil       = love.graphics.newStencil(stencilfunc)
-	local skins         = loveframes.skins.available
-	local skinindex     = loveframes.config["ACTIVESKIN"]
-	local defaultskin   = loveframes.config["DEFAULTSKIN"]
-	local selfskin      = self.skin
-	local skin          = skins[selfskin] or skins[skinindex]
-	local drawfunc      = skin.DrawColumnListArea or skins[defaultskin].DrawColumnListArea
-	local drawoverfunc  = skin.DrawOverColumnListArea or skins[defaultskin].DrawOverColumnListArea
-	local draw          = self.Draw
-	local drawcount     = loveframes.drawcount
-	local internals     = self.internals
-	local children      = self.children
+	local stencilfunc = function() love.graphics.rectangle("fill", self.x, self.y, self.width, self.height) end
+	local stencil = love.graphics.newStencil(stencilfunc)
+	local skins = loveframes.skins.available
+	local skinindex = loveframes.config["ACTIVESKIN"]
+	local defaultskin = loveframes.config["DEFAULTSKIN"]
+	local selfskin = self.skin
+	local skin = skins[selfskin] or skins[skinindex]
+	local drawfunc = skin.DrawColumnListArea or skins[defaultskin].DrawColumnListArea
+	local drawoverfunc = skin.DrawOverColumnListArea or skins[defaultskin].DrawOverColumnListArea
+	local draw = self.Draw
+	local drawcount = loveframes.drawcount
+	local internals = self.internals
+	local children = self.children
 	
 	-- set the object's draw order
 	self:SetDrawOrder()
@@ -146,31 +146,25 @@ end
 --]]---------------------------------------------------------
 function newobject:mousepressed(x, y, button)
 
-	local toplist      = self:IsTopList()
+	local toplist = self:IsTopList()
 	local scrollamount = self.mousewheelscrollamount
-	local internals    = self.internals
-	local children     = self.children
+	local internals = self.internals
+	local children = self.children
 	
 	if self.hover and button == "l" then
-		
 		local baseparent = self:GetBaseParent()
-	
 		if baseparent and baseparent.type == "frame" then
 			baseparent:MakeTop()
 		end
-		
 	end
 	
 	if self.bar and toplist then
-	
 		local bar = self:GetScrollBar()
-			
 		if button == "wu" then
 			bar:Scroll(-scrollamount)
 		elseif button == "wd" then
 			bar:Scroll(scrollamount)
 		end
-		
 	end
 	
 	for k, v in ipairs(internals) do
@@ -209,13 +203,13 @@ end
 function newobject:CalculateSize()
 	
 	local columnheight = self.parent.columnheight
-	local numitems     = #self.children
-	local height       = self.height
-	local width        = self.width
-	local itemheight   = columnheight
-	local itemwidth    = 0
-	local bar          = self.bar      
-	local children     = self.children
+	local numitems = #self.children
+	local height = self.height
+	local width = self.width
+	local itemheight = columnheight
+	local itemwidth = 0
+	local bar = self.bar      
+	local children = self.children
 	
 	for k, v in ipairs(children) do
 		itemheight = itemheight + v.height
@@ -224,23 +218,18 @@ function newobject:CalculateSize()
 	self.itemheight = itemheight
 		
 	if self.itemheight > height then
-		
 		self.extraheight = self.itemheight - height
-			
 		if not bar then
 			table.insert(self.internals, loveframes.objects["scrollbody"]:new(self, "vertical"))
 			self.bar = true
 			self:GetScrollBar().autoscroll = self.parent.autoscroll
 		end
-			
 	else
-			
 		if bar then
 			self.internals[1]:Remove()
 			self.bar = false
 			self.offsety = 0
 		end
-			
 	end
 	
 end
@@ -252,20 +241,16 @@ end
 function newobject:RedoLayout()
 	
 	local children = self.children
-	local starty   = 0
-	local startx   = 0
-	local bar      = self.bar
-	local display  = self.display
+	local starty = 0
+	local startx = 0
+	local bar = self.bar
+	local display = self.display
 	
 	if #children > 0 then
-	
 		for k, v in ipairs(children) do
-		
 			local height = v.height
-				
 			v.staticx = startx
 			v.staticy = starty
-				
 			if bar then
 				v:SetWidth(self.width - self.internals[1].width)
 				self.internals[1].staticx = self.width - self.internals[1].width
@@ -273,13 +258,9 @@ function newobject:RedoLayout()
 			else
 				v:SetWidth(self.width)
 			end
-				
 			starty = starty + v.height
-				
 			v.lastheight = v.height
-				
 		end
-		
 	end
 	
 end
@@ -291,8 +272,7 @@ end
 function newobject:AddRow(data)
 
 	local row = loveframes.objects["columnlistrow"]:new(self, data)
-	
-	local colorindex    = self.rowcolorindex
+	local colorindex = self.rowcolorindex
 	local colorindexmax = self.rowcolorindexmax
 	
 	if colorindex == colorindexmax then
@@ -336,7 +316,7 @@ function newobject:Sort(column, desc)
 	self.rowcolorindex = 1
 	
 	local colorindexmax = self.rowcolorindexmax
-	local children      = self.children
+	local children = self.children
 	
 	table.sort(children, function(a, b)
 		if desc then
@@ -347,17 +327,13 @@ function newobject:Sort(column, desc)
 	end)
 	
 	for k, v in ipairs(children) do
-	
 		local colorindex = self.rowcolorindex
-		
 		v.colorindex = colorindex
-		
 		if colorindex == colorindexmax then
 			self.rowcolorindex = 1
 		else
 			self.rowcolorindex = colorindex + 1
 		end
-	
 	end
 	
 	self:CalculateSize()

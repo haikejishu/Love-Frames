@@ -12,19 +12,19 @@ local newobject = loveframes.NewObject("image", "loveframes_object_image", true)
 --]]---------------------------------------------------------
 function newobject:initialize()
 
-	self.type           = "image"
-	self.width          = 0
-	self.height         = 0
-	self.orientation    = 0
-	self.scalex         = 1
-	self.scaley         = 1
-	self.offsetx        = 0
-	self.offsety        = 0
-	self.shearx         = 0
-	self.sheary         = 0
-	self.internal       = false
-	self.image          = nil
-	self.imagecolor     = nil
+	self.type = "image"
+	self.width = 0
+	self.height = 0
+	self.orientation = 0
+	self.scalex = 1
+	self.scaley = 1
+	self.offsetx = 0
+	self.offsety = 0
+	self.shearx = 0
+	self.sheary = 0
+	self.internal = false
+	self.image = nil
+	self.imagecolor = nil
 	
 end
 
@@ -34,7 +34,7 @@ end
 --]]---------------------------------------------------------
 function newobject:update(dt)
 
-	local visible      = self.visible
+	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
 	if not visible then
@@ -44,7 +44,7 @@ function newobject:update(dt)
 	end
 	
 	local parent = self.parent
-	local base   = loveframes.base
+	local base = loveframes.base
 	local update = self.Update
 	
 	-- move to parent if there is a parent
@@ -71,14 +71,14 @@ function newobject:draw()
 		return
 	end
 	
-	local skins         = loveframes.skins.available
-	local skinindex     = loveframes.config["ACTIVESKIN"]
-	local defaultskin   = loveframes.config["DEFAULTSKIN"]
-	local selfskin      = self.skin
-	local skin          = skins[selfskin] or skins[skinindex]
-	local drawfunc      = skin.DrawImage or skins[defaultskin].DrawImage
-	local draw          = self.Draw
-	local drawcount     = loveframes.drawcount
+	local skins = loveframes.skins.available
+	local skinindex = loveframes.config["ACTIVESKIN"]
+	local defaultskin = loveframes.config["DEFAULTSKIN"]
+	local selfskin = self.skin
+	local skin = skins[selfskin] or skins[skinindex]
+	local drawfunc = skin.DrawImage or skins[defaultskin].DrawImage
+	local draw = self.Draw
+	local drawcount = loveframes.drawcount
 	
 	-- set the object's draw order
 	self:SetDrawOrder()

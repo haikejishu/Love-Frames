@@ -12,17 +12,17 @@ local newobject = loveframes.NewObject("columnlistheader", "loveframes_object_co
 --]]---------------------------------------------------------
 function newobject:initialize(name, parent)
 	
-	self.type       = "columnlistheader"
-	self.parent     = parent
-	self.name       = name
-	self.width      = 80
-	self.height     = self.parent.columnheight
-	self.hover      = false
-	self.down       = false
-	self.clickable  = true
-	self.enabled    = true
+	self.type = "columnlistheader"
+	self.parent = parent
+	self.name = name
+	self.width = 80
+	self.height = self.parent.columnheight
+	self.hover = false
+	self.down = false
+	self.clickable = true
+	self.enabled = true
 	self.descending = true
-	self.internal   = true
+	self.internal = true
 
 	table.insert(parent.children, self)
 		
@@ -54,7 +54,7 @@ end
 --]]---------------------------------------------------------
 function newobject:update(dt)
 	
-	local visible      = self.visible
+	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
 	if not visible then
@@ -105,14 +105,14 @@ function newobject:draw()
 		return
 	end
 	
-	local skins         = loveframes.skins.available
-	local skinindex     = loveframes.config["ACTIVESKIN"]
-	local defaultskin   = loveframes.config["DEFAULTSKIN"]
-	local selfskin      = self.skin
-	local skin          = skins[selfskin] or skins[skinindex]
-	local drawfunc      = skin.DrawColumnListHeader or skins[defaultskin].DrawColumnListHeader
-	local draw          = self.Draw
-	local drawcount     = loveframes.drawcount
+	local skins = loveframes.skins.available
+	local skinindex = loveframes.config["ACTIVESKIN"]
+	local defaultskin = loveframes.config["DEFAULTSKIN"]
+	local selfskin = self.skin
+	local skin = skins[selfskin] or skins[skinindex]
+	local drawfunc = skin.DrawColumnListHeader or skins[defaultskin].DrawColumnListHeader
+	local draw = self.Draw
+	local drawcount = loveframes.drawcount
 	
 	-- set the object's draw order
 	self:SetDrawOrder()
@@ -132,16 +132,12 @@ end
 function newobject:mousepressed(x, y, button)
 
 	if self.hover and button == "l" then
-		
 		local baseparent = self:GetBaseParent()
-	
 		if baseparent and baseparent.type == "frame" and button == "l" then
 			baseparent:MakeTop()
 		end
-	
 		self.down = true
 		loveframes.hoverobject = self
-		
 	end
 	
 end
@@ -156,11 +152,11 @@ function newobject:mousereleased(x, y, button)
 		return
 	end
 	
-	local hover     = self.hover
-	local down      = self.down
+	local hover = self.hover
+	local down = self.down
 	local clickable = self.clickable
-	local enabled   = self.enabled
-	local onclick   = self.OnClick
+	local enabled = self.enabled
+	local onclick = self.OnClick
 	
 	if hover and down and clickable and button == "l" then
 		if enabled then

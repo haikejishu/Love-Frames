@@ -12,17 +12,17 @@ local newobject = loveframes.NewObject("slider", "loveframes_object_slider", tru
 --]]---------------------------------------------------------
 function newobject:initialize()
 
-	self.type           = "slider"
-	self.text           = "Slider"
-	self.slidetype      = "horizontal"
-	self.width          = 5
-	self.height         = 5
-	self.max            = 10
-	self.min            = 0
-	self.value          = 0
-	self.decimals       = 5
-	self.internal       = false
-	self.internals      = {}
+	self.type = "slider"
+	self.text = "Slider"
+	self.slidetype = "horizontal"
+	self.width = 5
+	self.height = 5
+	self.max = 10
+	self.min = 0
+	self.value = 0
+	self.decimals = 5
+	self.internal = false
+	self.internals = {}
 	self.OnValueChanged	= nil
 	
 	-- create the slider button
@@ -39,7 +39,7 @@ end
 --]]---------------------------------------------------------
 function newobject:update(dt)
 
-	local visible      = self.visible
+	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
 	if not visible then
@@ -48,11 +48,11 @@ function newobject:update(dt)
 		end
 	end
 	
-	local internals 	= self.internals
+	local internals = self.internals
 	local sliderbutton 	= internals[1]
-	local parent        = self.parent
-	local base          = loveframes.base
-	local update        = self.Update
+	local parent = self.parent
+	local base = loveframes.base
+	local update = self.Update
 	
 	self:CheckHover()
 	
@@ -93,15 +93,15 @@ function newobject:draw()
 		return
 	end
 	
-	local internals     = self.internals
-	local skins         = loveframes.skins.available
-	local skinindex     = loveframes.config["ACTIVESKIN"]
-	local defaultskin   = loveframes.config["DEFAULTSKIN"]
-	local selfskin      = self.skin
-	local skin          = skins[selfskin] or skins[skinindex]
-	local drawfunc      = skin.DrawSlider or skins[defaultskin].DrawSlider
-	local draw          = self.Draw
-	local drawcount     = loveframes.drawcount
+	local internals = self.internals
+	local skins = loveframes.skins.available
+	local skinindex = loveframes.config["ACTIVESKIN"]
+	local defaultskin = loveframes.config["DEFAULTSKIN"]
+	local selfskin = self.skin
+	local skin = skins[selfskin] or skins[skinindex]
+	local drawfunc = skin.DrawSlider or skins[defaultskin].DrawSlider
+	local draw = self.Draw
+	local drawcount = loveframes.drawcount
 	
 	-- set the object's draw order
 	self:SetDrawOrder()
@@ -134,43 +134,32 @@ function newobject:mousepressed(x, y, button)
 	local internals = self.internals
 	
 	if self.hover and button == "l" then
-		
 		if self.slidetype == "horizontal" then
-		
 			local xpos = x - self.x
 			local button = internals[1]
 			local baseparent = self:GetBaseParent()
-		
 			if baseparent and baseparent.type == "frame" then
 				baseparent:MakeTop()
 			end
-			
 			button:MoveToX(xpos)
 			button.down = true
 			button.dragging = true
 			button.startx = button.staticx
 			button.clickx = x
-			
 		elseif self.slidetype == "vertical" then
-		
 			local ypos = y - self.y
 			local button = internals[1]
 			local baseparent = self:GetBaseParent()
-		
 			if baseparent and baseparent.type == "frame" then
 				baseparent:MakeTop()
 			end
-			
 			button:MoveToY(ypos)
 			button.down = true
 			button.dragging = true
 			button.starty = button.staticy
 			button.clicky = y
-			
 		end
-			
 	end
-			
 	
 	for k, v in ipairs(internals) do
 		v:mousepressed(x, y, button)
@@ -192,9 +181,9 @@ function newobject:SetValue(value)
 		return
 	end
 	
-	local decimals       = self.decimals
-	local newval         = loveframes.util.Round(value, decimals)
-	local internals      = self.internals
+	local decimals = self.decimals
+	local newval = loveframes.util.Round(value, decimals)
+	local internals = self.internals
 	local onvaluechanged = self.OnValueChanged
 	
 	-- set the new value
@@ -202,11 +191,11 @@ function newobject:SetValue(value)
 	
 	-- slider button object
 	local sliderbutton = internals[1]
-	local slidetype    = self.slidetype
-	local width        = self.width
-	local height       = self.height
-	local min          = self.min
-	local max          = self.max
+	local slidetype = self.slidetype
+	local width = self.width
+	local height = self.height
+	local min = self.min
+	local max = self.max
 	
 	-- move the slider button to the new position
 	if slidetype == "horizontal" then
@@ -347,7 +336,7 @@ end
 --]]---------------------------------------------------------
 function newobject:SetButtonSize(width, height)
 	
-	local internals    = self.internals
+	local internals = self.internals
 	local sliderbutton = internals[1]
 	
 	if sliderbutton then
@@ -363,7 +352,7 @@ end
 --]]---------------------------------------------------------
 function newobject:GetButtonSize()
 
-	local internals    = self.internals
+	local internals = self.internals
 	local sliderbutton = internals[1]
 	
 	if sliderbutton then

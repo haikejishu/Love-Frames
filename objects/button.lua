@@ -12,15 +12,15 @@ local newobject = loveframes.NewObject("button", "loveframes_object_button", tru
 --]]---------------------------------------------------------
 function newobject:initialize()
 	
-	self.type           = "button"
-	self.text           = "Button"
-	self.width          = 80
-	self.height         = 25
-	self.internal       = false
-	self.down           = false
-	self.clickable      = true
-	self.enabled        = true
-	self.OnClick        = nil
+	self.type = "button"
+	self.text = "Button"
+	self.width = 80
+	self.height = 25
+	self.internal = false
+	self.down = false
+	self.clickable = true
+	self.enabled = true
+	self.OnClick = nil
 	
 end
 
@@ -30,7 +30,7 @@ end
 --]]---------------------------------------------------------
 function newobject:update(dt)
 	
-	local visible      = self.visible
+	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
 	if not visible then
@@ -41,12 +41,12 @@ function newobject:update(dt)
 	
 	self:CheckHover()
 	
-	local hover       = self.hover
-	local down        = self.down
+	local hover = self.hover
+	local down = self.down
 	local hoverobject = loveframes.hoverobject
-	local parent      = self.parent
-	local base        = loveframes.base
-	local update      = self.Update
+	local parent = self.parent
+	local base = loveframes.base
+	local update = self.Update
 	
 	if not hover then
 		self.down = false
@@ -83,14 +83,14 @@ function newobject:draw()
 		return
 	end
 
-	local skins	        = loveframes.skins.available
-	local skinindex	    = loveframes.config["ACTIVESKIN"]
-	local defaultskin   = loveframes.config["DEFAULTSKIN"]
-	local selfskin      = self.skin
-	local skin          = skins[selfskin] or skins[skinindex]
-	local drawfunc      = skin.DrawButton or skins[defaultskin].DrawButton
-	local draw          = self.Draw
-	local drawcount     = loveframes.drawcount
+	local skins = loveframes.skins.available
+	local skinindex = loveframes.config["ACTIVESKIN"]
+	local defaultskin = loveframes.config["DEFAULTSKIN"]
+	local selfskin = self.skin
+	local skin = skins[selfskin] or skins[skinindex]
+	local drawfunc = skin.DrawButton or skins[defaultskin].DrawButton
+	local draw = self.Draw
+	local drawcount = loveframes.drawcount
 	
 	-- set the object's draw order
 	self:SetDrawOrder()
@@ -118,16 +118,12 @@ function newobject:mousepressed(x, y, button)
 	local hover = self.hover
 	
 	if hover and button == "l" then
-		
 		local baseparent = self:GetBaseParent()
-	
 		if baseparent and baseparent.type == "frame" then
 			baseparent:MakeTop()
 		end
-	
 		self.down = true
 		loveframes.hoverobject = self
-		
 	end
 	
 end
@@ -144,11 +140,11 @@ function newobject:mousereleased(x, y, button)
 		return
 	end
 	
-	local hover     = self.hover
-	local down      = self.down
+	local hover = self.hover
+	local down = self.down
 	local clickable = self.clickable
-	local enabled   = self.enabled
-	local onclick   = self.OnClick
+	local enabled = self.enabled
+	local onclick = self.OnClick
 	
 	if hover and down and clickable and button == "l" then
 		if enabled then
@@ -175,7 +171,7 @@ function newobject:keypressed(key, unicode)
 	end
 	
 	local selectedobject = loveframes.selectedobject
-	local onclick        = self.OnClick
+	local onclick = self.OnClick
 	
 	if key == "return" and selectedobject == self then
 		onclick(self, 0, 0)

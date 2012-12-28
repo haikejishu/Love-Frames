@@ -12,16 +12,16 @@ local newobject = loveframes.NewObject("collapsiblecategory", "loveframes_object
 --]]---------------------------------------------------------
 function newobject:initialize()
 
-	self.type           = "collapsiblecategory"
-	self.text           = "Category"
-	self.width          = 200
-	self.height         = 25
-	self.closedheight   = 25
-	self.padding        = 5
-	self.internal       = false
-	self.open           = false
-	self.down           = false
-	self.children       = {}
+	self.type = "collapsiblecategory"
+	self.text = "Category"
+	self.width = 200
+	self.height = 25
+	self.closedheight = 25
+	self.padding = 5
+	self.internal = false
+	self.open = false
+	self.down = false
+	self.children = {}
 	self.OnOpenedClosed = nil
 	
 end
@@ -32,7 +32,7 @@ end
 --]]---------------------------------------------------------
 function newobject:update(dt)
 	
-	local visible      = self.visible
+	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
 	if not visible then
@@ -41,12 +41,12 @@ function newobject:update(dt)
 		end
 	end
 	
-	local open      = self.open
-	local children  = self.children
+	local open = self.open
+	local children = self.children
 	local curobject = children[1]
-	local parent    = self.parent
-	local base      = loveframes.base
-	local update    = self.Update
+	local parent = self.parent
+	local base = loveframes.base
+	local update = self.Update
 	
 	self:CheckHover()
 	
@@ -79,17 +79,17 @@ function newobject:draw()
 		return
 	end
 	
-	local open          = self.open
-	local children      = self.children
-	local curobject     = children[1]
-	local skins         = loveframes.skins.available
-	local skinindex     = loveframes.config["ACTIVESKIN"]
-	local defaultskin   = loveframes.config["DEFAULTSKIN"]
-	local selfskin      = self.skin
-	local skin          = skins[selfskin] or skins[skinindex]
-	local drawfunc      = skin.DrawCollapsibleCategory or skins[defaultskin].DrawCollapsibleCategory
-	local draw          = self.Draw
-	local drawcount     = loveframes.drawcount
+	local open = self.open
+	local children = self.children
+	local curobject = children[1]
+	local skins = loveframes.skins.available
+	local skinindex = loveframes.config["ACTIVESKIN"]
+	local defaultskin = loveframes.config["DEFAULTSKIN"]
+	local selfskin = self.skin
+	local skin = skins[selfskin] or skins[skinindex]
+	local drawfunc = skin.DrawCollapsibleCategory or skins[defaultskin].DrawCollapsibleCategory
+	local draw = self.Draw
+	local drawcount = loveframes.drawcount
 	
 	-- set the object's draw order
 	self:SetDrawOrder()
@@ -118,28 +118,21 @@ function newobject:mousepressed(x, y, button)
 		return
 	end
 	
-	local hover     = self.hover
-	local open      = self.open
-	local children  = self.children
+	local hover = self.hover
+	local open = self.open
+	local children = self.children
 	local curobject = children[1]
 	
 	if hover then
-	
 		local col = loveframes.util.BoundingBox(self.x, x, self.y, y, self.width, 1, self.closedheight, 1)
-		
 		if button == "l" and col then
-			
 			local baseparent = self:GetBaseParent()
-	
 			if baseparent and baseparent.type == "frame" then
 				baseparent:MakeTop()
 			end
-			
 			self.down = true
 			loveframes.hoverobject = self
-		
 		end
-		
 	end
 	
 	if open and curobject then
@@ -160,25 +153,22 @@ function newobject:mousereleased(x, y, button)
 		return
 	end
 	
-	local hover     = self.hover
-	local down      = self.down
+	local hover = self.hover
+	local down = self.down
 	local clickable = self.clickable
-	local enabled   = self.enabled
-	local open      = self.open
-	local col       = loveframes.util.BoundingBox(self.x, x, self.y, y, self.width, 1, self.closedheight, 1)
-	local children  = self.children
+	local enabled = self.enabled
+	local open = self.open
+	local col = loveframes.util.BoundingBox(self.x, x, self.y, y, self.width, 1, self.closedheight, 1)
+	local children = self.children
 	local curobject = children[1]
 	
 	if hover and col and down and button == "l" then
-			
 		if open then
 			self:SetOpen(false)
 		else
 			self:SetOpen(true)
 		end
-		
 		self.down = false
-		
 	end
 	
 	if open and curobject then
@@ -213,7 +203,7 @@ end
 --]]---------------------------------------------------------
 function newobject:SetObject(object)
 	
-	local children  = self.children
+	local children = self.children
 	local curobject = children[1]
 	
 	if curobject then
@@ -225,7 +215,6 @@ function newobject:SetObject(object)
 	object.parent = self
 	object:SetWidth(self.width - self.padding*2)
 	object:SetPos(self.padding, self.closedheight + self.padding)
-	
 	table.insert(self.children, object)
 	
 end
@@ -236,7 +225,7 @@ end
 --]]---------------------------------------------------------
 function newobject:GetObject()
 
-	local children  = self.children
+	local children = self.children
 	local curobject = children[1]
 	
 	if curobject then
@@ -293,11 +282,11 @@ end
 --]]---------------------------------------------------------
 function newobject:SetOpen(bool)
 
-	local children        = self.children
-	local curobject       = children[1]
-	local closedheight    = self.closedheight
-	local padding         = self.padding
-	local onopenedclosed  = self.OnOpenedClosed
+	local children = self.children
+	local curobject = children[1]
+	local closedheight = self.closedheight
+	local padding = self.padding
+	local onopenedclosed = self.OnOpenedClosed
 	
 	self.open = bool
 	

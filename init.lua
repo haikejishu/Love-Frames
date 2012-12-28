@@ -9,7 +9,7 @@ loveframes = {}
 -- library info
 loveframes.info                      = {}
 loveframes.info.author               = "Kenny Shields"
-loveframes.info.version              = "0.9.4.10"
+loveframes.info.version              = "0.9.4.11"
 loveframes.info.stage                = "Alpha"
 
 -- library configurations
@@ -210,29 +210,21 @@ function loveframes.Create(data, parent)
 		-- this function reads a table that contains a layout of object properties and then
 		-- creates objects based on those properties
 		local function CreateObjects(t, o, c)
-		
 			local child = c or false
-			
 			for k, v in pairs(t) do
-			
 				-- current default object
 				local object = _G[v.type]:new()
-				
 				-- indert the object into the table of objects being created
 				table.insert(objects, object)
-				
 				-- parent the new object by default to the base gui object
 				object.parent = loveframes.base
 				table.insert(loveframes.base.children, object)
-				
 				if o then
 					object:SetParent(o)
 				end
-				
 				-- loop through the current layout table and assign the properties found
 				-- to the current object
 				for i, j in pairs(v) do
-					
 					if i ~= "children" and i ~= "func" then
 						if child == true then
 							if i == "x" then
@@ -248,15 +240,11 @@ function loveframes.Create(data, parent)
 					elseif i == "children" then
 						CreateObjects(j, object, true)
 					end
-					
 				end
-				
 				if v.func then
 					v.func(object)
 				end
-				
 			end
-			
 		end
 		
 		-- create the objects

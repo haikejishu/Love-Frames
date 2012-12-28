@@ -12,23 +12,23 @@ local newobject = loveframes.NewObject("frame", "loveframes_object_frame", true)
 --]]---------------------------------------------------------
 function newobject:initialize()
 	
-	self.type            = "frame"
-	self.name            = "Frame"
-	self.width           = 300
-	self.height          = 150
-	self.clickx          = 0
-	self.clicky          = 0
-	self.internal        = false
-	self.draggable       = true
-	self.screenlocked    = false
-	self.parentlocked    = false
-	self.dragging        = false
-	self.modal           = false
+	self.type = "frame"
+	self.name = "Frame"
+	self.width = 300
+	self.height = 150
+	self.clickx = 0
+	self.clicky = 0
+	self.internal = false
+	self.draggable = true
+	self.screenlocked = false
+	self.parentlocked = false
+	self.dragging = false
+	self.modal = false
 	self.modalbackground = false
-	self.showclose       = true
-	self.internals       = {}
-	self.children        = {}
-	self.OnClose         = nil
+	self.showclose = true
+	self.internals = {}
+	self.children = {}
+	self.OnClose = nil
 	
 	-- create the close button for the frame
 	local close = loveframes.objects["closebutton"]:new()
@@ -51,7 +51,7 @@ end
 --]]---------------------------------------------------------
 function newobject:update(dt)
 	
-	local visible      = self.visible
+	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
 	if not visible then
@@ -60,21 +60,21 @@ function newobject:update(dt)
 		end
 	end
 	
-	local x, y              = love.mouse.getPosition()
-	local showclose         = self.showclose
-	local close             = self.internals[1]
-	local dragging          = self.dragging
-	local screenlocked      = self.screenlocked
-	local parentlocked      = self.parentlocked
-	local modal             = self.modal
-	local base              = loveframes.base
-	local basechildren      = base.children
-	local numbasechildren   = #basechildren
-	local draworder         = self.draworder
-	local children          = self.children
-	local internals         = self.internals
-	local parent            = self.parent
-	local update            = self.Update
+	local x, y = love.mouse.getPosition()
+	local showclose = self.showclose
+	local close = self.internals[1]
+	local dragging = self.dragging
+	local screenlocked = self.screenlocked
+	local parentlocked = self.parentlocked
+	local modal = self.modal
+	local base = loveframes.base
+	local basechildren = base.children
+	local numbasechildren = #basechildren
+	local draworder = self.draworder
+	local children = self.children
+	local internals = self.internals
+	local parent = self.parent
+	local update = self.Update
 	
 	self:CheckHover()
 	
@@ -91,12 +91,10 @@ function newobject:update(dt)
 	
 	-- if screenlocked then keep within screen
 	if screenlocked then
-	
 		local width = love.graphics.getWidth()
 		local height = love.graphics.getHeight()
 		local selfwidth = self.width
 		local selfheight = self.height
-		
 		if self.x < 0 then
 			self.x = 0
 		end
@@ -109,16 +107,13 @@ function newobject:update(dt)
 		if self.y + selfheight > height then
 			self.y = height - selfheight
 		end
-		
 	end
 	
 	if parentlocked then
-	
 		local width = self.parent.width
 		local height = self.parent.height
 		local selfwidth = self.width
 		local selfheight = self.height
-		
 		if self.staticx < 0 then
 			self.staticx = 0
 		end
@@ -131,32 +126,26 @@ function newobject:update(dt)
 		if self.staticy + selfheight > height then
 			self.staticy = height - selfheight
 		end
-		
 	end
 	
 	if modal then
-		
 		local tip = false
 		local key = 0
-		
 		for k, v in ipairs(basechildren) do
 			if v.type == "tooltip" and v.show == true then
 				tip = v
 				key = k
 			end
 		end
-		
 		if tip ~= false then
 			self:Remove()
 			self.modalbackground:Remove()
 			table.insert(basechildren, key - 2, self.modalbackground)
 			table.insert(basechildren, key - 1, self)
 		end
-		
 		if self.modalbackground.draworder > self.draworder then
 			self:MakeTop()
 		end
-		
 	end
 	
 	if parent ~= base then
@@ -190,16 +179,16 @@ function newobject:draw()
 		return
 	end
 	
-	local children      = self.children
-	local internals     = self.internals
-	local skins         = loveframes.skins.available
-	local skinindex     = loveframes.config["ACTIVESKIN"]
-	local defaultskin   = loveframes.config["DEFAULTSKIN"]
-	local selfskin      = self.skin
-	local skin          = skins[selfskin] or skins[skinindex]
-	local drawfunc      = skin.DrawFrame or skins[defaultskin].DrawFrame
-	local draw          = self.Draw
-	local drawcount     = loveframes.drawcount
+	local children = self.children
+	local internals = self.internals
+	local skins = loveframes.skins.available
+	local skinindex = loveframes.config["ACTIVESKIN"]
+	local defaultskin = loveframes.config["DEFAULTSKIN"]
+	local selfskin = self.skin
+	local skin = skins[selfskin] or skins[skinindex]
+	local drawfunc = skin.DrawFrame or skins[defaultskin].DrawFrame
+	local draw = self.Draw
+	local drawcount = loveframes.drawcount
 	
 	-- set the object's draw order
 	self:SetDrawOrder()
@@ -233,19 +222,17 @@ function newobject:mousepressed(x, y, button)
 		return
 	end
 	
-	local width     = self.width
-	local height    = self.height
-	local selfcol   = loveframes.util.BoundingBox(x, self.x, y, self.y, 1, self.width, 1, self.height)
+	local width = self.width
+	local height = self.height
+	local selfcol = loveframes.util.BoundingBox(x, self.x, y, self.y, 1, self.width, 1, self.height)
 	local internals = self.internals
-	local children  = self.children
-	local dragging  = self.dragging
-	local parent    = self.parent
-	local base      = loveframes.base
+	local children = self.children
+	local dragging = self.dragging
+	local parent = self.parent
+	local base = loveframes.base
 	
 	if selfcol then
-	
 		local top = self:IsTopCollision()
-		
 		-- initiate dragging if not currently dragging
 		if not dragging and top and button == "l" then
 			if y < self.y + 25 and self.draggable then
@@ -259,11 +246,9 @@ function newobject:mousepressed(x, y, button)
 				self.dragging = true
 			end
 		end
-		
 		if top and button == "l" then
 			self:MakeTop()
 		end
-		
 	end
 	
 	for k, v in ipairs(internals) do
@@ -288,8 +273,8 @@ function newobject:mousereleased(x, y, button)
 		return
 	end
 	
-	local dragging  = self.dragging
-	local children  = self.children
+	local dragging = self.dragging
+	local children = self.children
 	local internals = self.internals
 	
 	-- exit the dragging state
@@ -390,12 +375,12 @@ end
 --]]---------------------------------------------------------
 function newobject:MakeTop()
 	
-	local x, y            = love.mouse.getPosition()
-	local key             = 0
-	local base            = loveframes.base
-	local basechildren    = base.children
+	local x, y = love.mouse.getPosition()
+	local key = 0
+	local base = loveframes.base
+	local basechildren = base.children
 	local numbasechildren = #basechildren
-	local parent          = self.parent
+	local parent = self.parent
 	
 	-- check to see if the object's parent is not the base object
 	if parent ~= base then
@@ -437,8 +422,8 @@ function newobject:SetModal(bool)
 
 	local modalobject = loveframes.modalobject
 	local mbackground = self.modalbackground
-	local parent      = self.parent
-	local base        = loveframes.base
+	local parent = self.parent
+	local base = loveframes.base
 	
 	if parent ~= base then
 		return
@@ -447,32 +432,24 @@ function newobject:SetModal(bool)
 	self.modal = bool
 	
 	if bool then
-	
 		if modalobject then
 			modalobject:SetModal(false)
 		end
-	
 		loveframes.modalobject = self
 		
 		if not mbackground then
 			self.modalbackground = loveframes.objects["modalbackground"]:new(self)
 			self.modal = true
 		end
-		
 	else
-	
 		if modalobject == self then
-	
 			loveframes.modalobject = false
-			
 			if mbackground then
 				self.modalbackground:Remove()
 				self.modalbackground = false
 				self.modal = false
 			end
-			
 		end
-		
 	end
 	
 end
@@ -494,8 +471,8 @@ end
 --]]---------------------------------------------------------
 function newobject:SetVisible(bool)
 
-	local children    = self.children
-	local internals   = self.internals
+	local children = self.children
+	local internals = self.internals
 	local closebutton = internals[1]
 	
 	self.visible = bool

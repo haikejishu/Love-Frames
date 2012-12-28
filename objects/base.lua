@@ -16,12 +16,12 @@ function newobject:initialize()
 	local w = love.graphics.getWidth()
 	local h = love.graphics.getHeight()
 	
-	self.type       = "base"
-	self.width      = w
-	self.height     = h
-	self.internal   = true
-	self.children   = {}
-	self.internals  = {}
+	self.type = "base"
+	self.width = w
+	self.height = h
+	self.internal = true
+	self.children = {}
+	self.internals = {}
 
 end
 
@@ -616,10 +616,10 @@ end
 --]]---------------------------------------------------------
 function newobject:IsTopCollision()
 
-	local cols      = loveframes.util.GetCollisions()
+	local cols = loveframes.util.GetCollisions()
 	local draworder = self.draworder
-	local found     = false
-	local top       = true
+	local found = false
+	local top = true
 	
 	for k, v in ipairs(cols) do
 		if v == self then
@@ -676,9 +676,7 @@ function newobject:CheckHover()
 	
 	-- is the mouse inside the object?
 	if selfcol then
-		
 		local top = self:IsTopCollision()
-		
 		if top then
 			if not hoverobject then
 				self.hover = true
@@ -692,66 +690,46 @@ function newobject:CheckHover()
 		else
 			self.hover = false
 		end
-	
 		if clickbounds then
 			if not self:InClickBounds() then
 				self.hover = false
 			end
 		end
-	
 	else
-		
 		self.hover = false
-		
 	end
 	
 	if modalobject then
-	
 		if modalobject ~= self then
-		
 			local baseparent = self:GetBaseParent()
-			
 			if baseparent ~= modalobject and self.type ~= "multichoicerow" then
-			
 				self.hover = false
-				
 				if self.focus then
 					self.focus = false
 				end
-				
 			end
-			
 		end
-		
 	end
 	
 	-- this chunk of code handles mouse enter and exit
 	if self.hover then
-	
 		if not self.calledmousefunc then
-		
 			if self.OnMouseEnter then
 				self.OnMouseEnter(self)
 				self.calledmousefunc = true
 			else
 				self.calledmousefunc = true
 			end
-		
 		end
-		
 	else
-	
 		if self.calledmousefunc then
-			
 			if self.OnMouseExit then
 				self.OnMouseExit(self)
 				self.calledmousefunc = false
 			else
 				self.calledmousefunc = false
 			end
-			
 		end
-		
 	end
 	
 end
@@ -794,17 +772,13 @@ function newobject:IsTopList()
 	local found = false
 	
 	local function IsChild(object)
-	
 		local parents = object:GetParents()
-		
 		for k, v in ipairs(parents) do
 			if v == self then
 				return true
 			end
 		end
-		
 		return false
-		
 	end
 	
 	for k, v in ipairs(cols) do
@@ -980,22 +954,17 @@ end
 function newobject:GetParents()
 	
 	local function GetParents(object, t)
-		
 		local t = t or {}
 		local type = object.type
 		local parent = object.parent
-		
 		if type ~= "base" then
 			table.insert(t, parent)
 			GetParents(parent, t)
 		end
-		
 		return t
-		
 	end
 	
 	local parents = GetParents(self)
-	
 	return parents
 	
 end

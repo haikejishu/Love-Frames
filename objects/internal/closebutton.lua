@@ -12,13 +12,13 @@ local newobject = loveframes.NewObject("closebutton", "loveframes_object_closebu
 --]]---------------------------------------------------------
 function newobject:initialize()
 
-	self.type           = "closebutton"
-	self.width          = 16
-	self.height         = 16
-	self.internal       = true
-	self.hover          = false
-	self.down           = false
-	self.OnClick        = function() end
+	self.type = "closebutton"
+	self.width = 16
+	self.height = 16
+	self.internal = true
+	self.hover = false
+	self.down = false
+	self.OnClick = function() end
 	
 	-- apply template properties to the object
 	loveframes.templates.ApplyToObject(self)
@@ -31,7 +31,7 @@ end
 --]]---------------------------------------------------------
 function newobject:update(dt)
 	
-	local visible      = self.visible
+	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
 	if not visible then
@@ -42,12 +42,12 @@ function newobject:update(dt)
 	
 	self:CheckHover()
 	
-	local hover       = self.hover
-	local down        = self.down
+	local hover = self.hover
+	local down = self.down
 	local hoverobject = loveframes.hoverobject
-	local parent      = self.parent
-	local base        = loveframes.base
-	local update      = self.Update
+	local parent = self.parent
+	local base = loveframes.base
+	local update = self.Update
 	
 	if not hover then
 		self.down = false
@@ -85,13 +85,13 @@ function newobject:draw()
 		return
 	end
 	
-	local skins         = loveframes.skins.available
-	local skinindex     = loveframes.config["ACTIVESKIN"]
-	local defaultskin   = loveframes.config["DEFAULTSKIN"]
-	local selfskin      = self.skin
-	local skin          = skins[selfskin] or skins[skinindex]
-	local drawfunc      = skin.DrawCloseButton or skins[defaultskin].DrawCloseButton
-	local draw          = self.Draw
+	local skins = loveframes.skins.available
+	local skinindex = loveframes.config["ACTIVESKIN"]
+	local defaultskin = loveframes.config["DEFAULTSKIN"]
+	local selfskin = self.skin
+	local skin = skins[selfskin] or skins[skinindex]
+	local drawfunc = skin.DrawCloseButton or skins[defaultskin].DrawCloseButton
+	local draw = self.Draw
 	
 	-- set the object's draw order
 	self:SetDrawOrder()
@@ -119,16 +119,12 @@ function newobject:mousepressed(x, y, button)
 	local hover = self.hover
 	
 	if hover and button == "l" then
-	
 		local baseparent = self:GetBaseParent()
-	
 		if baseparent and baseparent.type == "frame" then
 			baseparent:MakeTop()
 		end
-		
 		self.down = true
 		loveframes.hoverobject = self
-		
 	end
 	
 end
@@ -145,15 +141,13 @@ function newobject:mousereleased(x, y, button)
 		return
 	end
 	
-	local hover   = self.hover
+	local hover = self.hover
 	local onclick = self.OnClick
 	
 	if hover and self.down then
-	
 		if button == "l" then
 			onclick(x, y, self)
 		end
-		
 	end
 	
 	self.down = false

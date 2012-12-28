@@ -12,23 +12,23 @@ local newobject = loveframes.NewObject("tabs", "loveframes_object_tabs", true)
 --]]---------------------------------------------------------
 function newobject:initialize()
 	
-	self.type              = "tabs"
-	self.width             = 100
-	self.height            = 50
-	self.clickx            = 0
-	self.clicky            = 0
-	self.offsetx           = 0
-	self.tab               = 1
-	self.tabnumber         = 1
-	self.padding           = 5
-	self.tabheight         = 25
+	self.type = "tabs"
+	self.width = 100
+	self.height = 50
+	self.clickx = 0
+	self.clicky = 0
+	self.offsetx = 0
+	self.tab = 1
+	self.tabnumber = 1
+	self.padding = 5
+	self.tabheight = 25
 	self.previoustabheight = 25
-	self.autosize          = true
-	self.internal          = false
-	self.tooltipfont       = loveframes.basicfontsmall
-	self.tabs              = {}
-	self.internals         = {}
-	self.children          = {}
+	self.autosize = true
+	self.internal = false
+	self.tooltipfont = loveframes.basicfontsmall
+	self.tabs = {}
+	self.internals = {}
+	self.children = {}
 	
 end
 
@@ -38,7 +38,7 @@ end
 --]]---------------------------------------------------------
 function newobject:update(dt)
 	
-	local visible      = self.visible
+	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
 	if not visible then
@@ -47,20 +47,20 @@ function newobject:update(dt)
 		end
 	end
 	
-	local x, y              = love.mouse.getPosition()
-	local tabheight         = self.tabheight
-	local padding           = self.padding
-	local autosize          = self.autosize
-	local padding           = self.padding
-	local autosize          = self.autosize
-	local children          = self.children
-	local numchildren       = #children
-	local internals         = self.internals
-	local tab               = self.tab
-	local parent            = self.parent
-	local autosize          = self.autosize
-	local base              = loveframes.base
-	local update            = self.Update
+	local x, y = love.mouse.getPosition()
+	local tabheight = self.tabheight
+	local padding = self.padding
+	local autosize = self.autosize
+	local padding = self.padding
+	local autosize = self.autosize
+	local children = self.children
+	local numchildren = #children
+	local internals = self.internals
+	local tab = self.tab
+	local parent = self.parent
+	local autosize = self.autosize
+	local base = loveframes.base
+	local update = self.Update
 	
 	-- move to parent if there is a parent
 	if parent ~= base then
@@ -108,19 +108,19 @@ function newobject:draw()
 		return
 	end
 	
-	local internals     = self.internals
-	local tabheight     = self:GetHeightOfButtons()
-	local stencilfunc   = function() love.graphics.rectangle("fill", self.x, self.y, self.width, tabheight) end
-	local stencil       = love.graphics.newStencil(stencilfunc)
-	local internals     = self.internals
-	local skins         = loveframes.skins.available
-	local skinindex     = loveframes.config["ACTIVESKIN"]
-	local defaultskin   = loveframes.config["DEFAULTSKIN"]
-	local selfskin      = self.skin
-	local skin          = skins[selfskin] or skins[skinindex]
-	local drawfunc      = skin.DrawTabPanel or skins[defaultskin].DrawTabPanel
-	local draw          = self.Draw
-	local drawcount     = loveframes.drawcount
+	local internals = self.internals
+	local tabheight = self:GetHeightOfButtons()
+	local stencilfunc = function() love.graphics.rectangle("fill", self.x, self.y, self.width, tabheight) end
+	local stencil = love.graphics.newStencil(stencilfunc)
+	local internals = self.internals
+	local skins = loveframes.skins.available
+	local skinindex = loveframes.config["ACTIVESKIN"]
+	local defaultskin = loveframes.config["DEFAULTSKIN"]
+	local selfskin = self.skin
+	local skin = skins[selfskin] or skins[skinindex]
+	local drawfunc = skin.DrawTabPanel or skins[defaultskin].DrawTabPanel
+	local draw = self.Draw
+	local drawcount = loveframes.drawcount
 	
 	-- set the object's draw order
 	self:SetDrawOrder()
@@ -157,48 +157,38 @@ function newobject:mousepressed(x, y, button)
 		return
 	end
 	
-	local children     = self.children
-	local numchildren  = #children
-	local tab          = self.tab
-	local internals    = self.internals
+	local children = self.children
+	local numchildren = #children
+	local tab = self.tab
+	local internals = self.internals
 	local numinternals = #internals
-	local hover        = self.hover
+	local hover = self.hover
 	
 	if hover then
-	
 		if button == "l" then
-		
 			local baseparent = self:GetBaseParent()
-		
 			if baseparent and baseparent.type == "frame" then
 				baseparent:MakeTop()
 			end
-			
 		end
-		
 	end
 	
 	if button == "wu" then
-		
 		local buttonheight = self:GetHeightOfButtons()
-		local col          = loveframes.util.BoundingBox(self.x, x, self.y, y, self.width, 1, buttonheight, 1)
-		local visible      = internals[numinternals - 1]:GetVisible()
-			
+		local col = loveframes.util.BoundingBox(self.x, x, self.y, y, self.width, 1, buttonheight, 1)
+		local visible = internals[numinternals - 1]:GetVisible()
 		if col and visible then
 			self.offsetx = self.offsetx + 5
 			if self.offsetx > 0 then
 				self.offsetx = 0
 			end
 		end
-			
 	end
 		
 	if button == "wd" then
-		
 		local buttonheight = self:GetHeightOfButtons()
-		local col          = loveframes.util.BoundingBox(self.x, x, self.y, y, self.width, 1, buttonheight, 1)
-		local visible      = internals[numinternals]:GetVisible()
-			
+		local col = loveframes.util.BoundingBox(self.x, x, self.y, y, self.width, 1, buttonheight, 1)
+		local visible = internals[numinternals]:GetVisible()
 		if col and visible then
 			local bwidth = self:GetWidthOfButtons()
 			if (self.offsetx + bwidth) < self.width then
@@ -207,7 +197,6 @@ function newobject:mousepressed(x, y, button)
 				self.offsetx = self.offsetx - 5
 			end
 		end
-			
 	end
 	
 	for k, v in ipairs(internals) do
@@ -226,11 +215,11 @@ end
 --]]---------------------------------------------------------
 function newobject:mousereleased(x, y, button)
 
-	local visible     = self.visible
-	local children    = self.children
+	local visible = self.visible
+	local children = self.children
 	local numchildren = #children
-	local tab         = self.tab
-	local internals   = self.internals
+	local tab = self.tab
+	local internals = self.internals
 	
 	if not visible then
 		return
@@ -252,8 +241,8 @@ end
 --]]---------------------------------------------------------
 function newobject:AddTab(name, object, tip, image)
 
-	local padding   = self.padding
-	local autosize  = self.autosize
+	local padding = self.padding
+	local autosize = self.autosize
 	local tabnumber = self.tabnumber
 	local tabheight = self.tabheight
 	local internals = self.internals
@@ -349,7 +338,7 @@ end
 --]]---------------------------------------------------------
 function newobject:GetWidthOfButtons()
 
-	local width     = 0
+	local width = 0
 	local internals = self.internals
 	
 	for k, v in ipairs(internals) do
@@ -431,11 +420,11 @@ end
 --]]---------------------------------------------------------
 function newobject:SetTabHeight(height)
 
-	local autosize          = self.autosize
-	local padding           = self.padding
+	local autosize = self.autosize
+	local padding = self.padding
 	local previoustabheight = self.previoustabheight
-	local children          = self.children
-	local internals         = self.internals
+	local children = self.children
+	local internals = self.internals
 	
 	self.tabheight = height
 	

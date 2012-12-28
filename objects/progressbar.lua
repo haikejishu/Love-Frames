@@ -12,20 +12,20 @@ local newobject = loveframes.NewObject("progressbar", "loveframes_object_progres
 --]]---------------------------------------------------------
 function newobject:initialize()
 
-	self.type       = "progressbar"
-	self.width      = 100
-	self.height     = 25
-	self.min        = 0
-	self.max        = 10
-	self.value      = 0
-	self.barwidth   = 0
-	self.lerprate   = 1000
-	self.lerpvalue  = 0
-	self.lerpto     = 0
-	self.lerpfrom   = 0
-	self.completed  = false
-	self.lerp       = false
-	self.internal   = false
+	self.type = "progressbar"
+	self.width = 100
+	self.height = 25
+	self.min = 0
+	self.max = 10
+	self.value = 0
+	self.barwidth = 0
+	self.lerprate = 1000
+	self.lerpvalue = 0
+	self.lerpto = 0
+	self.lerpfrom = 0
+	self.completed = false
+	self.lerp = false
+	self.internal = false
 	self.OnComplete = nil
 	
 end
@@ -36,7 +36,7 @@ end
 --]]---------------------------------------------------------
 function newobject:update(dt)
 
-	local visible      = self.visible
+	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
 	if not visible then
@@ -45,16 +45,16 @@ function newobject:update(dt)
 		end
 	end
 	
-	local lerp       = self.lerp
-	local lerprate   = self.lerprate
-	local lerpvalue  = self.lerpvalue
-	local lerpto     = self.lerpto
-	local lerpfrom   = self.lerpfrom
-	local value      = self.value
-	local completed  = self.completed
-	local parent     = self.parent
-	local base       = loveframes.base
-	local update     = self.Update
+	local lerp = self.lerp
+	local lerprate = self.lerprate
+	local lerpvalue = self.lerpvalue
+	local lerpto = self.lerpto
+	local lerpfrom = self.lerpfrom
+	local value = self.value
+	local completed = self.completed
+	local parent = self.parent
+	local base = loveframes.base
+	local update = self.Update
 	local oncomplete = self.OnComplete
 	
 	self:CheckHover()
@@ -76,21 +76,17 @@ function newobject:update(dt)
 		elseif lerpfrom == lerpto then
 			self.lerpvalue = lerpto
 		end
-		
 		self.barwidth = self.lerpvalue/self.max * self.width
-		
 		-- min check
 		if self.lerpvalue < self.min then
 			self.lerpvalue = self.min
 		end
-	
 		-- max check
 		if self.lerpvalue > self.max then
 			self.lerpvalue = self.max
 		end
 	else
 		self.barwidth = value/self.max * self.width
-		
 		-- min max check
 		if value < self.min then
 			self.value = self.min
@@ -133,14 +129,14 @@ function newobject:draw()
 		return
 	end
 	
-	local skins         = loveframes.skins.available
-	local skinindex     = loveframes.config["ACTIVESKIN"]
-	local defaultskin   = loveframes.config["DEFAULTSKIN"]
-	local selfskin      = self.skin
-	local skin          = skins[selfskin] or skins[skinindex]
-	local drawfunc      = skin.DrawProgressBar or skins[defaultskin].DrawProgressBar
-	local draw          = self.Draw
-	local drawcount     = loveframes.drawcount
+	local skins = loveframes.skins.available
+	local skinindex = loveframes.config["ACTIVESKIN"]
+	local defaultskin = loveframes.config["DEFAULTSKIN"]
+	local selfskin = self.skin
+	local skin = skins[selfskin] or skins[skinindex]
+	local drawfunc = skin.DrawProgressBar or skins[defaultskin].DrawProgressBar
+	local draw = self.Draw
+	local drawcount = loveframes.drawcount
 	
 	-- set the object's draw order
 	self:SetDrawOrder()

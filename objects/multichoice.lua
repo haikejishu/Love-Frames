@@ -12,19 +12,19 @@ local newobject = loveframes.NewObject("multichoice", "loveframes_object_multich
 --]]---------------------------------------------------------
 function newobject:initialize()
 
-	self.type                   = "multichoice"
-	self.choice                 = ""
-	self.text                   = "Select an option"
-	self.width                  = 200
-	self.height                 = 25
-	self.listpadding            = 0
-	self.listspacing            = 0
-	self.buttonscrollamount     = 0.10
+	self.type = "multichoice"
+	self.choice = ""
+	self.text = "Select an option"
+	self.width = 200
+	self.height = 25
+	self.listpadding = 0
+	self.listspacing = 0
+	self.buttonscrollamount = 0.10
 	self.mousewheelscrollamount = 5
-	self.haslist                = false
-	self.internal               = false
-	self.choices                = {}
-	self.listheight             = nil
+	self.haslist = false
+	self.internal = false
+	self.choices = {}
+	self.listheight = nil
 	
 end
 
@@ -34,7 +34,7 @@ end
 --]]---------------------------------------------------------
 function newobject:update(dt)
 
-	local visible      = self.visible
+	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
 	if not visible then
@@ -44,7 +44,7 @@ function newobject:update(dt)
 	end
 	
 	local parent = self.parent
-	local base   = loveframes.base
+	local base = loveframes.base
 	local update = self.Update
 	
 	self:CheckHover()
@@ -73,14 +73,14 @@ function newobject:draw()
 		return
 	end
 	
-	local skins         = loveframes.skins.available
-	local skinindex     = loveframes.config["ACTIVESKIN"]
-	local defaultskin   = loveframes.config["DEFAULTSKIN"]
-	local selfskin      = self.skin
-	local skin          = skins[selfskin] or skins[skinindex]
-	local drawfunc      = skin.DrawMultiChoice or skins[defaultskin].DrawMultiChoice
-	local draw          = self.Draw
-	local drawcount     = loveframes.drawcount
+	local skins = loveframes.skins.available
+	local skinindex = loveframes.config["ACTIVESKIN"]
+	local defaultskin = loveframes.config["DEFAULTSKIN"]
+	local selfskin = self.skin
+	local skin = skins[selfskin] or skins[skinindex]
+	local drawfunc = skin.DrawMultiChoice or skins[defaultskin].DrawMultiChoice
+	local draw = self.Draw
+	local drawcount = loveframes.drawcount
 	
 	-- set the object's draw order
 	self:SetDrawOrder()
@@ -105,21 +105,17 @@ function newobject:mousepressed(x, y, button)
 		return
 	end
 	
-	local hover   = self.hover
+	local hover = self.hover
 	local haslist = self.haslist
 	
 	if hover and not haslist and button == "l" then
-	
 		local baseparent = self:GetBaseParent()
-	
 		if baseparent and baseparent.type == "frame" then
 			baseparent:MakeTop()
 		end
-		
 		self.haslist = true
 		self.list = loveframes.objects["multichoicelist"]:new(self)
 		loveframes.hoverobject = self
-		
 	end
 
 end

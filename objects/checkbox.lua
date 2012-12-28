@@ -12,18 +12,18 @@ local newobject = loveframes.NewObject("checkbox", "loveframes_object_checkbox",
 --]]---------------------------------------------------------
 function newobject:initialize()
 
-	self.type           = "checkbox"
-	self.width          = 0
-	self.height         = 0
-	self.boxwidth       = 20
-	self.boxheight      = 20
-	self.font           = loveframes.basicfont
-	self.checked        = false
-	self.lastvalue      = false
-	self.internal       = false
-	self.down           = true
-	self.internals      = {}
-	self.OnChanged      = nil
+	self.type = "checkbox"
+	self.width = 0
+	self.height = 0
+	self.boxwidth = 20
+	self.boxheight = 20
+	self.font = loveframes.basicfont
+	self.checked = false
+	self.lastvalue = false
+	self.internal = false
+	self.down = true
+	self.internals = {}
+	self.OnChanged = nil
 	
 end
 
@@ -44,13 +44,13 @@ function newobject:update(dt)
 	
 	self:CheckHover()
 	
-	local hover     = self.hover
+	local hover = self.hover
 	local internals = self.internals
-	local boxwidth  = self.boxwidth
+	local boxwidth = self.boxwidth
 	local boxheight = self.boxheight
-	local parent    = self.parent
-	local base      = loveframes.base
-	local update    = self.Update
+	local parent = self.parent
+	local base = loveframes.base
+	local update = self.Update
 	
 	if not hover then
 		self.down = false
@@ -71,9 +71,7 @@ function newobject:update(dt)
 	end
 	
 	if internals[1] then
-	
 		self.width = boxwidth + 5 + internals[1].width
-		
 		if internals[1].height == boxheight then
 			self.height = boxheight
 		else
@@ -83,12 +81,9 @@ function newobject:update(dt)
 				self.height = boxheight
 			end
 		end
-		
 	else
-	
 		self.width = boxwidth
 		self.height = boxheight
-		
 	end
 	
 	for k, v in ipairs(internals) do
@@ -113,15 +108,15 @@ function newobject:draw()
 		return
 	end
 
-	local skins         = loveframes.skins.available
-	local skinindex     = loveframes.config["ACTIVESKIN"]
-	local defaultskin   = loveframes.config["DEFAULTSKIN"]
-	local selfskin      = self.skin
-	local skin          = skins[selfskin] or skins[skinindex]
-	local drawfunc      = skin.DrawCheckBox or skins[defaultskin].DrawCheckBox
-	local draw          = self.Draw
-	local internals     = self.internals
-	local drawcount     = loveframes.drawcount
+	local skins = loveframes.skins.available
+	local skinindex = loveframes.config["ACTIVESKIN"]
+	local defaultskin = loveframes.config["DEFAULTSKIN"]
+	local selfskin = self.skin
+	local skin = skins[selfskin] or skins[skinindex]
+	local drawfunc = skin.DrawCheckBox or skins[defaultskin].DrawCheckBox
+	local draw = self.Draw
+	local internals = self.internals
+	local drawcount = loveframes.drawcount
 	
 	-- set the object's draw order
 	self:SetDrawOrder()
@@ -153,16 +148,12 @@ function newobject:mousepressed(x, y, button)
 	local hover = self.hover
 	
 	if hover and button == "l" then
-		
 		local baseparent = self:GetBaseParent()
-	
 		if baseparent and baseparent.type == "frame" then
 			baseparent:MakeTop()
 		end
-		
 		self.down = true
 		loveframes.hoverobject = self
-		
 	end
 	
 end
@@ -179,22 +170,19 @@ function newobject:mousereleased(x, y, button)
 		return
 	end
 	
-	local hover     = self.hover
-	local checked   = self.checked
+	local hover = self.hover
+	local checked = self.checked
 	local onchanged = self.OnChanged
 	
 	if hover and button == "l" then
-	
 		if checked then
 			self.checked = false
 		else
 			self.checked = true
 		end
-		
 		if onchanged then
 			onchanged(self)
 		end
-		
 	end
 		
 end
@@ -215,7 +203,6 @@ function newobject:keypressed(key, unicode)
 		else
 			self.checked = true
 		end
-		
 		if onchanged then
 			onchanged(self)
 		end
@@ -229,13 +216,11 @@ end
 --]]---------------------------------------------------------
 function newobject:SetText(text)
 
-	local boxwidth  = self.boxwidth
+	local boxwidth = self.boxwidth
 	local boxheight = self.boxheight
 	
 	if text ~= "" then
-		
 		self.internals = {}
-		
 		local textobject = loveframes.Create("text")
 		textobject:Remove()
 		textobject.parent = self
@@ -249,15 +234,11 @@ function newobject:SetText(text)
 				object:SetPos(boxwidth + 5, boxheight/2 - object.height/2)
 			end
 		end
-		
 		table.insert(self.internals, textobject)
-		
 	else
-	
-		self.width     = boxwidth
-		self.height    = boxheight
+		self.width = boxwidth
+		self.height = boxheight
 		self.internals = {}
-		
 	end
 	
 end
@@ -269,7 +250,7 @@ end
 function newobject:GetText()
 
 	local internals = self.internals
-	local text      = internals[1]
+	local text = internals[1]
 	
 	if text then
 		return text.text
@@ -285,7 +266,7 @@ end
 --]]---------------------------------------------------------
 function newobject:SetSize(width, height)
 
-	self.boxwidth  = width
+	self.boxwidth = width
 	self.boxheight = height
 	
 end
@@ -343,7 +324,7 @@ end
 function newobject:SetFont(font)
 
 	local internals = self.internals
-	local text      = internals[1]
+	local text = internals[1]
 	
 	self.font = font
 	

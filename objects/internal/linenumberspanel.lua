@@ -12,14 +12,14 @@ local newobject = loveframes.NewObject("linenumberspanel", "loveframes_object_li
 --]]---------------------------------------------------------
 function newobject:initialize(parent)
 	
-	self.parent         = parent
-	self.type           = "linenumberspanel"
-	self.width          = 5
-	self.height         = 5
-	self.offsety        = 0
-	self.staticx        = 0
-	self.staticy        = 0
-	self.internal       = true
+	self.parent = parent
+	self.type = "linenumberspanel"
+	self.width = 5
+	self.height = 5
+	self.offsety = 0
+	self.staticx = 0
+	self.staticy = 0
+	self.internal = true
 	
 	-- apply template properties to the object
 	loveframes.templates.ApplyToObject(self)
@@ -41,14 +41,14 @@ function newobject:update(dt)
 		end
 	end
 	
-	local parent          = self.parent
-	local base            = loveframes.base
-	local update          = self.Update
-	local height          = self.parent.height
+	local parent = self.parent
+	local base = loveframes.base
+	local update = self.Update
+	local height = self.parent.height
 	local parentinternals = parent.internals
 	
-	self.height    = height
-	self.offsety   = self.parent.offsety - self.parent.textoffsety
+	self.height = height
+	self.offsety = self.parent.offsety - self.parent.textoffsety
 	
 	-- move to parent if there is a parent
 	if parent ~= base then
@@ -82,16 +82,16 @@ function newobject:draw()
 		return
 	end
 	
-	local skins         = loveframes.skins.available
-	local skinindex     = loveframes.config["ACTIVESKIN"]
-	local defaultskin   = loveframes.config["DEFAULTSKIN"]
-	local selfskin      = self.skin
-	local skin          = skins[selfskin] or skins[skinindex]
-	local drawfunc      = skin.DrawLineNumbersPanel or skins[defaultskin].DrawLineNumbersPanel
-	local draw          = self.Draw
-	local drawcount     = loveframes.drawcount
-	local stencilfunc   = function() love.graphics.rectangle("fill", self.parent.x, self.parent.y, self.width, self.height) end
-	local stencil       = love.graphics.newStencil(stencilfunc)
+	local skins = loveframes.skins.available
+	local skinindex = loveframes.config["ACTIVESKIN"]
+	local defaultskin = loveframes.config["DEFAULTSKIN"]
+	local selfskin = self.skin
+	local skin = skins[selfskin] or skins[skinindex]
+	local drawfunc = skin.DrawLineNumbersPanel or skins[defaultskin].DrawLineNumbersPanel
+	local draw = self.Draw
+	local drawcount = loveframes.drawcount
+	local stencilfunc = function() love.graphics.rectangle("fill", self.parent.x, self.parent.y, self.width, self.height) end
+	local stencil = love.graphics.newStencil(stencilfunc)
 	
 	if self.parent.hbar then
 		stencilfunc = function() love.graphics.rectangle("fill", self.parent.x, self.parent.y, self.width, self.parent.height - 16) end
@@ -127,13 +127,10 @@ function newobject:mousepressed(x, y, button)
 	local hover = self.hover
 	
 	if hover and button == "l" then
-	
 		local baseparent = self:GetBaseParent()
-	
 		if baseparent and baseparent.type == "frame" then
 			baseparent:MakeTop()
 		end
-		
 	end
 	
 end

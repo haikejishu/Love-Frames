@@ -14,18 +14,18 @@ function newobject:initialize(object, text, width)
 
 	local width = width or 0
 	
-	self.type           = "tooltip"
-	self.parent         = loveframes.base
-	self.object         = object or nil
-	self.width          = width or 0
-	self.height         = 0
-	self.padding        = 5
-	self.xoffset        = 10
-	self.yoffset        = -10
-	self.internal       = true
-	self.show           = false
-	self.followcursor   = true
-	self.alwaysupdate   = true
+	self.type = "tooltip"
+	self.parent = loveframes.base
+	self.object = object or nil
+	self.width = width or 0
+	self.height = 0
+	self.padding = 5
+	self.xoffset = 10
+	self.yoffset = -10
+	self.internal = true
+	self.show = false
+	self.followcursor = true
+	self.alwaysupdate = true
 	
 	self.text = loveframes.Create("text")
 	self.text:Remove()
@@ -47,7 +47,7 @@ end
 --]]---------------------------------------------------------
 function newobject:update(dt)
 
-	local visible      = self.visible
+	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
 	if not visible then
@@ -56,29 +56,25 @@ function newobject:update(dt)
 		end
 	end
 	
-	local text      = self.text
-	local object    = self.object
+	local text = self.text
+	local object = self.object
 	local draworder = self.draworder
-	local update    = self.Update
+	local update = self.Update
 	
-	self.width  = text.width + self.padding * 2
+	self.width = text.width + self.padding * 2
 	self.height = text.height + self.padding * 2
 	
 	if object then
-	
 		if object == loveframes.base then
 			self:Remove()
 			return
 		end
-		
-		local hover      = object.hover
+		local hover = object.hover
 		local odraworder = object.draworder
-		local ovisible   = object.visible
-		local ohover     = object.hover
-		
-		self.show    = ohover
+		local ovisible = object.visible
+		local ohover = object.hover
+		self.show = ohover
 		self.visible = ovisible
-		
 		if ohover and ovisible then
 			local top = self:IsTopInternal()
 			if self.followcursor then
@@ -86,17 +82,12 @@ function newobject:update(dt)
 				self.x = x + self.xoffset
 				self.y = y - self.height + self.yoffset
 			end
-			
 			if not top then
 				self:MoveToTop()
 			end
-			
 			text:SetPos(self.padding, self.padding)
-			
 		end
-		
 		local baseparent = object:GetBaseParent()
-		
 		if baseparent then
 			if baseparent.removed and baseparent.removed then
 				self:Remove()
@@ -104,7 +95,6 @@ function newobject:update(dt)
 		elseif object.removed then
 			self:Remove()
 		end
-		
 	end
 	
 	text:update(dt)
@@ -127,30 +117,27 @@ function newobject:draw()
 		return
 	end
 	
-	local show          = self.show
-	local text          = self.text
-	local skins         = loveframes.skins.available
-	local skinindex     = loveframes.config["ACTIVESKIN"]
-	local defaultskin   = loveframes.config["DEFAULTSKIN"]
-	local selfskin      = self.skin
-	local skin          = skins[selfskin] or skins[skinindex]
-	local drawfunc      = skin.DrawToolTip or skins[defaultskin].DrawToolTip
-	local draw          = self.Draw
-	local drawcount     = loveframes.drawcount
+	local show = self.show
+	local text = self.text
+	local skins = loveframes.skins.available
+	local skinindex = loveframes.config["ACTIVESKIN"]
+	local defaultskin = loveframes.config["DEFAULTSKIN"]
+	local selfskin = self.skin
+	local skin = skins[selfskin] or skins[skinindex]
+	local drawfunc = skin.DrawToolTip or skins[defaultskin].DrawToolTip
+	local draw = self.Draw
+	local drawcount = loveframes.drawcount
 	
 	-- set the object's draw order
 	self:SetDrawOrder()
 	
 	if show then
-	
 		if draw then
 			draw(self)
 		else
 			drawfunc(self)
 		end
-	
 		text:draw()
-		
 	end
 	
 end

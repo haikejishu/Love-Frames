@@ -12,13 +12,13 @@ local newobject = loveframes.NewObject("scrollbutton", "loveframes_object_scroll
 --]]---------------------------------------------------------
 function newobject:initialize(scrolltype)
 
-	self.type           = "scrollbutton"
-	self.scrolltype     = scrolltype
-	self.width          = 16
-	self.height         = 16
-	self.down           = false
-	self.internal       = true
-	self.OnClick        = function() end
+	self.type = "scrollbutton"
+	self.scrolltype = scrolltype
+	self.width = 16
+	self.height = 16
+	self.down = false
+	self.internal = true
+	self.OnClick = function() end
 	
 	-- apply template properties to the object
 	loveframes.templates.ApplyToObject(self)
@@ -31,7 +31,7 @@ end
 --]]---------------------------------------------------------
 function newobject:update(dt)
 	
-	local visible      = self.visible
+	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
 	if not visible then
@@ -42,9 +42,9 @@ function newobject:update(dt)
 	
 	self:CheckHover()
 	
-	local hover  = self.hover
+	local hover = self.hover
 	local parent = self.parent
-	local base   = loveframes.base
+	local base = loveframes.base
 	local update = self.Update
 	
 	if not hover then
@@ -83,14 +83,14 @@ function newobject:draw()
 		return
 	end
 	
-	local skins         = loveframes.skins.available
-	local skinindex     = loveframes.config["ACTIVESKIN"]
-	local defaultskin   = loveframes.config["DEFAULTSKIN"]
-	local selfskin      = self.skin
-	local skin          = skins[selfskin] or skins[skinindex]
-	local drawfunc      = skin.DrawScrollButton or skins[defaultskin].DrawScrollButton
-	local draw          = self.Draw
-	local drawcount     = loveframes.drawcount
+	local skins = loveframes.skins.available
+	local skinindex = loveframes.config["ACTIVESKIN"]
+	local defaultskin = loveframes.config["DEFAULTSKIN"]
+	local selfskin = self.skin
+	local skin = skins[selfskin] or skins[skinindex]
+	local drawfunc = skin.DrawScrollButton or skins[defaultskin].DrawScrollButton
+	local draw = self.Draw
+	local drawcount = loveframes.drawcount
 	
 	-- set the object's draw order
 	self:SetDrawOrder()
@@ -118,16 +118,12 @@ function newobject:mousepressed(x, y, button)
 	local hover = self.hover
 	
 	if hover and button == "l" then
-		
 		local baseparent = self:GetBaseParent()
-	
 		if baseparent.type == "frame" then
 			baseparent:MakeTop()
 		end
-	
 		self.down = true
 		loveframes.hoverobject = self
-		
 	end
 	
 end
@@ -144,32 +140,19 @@ function newobject:mousereleased(x, y, button)
 		return
 	end
 	
-	local hover   = self.hover
-	local down    = self.down
+	local hover = self.hover
+	local down = self.down
 	local onclick = self.OnClick
 	
 	if hover and down then
-	
 		if button == "l" then
 			onclick(x, y, self)
 		end
-		
 	end
 	
 	self.down = false
 
 end
-
---[[---------------------------------------------------------
-	- func: SetText(text)
-	- desc: sets the object's text
---]]---------------------------------------------------------
-function newobject:SetText(text)
-
-	return
-	
-end
-
 
 --[[---------------------------------------------------------
 	- func: GetScrollType()

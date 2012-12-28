@@ -12,14 +12,14 @@ local newobject = loveframes.NewObject("modalbackground", "loveframes_object_mod
 --]]---------------------------------------------------------
 function newobject:initialize(object)
 	
-	self.type           = "modalbackground"
-	self.width          = love.graphics.getWidth()
-	self.height         = love.graphics.getHeight()
-	self.x              = 0
-	self.y              = 0
-	self.internal       = true
-	self.parent         = loveframes.base
-	self.object         = object
+	self.type = "modalbackground"
+	self.width = love.graphics.getWidth()
+	self.height = love.graphics.getHeight()
+	self.x = 0
+	self.y = 0
+	self.internal = true
+	self.parent = loveframes.base
+	self.object = object
 	
 	table.insert(loveframes.base.children, self)
 	
@@ -38,7 +38,7 @@ end
 --]]---------------------------------------------------------
 function newobject:update(dt)
 	
-	local visible      = self.visible
+	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
 	if not visible then
@@ -47,9 +47,9 @@ function newobject:update(dt)
 		end
 	end
 	
-	local object       = self.object
-	local update       = self.Update
-	local base         = loveframes.base
+	local object = self.object
+	local update = self.Update
+	local base = loveframes.base
 	local basechildren = base.children
 	
 	if #basechildren > 1 then
@@ -80,14 +80,14 @@ function newobject:draw()
 		return
 	end
 	
-	local skins         = loveframes.skins.available
-	local skinindex     = loveframes.config["ACTIVESKIN"]
-	local defaultskin   = loveframes.config["DEFAULTSKIN"]
-	local selfskin      = self.skin
-	local skin          = skins[selfskin] or skins[skinindex]
-	local drawfunc      = skin.DrawModalBackground or skins[defaultskin].DrawModalBackground
-	local draw          = self.Draw
-	local drawcount     = loveframes.drawcount
+	local skins = loveframes.skins.available
+	local skinindex = loveframes.config["ACTIVESKIN"]
+	local defaultskin = loveframes.config["DEFAULTSKIN"]
+	local selfskin = self.skin
+	local skin = skins[selfskin] or skins[skinindex]
+	local drawfunc = skin.DrawModalBackground or skins[defaultskin].DrawModalBackground
+	local draw = self.Draw
+	local drawcount = loveframes.drawcount
 	
 	-- set the object's draw order
 	self:SetDrawOrder()

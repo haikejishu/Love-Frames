@@ -669,7 +669,7 @@ function loveframes.debug.ExamplesMenu()
 	
 		local frame1 = loveframes.Create("frame")
 		frame1:SetName("Text")
-		frame1:SetSize(500, 300)
+		frame1:SetSize(500, 330)
 		frame1:CenterWithinArea(unpack(centerarea))
 		
 		local list1 = loveframes.Create("list", frame1)
@@ -680,7 +680,16 @@ function loveframes.debug.ExamplesMenu()
 		
 		local text1 = loveframes.Create("text")
 		text1:SetText(loremipsum)
+		text1:SetShadowColor(200, 200, 200, 255)
 		list1:AddItem(text1)
+		
+		local shadowbutton = loveframes.Create("button", frame1)
+		shadowbutton:SetSize(490, 25)
+		shadowbutton:SetPos(5, 300)
+		shadowbutton:SetText("Toggle Text Shadow")
+		shadowbutton.OnClick = function()
+			text1:SetShadow(not text1:GetShadow())
+		end
 		
 	end
 	exampleslist:AddItem(textexample)
