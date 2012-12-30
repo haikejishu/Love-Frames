@@ -9,7 +9,7 @@ loveframes = {}
 -- library info
 loveframes.info                      = {}
 loveframes.info.author               = "Kenny Shields"
-loveframes.info.version              = "0.9.4.11"
+loveframes.info.version              = "0.9.4.12"
 loveframes.info.stage                = "Alpha"
 
 -- library configurations
@@ -99,10 +99,14 @@ end
 function loveframes.draw()
 
 	local base = loveframes.base
+	local r, g, b, a = love.graphics.getColor()
+	
 	base:draw()
 	
 	loveframes.drawcount = 0
 	loveframes.debug.draw()
+	
+	love.graphics.setColor(r, g, b, a)
 	
 end
 

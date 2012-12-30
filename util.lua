@@ -56,9 +56,7 @@ function loveframes.util.GetCollisions(object, t)
 	
 	-- add the current object if colliding
 	if object.visible == true then
-	
 		local col = loveframes.util.BoundingBox(x, object.x, y, object.y, 1, object.width, 1, object.height)
-		
 		if col == true and object.collide ~= false then
 			if object.clickbounds then
 				local clickcol = loveframes.util.BoundingBox(x, object.clickbounds.x, y, object.clickbounds.y, 1, object.clickbounds.width, 1, object.clickbounds.height)
@@ -69,29 +67,24 @@ function loveframes.util.GetCollisions(object, t)
 				table.insert(t, object)
 			end
 		end
-		
 	end
 	
 	-- check for children
 	if object.children then
-	
 		for k, v in ipairs(object.children) do
 			if v.visible then
 				loveframes.util.GetCollisions(v, t)
 			end
 		end
-		
 	end
 	
 	-- check for internals
 	if object.internals then
-	
 		for k, v in ipairs(object.internals) do
 			if v.visible and v.type ~= "tooltip" then
 				loveframes.util.GetCollisions(v, t)
 			end
 		end
-		
 	end
 	
 	return t
@@ -132,10 +125,10 @@ end
 --]]---------------------------------------------------------
 function loveframes.util.GetDirectoryContents(dir, t)
 
-	local dir   = dir
-	local t     = t or {}
+	local dir = dir
+	local t = t or {}
 	local files = love.filesystem.enumerate(dir)
-	local dirs  = {}
+	local dirs = {}
 	
 	for k, v in ipairs(files) do
 	
@@ -144,10 +137,10 @@ function loveframes.util.GetDirectoryContents(dir, t)
 		if isdir == true then
 			table.insert(dirs, dir.. "/" ..v)
 		else
-			local parts     = loveframes.util.SplitString(v, "([.])")
+			local parts = loveframes.util.SplitString(v, "([.])")
 			local extension = parts[#parts]
-			parts[#parts]   = nil
-			local name      = table.concat(parts)
+			parts[#parts] = nil
+			local name = table.concat(parts)
 			table.insert(t, {path = dir, fullpath = dir.. "/" ..v, requirepath = dir .. "." ..name, name = name, extension = extension})
 		end
 		

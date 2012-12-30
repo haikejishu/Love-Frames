@@ -1,4 +1,10 @@
 ================================================
+Version 0.9.4.12 - Alpha (December 30 - 2012)
+================================================
+[CHANGED] newlines created on the text object with \n now display properly
+[CHANGED] Love Frames now resets the current drawing color to the last color used before calling loveframes.draw() after it has finished all drawing operations
+
+================================================
 Version 0.9.4.11 - Alpha (December 28 - 2012)
 ================================================
 [ADDED] a new textinput method: SetAutoScroll(bool)
