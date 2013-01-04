@@ -642,19 +642,17 @@ function loveframes.debug.ExamplesMenu()
 		local images = {"accept.png", "add.png", "application.png", "building.png", "bin.png", "database.png", "box.png", "brick.png"}
 		
 		for i=1, 20 do
-		
+			local image = "resources/images/" .. images[math.random(1, #images)]
 			local panel1 = loveframes.Create("panel")
 			panel1.Draw = function()
 			end
-			
 			local text1 = loveframes.Create("text", panel1)
 			text1:SetText("Tab " ..i)
-			tabs1:AddTab("Tab " ..i, panel1, "Tab " ..i, "resources/images/" ..images[math.random(1, #images)])
+			tabs1:AddTab("Tab " ..i, panel1, "Tab " ..i, image)
 			text1:SetAlwaysUpdate(true)
 			text1.Update = function(object, dt)
 				object:Center()
 			end
-			
 		end
 		
 	end

@@ -1,4 +1,13 @@
 ================================================
+Version 0.9.4.14 - Alpha (January 4 - 2013)
+================================================
+[ADDED] a new util library function: loveframes.util.CheckForUpdates() (note: this function is meant to be used by the developer and is never called internally by Love Frames)
+[ADDED] a new callback for the tabbutton object: OnOpened(object)
+[ADDED] a new callback for the tabbutton object: OnClosed(object)
+
+[CHANGED] tabs:AddTab(name, object, tip, image) now accepts two new optional arguments for tabbutton callbacks (ex: tabs:AddTab(name, object, tip, image, onopened, onclosed))
+
+================================================
 Version 0.9.4.13 - Alpha (January 4 - 2013)
 ================================================
 [ADDED] a new base method: IsInList()
