@@ -322,12 +322,13 @@ function newobject:DrawText()
 	local shadowxoffset = self.shadowxoffset
 	local shadowyoffset = self.shadowyoffset
 	local shadowcolor = self.shadowcolor
+	local inlist, list = self:IsInList()
 	
 	for k, v in ipairs(textdata) do
 		local text = v.text
 		local color = v.color
-		if self.parent.type == "list" then
-			if (y + v.y) <= (self.parent.y + self.parent.height) and self.y + ((v.y + theight)) >= self.parent.y then
+		if inlist then
+			if (y + v.y) <= (list.y + list.height) and self.y + ((v.y + theight)) >= list.y then
 				love.graphics.setFont(font)
 				if shadow then
 					love.graphics.setColor(unpack(shadowcolor))

@@ -131,9 +131,7 @@ function loveframes.util.GetDirectoryContents(dir, t)
 	local dirs = {}
 	
 	for k, v in ipairs(files) do
-	
 		local isdir = love.filesystem.isDirectory(dir.. "/" ..v)
-		
 		if isdir == true then
 			table.insert(dirs, dir.. "/" ..v)
 		else
@@ -143,7 +141,6 @@ function loveframes.util.GetDirectoryContents(dir, t)
 			local name = table.concat(parts)
 			table.insert(t, {path = dir, fullpath = dir.. "/" ..v, requirepath = dir .. "." ..name, name = name, extension = extension})
 		end
-		
 	end
 	
 	if #dirs > 0 then
@@ -165,8 +162,12 @@ end
 function loveframes.util.Round(num, idp)
 
 	local mult = 10^(idp or 0)
-    if num >= 0 then return math.floor(num * mult + 0.5) / mult
-    else return math.ceil(num * mult - 0.5) / mult end
+	
+    if num >= 0 then 
+		return math.floor(num * mult + 0.5) / mult
+    else 
+		return math.ceil(num * mult - 0.5) / mult 
+	end
 	
 end
 
@@ -180,7 +181,6 @@ function loveframes.util.SplitString(str, pat)
 	local t = {}  -- NOTE: use {n = 0} in Lua-5.0
 	
 	if pat == " " then
-	
 		local fpat = "(.-)" .. pat
 		local last_end = 1
 		local s, e, cap = str:find(fpat, 1)
@@ -198,9 +198,7 @@ function loveframes.util.SplitString(str, pat)
 			cap = str:sub(last_end)
 			table.insert(t, cap)
 		end
-		
 	else
-	
 		local fpat = "(.-)" .. pat
 		local last_end = 1
 		local s, e, cap = str:find(fpat, 1)
@@ -215,7 +213,6 @@ function loveframes.util.SplitString(str, pat)
 			cap = str:sub(last_end)
 			table.insert(t, cap)
 		end
-		
 	end
 	
 	return t

@@ -19,19 +19,14 @@ loveframes.templates.objects = {}
 --]]---------------------------------------------------------
 function loveframes.templates.AddProperty(templatename, object, property, value)
 
-	-- display and error if name is nil or false
+	-- display an error if name is nil or false
 	if not templatename then
 		loveframes.util.Error("Could not create property: No template name given.")
 	end
 	
-	-- display and error if property is nil or false
+	-- display an error if property is nil or false
 	if not property then
 		loveframes.util.Error("Could not create property: No property name given.")
-	end
-	
-	-- display and error if value is nil or false
-	if not value then
-		loveframes.util.Error("Could not create property: No property value given.")
 	end
 	
 	local templatename = tostring(templatename)

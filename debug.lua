@@ -755,7 +755,7 @@ function loveframes.debug.SkinSelector()
 	frame:SetName("Skin Selector")
 	frame:SetSize(200, 60)
 	frame:SetPos(5, 255)
-
+	
 	local skinslist = loveframes.Create("multichoice", frame)
 	skinslist:SetPos(5, 30)
 	skinslist:SetWidth(190)

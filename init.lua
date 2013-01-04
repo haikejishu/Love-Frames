@@ -7,27 +7,27 @@
 loveframes = {}
 
 -- library info
-loveframes.info                      = {}
-loveframes.info.author               = "Kenny Shields"
-loveframes.info.version              = "0.9.4.12"
-loveframes.info.stage                = "Alpha"
+loveframes.info = {}
+loveframes.info.author = "Kenny Shields"
+loveframes.info.version = "0.9.4.13"
+loveframes.info.stage = "Alpha"
 
 -- library configurations
-loveframes.config                    = {}
-loveframes.config["DIRECTORY"]       = ""
-loveframes.config["DEFAULTSKIN"]     = "Blue"
-loveframes.config["ACTIVESKIN"]      = "Blue"
+loveframes.config = {}
+loveframes.config["DIRECTORY"] = ""
+loveframes.config["DEFAULTSKIN"] = "Blue"
+loveframes.config["ACTIVESKIN"] = "Blue"
 loveframes.config["INDEXSKINIMAGES"] = true
-loveframes.config["DEBUG"]           = false
+loveframes.config["DEBUG"] = false
 
 -- misc library vars
-loveframes.drawcount                 = 0
-loveframes.hoverobject               = false
-loveframes.modalobject               = false
-loveframes.inputobject               = false
-loveframes.basicfont                 = love.graphics.newFont(12)
-loveframes.basicfontsmall            = love.graphics.newFont(10)
-loveframes.objects                   = {}
+loveframes.drawcount = 0
+loveframes.hoverobject = false
+loveframes.modalobject = false
+loveframes.inputobject = false
+loveframes.basicfont = love.graphics.newFont(12)
+loveframes.basicfontsmall = love.graphics.newFont(10)
+loveframes.objects = {}
 
 --[[---------------------------------------------------------
 	- func: load()
