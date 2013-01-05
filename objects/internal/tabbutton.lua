@@ -30,7 +30,8 @@ function newobject:initialize(parent, text, tabnumber, tip, image, onopened, onc
 	if tip then
 		self.tooltip = loveframes.objects["tooltip"]:new(self, tip)
 		self.tooltip:SetFollowCursor(false)
-		self.tooltip:SetOffsets(0, -5)
+		self.tooltip:SetFollowObject(true)
+		self.tooltip:SetOffsets(0, -(self.tooltip.text:GetHeight() + 12))
 	end
 	
 	if image then

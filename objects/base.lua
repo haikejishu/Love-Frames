@@ -757,6 +757,21 @@ function newobject:GetChildren()
 end
 
 --[[---------------------------------------------------------
+	- func: GetInternals()
+	- desc: returns the object's internals
+--]]---------------------------------------------------------
+function newobject:GetChildren()
+
+	local internals = self.internals
+	
+	if internals then
+		return internals
+	end
+	
+end
+
+
+--[[---------------------------------------------------------
 	- func: IsTopList()
 	- desc: returns true if the object is the top most list
 			object or false if not
@@ -975,9 +990,11 @@ end
 --]]---------------------------------------------------------
 function newobject:IsTopInternal()
 
-	local internals = self.parent.internals
+	local parent = self.parent
+	local internals = parent.internals
+	local topitem = internals[#internals]
 	
-	if internals[#internals] ~= self then
+	if topitem ~= self then
 		return false
 	else
 		return true

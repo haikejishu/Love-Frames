@@ -1,4 +1,10 @@
 ================================================
+Version 0.9.4.15 - Alpha (January 5 - 2013)
+================================================
+[ADDED] a new base method: GetInternals()
+[ADDED] a new tooltip method: SetFollowObject(bool)
+
+================================================
 Version 0.9.4.14 - Alpha (January 4 - 2013)
 ================================================
 [ADDED] a new util library function: loveframes.util.CheckForUpdates() (note: this function is meant to be used by the developer and is never called internally by Love Frames)

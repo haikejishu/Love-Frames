@@ -25,6 +25,7 @@ function newobject:initialize(object, text, width)
 	self.internal = true
 	self.show = false
 	self.followcursor = true
+	self.followobject = false
 	self.alwaysupdate = true
 	
 	-- create the object's text
@@ -78,10 +79,15 @@ function newobject:update(dt)
 		self.visible = ovisible
 		if ohover and ovisible then
 			local top = self:IsTopInternal()
-			if self.followcursor then
+			local followcursor = self.followcursor
+			local followobject = self.followobject
+			if followcursor then
 				local x, y = love.mouse.getPosition()
 				self.x = x + self.xoffset
 				self.y = y - self.height + self.yoffset
+			elseif followobject then
+				self.x = object.x + self.xoffset
+				self.y = object.y + self.yoffset
 			end
 			if not top then
 				self:MoveToTop()
@@ -215,5 +221,16 @@ end
 function newobject:SetFont(font)
 
 	self.text:SetFont(font)
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetFollowObject(bool)
+	- desc: sets whether or not the tooltip should follow
+			it's assigned object
+--]]---------------------------------------------------------
+function newobject:SetFollowObject(bool)
+
+	self.followobject = bool
 	
 end
