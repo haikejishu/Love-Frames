@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- Love Frames - A GUI library for LOVE --
-	-- Copyright (c) 2012 Kenny Shields --
+	-- Copyright (c) 2013 Kenny Shields --
 --]]------------------------------------------------
 
 -- progressbar class
@@ -36,6 +36,13 @@ end
 --]]---------------------------------------------------------
 function newobject:update(dt)
 
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
@@ -122,6 +129,13 @@ end
 	- desc: draws the object
 --]]---------------------------------------------------------
 function newobject:draw()
+	
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
 	
 	local visible = self.visible
 	

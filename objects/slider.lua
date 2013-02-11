@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- Love Frames - A GUI library for LOVE --
-	-- Copyright (c) 2012 Kenny Shields --
+	-- Copyright (c) 2013 Kenny Shields --
 --]]------------------------------------------------
 
 -- slider class
@@ -26,7 +26,9 @@ function newobject:initialize()
 	self.OnValueChanged	= nil
 	
 	-- create the slider button
-	table.insert(self.internals, loveframes.objects["sliderbutton"]:new(self))
+	local sliderbutton = loveframes.objects["sliderbutton"]:new(self)
+	sliderbutton.state = self.state
+	table.insert(self.internals, sliderbutton)
 	
 	-- set initial value to minimum
 	self:SetValue(self.min)
@@ -39,6 +41,13 @@ end
 --]]---------------------------------------------------------
 function newobject:update(dt)
 
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
@@ -87,6 +96,13 @@ end
 --]]---------------------------------------------------------
 function newobject:draw()
 
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local visible = self.visible
 	
 	if not visible then
@@ -125,6 +141,13 @@ end
 --]]---------------------------------------------------------
 function newobject:mousepressed(x, y, button)
 
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local visible = self.visible
 	
 	if not visible then
@@ -357,8 +380,6 @@ function newobject:GetButtonSize()
 	
 	if sliderbutton then
 		return sliderbutton.width, sliderbutton.height
-	else
-		return false
 	end
 	
 end

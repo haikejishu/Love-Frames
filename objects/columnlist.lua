@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- Love Frames - A GUI library for LOVE --
-	-- Copyright (c) 2012 Kenny Shields --
+	-- Copyright (c) 2013 Kenny Shields --
 --]]------------------------------------------------
 
 -- columnlist class
@@ -16,9 +16,10 @@ function newobject:initialize()
 	self.width = 300
 	self.height = 100
 	self.columnheight = 16
-	self.buttonscrollamount = 0.10
-	self.mousewheelscrollamount = 5
+	self.buttonscrollamount = 200
+	self.mousewheelscrollamount = 1000
 	self.autoscroll = false
+	self.dtscrolling = true
 	self.internal = false
 	self.children = {}
 	self.internals = {}
@@ -35,6 +36,13 @@ end
 	- desc: updates the object
 --]]---------------------------------------------------------
 function newobject:update(dt)
+	
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
 	
 	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -79,6 +87,13 @@ end
 --]]---------------------------------------------------------
 function newobject:draw()
 
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local visible = self.visible
 	
 	if not visible then
@@ -121,9 +136,16 @@ end
 --]]---------------------------------------------------------
 function newobject:mousepressed(x, y, button)
 
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
@@ -131,7 +153,7 @@ function newobject:mousepressed(x, y, button)
 	local children  = self.children
 	local internals = self.internals
 	
-	if hover == true and button == "l" then
+	if hover and button == "l" then
 		local baseparent = self:GetBaseParent()
 		if baseparent and baseparent.type == "frame" then
 			baseparent:MakeTop()
@@ -154,9 +176,16 @@ end
 --]]---------------------------------------------------------
 function newobject:mousereleased(x, y, button)
 
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local visible = self.visible
 	
-	if visible == false then
+	if not visible then
 		return
 	end
 	
@@ -192,7 +221,7 @@ function newobject:AdjustColumns()
 	local x = 0
 	
 	for k, v in ipairs(children) do
-		if bar == true then
+		if bar then
 			v:SetWidth(columnwidth)
 		else
 			v:SetWidth(columnwidth)
@@ -416,5 +445,28 @@ function newobject:SetColumnHeight(height)
 	
 	list:CalculateSize()
 	list:RedoLayout()
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetDTScrolling(bool)
+	- desc: sets whether or not the object should use delta
+			time when scrolling
+--]]---------------------------------------------------------
+function newobject:SetDTScrolling(bool)
+
+	self.dtscrolling = bool
+	self.internals[1].dtscrolling = bool
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetDTScrolling()
+	- desc: gets whether or not the object should use delta
+			time when scrolling
+--]]---------------------------------------------------------
+function newobject:GetDTScrolling()
+
+	return self.dtscrolling
 	
 end

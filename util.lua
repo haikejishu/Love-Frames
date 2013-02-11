@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- Love Frames - A GUI library for LOVE --
-	-- Copyright (c) 2012 Kenny Shields --
+	-- Copyright (c) 2013 Kenny Shields --
 --]]------------------------------------------------
 
 -- util library
@@ -98,18 +98,20 @@ end
 function loveframes.util.GetAllObjects(object, t)
 	
 	local object = object or loveframes.base
+	local internals = object.internals
+	local children = object.children
 	local t = t or {}
 	
 	table.insert(t, object)
 	
-	if object.internals then
-		for k, v in ipairs(object.internals) do
+	if internals then
+		for k, v in ipairs(internals) do
 			loveframes.util.GetAllObjects(v, t)
 		end
 	end
 	
-	if object.children then
-		for k, v in ipairs(object.children) do
+	if children then
+		for k, v in ipairs(children) do
 			loveframes.util.GetAllObjects(v, t)
 		end
 	end

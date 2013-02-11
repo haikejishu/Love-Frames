@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- Love Frames - A GUI library for LOVE --
-	-- Copyright (c) 2012 Kenny Shields --
+	-- Copyright (c) 2013 Kenny Shields --
 --]]------------------------------------------------
 
 -- checkbox class
@@ -32,6 +32,13 @@ end
 	- desc: updates the object
 --]]---------------------------------------------------------
 function newobject:update(dt)
+	
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
 	
 	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -102,6 +109,13 @@ end
 --]]---------------------------------------------------------
 function newobject:draw()
 	
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local visible = self.visible
 	
 	if not visible then
@@ -139,6 +153,13 @@ end
 --]]---------------------------------------------------------
 function newobject:mousepressed(x, y, button)
 
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local visible = self.visible
 	
 	if not visible then
@@ -164,6 +185,13 @@ end
 --]]---------------------------------------------------------
 function newobject:mousereleased(x, y, button)
 	
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local visible = self.visible
 	
 	if not visible then
@@ -185,29 +213,6 @@ function newobject:mousereleased(x, y, button)
 		end
 	end
 		
-end
-
---[[---------------------------------------------------------
-	- func: keypressed(key)
-	- desc: called when the player presses a key
---]]---------------------------------------------------------
-function newobject:keypressed(key, unicode)
-
-	local checked = self.checked
-	local onchanged = self.OnChanged
-	local selectedobject = loveframes.selectedobject
-	
-	if key == "return" and selectedobject == self then
-		if checked then
-			self.checked = false
-		else
-			self.checked = true
-		end
-		if onchanged then
-			onchanged(self)
-		end
-	end
-
 end
 
 --[[---------------------------------------------------------

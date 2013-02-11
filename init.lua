@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- Love Frames - A GUI library for LOVE --
-	-- Copyright (c) 2012 Kenny Shields --
+	-- Copyright (c) 2013 Kenny Shields --
 --]]------------------------------------------------
 
 -- central library table
@@ -9,7 +9,7 @@ loveframes = {}
 -- library info
 loveframes.info = {}
 loveframes.info.author = "Kenny Shields"
-loveframes.info.version = "0.9.4.15"
+loveframes.info.version = "0.9.5"
 loveframes.info.stage = "Alpha"
 
 -- library configurations
@@ -21,6 +21,7 @@ loveframes.config["INDEXSKINIMAGES"] = true
 loveframes.config["DEBUG"] = false
 
 -- misc library vars
+loveframes.state = "none"
 loveframes.drawcount = 0
 loveframes.hoverobject = false
 loveframes.modalobject = false
@@ -279,6 +280,27 @@ function loveframes.NewObject(id, name, inherit_from_base)
 	end
 	
 	return object
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetState(name)
+	- desc: sets the current state
+--]]---------------------------------------------------------
+function loveframes.SetState(name)
+
+	loveframes.state = name
+	loveframes.base.state = name
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetState()
+	- desc: gets the current state
+--]]---------------------------------------------------------
+function loveframes.GetState()
+
+	return loveframes.state
 	
 end
 

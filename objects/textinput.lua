@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- Love Frames - A GUI library for LOVE --
-	-- Copyright (c) 2012 Kenny Shields --
+	-- Copyright (c) 2013 Kenny Shields --
 --]]------------------------------------------------
 
 -- textinput class
@@ -71,6 +71,13 @@ end
 --]]---------------------------------------------------------
 function newobject:update(dt)
 
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
@@ -238,6 +245,13 @@ end
 --]]---------------------------------------------------------
 function newobject:draw()
 
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local visible = self.visible
 	
 	if not visible then
@@ -292,6 +306,13 @@ end
 --]]---------------------------------------------------------
 function newobject:mousepressed(x, y, button)
 
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local visible = self.visible
 	
 	if not visible then
@@ -376,6 +397,13 @@ end
 --]]---------------------------------------------------------
 function newobject:mousereleased(x, y, button)
 
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local visible = self.visible
 	
 	if not visible then
@@ -396,6 +424,13 @@ end
 --]]---------------------------------------------------------
 function newobject:keypressed(key, unicode)
 
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local visible = self.visible
 	
 	if not visible then
@@ -426,6 +461,13 @@ end
 --]]---------------------------------------------------------
 function newobject:keyreleased(key)
 
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local visible = self.visible
 	
 	if not visible then
@@ -634,14 +676,6 @@ function newobject:RunKey(key, unicode)
 		end
 	else
 		if unicode > 31 and unicode < 127 then
-			if alltextselected then
-				self.alltextselected = false
-				self:Clear()
-				indicatornum = self.indicatornum
-				text = ""
-				lines = self.lines
-				line = self.line
-			end
 			-- do not continue if the text limit has been reached or exceeded
 			if #text >= self.limit and self.limit ~= 0 then
 				return
@@ -656,7 +690,7 @@ function newobject:RunKey(key, unicode)
 						found = true
 					end
 				end
-				if found == false then
+				if not found then
 					return
 				end
 			end
@@ -668,9 +702,17 @@ function newobject:RunKey(key, unicode)
 						found = true
 					end
 				end
-				if found == true then
+				if found then
 					return
 				end
+			end
+			if alltextselected then
+				self.alltextselected = false
+				self:Clear()
+				indicatornum = self.indicatornum
+				text = ""
+				lines = self.lines
+				line = self.line
 			end
 			if indicatornum ~= 0 and indicatornum ~= #text then
 				text = self:AddIntoText(unicode, indicatornum)
@@ -1113,6 +1155,9 @@ function newobject:SetText(text)
 
 	local tabreplacement = self.tabreplacement
 	local multiline = self.multiline
+	
+	-- make sure the text is a string
+	text = tostring(text)
 	
 	-- replace any tabs character with spaces
 	text = text:gsub(string.char(9), tabreplacement)

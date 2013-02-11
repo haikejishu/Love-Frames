@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- Love Frames - A GUI library for LOVE --
-	-- Copyright (c) 2012 Kenny Shields --
+	-- Copyright (c) 2013 Kenny Shields --
 --]]------------------------------------------------
 
 --[[------------------------------------------------
@@ -23,7 +23,6 @@ function newobject:initialize()
 	self.width = 5
 	self.height = 5
 	self.maxw = 0
-	self.lines = 1
 	self.shadowxoffset = 1
 	self.shadowyoffset = 1
 	self.formattedtext = {}
@@ -41,8 +40,18 @@ end
 --]]---------------------------------------------------------
 function newobject:update(dt)
 
-	if not self.visible then
-		if not self.alwaysupdate then
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
+	local visible = self.visible
+	local alwaysupdate = self.alwaysupdate
+	
+	if not visible then
+		if not alwaysupdate then
 			return
 		end
 	end
@@ -71,6 +80,13 @@ end
 --]]---------------------------------------------------------
 function newobject:draw()
 
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	if not self.visible then
 		return
 	end
@@ -103,6 +119,13 @@ end
 --]]---------------------------------------------------------
 function newobject:mousepressed(x, y, button)
 
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local visible = self.visible
 	
 	if not visible then

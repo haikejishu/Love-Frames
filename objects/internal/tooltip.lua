@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- Love Frames - A GUI library for LOVE --
-	-- Copyright (c) 2012 Kenny Shields --
+	-- Copyright (c) 2013 Kenny Shields --
 --]]------------------------------------------------
 
 -- tooltip clas
@@ -49,6 +49,13 @@ end
 --]]---------------------------------------------------------
 function newobject:update(dt)
 
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
@@ -75,6 +82,12 @@ function newobject:update(dt)
 		local odraworder = object.draworder
 		local ovisible = object.visible
 		local ohover = object.hover
+		local ostate = object.state
+		if ostate ~= state then
+			self.show = false
+			self.visible = false
+			return
+		end
 		self.show = ohover
 		self.visible = ovisible
 		if ohover and ovisible then
@@ -117,6 +130,13 @@ end
 	- desc: draws the object
 --]]---------------------------------------------------------
 function newobject:draw()
+	
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
 	
 	local visible = self.visible
 	

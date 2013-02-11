@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- Love Frames - A GUI library for LOVE --
-	-- Copyright (c) 2012 Kenny Shields --
+	-- Copyright (c) 2013 Kenny Shields --
 --]]------------------------------------------------
 
 -- base object
@@ -22,7 +22,7 @@ function newobject:initialize()
 	self.internal = true
 	self.children = {}
 	self.internals = {}
-
+	
 end
 
 --[[---------------------------------------------------------
@@ -30,6 +30,13 @@ end
 	- desc: updates the object
 --]]---------------------------------------------------------
 function newobject:update(dt)
+	
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
 	
 	local children = self.children
 	
@@ -48,7 +55,14 @@ end
 	- desc: draws the object
 --]]---------------------------------------------------------
 function newobject:draw()
-
+	
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local children = self.children
 	
 	-- set the object's draw order
@@ -69,7 +83,14 @@ end
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
 function newobject:mousepressed(x, y, button)
-
+	
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local visible = self.visible
 	local children = self.children
 	local internals = self.internals
@@ -97,7 +118,14 @@ end
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
 function newobject:mousereleased(x, y, button)
-
+	
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local visible = self.visible
 	local children = self.children
 	local internals = self.internals
@@ -125,7 +153,14 @@ end
 	- desc: called when the player presses a key
 --]]---------------------------------------------------------
 function newobject:keypressed(key, unicode)
-
+	
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local visible = self.visible
 	local children = self.children
 	local internals = self.internals
@@ -153,7 +188,14 @@ end
 	- desc: called when the player releases a key
 --]]---------------------------------------------------------
 function newobject:keyreleased(key)
-
+	
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local visible = self.visible
 	local children = self.children
 	local internals = self.internals
@@ -183,7 +225,7 @@ end
 	- desc: sets the object's position
 --]]---------------------------------------------------------
 function newobject:SetPos(x, y)
-
+	
 	local base = loveframes.base
 	local parent = self.parent
 	
@@ -482,6 +524,7 @@ function newobject:SetParent(parent)
 	
 	self:Remove()
 	self.parent = tparent
+	self:SetState(tparent.state)
 	
 	table.insert(tparent.children, self)
 
@@ -1079,5 +1122,40 @@ function newobject:IsInList()
 	end
 	
 	return false, false
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetState(name)
+	- desc: sets the object's state
+--]]---------------------------------------------------------
+function newobject:SetState(name)
+
+	local children = self.children
+	local internals = self.internals
+	
+	self.state = name
+	
+	if children then
+		for k, v in ipairs(children) do
+			v:SetState(name)
+		end
+	end
+	
+	if internals then
+		for k, v in ipairs(internals) do
+			v:SetState(name)
+		end
+	end
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetState()
+	- desc: gets the object's state
+--]]---------------------------------------------------------
+function newobject:GetState()
+
+	return self.state
 	
 end

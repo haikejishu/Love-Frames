@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- Love Frames - A GUI library for LOVE --
-	-- Copyright (c) 2012 Kenny Shields --
+	-- Copyright (c) 2013 Kenny Shields --
 --]]------------------------------------------------
 
 -- tabbutton class
@@ -69,15 +69,10 @@ function newobject:update(dt)
 	local parent = self.parent
 	local base = loveframes.base
 	local update = self.Update
+	local internals = self.internals
 	
 	self:CheckHover()
 	self:SetClickBounds(parent.x, parent.y, parent.width, parent.height)
-	
-	-- move to parent if there is a parent
-	if parent ~= base then
-		self.x = self.parent.x + self.staticx
-		self.y = self.parent.y + self.staticy
-	end
 	
 	if update then
 		update(self, dt)
@@ -104,10 +99,11 @@ function newobject:draw()
 	local drawfunc = skin.DrawTabButton or skins[defaultskin].DrawTabButton
 	local draw = self.Draw
 	local drawcount = loveframes.drawcount
+	local internals = self.internals
 	
 	-- set the object's draw order
 	self:SetDrawOrder()
-		
+	
 	if draw then
 		draw(self)
 	else
@@ -129,6 +125,7 @@ function newobject:mousepressed(x, y, button)
 	end
 	
 	local hover = self.hover
+	local internals = self.internals
 	
 	if hover and button == "l" then
 		local baseparent = self:GetBaseParent()
@@ -156,6 +153,7 @@ function newobject:mousereleased(x, y, button)
 	local hover = self.hover
 	local parent = self.parent
 	local tabnumber = self.tabnumber
+	local internals = self.internals
 	
 	if hover and button == "l" then
 		if button == "l" then

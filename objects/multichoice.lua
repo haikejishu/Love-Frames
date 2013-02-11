@@ -1,6 +1,6 @@
 --[[------------------------------------------------
 	-- Love Frames - A GUI library for LOVE --
-	-- Copyright (c) 2012 Kenny Shields --
+	-- Copyright (c) 2013 Kenny Shields --
 --]]------------------------------------------------
 
 -- multichoice class
@@ -19,9 +19,10 @@ function newobject:initialize()
 	self.height = 25
 	self.listpadding = 0
 	self.listspacing = 0
-	self.buttonscrollamount = 0.10
-	self.mousewheelscrollamount = 5
+	self.buttonscrollamount = 200
+	self.mousewheelscrollamount = 1000
 	self.haslist = false
+	self.dtscrolling = true
 	self.internal = false
 	self.choices = {}
 	self.listheight = nil
@@ -34,6 +35,13 @@ end
 --]]---------------------------------------------------------
 function newobject:update(dt)
 
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
 	
@@ -67,6 +75,13 @@ end
 --]]---------------------------------------------------------
 function newobject:draw()
 	
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local visible = self.visible
 	
 	if not visible then
@@ -99,6 +114,13 @@ end
 --]]---------------------------------------------------------
 function newobject:mousepressed(x, y, button)
 	
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local visible = self.visible
 	
 	if not visible then
@@ -115,6 +137,7 @@ function newobject:mousepressed(x, y, button)
 		end
 		self.haslist = true
 		self.list = loveframes.objects["multichoicelist"]:new(self)
+		self.list:SetState(self.state)
 		loveframes.hoverobject = self
 	end
 
@@ -125,6 +148,13 @@ end
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
 function newobject:mousereleased(x, y, button)
+	
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
 	
 	local visible = self.visible
 	
@@ -281,5 +311,27 @@ end
 function newobject:GetButtonScrollAmount()
 
 	return self.mousewheelscrollamount
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetDTScrolling(bool)
+	- desc: sets whether or not the object should use delta
+			time when scrolling
+--]]---------------------------------------------------------
+function newobject:SetDTScrolling(bool)
+
+	self.dtscrolling = bool
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetDTScrolling()
+	- desc: gets whether or not the object should use delta
+			time when scrolling
+--]]---------------------------------------------------------
+function newobject:GetDTScrolling()
+
+	return self.dtscrolling
 	
 end

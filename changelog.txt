@@ -1,4 +1,47 @@
 ================================================
+Version 0.9.5 - Alpha (February 11 - 2013)
+================================================
+[ADDED] state system
+[ADDED] a new base method: SetState(name)
+[ADDED] a new base method: GetState()
+[ADDED] a new list method: EnableHorizontalStacking(bool)
+[ADDED] a new list method: GetHorizontalStacking()
+[ADDED] a new list method: SetDTScrolling(bool)
+[ADDED] a new list method: GetDTScrolling()
+[ADDED] a new image method: GetImageSize()
+[ADDED] a new image method: GetImageWidth()
+[ADDED] a new image method: GetImageHeight()
+[ADDED] a new imagebutton method: GetImageSize()
+[ADDED] a new imagebutton method: GetImageWidth()
+[ADDED] a new imagebutton method: GetImageHeight()
+[ADDED] a new tabs method: RemoveTab(id)
+[ADDED] a new tabs method: SetButtonScrollAmount(amount)
+[ADDED] a new tabs method: GetButtonScrollAmount()
+[ADDED] a new tabs method: SetMouseWheelScrollAmount(amount)
+[ADDED] a new tabs method: GetMouseWheelScrollAmount()
+[ADDED] a new tabs method: SetDTScrolling(bool)
+[ADDED] a new tabs method: GetDTScrolling()
+[ADDED] a new columlist method: SetDTScrolling(bool)
+[ADDED] a new columlist method: GetDTScrolling()
+[ADDED] a new multichoice method: SetDTScrolling(bool)
+[ADDED] a new multichoice method: GetDTScrolling()
+[ADDED] a new base library function: loveframes.SetState(name)
+[ADDED] a new base library function: loveframes.GetState()
+[ADDED] a new object: numberbox
+[ADDED] support for horizontal stacking of list object items when the list object's display mode is set to vertical
+
+[FIXED] an error that would occur when providing a number as the text argument for textinput:SetText(text)
+[FIXED] default skin images becoming distorted at certain positions on the screen
+[FIXED] being able to clear a textinput's text by pressing an unusable key while all of the object's text was selected
+[FIXED] several typos in the changelog
+
+[CHANGED] the SetColor method for the image object now checks for four arguments (r, g, b, a) instead of one (table)
+[CHANGED] major code cleanup for the default skins
+[CHANGED] list:RemoveItem now accepts either an object or a number as an argument
+[CHANGED] miscellaneous changes/improvements to various sections of code
+[CHANGED] the images of the default skins
+
+================================================
 Version 0.9.4.15 - Alpha (January 5 - 2013)
 ================================================
 [ADDED] a new base method: GetInternals()
@@ -168,7 +211,7 @@ Version 0.9.4.2 - Alpha (November 5 - 2012)
 [ADDED] a new text image method: SetShear(x, y)
 [ADDED] a new text image method: GetShear()
 
-[FIXED] an error that ocurred after pressing enter on a multiline text input while all of it's text was selected
+[FIXED] an error that occurred after pressing enter on a multiline text input while all of it's text was selected
 [FIXED] text in a single line text input always being cleared when the enter key was pressed
 [FIXED] a syntax error in both default skin files that caused imaged to draw incorrect when they had a custom color
 [FIXED] an error that would occur when a tab button was being drawn while no font had been set
@@ -201,8 +244,8 @@ Version 0.9.4 - Alpha (October 22 - 2012)
 [ADDED] a new text input method: GetUnusable()
 [ADDED] a new system for creating and applying templates to objects
 
-[FIXED] a few incorrent entries in the changelog and added a few entries that were meant to be in the last upadte's changelog
-[FIXED] an error that occured when clicking on a frame that was parented to another frame
+[FIXED] a few incorrect entries in the changelog and added a few entries that were meant to be in the last upadte's changelog
+[FIXED] an error that occurred when clicking on a frame that was parented to another frame
 [FIXED] frames not being positioned properly if they were parented to another object
 [FIXED] modal background object not drawing over umodaled objects in certain situations
 [FIXED] an error that would occur when a multichoice list object would become scrollable
@@ -258,7 +301,7 @@ Version 0.9.3.2 - Alpha (Spetember 29 - 2012)
 
 [FIXED] progressbar object not positioning itself properly if it's parent was the base object
 [FIXED] a typo in the syntax of loveframes.util.SplitString (was "SplitSring", changed to "SplitString")
-[FIXED] the tooltip object not disapearing if it was visible when it's object's visibility was changed to false
+[FIXED] the tooltip object not disappearing if it was visible when it's object's visibility was changed to false
 [FIXED] the text input object's x offset not being adjusted initially when the width of it's text would would become wider than it's drawing area
 
 [CHANGED] massive code cleanup for optimization and 
@@ -266,7 +309,7 @@ Version 0.9.3.2 - Alpha (Spetember 29 - 2012)
 [CHANGED] textinput:RunBlink() to textinput:UpdateIndicator()
 [CHANGED] textinput:GetBlinkerVisisbility() to textinput:GetIndicatorVisisbility()
 [CHANGED] textinput:MoveBlinker(num, exact) to textinput:MoveIndicator(num, exact)
-[CHANGED] scrollbars now only autoscroll when their list's item width/height is greater thant their previous list's previous item width/height
+[CHANGED] scrollbars now only autoscroll when their list's item width/height is greater than their previous list's previous item width/height
 [CHANGED] cleaned up the code for the default skins
 [CHANGED] the text input object's text is no longer drawn internally by the object and should now be draw within the object's skin drawing function
 [CHANGED] the column list row object's text is no longer drawn internally by the object and should now be draw within the object's skin drawing function
@@ -365,9 +408,9 @@ Version 0.9.2 - Alpha (May 22 - 2012)
 [REMOVED] slider method: GetButtonYCenter()
 
 [FIXED] the column list row object not setting it's text's font to it's font
-[FIXED] a small graient error in the default skins
-[FIXED] an error that caused tab buttons to be overscrolled with the middle mouse button
-[FIXED] the scroll area object not moving it's base parent to the top when clicked (only in situatuions where it'sbase parent was a frame)
+[FIXED] a small gradient error in the default skins
+[FIXED] an error that caused tab buttons to be over-scrolled with the middle mouse button
+[FIXED] the scroll area object not moving it's base parent to the top when clicked (only in situations where it's base parent was a frame)
 
 [CHANGED] sliders no longer use ycenter for button positioning
 [CHANGED] slider functionality, sliders can now be horizontal or vertical (use slider:SetSlideType("horizontal" or "vertical"))
@@ -385,7 +428,7 @@ Version 0.9.1.6 - Alpha (May 17 - 2012)
 [ADDED] a new skin function: DrawOverTextInput()
 
 [FIXED] not being able to move the column list object's scrollbar by clicking on it's scroll area
-[FIXED] column list rows color indexs becoming disorderd when the list was sorted via a column list header
+[FIXED] column list rows color indexes becoming disordered when the list was sorted via a column list header
 
 [CHANGED] a few minor things in the default skins
 
@@ -413,7 +456,7 @@ Version 0.9.1.3 - Alpha (May 14 - 2012)
 [ADDED] a new base method: CenterY()
 [ADDED] a new skin function: DrawOverColumList()
 
-[FIXED] a bug that made the frame's close button become visisble when the frame was made visible and show close button was set to false
+[FIXED] a bug that made the frame's close button become visible when the frame was made visible and show close button was set to false
 
 ================================================
 Version 0.9.1.2 - Alpha (May 12 - 2012)
