@@ -334,7 +334,6 @@ function skin.DrawCloseButton(object)
 
 	local x = object:GetX()
 	local y = object:GetY()
-	local staticx = object:GetStaticX()
 	local width = object:GetWidth()
 	local height = object:GetHeight()
 	local parentwidth = object.parent:GetWidth()
@@ -361,9 +360,8 @@ function skin.DrawCloseButton(object)
 		love.graphics.draw(image, x, y)
 	end
 	
-	if staticx ~= (parentwidth - 20) then
-		object:SetPos(parentwidth - 20, 4)
-	end
+	object:SetPos(parentwidth - 20, 4)
+	object:SetSize(16, 16)
 	
 end
 

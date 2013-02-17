@@ -24,7 +24,7 @@ function newobject:initialize()
 	self.tabheight = 25
 	self.previoustabheight = 25
 	self.buttonscrollamount = 200
-	self.mousewheelscrollamount = 5
+	self.mousewheelscrollamount = 1500
 	self.autosize = true
 	self.dtscrolling = true
 	self.internal = false

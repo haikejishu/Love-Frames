@@ -25,7 +25,7 @@ function newobject:initialize()
 	self.extrawidth = 0
 	self.extraheight = 0
 	self.buttonscrollamount = 200
-	self.mousewheelscrollamount = 1000
+	self.mousewheelscrollamount = 1500
 	self.internal = false
 	self.hbar = false
 	self.vbar = false

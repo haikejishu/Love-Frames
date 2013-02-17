@@ -1,4 +1,25 @@
 ================================================
+Version 0.9.5.1 - Alpha (February 17 - 2013)
+================================================
+[ADDED] a new slider method: SetScrollable(bool)
+[ADDED] a new slider method: GetScrollable()
+[ADDED] a new slider method: SetScrollIncrease(increase)
+[ADDED] a new slider method: GetScrollIncrease()
+[ADDED] a new slider method: SetScrollDecrease(decrease)
+[ADDED] a new slider method: GetScrollDecrease()
+[ADDED] a new multichoice method: Sort(func)
+[ADDED] a new multichoice method: SetSortFunction(func)
+[ADDED] a new multichoice method: GetSortFunction()
+[ADDED] support for scrolling the slider object with the mouse wheel
+
+[FIXED] the slider event callback "OnValueChanged" not passing the slider's new value in certain situations
+[FIXED] some typos in the changelog
+
+[CHANGED] the default mouse wheel scroll amounts of the scrollable objects (list, columnlist, tabs, multichoice)
+[CHANGED] minor modifications to the default skins
+[CHANGED] objects can now be centered when using the base methods SetPos, SetX, and SetY (ex: object:SetPos(x, y, true) would center the object at the position specified by x and y)
+
+================================================
 Version 0.9.5 - Alpha (February 11 - 2013)
 ================================================
 [ADDED] state system
@@ -190,26 +211,26 @@ Version 0.9.4.2 - Alpha (November 5 - 2012)
 ================================================
 [ADDED] a new text object method: SetIgnoreNewlines(bool)
 [ADDED] a new text object method: GetIgnoreNewlines()
-[ADDED] a new text image method: SetOrientation(orientation)
-[ADDED] a new text image method: GetOrientation()
-[ADDED] a new text image method: SetScaleX(scalex)
-[ADDED] a new text image method: GetScaleX()
-[ADDED] a new text image method: SetScaleY(scaley)
-[ADDED] a new text image method: GetScaleY()
-[ADDED] a new text image method: SetScale(scalex, scaley)
-[ADDED] a new text image method: GetScale()
-[ADDED] a new text image method: SetOffsetX(x)
-[ADDED] a new text image method: GetOffsetX()
-[ADDED] a new text image method: SetOffsetY(y)
-[ADDED] a new text image method: GetOffsetY()
-[ADDED] a new text image method: SetOffset(x, y)
-[ADDED] a new text image method: GetOffset()
-[ADDED] a new text image method: SetShearX(x)
-[ADDED] a new text image method: GetShearX()
-[ADDED] a new text image method: SetShearY(y)
-[ADDED] a new text image method: GetShearY()
-[ADDED] a new text image method: SetShear(x, y)
-[ADDED] a new text image method: GetShear()
+[ADDED] a new image method: SetOrientation(orientation)
+[ADDED] a new image method: GetOrientation()
+[ADDED] a new image method: SetScaleX(scalex)
+[ADDED] a new image method: GetScaleX()
+[ADDED] a new image method: SetScaleY(scaley)
+[ADDED] a new image method: GetScaleY()
+[ADDED] a new image method: SetScale(scalex, scaley)
+[ADDED] a new image method: GetScale()
+[ADDED] a new image method: SetOffsetX(x)
+[ADDED] a new image method: GetOffsetX()
+[ADDED] a new image method: SetOffsetY(y)
+[ADDED] a new image method: GetOffsetY()
+[ADDED] a new image method: SetOffset(x, y)
+[ADDED] a new image method: GetOffset()
+[ADDED] a new image method: SetShearX(x)
+[ADDED] a new image method: GetShearX()
+[ADDED] a new image method: SetShearY(y)
+[ADDED] a new image method: GetShearY()
+[ADDED] a new image method: SetShear(x, y)
+[ADDED] a new image method: GetShear()
 
 [FIXED] an error that occurred after pressing enter on a multiline text input while all of it's text was selected
 [FIXED] text in a single line text input always being cleared when the enter key was pressed

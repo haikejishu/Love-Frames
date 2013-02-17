@@ -17,7 +17,7 @@ function newobject:initialize()
 	self.height = 100
 	self.columnheight = 16
 	self.buttonscrollamount = 200
-	self.mousewheelscrollamount = 1000
+	self.mousewheelscrollamount = 1500
 	self.autoscroll = false
 	self.dtscrolling = true
 	self.internal = false

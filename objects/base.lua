@@ -221,13 +221,20 @@ end
 
 
 --[[---------------------------------------------------------
-	- func: SetPos(x, y)
+	- func: SetPos(x, y, center)
 	- desc: sets the object's position
 --]]---------------------------------------------------------
-function newobject:SetPos(x, y)
+function newobject:SetPos(x, y, center)
 	
 	local base = loveframes.base
 	local parent = self.parent
+	
+	if center then
+		local width = self.width
+		local height = self.height
+		x = x - width/2
+		y = y - height/2
+	end
 	
 	if parent == base then
 		self.x = x
@@ -240,13 +247,18 @@ function newobject:SetPos(x, y)
 end
 
 --[[---------------------------------------------------------
-	- func: SetX(x)
+	- func: SetX(x, center)
 	- desc: sets the object's x position
 --]]---------------------------------------------------------
-function newobject:SetX(x)
+function newobject:SetX(x, center)
 
 	local base = loveframes.base
 	local parent = self.parent
+	
+	if center then
+		local width = self.width
+		x = x - width/2
+	end
 	
 	if parent == base then
 		self.x = x
@@ -257,13 +269,18 @@ function newobject:SetX(x)
 end
 
 --[[---------------------------------------------------------
-	- func: SetY(y)
+	- func: SetY(y, center)
 	- desc: sets the object's y position
 --]]---------------------------------------------------------
-function newobject:SetY(y)
+function newobject:SetY(y, center)
 
 	local base = loveframes.base
 	local parent = self.parent
+	
+	if center then
+		local height = self.height
+		y = y - height/2
+	end
 	
 	if parent == base then
 		self.y = y

@@ -20,7 +20,8 @@ function newobject:initialize()
 	self.listpadding = 0
 	self.listspacing = 0
 	self.buttonscrollamount = 200
-	self.mousewheelscrollamount = 1000
+	self.mousewheelscrollamount = 1500
+	self.sortfunc = function(a, b) return a < b end
 	self.haslist = false
 	self.dtscrolling = true
 	self.internal = false
@@ -335,3 +336,40 @@ function newobject:GetDTScrolling()
 	return self.dtscrolling
 	
 end
+
+--[[---------------------------------------------------------
+	- func: Sort(func)
+	- desc: sorts the object's choices
+--]]---------------------------------------------------------
+function newobject:Sort(func)
+
+	local default = self.sortfunc
+	
+	if func then
+		table.sort(self.choices, func)
+	else
+		table.sort(self.choices, default)
+	end
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetSortFunction(func)
+	- desc: sets the object's default sort function
+--]]---------------------------------------------------------
+function newobject:SetSortFunction(func)
+
+	self.sortfunc = func
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetSortFunction(func)
+	- desc: gets the object's default sort function
+--]]---------------------------------------------------------
+function newobject:GetSortFunction()
+
+	return self.sortfunc
+	
+end
+	

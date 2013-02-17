@@ -600,7 +600,7 @@ function loveframes.debug.ExamplesMenu()
 		local progressbar1 = loveframes.Create("progressbar", frame1)
 		progressbar1:SetPos(5, 30)
 		progressbar1:SetWidth(490)
-		progressbar1:SetLerpRate(1)
+		progressbar1:SetLerpRate(10)
 		
 		local button1 = loveframes.Create("button", frame1)
 		button1:SetPos(5, 60)
@@ -628,6 +628,7 @@ function loveframes.debug.ExamplesMenu()
 		slider1:SetText("Progressbar lerp rate")
 		slider1:SetMinMax(0, 50)
 		slider1:SetDecimals(0)
+		slider1:SetValue(10)
 		slider1.OnValueChanged = function(object2, value)
 			progressbar1:SetLerpRate(value)
 		end
@@ -747,7 +748,7 @@ function loveframes.debug.ExamplesMenu()
 	exampleslist:AddItem(textexample)
 	
 	------------------------------------
-	-- text input example
+	-- textinput example
 	------------------------------------
 	local textinputexample = loveframes.Create("button")
 	textinputexample:SetText("Text Input")
@@ -819,5 +820,7 @@ function loveframes.debug.SkinSelector()
 	for k, v in pairs(skins) do
 		skinslist:AddChoice(v.name)
 	end
+	
+	skinslist:Sort()
 	
 end
