@@ -1,4 +1,18 @@
 ================================================
+Version 0.9.5.2 - Alpha (February 24 - 2013)
+================================================
+[ADDED] a new slider method: SetEnabled(bool)
+[ADDED] a new slider method: GetEnabled()
+
+[FIXED] a resizing/layout issue with the columnlist object
+[FIXED] base:GetChildren being declared twice and base:GetInternals never being declared
+
+[CHANGED] major performance improvements for the default skins Blue and Orange
+
+[REMOVED] the "Blue (basic)" skin
+[REMOVED] the "Orange (basic)" skin
+
+================================================
 Version 0.9.5.1 - Alpha (February 17 - 2013)
 ================================================
 [ADDED] a new slider method: SetScrollable(bool)

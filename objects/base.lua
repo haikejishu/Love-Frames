@@ -39,12 +39,13 @@ function newobject:update(dt)
 	end
 	
 	local children = self.children
+	local internals = self.internals
 	
 	for k, v in ipairs(children) do
 		v:update(dt)
 	end
 	
-	for k, v in ipairs(self.internals) do
+	for k, v in ipairs(internals) do
 		v:update(dt)
 	end
 
@@ -64,6 +65,7 @@ function newobject:draw()
 	end
 	
 	local children = self.children
+	local internals = self.internals
 	
 	-- set the object's draw order
 	self:SetDrawOrder()
@@ -72,7 +74,7 @@ function newobject:draw()
 		v:draw()
 	end
 	
-	for k, v in ipairs(self.internals) do
+	for k, v in ipairs(internals) do
 		v:draw()
 	end
 
@@ -820,7 +822,7 @@ end
 	- func: GetInternals()
 	- desc: returns the object's internals
 --]]---------------------------------------------------------
-function newobject:GetChildren()
+function newobject:GetInternals()
 
 	local internals = self.internals
 	

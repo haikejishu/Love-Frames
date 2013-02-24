@@ -96,7 +96,6 @@ function newobject:update(dt)
 			if v.lastheight ~= v.height then
 				self:CalculateSize()
 				self:RedoLayout()
-				print("!")
 			end
 		end
 	end

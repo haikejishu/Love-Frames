@@ -24,6 +24,7 @@ function newobject:initialize()
 	self.scrollincrease = 1
 	self.scrolldecrease = 1
 	self.scrollable = true
+	self.enabled = true
 	self.internal = false
 	self.internals = {}
 	self.OnValueChanged	= nil
@@ -159,6 +160,12 @@ function newobject:mousepressed(x, y, button)
 	if not visible then
 		return
 	end
+		
+	local enabled = self.enabled
+	
+	if not enabled then
+		return
+	end
 	
 	local internals = self.internals
 	local hover = self.hover
@@ -202,7 +209,6 @@ function newobject:mousepressed(x, y, button)
 		local newvalue = value - decrease
 		self:SetValue(newvalue)
 	end
-		
 	
 	for k, v in ipairs(internals) do
 		v:mousepressed(x, y, button)
@@ -491,5 +497,25 @@ end
 function newobject:GetScrollDecrease()
 
 	return self.scrolldecrease
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetEnabled(bool)
+	- desc: sets whether or not the object is enabled
+--]]---------------------------------------------------------
+function newobject:SetEnabled(bool)
+
+	self.enabled = bool
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetEnabled()
+	- desc: gets whether or not the object is enabled
+--]]---------------------------------------------------------
+function newobject:GetEnabled()
+
+	return self.enabled
 	
 end

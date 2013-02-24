@@ -303,9 +303,9 @@ function newobject:AddTab(name, object, tip, image, onopened, onclosed)
 	self:AddScrollButtons()
 	
 	if autosize and not retainsize then
-		object:SetSize(self.width - padding*2, (self.height - tabheight) - padding*2)
+		object:SetSize(self.width - padding * 2, (self.height - tabheight) - padding * 2)
 	end
-		
+	
 end
 
 --[[---------------------------------------------------------

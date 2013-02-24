@@ -10,9 +10,8 @@ local newobject = loveframes.NewObject("textinput", "loveframes_object_textinput
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-
 function newobject:initialize()
-
+	
 	self.type = "textinput"
 	self.keydown = "none"
 	self.tabreplacement = "        "
@@ -732,9 +731,8 @@ function newobject:RunKey(key, unicode)
 			curline = lines[line]
 			text = curline
 			if not multiline then
-				local twidth    = font:getWidth(text)
-				local cwidth    = font:getWidth(ckey)
-				
+				local twidth = font:getWidth(text)
+				local cwidth = font:getWidth(ckey)
 				-- swidth - 1 is for the "-" character
 				if (twidth + textoffsetx) >= (swidth - 1) then
 					self.offsetx = self.offsetx + cwidth

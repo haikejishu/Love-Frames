@@ -296,9 +296,12 @@ function newobject:SetSize(width, height)
 	
 	self.width = width
 	self.height = height
+	self:AdjustColumns()
 	
 	list:SetSize(width, height)
 	list:SetPos(0, 0)
+	list:CalculateSize()
+	list:RedoLayout()
 	
 end
 
@@ -312,9 +315,12 @@ function newobject:SetWidth(width)
 	local list = internals[1]
 	
 	self.width = width
+	self:AdjustColumns()
 	
 	list:SetSize(width)
 	list:SetPos(0, 0)
+	list:CalculateSize()
+	list:RedoLayout()
 	
 end
 
@@ -328,9 +334,12 @@ function newobject:SetHeight(height)
 	local list = internals[1]
 	
 	self.height = height
+	self:AdjustColumns()
 	
 	list:SetSize(height)
 	list:SetPos(0, 0)
+	list:CalculateSize()
+	list:RedoLayout()
 	
 end
 
