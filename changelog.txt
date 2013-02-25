@@ -1,4 +1,9 @@
 ================================================
+Version 0.9.5.3 - Alpha (February 25 - 2013)
+================================================
+[FIXED] mousereleased never getting called on the collapsiblecategory's object
+
+================================================
 Version 0.9.5.2 - Alpha (February 24 - 2013)
 ================================================
 [ADDED] a new slider method: SetEnabled(bool)

@@ -216,7 +216,7 @@ function loveframes.debug.ExamplesMenu()
 		
 		local panel1 = loveframes.Create("panel")
 		panel1:SetHeight(230)
-			
+		
 		local collapsiblecategory1 = loveframes.Create("collapsiblecategory", frame1)
 		collapsiblecategory1:SetPos(5, 30)
 		collapsiblecategory1:SetSize(490, 265)

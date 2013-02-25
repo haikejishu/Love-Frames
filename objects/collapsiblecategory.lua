@@ -200,7 +200,7 @@ function newobject:mousereleased(x, y, button)
 	end
 	
 	if open and curobject then
-		curobject:mousepressed(x, y, button)
+		curobject:mousereleased(x, y, button)
 	end
 
 end
