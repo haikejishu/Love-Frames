@@ -177,6 +177,24 @@ function newobject:AddChoice(choice)
 end
 
 --[[---------------------------------------------------------
+	- func: RemoveChoice(choice)
+	- desc: removes the specified choice from the object's 
+			list of choices
+--]]---------------------------------------------------------
+function newobject:RemoveChoice(choice)
+	
+	local choices = self.choices
+	
+	for k, v in ipairs(choices) do
+		if v == choice then
+			table.remove(choices, k)
+			break
+		end
+	end
+	
+end
+
+--[[---------------------------------------------------------
 	- func: SetChoice(choice)
 	- desc: sets the current choice
 --]]---------------------------------------------------------
@@ -372,4 +390,14 @@ function newobject:GetSortFunction()
 	return self.sortfunc
 	
 end
+
+--[[---------------------------------------------------------
+	- func: Clear()
+	- desc: removes all choices from the object's list
+			of choices
+--]]---------------------------------------------------------
+function newobject:Clear()
+
+	self.choices = {}
 	
+end

@@ -279,10 +279,11 @@ function newobject:RemoveItem(data)
 			item:Remove()
 		end
 	else
-		object:Remove()
-		self:CalculateSize()
-		self:RedoLayout()
+		data:Remove()
 	end
+	
+	self:CalculateSize()
+	self:RedoLayout()
 	
 end
 
