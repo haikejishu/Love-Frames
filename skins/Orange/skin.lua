@@ -587,7 +587,7 @@ end
 
 --[[---------------------------------------------------------
 	- func: DrawList(object)
-	- desc: used to draw over the object and it's children
+	- desc: used to draw over the object and its children
 --]]---------------------------------------------------------
 function skin.DrawOverList(object)
 

@@ -274,7 +274,7 @@ end
 
 --[[---------------------------------------------------------
 	- func: SizeToImage()
-	- desc: makes the object the same size as it's image
+	- desc: makes the object the same size as its image
 --]]---------------------------------------------------------
 function newobject:SizeToImage()
 

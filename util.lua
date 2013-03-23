@@ -123,7 +123,7 @@ end
 --[[---------------------------------------------------------
 	- func: GetDirectoryContents(directory, table)
 	- desc: gets the contents of a directory and all of
-			it's subdirectories
+			its subdirectories
 --]]---------------------------------------------------------
 function loveframes.util.GetDirectoryContents(dir, t)
 
@@ -259,24 +259,4 @@ function loveframes.util.Error(message)
 
 	error("[Love Frames] " ..message)
 	
-end
-
---[[---------------------------------------------------------
-	- func: loveframes.util.CheckForUpdates()
-	- desc: checks for more recent versions of Love Frames
---]]---------------------------------------------------------
-function loveframes.util.CheckForUpdates()
-
-	local info = loveframes.info
-	local version = info.version
-	local stage = info.stage
-	local socket = require("socket.http")
-	local b, c, h = socket.request("http://update.nikolairesokav.com/?id=loveframes&version=" ..version.. "&stage=" ..stage)
-	
-	if c == 200 then
-		return b
-	else
-		return "An error occurred while checking for updates. Please try again later."
-	end
-
 end

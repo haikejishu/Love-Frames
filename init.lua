@@ -9,7 +9,7 @@ loveframes = {}
 -- library info
 loveframes.info = {}
 loveframes.info.author = "Kenny Shields"
-loveframes.info.version = "0.9.5.4"
+loveframes.info.version = "0.9.5.5"
 loveframes.info.stage = "Alpha"
 
 -- library configurations
@@ -101,6 +101,7 @@ function loveframes.draw()
 
 	local base = loveframes.base
 	local r, g, b, a = love.graphics.getColor()
+	local font = love.graphics.getFont()
 	
 	base:draw()
 	
@@ -108,6 +109,10 @@ function loveframes.draw()
 	loveframes.debug.draw()
 	
 	love.graphics.setColor(r, g, b, a)
+	
+	if font then
+		love.graphics.setFont(font)
+	end
 	
 end
 

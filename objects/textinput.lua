@@ -19,6 +19,8 @@ function newobject:initialize()
 	self.width = 200
 	self.height = 25
 	self.delay = 0
+	self.repeatdelay = 0.80
+	self.repeatrate = 0.02
 	self.offsetx = 0
 	self.offsety = 0
 	self.indincatortime = 0
@@ -106,6 +108,7 @@ function newobject:update(dt)
 	local hbar = self.hbar
 	local inputobject = loveframes.inputobject
 	local internals = self.internals
+	local repeatrate = self.repeatrate
 	
 	-- move to parent if there is a parent
 	if parent ~= base then
@@ -122,7 +125,7 @@ function newobject:update(dt)
 	if keydown ~= "none" then
 		if time > delay then
 			self:RunKey(keydown, unicode)
-			self.delay = time + 0.02
+			self.delay = time + repeatrate
 		end
 	end
 	
@@ -440,8 +443,9 @@ function newobject:keypressed(key, unicode)
 	local lctrl = love.keyboard.isDown("lctrl")
 	local rctrl = love.keyboard.isDown("rctrl")
 	local focus = self.focus
+	local repeatdelay = self.repeatdelay
 	
-	self.delay = time + 0.80
+	self.delay = time + repeatdelay
 	self.keydown = key
 	
 	if (lctrl or rctrl) and focus then
@@ -1564,5 +1568,45 @@ end
 function newobject:GetAutoScroll()
 
 	return self.autoscroll
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetRepeatDelay(delay)
+	- desc: sets the object's repeat delay
+--]]---------------------------------------------------------
+function newobject:SetRepeatDelay(delay)
+
+	self.repeatdelay = delay
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetRepeatDelay()
+	- desc: gets the object's repeat delay
+--]]---------------------------------------------------------
+function newobject:GetRepeatDelay()
+
+	return self.repeatdelay
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetRepeatRate(rate)
+	- desc: sets the object's repeat rate
+--]]---------------------------------------------------------
+function newobject:SetRepeatRate(rate)
+
+	self.repeatrate = rate
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetRepeatRate()
+	- desc: gets the object's repeat rate
+--]]---------------------------------------------------------
+function newobject:GetRepeatRate()
+
+	return self.repeatrate
 	
 end

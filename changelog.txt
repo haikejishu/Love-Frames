@@ -1,4 +1,18 @@
 ================================================
+Version 0.9.5.5 - Alpha (March 23 - 2013)
+================================================
+[ADDED] a new textinput method: SetRepeatDelay(delay)
+[ADDED] a new textinput method: GetRepeatDelay()
+[ADDED] a new textinput method: SetRepeatRate(rate)
+[ADDED] a new textinput method: GetRepeatRate()
+
+[FIXED] several typos in the numberbox object's code
+
+[CHANGED] love frames now resets the active font to the font used before calling loveframes.draw()
+
+[REMOVED] loveframes.util.CheckForUpdates()
+
+================================================
 Version 0.9.5.4 - Alpha (March 5 - 2013)
 ================================================
 [ADDED] a new multichoice method: RemoveChoice(choice)

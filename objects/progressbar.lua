@@ -299,7 +299,7 @@ end
 
 --[[---------------------------------------------------------
 	- func: GetCompleted()
-	- desc: gets whether or not the object has reached it's
+	- desc: gets whether or not the object has reached its
 			maximum value
 --]]---------------------------------------------------------
 function newobject:GetCompleted()

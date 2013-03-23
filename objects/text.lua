@@ -484,7 +484,7 @@ end
 --[[---------------------------------------------------------
 	- func: SetShadow(bool)
 	- desc: sets whether or not the object should draw a
-			shadow behind it's text
+			shadow behind its text
 --]]---------------------------------------------------------
 function newobject:SetShadow(bool)
 
@@ -495,7 +495,7 @@ end
 --[[---------------------------------------------------------
 	- func: GetShadow()
 	- desc: gets whether or not the object should draw a
-			shadow behind it's text
+			shadow behind its text
 --]]---------------------------------------------------------
 function newobject:GetShadow()
 

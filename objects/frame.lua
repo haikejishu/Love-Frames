@@ -518,7 +518,7 @@ end
 --[[---------------------------------------------------------
 	- func: SetParentLocked(bool)
 	- desc: sets whether the frame can be moved passed the
-			boundaries of it's parent or not
+			boundaries of its parent or not
 --]]---------------------------------------------------------
 function newobject:SetParentLocked(bool)
 
@@ -529,7 +529,7 @@ end
 --[[---------------------------------------------------------
 	- func: GetParentLocked(bool)
 	- desc: gets whether the frame can be moved passed the
-			boundaries of it's parent or not
+			boundaries of its parent or not
 --]]---------------------------------------------------------
 function newobject:GetParentLocked()
 

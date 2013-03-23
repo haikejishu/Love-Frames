@@ -250,7 +250,7 @@ function newobject:AddItem(object)
 
 	local children = self.children
 	
-	-- remove the item object from it's current parent and make it's new parent the list object
+	-- remove the item object from its current parent and make its new parent the list object
 	object:Remove()
 	object.parent = self
 	object.state = self.state
@@ -258,7 +258,7 @@ function newobject:AddItem(object)
 	-- insert the item object into the list object's children table
 	table.insert(children, object)
 	
-	-- resize the list and redo it's layout
+	-- resize the list and redo its layout
 	self:CalculateSize()
 	self:RedoLayout()
 	

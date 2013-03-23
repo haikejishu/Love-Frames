@@ -17,7 +17,7 @@ function newobject:initialize()
 	self.height = 20
 	self.value = 0
 	self.increaseamount = 1
-	self.descreaseamount = 1
+	self.decreaseamount = 1
 	self.min = -100
 	self.max = 100
 	self.delay = 0
@@ -308,20 +308,20 @@ function newobject:GetIncreaseAmount()
 end
 
 --[[---------------------------------------------------------
-	- func: SetDescreaseAmount(amount)
+	- func: SetDecreaseAmount(amount)
 	- desc: sets the object's decrease amount
 --]]---------------------------------------------------------
-function newobject:SetDescreaseAmount(amount)
+function newobject:SetDecreaseAmount(amount)
 
 	self.decreaseamount = amount
 	
 end
 
 --[[---------------------------------------------------------
-	- func: GetDescreaseAmount()
+	- func: GetDecreaseAmount()
 	- desc: gets the object's decrease amount
 --]]---------------------------------------------------------
-function newobject:GetDescreaseAmount()
+function newobject:GetDecreaseAmount()
 
 	return self.decreaseamount
 	
@@ -461,9 +461,9 @@ function newobject:ModifyValue(type)
 			end
 		end
 	elseif type == "subtract" then
-		local descreaseamount = self.descreaseamount
+		local decreaseamount = self.decreaseamount
 		local min = self.min
-		self.value = value - descreaseamount
+		self.value = value - decreaseamount
 		if self.value < min then
 			self.value = min
 		end

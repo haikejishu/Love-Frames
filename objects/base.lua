@@ -355,7 +355,7 @@ end
 --[[---------------------------------------------------------
 	- func: Center()
 	- desc: centers the object in the game window or in
-			it's parent if it has one
+			its parent if it has one
 --]]---------------------------------------------------------
 function newobject:Center(area)
 
@@ -380,7 +380,7 @@ end
 
 --[[---------------------------------------------------------
 	- func: CenterX()
-	- desc: centers the object by it's x value
+	- desc: centers the object by its x value
 --]]---------------------------------------------------------
 function newobject:CenterX()
 
@@ -399,7 +399,7 @@ end
 
 --[[---------------------------------------------------------
 	- func: CenterY()
-	- desc: centers the object by it's y value
+	- desc: centers the object by its y value
 --]]---------------------------------------------------------
 function newobject:CenterY()
 
@@ -880,7 +880,7 @@ end
 --[[---------------------------------------------------------
 	- func: IsTopChild()
 	- desc: returns true if the object is the top most child
-			in it's parent's children table or false if not
+			in its parent's children table or false if not
 --]]---------------------------------------------------------
 function newobject:IsTopChild()
 
@@ -897,7 +897,7 @@ end
 
 --[[---------------------------------------------------------
 	- func: MoveToTop()
-	- desc: moves the object to the top of it's parent's
+	- desc: moves the object to the top of its parent's
 			children table
 --]]---------------------------------------------------------
 function newobject:MoveToTop()
@@ -980,7 +980,7 @@ end
 
 --[[---------------------------------------------------------
 	- func: SetRetainSize(bool)
-	- desc: sets whether or not the object should retain it's
+	- desc: sets whether or not the object should retain its
 			size when another object tries to resize it
 --]]---------------------------------------------------------
 function newobject:SetRetainSize(bool)
@@ -991,7 +991,7 @@ end
 
 --[[---------------------------------------------------------
 	- func: GetRetainSize()
-	- desc: gets whether or not the object should retain it's
+	- desc: gets whether or not the object should retain its
 			size when another object tries to resize it
 --]]---------------------------------------------------------
 function newobject:GetRetainSize()
@@ -1003,7 +1003,7 @@ end
 --[[---------------------------------------------------------
 	- func: IsActive()
 	- desc: gets whether or not the object is active within
-			it's parent's child table
+			its parent's child table
 --]]---------------------------------------------------------
 function newobject:IsActive()
 
@@ -1023,7 +1023,7 @@ end
 
 --[[---------------------------------------------------------
 	- func: GetParents()
-	- desc: returns a table of the object's parents and it's
+	- desc: returns a table of the object's parents and its
 			sub-parents
 --]]---------------------------------------------------------
 function newobject:GetParents()
@@ -1047,7 +1047,7 @@ end
 --[[---------------------------------------------------------
 	- func: IsTopInternal()
 	- desc: returns true if the object is the top most 
-			internal in it's parent's internals table or 
+			internal in its parent's internals table or 
 			false if not
 --]]---------------------------------------------------------
 function newobject:IsTopInternal()

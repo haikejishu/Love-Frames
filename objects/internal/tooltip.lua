@@ -247,7 +247,7 @@ end
 --[[---------------------------------------------------------
 	- func: SetFollowObject(bool)
 	- desc: sets whether or not the tooltip should follow
-			it's assigned object
+			its assigned object
 --]]---------------------------------------------------------
 function newobject:SetFollowObject(bool)
 
