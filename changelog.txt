@@ -1,4 +1,9 @@
 ================================================
+Version 0.9.5.6 - Alpha (March 29 - 2013)
+================================================
+[FIXED] numberbox:SetValue not functioning correctly
+
+================================================
 Version 0.9.5.5 - Alpha (March 23 - 2013)
 ================================================
 [ADDED] a new textinput method: SetRepeatDelay(delay)

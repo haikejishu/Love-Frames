@@ -269,9 +269,9 @@ function newobject:SetValue(value)
 	local onvaluechanged = self.OnValueChanged
 	
 	self.value = value
-	input:SetValue(value)
+	input:SetText(value)
 	
-	if value ~= curvalue then
+	if value ~= curvalue and onvaluechanged then
 		onvaluechanged(self, value)
 	end
 	
