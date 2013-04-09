@@ -1,4 +1,9 @@
 ================================================
+Version 0.9.5.7 - Alpha (April 9 - 2013)
+================================================
+[FIXED] some issues with positioning the textinput object's text
+
+================================================
 Version 0.9.5.6 - Alpha (March 29 - 2013)
 ================================================
 [FIXED] numberbox:SetValue not functioning correctly

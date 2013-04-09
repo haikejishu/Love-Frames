@@ -9,7 +9,7 @@ loveframes = {}
 -- library info
 loveframes.info = {}
 loveframes.info.author = "Kenny Shields"
-loveframes.info.version = "0.9.5.6"
+loveframes.info.version = "0.9.5.7"
 loveframes.info.stage = "Alpha"
 
 -- library configurations

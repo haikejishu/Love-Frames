@@ -547,8 +547,9 @@ function newobject:RunKey(key, unicode)
 			if indicatorx >= (self.x + swidth) and indicatornum ~= #text then
 				local width = self.font:getWidth(text:sub(indicatornum, indicatornum))
 				self.offsetx = self.offsetx + width
-			elseif indicatornum == #text and self.offsetx ~= ((0 - font:getWidth(text)) + swidth) and font:getWidth(text) + self.textoffsetx > self.width then
-				self.offsetx = ((0 - font:getWidth(text)) + swidth)
+			elseif indicatornum == #text and self.offsetx ~= ((font:getWidth(text)) - swidth + 10) and font:getWidth(text) + self.textoffsetx > self.width then
+				self.offsetx = ((font:getWidth(text)) - swidth + 10)
+				--print(((0 - font:getWidth(text)) + swidth))
 			end
 		else
 			if indicatornum == #text then
@@ -600,7 +601,7 @@ function newobject:RunKey(key, unicode)
 			if multiline then
 				if line > 1 and indicatornum == 0 then
 					local newindicatornum = 0
-					local oldtext         = lines[line]
+					local oldtext = lines[line]
 					table.remove(lines, line)
 					self.line = line - 1
 					if #oldtext > 0 then
@@ -613,8 +614,11 @@ function newobject:RunKey(key, unicode)
 				end
 			end
 			local cwidth = font:getWidth(text:sub(#text))
-			if self.offsetx ~= 0 then
+			if self.offsetx > 0 then
 				self.offsetx = self.offsetx - cwidth
+				print(self.offsetx, cwidth)
+			elseif self.offsetx < 0 then
+				self.offsetx = 0
 			end
 		end
 	elseif key == "delete" then
@@ -860,12 +864,10 @@ function newobject:RemoveFromeText(p)
 	local line = self.line
 	local curline = lines[line]
 	local text = curline
-	local indicatornum = self.indicatornum
-	
-		local part1 = text:sub(1, p - 1)
-		local part2 = text:sub(p + 1)
-		local new = part1 .. part2
-		return new
+	local part1 = text:sub(1, p - 1)
+	local part2 = text:sub(p + 1)
+	local new = part1 .. part2
+	return new
 	
 end
 
