@@ -125,6 +125,7 @@ skin.controls.modalbackground_body_color            = {255, 255, 255, 100}
 
 -- linenumberspanel
 skin.controls.linenumberspanel_text_color           = {100, 100, 100, 255}
+skin.controls.linenumberspanel_body_color			= {200, 200, 200, 255}
 
 --[[---------------------------------------------------------
 	- func: OutlinedRectangle(object)
@@ -171,6 +172,7 @@ function skin.DrawFrame(object)
 	local height = object:GetHeight()
 	local hover = object:GetHover()
 	local name = object:GetName()
+	local icon = object:GetIcon()
 	local bodycolor = skin.controls.frame_body_color
 	local topcolor = skin.controls.frame_top_color
 	local namecolor = skin.controls.frame_name_color
@@ -195,8 +197,19 @@ function skin.DrawFrame(object)
 	
 	-- frame name section
 	love.graphics.setFont(font)
-	love.graphics.setColor(namecolor)
-	love.graphics.print(name, x + 5, y + 5)
+	
+	if icon then
+		local iconwidth = icon:getWidth()
+		local iconheight = icon:getHeight()
+		icon:setFilter("nearest", "nearest")
+		love.graphics.setColor(255, 255, 255, 255)
+		love.graphics.draw(icon, x + 5, y + 5)
+		love.graphics.setColor(namecolor)
+		love.graphics.print(name, x + iconwidth + 10, y + 5)
+	else
+		love.graphics.setColor(namecolor)
+		love.graphics.print(name, x + 5, y + 5)
+	end
 	
 	-- frame border
 	love.graphics.setColor(bordercolor)
@@ -654,13 +667,11 @@ function skin.DrawTabButton(object)
 			parent:SetTabHeight(imageheight + 5)
 			object.height = imageheight + 5
 		else
-			parent:SetTabHeight(theight + 5)
-			object.height = theight + 5
+			object.height = parent.tabheight
 		end
 	else
 		object.width = 10 + twidth
-		parent:SetTabHeight(theight + 5)
-		object.height = theight + 5
+		object.height = parent.tabheight
 	end
 	
 	local width  = object:GetWidth()
@@ -1445,12 +1456,13 @@ function skin.DrawLineNumbersPanel(object)
 	local font = parent:GetFont()
 	local theight = font:getHeight("a")
 	local textcolor = skin.controls.linenumberspanel_text_color
+	local bodycolor = skin.controls.linenumberspanel_body_color
 	local mody = y
 	
 	object:SetWidth(10 + font:getWidth(#lines))
 	love.graphics.setFont(font)
 	
-	love.graphics.setColor(200, 200, 200, 255)
+	love.graphics.setColor(bodycolor)
 	love.graphics.rectangle("fill", x, y, width, height)
 	
 	love.graphics.setColor(bordercolor)
@@ -1458,7 +1470,7 @@ function skin.DrawLineNumbersPanel(object)
 	
 	for i=1, #lines do
 		love.graphics.setColor(textcolor)
-		love.graphics.print(i, object.x + 5, mody - offsety)
+		love.graphics.print(i, x + 5, mody - offsety)
 		mody = mody + theight
 	end
 	
@@ -1469,6 +1481,44 @@ end
 	- desc: draws the numberbox object
 --]]---------------------------------------------------------
 function skin.DrawNumberBox(object)
+
+end
+
+--[[---------------------------------------------------------
+	- func: skin.DrawGrid(object)
+	- desc: draws the grid object
+--]]---------------------------------------------------------
+function skin.DrawGrid(object)
+
+	local x = object:GetX()
+	local y = object:GetY()
+	local width = object:GetWidth()
+	local height = object:GetHeight()
+	
+	love.graphics.setColor(bordercolor)
+	skin.OutlinedRectangle(x, y, width, height)
+	
+	local cx = x
+	local cy = y
+	local cw = object.cellwidth + (object.cellpadding * 2)
+	local ch = object.cellheight + (object.cellpadding * 2)
+	
+	for i=1, object.rows do
+		for n=1, object.columns do
+			local ovt = false
+			local ovl = false
+			if i > 1 then
+				ovt = true
+			end
+			if n > 1 then	
+				ovl = true
+			end
+			skin.OutlinedRectangle(cx, cy, cw, ch, ovt, false, ovl, false)
+			cx = cx + cw
+		end
+		cx = x
+		cy = cy + ch
+	end
 
 end
 

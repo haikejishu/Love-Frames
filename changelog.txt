@@ -1,4 +1,23 @@
 ================================================
+Version 0.9.5.8 - Alpha (May 5 - 2013)
+================================================
+[ADDED] a new textinput method: SetValue(value) (alias of SetText(text))
+[ADDED] a new textinput method: GetValue() (alias of GetText())
+[ADDED] a new object: grid
+[ADDED] a new frame method: SetIcon(icon)
+[ADDED] a new frame method: GetIcon()
+[ADDED] a new callback for the slider object: OnRelease(object)
+[ADDED] a new text method: SetDefaultColor(r, g, b, a)
+[ADDED] a new text method: GetDefaultColor()
+
+[FIXED] OnOpened and OnClosed callbacks for tabbuttons not being asigned properly
+[FIXED] the image object not checking its hover state
+[FIXED] tabbutton rendering issues with the default skins
+[FIXED] some padding issues with multiline textinputs
+
+[CHANGED] loveframes.config["DIRECTORY"] no longer needs to be set when installing Love Frames
+
+================================================
 Version 0.9.5.7 - Alpha (April 9 - 2013)
 ================================================
 [FIXED] some issues with positioning the textinput object's text

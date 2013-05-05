@@ -3,18 +3,21 @@
 	-- Copyright (c) 2013 Kenny Shields --
 --]]------------------------------------------------
 
+-- 
+local path = ...
+
 -- central library table
 loveframes = {}
 
 -- library info
 loveframes.info = {}
 loveframes.info.author = "Kenny Shields"
-loveframes.info.version = "0.9.5.7"
+loveframes.info.version = "0.9.5.8"
 loveframes.info.stage = "Alpha"
 
 -- library configurations
 loveframes.config = {}
-loveframes.config["DIRECTORY"] = ""
+loveframes.config["DIRECTORY"] = nil
 loveframes.config["DEFAULTSKIN"] = "Blue"
 loveframes.config["ACTIVESKIN"] = "Blue"
 loveframes.config["INDEXSKINIMAGES"] = true
@@ -37,7 +40,7 @@ loveframes.objects = {}
 function loveframes.load()
 	
 	-- install directory of the library
-	local dir = loveframes.config["DIRECTORY"]
+	local dir = loveframes.config["DIRECTORY"] or path
 	
 	-- require the internal base libraries
 	require(dir .. ".third-party.middleclass")

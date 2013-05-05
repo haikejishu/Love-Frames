@@ -28,6 +28,7 @@ function newobject:initialize()
 	self.internal = false
 	self.internals = {}
 	self.OnValueChanged	= nil
+	self.OnRelease = nil
 	
 	-- create the slider button
 	local sliderbutton = loveframes.objects["sliderbutton"]:new(self)

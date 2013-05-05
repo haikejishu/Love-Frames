@@ -263,6 +263,7 @@ function loveframes.debug.ExamplesMenu()
 		local frame1 = loveframes.Create("frame")
 		frame1:SetName("Frame")
 		frame1:CenterWithinArea(unpack(centerarea))
+		frame1:SetIcon("resources/images/application.png")
 		
 		local text1 = loveframes.Create("text", frame1)
 		text1:SetText("This is an example frame.")
@@ -293,6 +294,51 @@ function loveframes.debug.ExamplesMenu()
 		
 	end
 	exampleslist:AddItem(frameexample)
+	
+	------------------------------------
+	-- grid example
+	------------------------------------
+	
+	local gridexample = loveframes.Create("button")
+	gridexample:SetText("Grid")
+	gridexample.OnClick = function(object1, x, y)
+	
+		local frame = loveframes.Create("frame")
+		frame:SetName("Grid")
+		frame:CenterWithinArea(unpack(centerarea))
+		
+		--local panel = loveframes.Create("panel")
+		--panel:SetSize(500, 300)
+		--panel:CenterWithinArea(unpack(centerarea))
+		
+		local grid = loveframes.Create("grid", frame)
+		grid:SetPos(5, 30)
+		grid:SetRows(5)
+		grid:SetColumns(5)
+		grid:SetCellWidth(25)
+		grid:SetCellHeight(25)
+		grid:SetCellPadding(5)
+		grid:SetItemAutoSize(true)
+		
+		local id = 1
+		
+		for i=1, 5 do
+			for n=1, 5 do
+				local button = loveframes.Create("button")
+				button:SetSize(15, 15)
+				button:SetText(id)
+				grid:AddItem(button, i, n)
+				id = id + 1
+			end
+		end
+		
+		grid.OnSizeChanged = function(object)
+			frame:SetSize(object:GetWidth() + 10, object:GetHeight() + 35)
+			frame:CenterWithinArea(unpack(centerarea))
+		end
+		
+	end
+	exampleslist:AddItem(gridexample)
 	
 	------------------------------------
 	-- image example

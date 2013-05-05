@@ -28,6 +28,7 @@ function newobject:initialize()
 	self.showclose = true
 	self.internals = {}
 	self.children = {}
+	self.icon = nil
 	self.OnClose = nil
 	
 	-- create the close button for the frame
@@ -534,5 +535,35 @@ end
 function newobject:GetParentLocked()
 
 	return self.parentlocked
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetIcon(icon)
+	- desc: sets the object's icon
+--]]---------------------------------------------------------
+function newobject:SetIcon(icon)
+	
+	if type(icon) == "string" then
+		self.icon = love.graphics.newImage(icon)
+	else
+		self.icon = icon
+	end
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetIcon()
+	- desc: gets the object's icon
+--]]---------------------------------------------------------
+function newobject:GetIcon()
+
+	local icon = self.icon
+	
+	if icon then
+		return icon
+	end
+	
+	return false
 	
 end

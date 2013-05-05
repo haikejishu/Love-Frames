@@ -298,7 +298,7 @@ function newobject:AddTab(name, object, tip, image, onopened, onclosed)
 	object.staticy = 0
 	
 	table.insert(self.children, object)
-	internals[tabnumber] = loveframes.objects["tabbutton"]:new(self, name, tabnumber, tip, image, showclose, onopened, onclosed)
+	internals[tabnumber] = loveframes.objects["tabbutton"]:new(self, name, tabnumber, tip, image, onopened, onclosed)
 	self.tabnumber = tabnumber + 1
 	self:AddScrollButtons()
 	

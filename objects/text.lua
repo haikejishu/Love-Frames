@@ -27,6 +27,7 @@ function newobject:initialize()
 	self.shadowyoffset = 1
 	self.formattedtext = {}
 	self.original = {}
+	self.defaultcolor = {0, 0, 0, 255}
 	self.shadowcolor = {0, 0, 0, 255}
 	self.ignorenewlines = false
 	self.shadow = false
@@ -152,6 +153,7 @@ function newobject:SetText(t)
 	local dtype = type(t)
 	local maxw = self.maxw
 	local font = self.font
+	local defaultcolor = self.defaultcolor
 	local inserts = {}
 	local tdata, prevcolor
 	
@@ -174,7 +176,7 @@ function newobject:SetText(t)
 	for k, v in ipairs(tdata) do
 		local dtype = type(v)
 		if k == 1 and dtype ~= "table" then
-			prevcolor = {0, 0, 0, 255}
+			prevcolor = defaultcolor
 		end
 		if dtype == "table" then
 			prevcolor = v
@@ -379,8 +381,10 @@ end
 --]]---------------------------------------------------------
 function newobject:SetMaxWidth(width)
 
+	local original = self.original
+	
 	self.maxw = width
-	self:SetText(self.original)
+	self:SetText(original)
 	
 end
 
@@ -541,5 +545,25 @@ end
 function newobject:GetShadowColor()
 	
 	return self.shadowcolor
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetDefaultColor(r, g, b, a)
+	- desc: sets the object's default text color
+--]]---------------------------------------------------------
+function newobject:SetDefaultColor(r, g, b, a)
+
+	self.defaultcolor = {r, g, b, a}
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetDefaultColor()
+	- desc: gets the object's default text color
+--]]---------------------------------------------------------
+function newobject:GetDefaultColor()
+
+	return self.defaultcolor
 	
 end

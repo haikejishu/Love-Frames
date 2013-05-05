@@ -69,7 +69,6 @@ function newobject:update(dt)
 	local parent = self.parent
 	local base = loveframes.base
 	local update = self.Update
-	local internals = self.internals
 	
 	self:CheckHover()
 	self:SetClickBounds(parent.x, parent.y, parent.width, parent.height)
@@ -153,11 +152,10 @@ function newobject:mousereleased(x, y, button)
 	local hover = self.hover
 	local parent = self.parent
 	local tabnumber = self.tabnumber
-	local internals = self.internals
 	
 	if hover and button == "l" then
 		if button == "l" then
-			local tab = self.parent.tab
+			local tab = parent.tab
 			local internals = parent.internals
 			local onopened = self.OnOpened
 			local prevtab = internals[tab]

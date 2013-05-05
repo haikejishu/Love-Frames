@@ -153,7 +153,7 @@ function newobject:update(dt)
 			self.itemwidth = twidth
 		end
 		if panel then
-			self.itemwidth = self.itemwidth + panel.width
+			self.itemwidth = self.itemwidth + panel.width + self.textoffsetx + 5
 		end
 		-- item height calculation
 		if hbar then
@@ -549,7 +549,6 @@ function newobject:RunKey(key, unicode)
 				self.offsetx = self.offsetx + width
 			elseif indicatornum == #text and self.offsetx ~= ((font:getWidth(text)) - swidth + 10) and font:getWidth(text) + self.textoffsetx > self.width then
 				self.offsetx = ((font:getWidth(text)) - swidth + 10)
-				--print(((0 - font:getWidth(text)) + swidth))
 			end
 		else
 			if indicatornum == #text then
@@ -616,7 +615,6 @@ function newobject:RunKey(key, unicode)
 			local cwidth = font:getWidth(text:sub(#text))
 			if self.offsetx > 0 then
 				self.offsetx = self.offsetx - cwidth
-				print(self.offsetx, cwidth)
 			elseif self.offsetx < 0 then
 				self.offsetx = 0
 			end
@@ -1610,5 +1608,25 @@ end
 function newobject:GetRepeatRate()
 
 	return self.repeatrate
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetValue(value)
+	- desc: sets the object's value (alias of SetText)
+--]]---------------------------------------------------------
+function newobject:SetValue(value)
+
+	self:SetText(value)
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetValue()
+	- desc: gets the object's value (alias of GetText)
+--]]---------------------------------------------------------
+function newobject:GetValue()
+
+	return self:GetText()
 	
 end
