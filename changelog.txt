@@ -1,4 +1,9 @@
 ================================================
+Version 0.9.5.9 - Alpha (May 8 - 2013)
+================================================
+[FIXED] the slider event callback "OnRelease" not being called when the sliderbutton was released while being dragged in a non-hover state
+
+================================================
 Version 0.9.5.8 - Alpha (May 5 - 2013)
 ================================================
 [ADDED] a new textinput method: SetValue(value) (alias of SetText(text))

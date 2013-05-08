@@ -220,7 +220,7 @@ function newobject:mousereleased(x, y, button)
 	local down = self.down
 	local dragging = self.dragging
 	
-	if down and dragging then
+	if dragging then
 		local parent = self.parent
 		local onrelease = parent.OnRelease
 		if onrelease then
