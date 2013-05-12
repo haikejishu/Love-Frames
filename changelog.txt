@@ -1,4 +1,14 @@
 ================================================
+Version 0.9.5.10 - Alpha (May 12 - 2013)
+================================================
+[ADDED] a new slider method: GetDecimals()
+[ADDED] a new numberbox method: SetDecimals(decimals)
+[ADDED] a new numberbox method: GetDecimals()
+[ADDED] a new textinput method: SetVisible(bool) (override of the base SetVisible method)
+
+[FIXED] the textinput object's "keydown" property not reseting when the object was not visible
+
+================================================
 Version 0.9.5.9 - Alpha (May 8 - 2013)
 ================================================
 [FIXED] the slider event callback "OnRelease" not being called when the sliderbutton was released while being dragged in a non-hover state

@@ -129,7 +129,7 @@ function newobject:update(dt)
 		end
 	end
 	
-	-- psotion the object's text
+	-- position the object's text
 	self:PositionText()
 	
 	-- update the object's text insertion positon indicator
@@ -1628,5 +1628,19 @@ end
 function newobject:GetValue()
 
 	return self:GetText()
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetVisible(bool)
+	- desc: sets the object's visibility
+--]]---------------------------------------------------------
+function newobject:SetVisible(bool)
+
+	self.visible = bool
+	
+	if not bool then
+		self.keydown = "none"
+	end
 	
 end

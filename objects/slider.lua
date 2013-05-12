@@ -372,11 +372,23 @@ end
 
 --[[---------------------------------------------------------
 	- func: SetDecimals(decimals)
-	- desc: sets the objects's decimals
+	- desc: sets how many decimals the object's value 
+			can have
 --]]---------------------------------------------------------
 function newobject:SetDecimals(decimals)
 
 	self.decimals = decimals
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetDecimals()
+	- desc: gets how many decimals the object's value 
+			can have
+--]]---------------------------------------------------------
+function newobject:GetDecimals()
+
+	return self.decimals
 	
 end
 

@@ -21,6 +21,7 @@ function newobject:initialize()
 	self.min = -100
 	self.max = 100
 	self.delay = 0
+	self.decimals = 0
 	self.internal = false
 	self.canmodify = false
 	self.lastbuttonclicked = false
@@ -441,6 +442,7 @@ function newobject:ModifyValue(type)
 	local value = self.value
 	local internals = self.internals
 	local input = internals[1]
+	local decimals = self.decimals
 	local onvaluechanged = self.OnValueChanged
 	
 	if not value then
@@ -454,6 +456,7 @@ function newobject:ModifyValue(type)
 		if self.value > max then
 			self.value = max
 		end
+		self.value = loveframes.util.Round(self.value, decimals)
 		input:SetText(self.value)
 		if value ~= self.value then
 			if onvaluechanged then
@@ -467,6 +470,7 @@ function newobject:ModifyValue(type)
 		if self.value < min then
 			self.value = min
 		end
+		self.value = loveframes.util.Round(self.value, decimals)
 		input:SetText(self.value)
 		if value ~= self.value then
 			if onvaluechanged then
@@ -474,5 +478,27 @@ function newobject:ModifyValue(type)
 			end
 		end
 	end
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetDecimals(decimals)
+	- desc: sets how many decimals the object's value 
+			can have
+--]]---------------------------------------------------------
+function newobject:SetDecimals(decimals)
+
+	self.decimals = decimals
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetDecimals()
+	- desc: gets how many decimals the object's value 
+			can have
+--]]---------------------------------------------------------
+function newobject:GetDecimals()
+
+	return self.decimals
 	
 end
