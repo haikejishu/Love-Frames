@@ -22,6 +22,7 @@ function newobject:initialize()
 	self.lastvalue = false
 	self.internal = false
 	self.down = true
+	self.enabled = true
 	self.internals = {}
 	self.OnChanged = nil
 	
@@ -199,17 +200,19 @@ function newobject:mousereleased(x, y, button)
 	end
 	
 	local hover = self.hover
+	local down = self.down
+	local enabled = self.enabled
 	local checked = self.checked
 	local onchanged = self.OnChanged
 	
-	if hover and button == "l" then
+	if hover and down and enabled and button == "l" then
 		if checked then
 			self.checked = false
 		else
 			self.checked = true
 		end
 		if onchanged then
-			onchanged(self)
+			onchanged(self, self.checked)
 		end
 	end
 		
@@ -376,5 +379,25 @@ end
 function newobject:GetBoxHeight()
 
 	return self.boxheight
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetClickable(bool)
+	- desc: sets whether or not the object is enabled
+--]]---------------------------------------------------------
+function newobject:SetEnabled(bool)
+
+	self.enabled = bool
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetEnabled()
+	- desc: gets whether or not the object is enabled
+--]]---------------------------------------------------------
+function newobject:GetEnabled()
+
+	return self.enabled
 	
 end

@@ -97,7 +97,6 @@ skin.controls.slider_bar_outline_color              = {220, 220, 220, 255}
 -- checkbox
 skin.controls.checkbox_body_color                   = {255, 255, 255, 255}
 skin.controls.checkbox_check_color                  = {128, 204, 255, 255}
-skin.controls.checkbox_text_color                   = {0, 0, 0, 255}
 skin.controls.checkbox_text_font                    = smallfont
 
 -- collapsiblecategory

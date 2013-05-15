@@ -24,6 +24,7 @@ function newobject:initialize()
 	self.sortfunc = function(a, b) return a < b end
 	self.haslist = false
 	self.dtscrolling = true
+	self.enabled = true
 	self.internal = false
 	self.choices = {}
 	self.listheight = nil
@@ -130,8 +131,9 @@ function newobject:mousepressed(x, y, button)
 	
 	local hover = self.hover
 	local haslist = self.haslist
+	local enabled = self.enabled
 	
-	if hover and not haslist and button == "l" then
+	if hover and not haslist and enabled and button == "l" then
 		local baseparent = self:GetBaseParent()
 		if baseparent and baseparent.type == "frame" then
 			baseparent:MakeTop()
@@ -399,5 +401,25 @@ end
 function newobject:Clear()
 
 	self.choices = {}
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetClickable(bool)
+	- desc: sets whether or not the object is enabled
+--]]---------------------------------------------------------
+function newobject:SetEnabled(bool)
+
+	self.enabled = bool
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetEnabled()
+	- desc: gets whether or not the object is enabled
+--]]---------------------------------------------------------
+function newobject:GetEnabled()
+
+	return self.enabled
 	
 end

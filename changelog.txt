@@ -1,4 +1,18 @@
 ================================================
+Version 0.9.5.11 - Alpha (May 15 - 2013)
+================================================
+[ADDED] ability to use multiple fonts with the text object
+[ADDED] a new checkbox method: SetEnabled(bool)
+[ADDED] a new checkbox method: GetEnabled()
+[ADDED] a new multichoice method: SetEnabled(bool)
+[ADDED] a new multichoice method: GetEnabled()
+
+[FIXED] being able to check a checkbox object while it was not down
+[FIXED] collisions being detected on objects outside of the active state
+
+[CHANGED] the checkbox event callback "OnChanged" now returns both the object and a boolean value representing whether or not the object is checked
+
+================================================
 Version 0.9.5.10 - Alpha (May 12 - 2013)
 ================================================
 [ADDED] a new slider method: GetDecimals()

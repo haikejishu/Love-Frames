@@ -228,7 +228,7 @@ end
 
 --[[---------------------------------------------------------
 	- func: SetClickable(bool)
-	- desc: sets whether the object is enabled or not
+	- desc: sets whether or not the object is enabled
 --]]---------------------------------------------------------
 function newobject:SetEnabled(bool)
 
@@ -238,7 +238,7 @@ end
 
 --[[---------------------------------------------------------
 	- func: GetEnabled()
-	- desc: gets whether the object is enabled or not
+	- desc: gets whether or not the object is enabled
 --]]---------------------------------------------------------
 function newobject:GetEnabled()
 

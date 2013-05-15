@@ -190,14 +190,10 @@ function loveframes.debug.ExamplesMenu()
 		local checkbox1 = loveframes.Create("checkbox", frame1)
 		checkbox1:SetText("Checkbox 1")
 		checkbox1:SetPos(5, 30)
-		checkbox1.OnChanged = function(object2)
-		end
 		
 		local checkbox2 = loveframes.Create("checkbox", frame1)
 		checkbox2:SetText("Checkbox 2")
 		checkbox2:SetPos(5, 60)
-		checkbox2.OnChanged = function(object3)
-		end
 		
 	end
 	exampleslist:AddItem(checkboxexample)
@@ -306,10 +302,6 @@ function loveframes.debug.ExamplesMenu()
 		local frame = loveframes.Create("frame")
 		frame:SetName("Grid")
 		frame:CenterWithinArea(unpack(centerarea))
-		
-		--local panel = loveframes.Create("panel")
-		--panel:SetSize(500, 300)
-		--panel:CenterWithinArea(unpack(centerarea))
 		
 		local grid = loveframes.Create("grid", frame)
 		grid:SetPos(5, 30)
