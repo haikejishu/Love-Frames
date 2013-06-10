@@ -115,9 +115,13 @@ skin.controls.columnlistheader_text_hover_color     = {255, 255, 255, 255}
 skin.controls.columnlistheader_text_font            = smallfont
 
 -- columnlistrow
-skin.controls.columnlistrow_body1_color             = {232, 232, 232, 255}
-skin.controls.columnlistrow_body2_color             = {200, 200, 200, 255}
+skin.controls.columnlistrow_body1_color             = {245, 245, 245, 255}
+skin.controls.columnlistrow_body2_color             = {255, 255, 255, 255}
+skin.controls.columnlistrow_body_selected_color     = {255, 153, 0, 255}
+skin.controls.columnlistrow_body_hover_color        = {255, 173, 51, 255}
 skin.controls.columnlistrow_text_color              = {100, 100, 100, 255}
+skin.controls.columnlistrow_text_hover_color        = {255, 255, 255, 255}
+skin.controls.columnlistrow_text_selected_color     = {255, 255, 255, 255}
 
 -- modalbackground
 skin.controls.modalbackground_body_color            = {255, 255, 255, 100}
@@ -1395,13 +1399,29 @@ function skin.DrawColumnListRow(object)
 	local parent = object:GetParent()
 	local cwidth, cheight = parent:GetParent():GetColumnSize()
 	local theight = font:getHeight("a")
+	local hover = object:GetHover()
+	local selected = object:GetSelected()
 	local body1color = skin.controls.columnlistrow_body1_color
 	local body2color = skin.controls.columnlistrow_body2_color
+	local bodyhovercolor = skin.controls.columnlistrow_body_hover_color
+	local bodyselectedcolor = skin.controls.columnlistrow_body_selected_color
 	local textcolor = skin.controls.columnlistrow_text_color
+	local texthovercolor = skin.controls.columnlistrow_text_hover_color
+	local textselectedcolor = skin.controls.columnlistrow_text_selected_color
 	
 	object:SetTextPos(5, height/2 - theight/2)
 	
-	if colorindex == 1 then
+	if selected then
+		love.graphics.setColor(bodyselectedcolor)
+		love.graphics.rectangle("fill", x, y, width, height)
+		love.graphics.setColor(bordercolor)
+		skin.OutlinedRectangle(x, y, width, height, true, false, true, true)
+	elseif hover then
+		love.graphics.setColor(bodyhovercolor)
+		love.graphics.rectangle("fill", x, y, width, height)
+		love.graphics.setColor(bordercolor)
+		skin.OutlinedRectangle(x, y, width, height, true, false, true, true)
+	elseif colorindex == 1 then
 		love.graphics.setColor(body1color)
 		love.graphics.rectangle("fill", x + 1, y + 1, width - 2, height - 2)
 		love.graphics.setColor(bordercolor)
@@ -1415,7 +1435,13 @@ function skin.DrawColumnListRow(object)
 	
 	for k, v in ipairs(columndata) do
 		love.graphics.setFont(font)
-		love.graphics.setColor(textcolor)
+		if selected then
+			love.graphics.setColor(textselectedcolor)
+		elseif hover then
+			love.graphics.setColor(texthovercolor)
+		else
+			love.graphics.setColor(textcolor)
+		end
 		love.graphics.print(v, x + textx, y + texty)
 		x = x + cwidth
 	end

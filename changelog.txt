@@ -1,4 +1,26 @@
 ================================================
+Version 0.9.5.12 - Alpha (June 10 - 2013)
+================================================
+[ADDED] a new columnlist method: SelectRow(row, ctrl)
+[ADDED] a new columnlist method: DeselectRow(row)
+[ADDED] a new columnlist method: GetSelectedRows()
+[ADDED] a new columnlist method: SetSelectionEnabled(bool)
+[ADDED] a new columnlist method: GetSelectionEnabled()
+[ADDED] a new columnlist method: SetMultiselectEnabled(bool)
+[ADDED] a new columnlist method: GetMultiselectEnabled()
+[ADDED] a new columnlistrow method: SetSelected(bool)
+[ADDED] a new columnlistrow method: GetSelected()
+[ADDED] a new columnlistrow method: SetColumnData(data)
+[ADDED] a new columnlist event callback: OnRowRightClicked(parent, row, data)
+[ADDED] a new columnlist event callback: OnRowSelected(parent, row, data)
+[ADDED] a new util library function: GetCollisionCount()
+[ADDED] a new util library function: GetHover()
+
+[CHANGED] the default mousewheel scroll-amount value for the list object
+[CHANGED] the list object no longer uses delta time for scrolling by default
+[CHANGED] some of the columnlistrow object's colors in the default skins
+
+================================================
 Version 0.9.5.11 - Alpha (May 15 - 2013)
 ================================================
 [ADDED] ability to use multiple fonts with the text object

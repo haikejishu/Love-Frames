@@ -24,14 +24,14 @@ function newobject:initialize()
 	self.offsetx = 0
 	self.extrawidth = 0
 	self.extraheight = 0
-	self.buttonscrollamount = 200
-	self.mousewheelscrollamount = 1500
+	self.buttonscrollamount = 0.10
+	self.mousewheelscrollamount = 10
 	self.internal = false
 	self.hbar = false
 	self.vbar = false
 	self.autoscroll = false
 	self.horizontalstacking = false
-	self.dtscrolling = true
+	self.dtscrolling = false
 	self.internals = {}
 	self.children = {}
 	self.OnScroll = nil

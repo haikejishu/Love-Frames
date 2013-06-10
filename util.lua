@@ -269,3 +269,28 @@ function loveframes.util.Error(message)
 	error("[Love Frames] " ..message)
 	
 end
+
+--[[---------------------------------------------------------
+	- func: loveframes.util.GetCollisionCount()
+	- desc: gets the total number of objects colliding with
+			the mouse
+--]]---------------------------------------------------------
+function loveframes.util.GetCollisionCount()
+
+	local collisioncount = loveframes.collisioncount
+	return collisioncount
+
+end
+
+--[[---------------------------------------------------------
+	- func: loveframes.util.GetHover()
+	- desc: returns loveframes.hover, can be used to check
+			if the mouse is colliding with a visible
+			Love Frames object
+--]]---------------------------------------------------------
+function loveframes.util.GetHover()
+
+	return loveframes.hover
+	
+end
+	

@@ -3,7 +3,6 @@
 	-- Copyright (c) 2013 Kenny Shields --
 --]]------------------------------------------------
 
--- 
 local path = ...
 
 -- central library table
@@ -12,7 +11,7 @@ loveframes = {}
 -- library info
 loveframes.info = {}
 loveframes.info.author = "Kenny Shields"
-loveframes.info.version = "0.9.5.11"
+loveframes.info.version = "0.9.5.12"
 loveframes.info.stage = "Alpha"
 
 -- library configurations
@@ -26,9 +25,11 @@ loveframes.config["DEBUG"] = false
 -- misc library vars
 loveframes.state = "none"
 loveframes.drawcount = 0
+loveframes.collisioncount = 0
 loveframes.hoverobject = false
 loveframes.modalobject = false
 loveframes.inputobject = false
+loveframes.hover = false
 loveframes.basicfont = love.graphics.newFont(12)
 loveframes.basicfontsmall = love.graphics.newFont(10)
 loveframes.objects = {}
@@ -92,6 +93,9 @@ end
 function loveframes.update(dt)
 
 	local base = loveframes.base
+	
+	loveframes.collisioncount = 0
+	loveframes.hover = false
 	base:update(dt)
 
 end
@@ -239,7 +243,7 @@ function loveframes.Create(data, parent)
 				-- to the current object
 				for i, j in pairs(v) do
 					if i ~= "children" and i ~= "func" then
-						if child == true then
+						if child then
 							if i == "x" then
 								object["staticx"] = j
 							elseif i == "y" then

@@ -732,10 +732,12 @@ function newobject:CheckHover()
 	local selfcol = loveframes.util.BoundingBox(x, self.x, y, self.y, 1, self.width, 1, self.height)
 	local hoverobject = loveframes.hoverobject
 	local modalobject = loveframes.modalobject
+	local collisioncount = loveframes.collisioncount
 	local clickbounds = self.clickbounds
 	
 	-- is the mouse inside the object?
 	if selfcol then
+		loveframes.collisioncount = collisioncount + 1
 		local top = self:IsTopCollision()
 		if top then
 			if not hoverobject then
@@ -773,6 +775,7 @@ function newobject:CheckHover()
 	
 	-- this chunk of code handles mouse enter and exit
 	if self.hover then
+		loveframes.hover = true
 		if not self.calledmousefunc then
 			if self.OnMouseEnter then
 				self.OnMouseEnter(self)
