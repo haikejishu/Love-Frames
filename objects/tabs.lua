@@ -61,13 +61,11 @@ function newobject:update(dt)
 	local padding = self.padding
 	local autosize = self.autosize
 	local padding = self.padding
-	local autosize = self.autosize
 	local children = self.children
 	local numchildren = #children
 	local internals = self.internals
 	local tab = self.tab
 	local parent = self.parent
-	local autosize = self.autosize
 	local base = loveframes.base
 	local update = self.Update
 	
@@ -290,10 +288,11 @@ function newobject:AddTab(name, object, tip, image, onopened, onclosed)
 	local tabnumber = self.tabnumber
 	local tabheight = self.tabheight
 	local internals = self.internals
+	local state = self.state
 	
 	object:Remove()
 	object.parent = self
-	object:SetState(self.state)
+	object:SetState(state)
 	object.staticx = 0
 	object.staticy = 0
 	
@@ -316,6 +315,7 @@ end
 function newobject:AddScrollButtons()
 
 	local internals = self.internals
+	local state = self.state
 	
 	for k, v in ipairs(internals) do
 		if v.type == "scrollbutton" then
@@ -379,6 +379,9 @@ function newobject:AddScrollButtons()
 			end
 		end
 	end
+	
+	leftbutton.state = state
+	rightbutton.state = state
 	
 	table.insert(internals, leftbutton)
 	table.insert(internals, rightbutton)

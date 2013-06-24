@@ -249,11 +249,12 @@ function newobject:AddItem(object)
 	end
 
 	local children = self.children
+	local state = self.state
 	
 	-- remove the item object from its current parent and make its new parent the list object
 	object:Remove()
 	object.parent = self
-	object.state = self.state
+	object:SetState(state)
 	
 	-- insert the item object into the list object's children table
 	table.insert(children, object)
