@@ -294,7 +294,6 @@ function loveframes.debug.ExamplesMenu()
 	------------------------------------
 	-- grid example
 	------------------------------------
-	
 	local gridexample = loveframes.Create("button")
 	gridexample:SetText("Grid")
 	gridexample.OnClick = function(object1, x, y)

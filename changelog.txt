@@ -1,4 +1,9 @@
 ================================================
+Version 0.9.5.14 - Alpha (June 25 - 2013)
+================================================
+[FIXED] columnlistheaders and columnlistrows not being clickable when the columnlist object was using a custom state
+
+================================================
 Version 0.9.5.13 - Alpha (June 24 - 2013)
 ================================================
 [FIXED] tabbuttons not being clickable when the tabs object was using a custom state
