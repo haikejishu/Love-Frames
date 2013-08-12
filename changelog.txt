@@ -1,4 +1,9 @@
 ================================================
+Version 0.9.6.1 - Alpha (August 12 - 2013)
+================================================
+[FIXED] blue stock skin setting an invalid image directory in its skin file
+
+================================================
 Version 0.9.6 - Alpha (August 12 - 2013)
 ================================================
 [ADDED] a new base method: GetSkinName()

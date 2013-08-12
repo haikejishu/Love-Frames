@@ -10,7 +10,6 @@ local skin = {}
 skin.name = "Blue"
 skin.author = "Nikolai Resokav"
 skin.version = "1.0"
-skin.imagedir = "blue/images"
 
 local smallfont = love.graphics.newFont(10)
 local imagebuttonfont = love.graphics.newFont(15)
