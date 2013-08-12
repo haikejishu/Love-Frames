@@ -23,7 +23,11 @@ function newobject:initialize(parent, data)
 	self.texty = 5
 	self.selected = false
 	self.internal = true
-	self.columndata = data
+	self.columndata = {}
+	
+	for k, v in ipairs(data) do
+		self.columndata[k] = tostring(v)
+	end
 	
 	-- apply template properties to the object
 	loveframes.templates.ApplyToObject(self)

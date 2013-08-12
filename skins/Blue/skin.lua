@@ -10,6 +10,7 @@ local skin = {}
 skin.name = "Blue"
 skin.author = "Nikolai Resokav"
 skin.version = "1.0"
+skin.imagedir = "blue/images"
 
 local smallfont = love.graphics.newFont(10)
 local imagebuttonfont = love.graphics.newFont(15)
@@ -169,6 +170,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawFrame(object)
 
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -181,12 +183,10 @@ function skin.DrawFrame(object)
 	local namecolor = skin.controls.frame_name_color
 	local font = skin.controls.frame_name_font
 	local image = skin.images["frame-topbar.png"]
+	local imagewidth = image:getWidth()
 	local imageheight = image:getHeight()
+	local scalex = width/imagewidth
 	local scaley = 25/imageheight
-	
-	-- button body
-	love.graphics.setColor(255, 255, 255, 255)
-	love.graphics.draw(image, x, y, 0, width, scaley)
 		
 	-- frame body
 	love.graphics.setColor(bodycolor)
@@ -194,7 +194,7 @@ function skin.DrawFrame(object)
 	
 	-- frame top bar
 	love.graphics.setColor(255, 255, 255, 255)
-	love.graphics.draw(image, x, y, 0, width, scaley)
+	love.graphics.draw(image, x, y, 0, scalex, scaley)
 	love.graphics.setColor(bordercolor)
 	skin.OutlinedRectangle(x, y + 25, width, 1)
 	
@@ -226,6 +226,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawButton(object)
 
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -312,6 +313,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawCloseButton(object)
 
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local parent = object.parent
@@ -350,6 +352,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawImage(object)
 	
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local orientation = object:GetOrientation()
@@ -378,6 +381,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawImageButton(object)
 
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -433,6 +437,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawProgressBar(object)
 
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -472,6 +477,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawScrollArea(object)
 
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -497,6 +503,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawScrollBar(object)
 
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -554,6 +561,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawScrollBody(object)
 
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -571,6 +579,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawPanel(object)
 
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -590,6 +599,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawList(object)
 
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -607,6 +617,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawOverList(object)
 
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -623,6 +634,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawTabPanel(object)
 
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -645,6 +657,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawTabButton(object)
 
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local hover = object:GetHover()
@@ -738,6 +751,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawMultiChoice(object)
 	
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -778,6 +792,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawMultiChoiceList(object)
 	
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -795,6 +810,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawOverMultiChoiceList(object)
 
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -811,6 +827,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawMultiChoiceRow(object)
 	
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -844,6 +861,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawToolTip(object)
 	
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -871,6 +889,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawTextInput(object)
 
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -1000,6 +1019,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawOverTextInput(object)
 
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -1016,6 +1036,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawScrollButton(object)
 
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -1114,6 +1135,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawSlider(object)
 	
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -1141,6 +1163,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawSliderButton(object)
 
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -1206,6 +1229,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawCheckBox(object)
 	
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetBoxWidth()
@@ -1239,6 +1263,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawCollapsibleCategory(object)
 	
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -1268,6 +1293,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawColumnList(object)
 	
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -1285,6 +1311,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawColumnListHeader(object)
 	
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -1354,6 +1381,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawColumnListArea(object)
 	
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -1371,6 +1399,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawOverColumnListArea(object)
 
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -1387,6 +1416,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawColumnListRow(object)
 	
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -1442,7 +1472,8 @@ function skin.DrawColumnListRow(object)
 		else
 			love.graphics.setColor(textcolor)
 		end
-		love.graphics.print(v, x + textx, y + texty)
+		local text = v
+		love.graphics.print(text, x + textx, y + texty)
 		x = x + cwidth
 	end
 	
@@ -1454,6 +1485,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawModalBackground(object)
 
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -1471,6 +1503,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawLineNumbersPanel(object)
 
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()
@@ -1515,6 +1548,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawGrid(object)
 
+	local skin = object:GetSkin()
 	local x = object:GetX()
 	local y = object:GetY()
 	local width = object:GetWidth()

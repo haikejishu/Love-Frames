@@ -44,6 +44,8 @@ function loveframes.debug.draw()
 	local loveversion = love._version
 	local fps = love.timer.getFPS()
 	local deltatime = love.timer.getDelta()
+	local font = loveframes.basicfontsmall
+	local loveversion = love._version
 	
 	-- set the top most collision object
 	for k, v in ipairs(cols) do
@@ -108,6 +110,7 @@ function loveframes.debug.draw()
 	-------------------------------------------------------
 	love.graphics.setColor(255, 0, 0, 255)
 	love.graphics.print("Miscellaneous", 10, 185)
+	love.graphics.setLineStyle("smooth")
 	
 	love.graphics.setColor(255, 255, 255, 255)
 	love.graphics.print("LOVE Version: " ..loveversion, 15, 200)
@@ -115,9 +118,19 @@ function loveframes.debug.draw()
 	love.graphics.print("Delta Time: " ..deltatime, 15, 220)
 	love.graphics.print("Total Objects: " ..#objects, 15, 230)
 	
+	if topcol.type == "frame" then
+		for k, v in pairs(topcol.dockzones) do
+			love.graphics.setLineWidth(1)
+			love.graphics.setColor(255, 0, 0, 100)
+			love.graphics.rectangle("fill", v.x, v.y, v.width, v.height)
+			love.graphics.setColor(255, 0, 0, 255)
+			love.graphics.rectangle("line", v.x, v.y, v.width, v.height)
+		end
+	end
+	
 	-- outline the object that the mouse is hovering over
 	love.graphics.setColor(255, 204, 51, 255)
-	love.graphics.setLine(2, "smooth")
+	love.graphics.setLineWidth(2)
 	love.graphics.rectangle("line", topcol.x - 1, topcol.y - 1, topcol.width + 2, topcol.height + 2)
 	
 end
@@ -260,6 +273,7 @@ function loveframes.debug.ExamplesMenu()
 		frame1:SetName("Frame")
 		frame1:CenterWithinArea(unpack(centerarea))
 		frame1:SetIcon("resources/images/application.png")
+		frame1:SetDockable(true)
 		
 		local text1 = loveframes.Create("text", frame1)
 		text1:SetText("This is an example frame.")
