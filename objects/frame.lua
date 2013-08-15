@@ -596,7 +596,6 @@ function newobject:SetModal(bool)
 			modalobject:SetModal(false)
 		end
 		loveframes.modalobject = self
-		
 		if not mbackground then
 			self.modalbackground = loveframes.objects["modalbackground"]:new(self)
 			self.modal = true

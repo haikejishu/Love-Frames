@@ -239,6 +239,11 @@ function loveframes.util.RemoveAll()
 	loveframes.base.children = {}
 	loveframes.base.internals = {}
 	
+	loveframes.hoverobject = false
+	loveframes.modalobject = false
+	loveframes.inputobject = false
+	loveframes.hover = false
+	
 end
 
 --[[---------------------------------------------------------

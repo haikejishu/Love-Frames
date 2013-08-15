@@ -50,7 +50,7 @@ skin.controls.progressbar_text_font                 = smallfont
 skin.controls.list_body_color                       = {232, 232, 232, 255}
 
 -- scrollarea
-skin.controls.scrollarea_body_color                 = {200, 200, 200, 255}
+skin.controls.scrollarea_body_color                 = {220, 220, 220, 255}
 
 -- scrollbody
 skin.controls.scrollbody_body_color                 = {0, 0, 0, 0}
@@ -85,7 +85,7 @@ skin.controls.multichoicerow_text_font              = smallfont
 skin.controls.tooltip_body_color                    = {255, 255, 255, 255}
 
 -- textinput
-skin.controls.textinput_body_color                  = {240, 240, 240, 255}
+skin.controls.textinput_body_color                  = {250, 250, 250, 255}
 skin.controls.textinput_indicator_color             = {0, 0, 0, 255}
 skin.controls.textinput_text_normal_color           = {0, 0, 0, 255}
 skin.controls.textinput_text_selected_color         = {255, 255, 255, 255}
@@ -127,8 +127,8 @@ skin.controls.columnlistrow_text_selected_color     = {255, 255, 255, 255}
 skin.controls.modalbackground_body_color            = {255, 255, 255, 100}
 
 -- linenumberspanel
-skin.controls.linenumberspanel_text_color           = {100, 100, 100, 255}
-skin.controls.linenumberspanel_body_color			= {200, 200, 200, 255}
+skin.controls.linenumberspanel_text_color           = {170, 170, 170, 255}
+skin.controls.linenumberspanel_body_color			= {235, 235, 235, 255}
 
 --[[---------------------------------------------------------
 	- func: OutlinedRectangle(object)
@@ -181,19 +181,24 @@ function skin.DrawFrame(object)
 	local topcolor = skin.controls.frame_top_color
 	local namecolor = skin.controls.frame_name_color
 	local font = skin.controls.frame_name_font
-	local image = skin.images["frame-topbar.png"]
-	local imagewidth = image:getWidth()
-	local imageheight = image:getHeight()
-	local scalex = width/imagewidth
-	local scaley = 25/imageheight
+	local topbarimage = skin.images["frame-topbar.png"]
+	local topbarimage_width = topbarimage:getWidth()
+	local topbarimage_height = topbarimage:getHeight()
+	local topbarimage_scalex = width/topbarimage_width
+	local topbarimage_scaley = 25/topbarimage_height
+	local bodyimage = skin.images["frame-body.png"]
+	local bodyimage_width = bodyimage:getWidth()
+	local bodyimage_height = bodyimage:getHeight()
+	local bodyimage_scalex = width/bodyimage_width
+	local bodyimage_scaley = height/bodyimage_height
 		
 	-- frame body
-	love.graphics.setColor(bodycolor)
-	love.graphics.rectangle("fill", x, y, width, height)
+	love.graphics.setColor(255, 255, 255, 255)
+	love.graphics.draw(bodyimage, x, y, 0, bodyimage_scalex, bodyimage_scaley)
 	
 	-- frame top bar
 	love.graphics.setColor(255, 255, 255, 255)
-	love.graphics.draw(image, x, y, 0, scalex, scaley)
+	love.graphics.draw(topbarimage, x, y, 0, topbarimage_scalex, topbarimage_scaley)
 	love.graphics.setColor(bordercolor)
 	skin.OutlinedRectangle(x, y + 25, width, 1)
 	
@@ -1268,6 +1273,7 @@ function skin.DrawCollapsibleCategory(object)
 	local width = object:GetWidth()
 	local height = object:GetHeight()
 	local text = object:GetText()
+	local open = object:GetOpen()
 	local textcolor = skin.controls.collapsiblecategory_text_color
 	local font = smallfont
 	local image = skin.images["button-nohover.png"]
@@ -1283,6 +1289,15 @@ function skin.DrawCollapsibleCategory(object)
 	
 	love.graphics.setColor(bordercolor)
 	skin.OutlinedRectangle(x, y, width, height)
+	
+	love.graphics.setColor(255, 255, 255, 255)
+	if open then
+		local icon = skin.images["collapse.png"]
+		love.graphics.draw(icon, x + (width - 21), y + 5)
+	else
+		local icon = skin.images["expand.png"]
+		love.graphics.draw(icon, x + (width - 21), y + 5)
+	end
 	
 end
 
@@ -1523,7 +1538,7 @@ function skin.DrawLineNumbersPanel(object)
 	love.graphics.rectangle("fill", x, y, width, height)
 	
 	love.graphics.setColor(bordercolor)
-	skin.OutlinedRectangle(x, y, width, height, true, true, true, false)
+	--skin.OutlinedRectangle(x, y, width, height, true, true, true, false)
 	
 	for i=1, #lines do
 		love.graphics.setColor(textcolor)

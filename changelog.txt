@@ -1,4 +1,19 @@
 ================================================
+Version 0.9.6.2 - Alpha (August 14 - 2013)
+================================================
+[FIXED] collapsiblecategory:GetOpen() returning a nil value
+
+[CHANGED] loveframes.util.RemoveAll() now resets loveframes.hoverobject, loveframes.modalobject, loveframes.inputobject and loveframes.hover
+[CHANGED] the frame topbar image of both stock skins back to the gradients used before the 0.9.6 update
+[CHANGED] the stock skins now draw a gradient for the body of the frame object instead of a solid color
+[CHANGED] slight color/drawing adjustments to the blue stock skin
+[CHANGED] the collapsiblecategory object now checks its child object's visibility while closed to make sure it hasn't been marked as visible (mainly to prevent collision issues)
+
+[REMOVED] examples menu from the debug library
+[REMOVED] skin selector menu from the debug library
+[REMOVED] many skin controls from the orange stock skin that are no longer needed
+
+================================================
 Version 0.9.6.1 - Alpha (August 12 - 2013)
 ================================================
 [FIXED] blue stock skin setting an invalid image directory in its skin file
