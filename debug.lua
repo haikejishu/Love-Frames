@@ -23,9 +23,8 @@ function loveframes.debug.draw()
 	local cols = loveframes.util.GetCollisions()
 	local topcol = {type = none, children = {}, x = 0, y = 0, width = 0, height = 0}
 	local objects = loveframes.util.GetAllObjects()
-	local author = loveframes.info.author
-	local version = loveframes.info.version
-	local stage = loveframes.info.stage
+	local version = loveframes.version
+	local stage = loveframes.stage
 	local basedir = loveframes.config["DIRECTORY"]
 	local loveversion = love._version
 	local fps = love.timer.getFPS()

@@ -1,4 +1,11 @@
 ================================================
+Version 0.9.6.3 - Alpha (August 15 - 2013)
+================================================
+[CHANGED] the collapsible category icons used in the stock skins
+
+[REMOVED] loveframes.info
+
+================================================
 Version 0.9.6.2 - Alpha (August 14 - 2013)
 ================================================
 [FIXED] collapsiblecategory:GetOpen() returning a nil value

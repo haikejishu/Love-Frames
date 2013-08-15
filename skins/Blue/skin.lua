@@ -1293,10 +1293,12 @@ function skin.DrawCollapsibleCategory(object)
 	love.graphics.setColor(255, 255, 255, 255)
 	if open then
 		local icon = skin.images["collapse.png"]
-		love.graphics.draw(icon, x + (width - 21), y + 5)
+		icon:setFilter("nearest", "nearest")
+		love.graphics.draw(icon, x + width - 21, y + 5)
 	else
 		local icon = skin.images["expand.png"]
-		love.graphics.draw(icon, x + (width - 21), y + 5)
+		icon:setFilter("nearest", "nearest")
+		love.graphics.draw(icon, x + width - 21, y + 5)
 	end
 	
 end

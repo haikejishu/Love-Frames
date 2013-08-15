@@ -91,7 +91,8 @@ function loveframes.skins.Register(skin)
 			local filename = v.name
 			local extension = v.extension
 			local fullpath = v.fullpath
-			loveframes.skins.available[name].images[filename .. "." .. extension] = love.graphics.newImage(fullpath)
+			local key = filename .. "." .. extension
+			loveframes.skins.available[name].images[key] = love.graphics.newImage(fullpath)
 		end
 	end
 	

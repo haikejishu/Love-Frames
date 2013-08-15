@@ -9,10 +9,9 @@ local path = ...
 loveframes = {}
 
 -- library info
-loveframes.info = {}
-loveframes.info.author = "Kenny Shields"
-loveframes.info.version = "0.9.6.2"
-loveframes.info.stage = "Alpha"
+loveframes.author = "Kenny Shields"
+loveframes.version = "0.9.6.3"
+loveframes.stage = "Alpha"
 
 -- library configurations
 loveframes.config = {}
