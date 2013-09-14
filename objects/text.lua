@@ -175,7 +175,7 @@ function newobject:SetText(t)
 	end
 	
 	for k, v in ipairs(tdata) do
-		local dtype = type(v)
+		dtype = type(v)
 		if k == 1 and dtype ~= "table" then
 			prevcolor = defaultcolor
 		end
@@ -248,8 +248,9 @@ function newobject:SetText(t)
 	local prevtextwidth = 0
 	local prevtextheight = 0
 	local prevlargestheight = 0
+	local largestwidth = 0
 	local largestheight = 0
-	
+	local initialwidth = 0
 	
 	for k, v in ipairs(textdata) do
 		local text = v.text
@@ -300,11 +301,16 @@ function newobject:SetText(t)
 						if lastwidth < textwidth then
 							lastwidth = textwidth
 						end
+						if largestwidth < textwidth then
+							largestwidth = textwidth
+						end
 						textwidth = 0
 					else
 						drawx = drawx + prevtextwidth
 						textwidth = textwidth + width
 					end
+				else
+					initialwidth = width
 				end
 				prevtextwidth = width
 				prevtextheight = height
@@ -316,6 +322,10 @@ function newobject:SetText(t)
 	
 	if lastwidth == 0 then
 		textwidth = totalwidth
+	end
+	
+	if textwidth < largestwidth then
+		textwidth = largestwidth + initialwidth
 	end
 	
 	if maxw > 0 then

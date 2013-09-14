@@ -1,4 +1,18 @@
 ================================================
+Version 0.9.6.4 - Alpha (Release Date TBD)
+================================================
+[ADDED] a new tooltip method: SetOffsetX(xoffset)
+[ADDED] a new tooltip method: SetOffsetY(yoffset)
+[ADDED] a new tooltip method: GetText()
+[ADDED] basic clipboard support for the textinput object (0.9.0 only)
+
+[FIXED] error when pressing a function key while a textinput was focused
+[FIXED] the tooltip object not setting the state of its text object
+[FIXED] the text object not being set to the correct width in certain situations
+
+[CHANGED] cleaned up the tooltip object
+
+================================================
 Version 0.9.6.3 - Alpha (August 15 - 2013)
 ================================================
 [CHANGED] the collapsible category icons used in the stock skins

@@ -336,6 +336,7 @@ function newobject:mousepressed(x, y, button)
 	local hbar = self.hbar
 	local scrollamount = self.mousewheelscrollamount
 	local focus = self.focus
+	local alltextselected = self.alltextselected
 	local onfocusgained = self.OnFocusGained
 	local onfocuslost = self.OnFocusLost
 	local time = love.timer.getTime()
@@ -346,7 +347,7 @@ function newobject:mousepressed(x, y, button)
 			if inputobject ~= self then
 				loveframes.inputobject = self
 			end
-			if not self.alltextselected then
+			if not alltextselected then
 				if time > self.lastclicktime and time < (self.lastclicktime + 0.25) then
 					self.alltextselected = true
 				end
@@ -453,6 +454,8 @@ function newobject:keypressed(key, unicode)
 	local rctrl = love.keyboard.isDown("rctrl")
 	local focus = self.focus
 	local repeatdelay = self.repeatdelay
+	local alltextselected = self.alltextselected
+	local version = love._version
 	
 	self.delay = time + repeatdelay
 	self.keydown = key
@@ -460,10 +463,50 @@ function newobject:keypressed(key, unicode)
 	if (lctrl or rctrl) and focus then
 		if key == "a" then
 			self.alltextselected = true
+		elseif key == "c" and alltextselected and version == "0.9.0" then
+			love.system.setClipboardText(self:GetText())
+		elseif key == "v" and version == "0.9.0" then
+			local text = love.system.getClipboardText()
+			if alltextselected then
+				self:SetText(text)
+			else
+				if self.multiline then
+					local parts = loveframes.util.SplitString(text, string.char(10))
+					local oldlinedata = {}
+					local line = self.line
+					local part1 = self.lines[line]:sub(0, self.indicatornum)
+					local part2 = self.lines[line]:sub(self.indicatornum + 1)
+					parts[#parts] = parts[#parts] .. part2
+					if #parts > 0 then
+						for i=1, #parts do
+							if i ~= 1 then
+								table.insert(oldlinedata, self.lines[line])
+								self.lines[line] = parts[i]:gsub(string.char(13),  "")
+							else
+								self.lines[line] = part1 .. parts[i]:gsub(string.char(13),  "")
+							end
+							line = line + 1
+						end
+						for i=1, #oldlinedata do
+							self.lines[line] = oldlinedata[i]
+							line = line + 1
+						end
+					end
+				else
+					text = text:gsub(string.char(10), " ")
+					text = text:gsub(string.char(13), " ")
+					local linetext = self.lines[1]
+					local part1 = linetext:sub(1, self.indicatornum)
+					local part2 = linetext:sub(self.indicatornum + 1)
+					local new = part1 .. text .. part2
+					self.lines[1] = new
+					self.indicatornum = self.indicatornum + text:len()
+				end
+			end
 		end
+	else
+		self:RunKey(key, unicode)
 	end
-	
-	self:RunKey(key, unicode)
 	
 end
 
@@ -523,8 +566,6 @@ function newobject:RunKey(key, unicode)
 	local initialtext = self:GetText()
 	local ontextchanged = self.OnTextChanged
 	local onenter = self.OnEnter
-	
-	self.unicode = unicode
 	
 	if key == "left" then
 		local indicatorx = self.indicatorx
@@ -690,9 +731,18 @@ function newobject:RunKey(key, unicode)
 		end
 	else
 		local loveversion = love._version
+		local unicode = unicode
 		if loveversion == "0.9.0" then
-			unicode = string.byte(unicode)
+			if key:find("kp.") then
+				key = key:gsub("kp", "")
+			end
+			if key:len() == 1 then
+				unicode = string.byte(key)
+			else
+				unicode = 0
+			end
 		end
+		self.unicode = unicode
 		if unicode > 31 and unicode < 127 then
 			-- do not continue if the text limit has been reached or exceeded
 			if #text >= self.limit and self.limit ~= 0 then
@@ -793,7 +843,6 @@ function newobject:MoveIndicator(num, exact)
 	end
 	
 	self.showindicator = true
-	
 	self:UpdateIndicator()
 	
 end
@@ -847,7 +896,7 @@ end
 
 --[[---------------------------------------------------------
 	- func: AddIntoText(t, p)
-	- desc: adds text into the object's text a given 
+	- desc: adds text into the object's text at a given 
 			position
 --]]---------------------------------------------------------
 function newobject:AddIntoText(t, p)
