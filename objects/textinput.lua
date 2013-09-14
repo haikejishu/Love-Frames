@@ -455,6 +455,7 @@ function newobject:keypressed(key, unicode)
 	local focus = self.focus
 	local repeatdelay = self.repeatdelay
 	local alltextselected = self.alltextselected
+	local editable = self.editable
 	local version = love._version
 	
 	self.delay = time + repeatdelay
@@ -464,43 +465,64 @@ function newobject:keypressed(key, unicode)
 		if key == "a" then
 			self.alltextselected = true
 		elseif key == "c" and alltextselected and version == "0.9.0" then
-			love.system.setClipboardText(self:GetText())
-		elseif key == "v" and version == "0.9.0" then
+			local text = self:GetText()
+			love.system.setClipboardText(text)
+		elseif key == "v" and version == "0.9.0" and editable then
 			local text = love.system.getClipboardText()
 			if alltextselected then
 				self:SetText(text)
 			else
+				local tabreplacement = self.tabreplacement
+				local indicatornum = self.indicatornum
+				local lines = self.lines
 				if self.multiline then
 					local parts = loveframes.util.SplitString(text, string.char(10))
+					local numparts = #parts
 					local oldlinedata = {}
 					local line = self.line
-					local part1 = self.lines[line]:sub(0, self.indicatornum)
-					local part2 = self.lines[line]:sub(self.indicatornum + 1)
-					parts[#parts] = parts[#parts] .. part2
-					if #parts > 0 then
-						for i=1, #parts do
+					local first = lines[line]:sub(0, indicatornum)
+					local last = lines[line]:sub(indicatornum + 1)
+					if numparts > 1 then
+						for i=1, numparts do
+							local part = parts[i]:gsub(string.char(13),  "")
+							part = part:gsub(string.char(9), "    ")
 							if i ~= 1 then
-								table.insert(oldlinedata, self.lines[line])
-								self.lines[line] = parts[i]:gsub(string.char(13),  "")
+								table.insert(oldlinedata, lines[line])
+								lines[line] = part
+								if i == numparts then
+									self.indicatornum = part:len()
+									lines[line] = lines[line] .. last
+									self.line = line
+								end
 							else
-								self.lines[line] = part1 .. parts[i]:gsub(string.char(13),  "")
+								lines[line] = first .. part
 							end
 							line = line + 1
 						end
 						for i=1, #oldlinedata do
-							self.lines[line] = oldlinedata[i]
+							lines[line] = oldlinedata[i]
 							line = line + 1
 						end
+					elseif numparts == 1 then
+						text = text:gsub(string.char(10), " ")
+						text = text:gsub(string.char(13), " ")
+						text = text:gsub(string.char(9), tabreplacement)
+						local length = text:len()
+						local new = first .. text .. last
+						lines[line] = new
+						self.indicatornum = indicatornum + length
 					end
 				else
 					text = text:gsub(string.char(10), " ")
 					text = text:gsub(string.char(13), " ")
-					local linetext = self.lines[1]
-					local part1 = linetext:sub(1, self.indicatornum)
-					local part2 = linetext:sub(self.indicatornum + 1)
+					text = text:gsub(string.char(9), tabreplacement)
+					local length = text:len()
+					local linetext = lines[1]
+					local part1 = linetext:sub(1, indicatornum)
+					local part2 = linetext:sub(indicatornum + 1)
 					local new = part1 .. text .. part2
-					self.lines[1] = new
-					self.indicatornum = self.indicatornum + text:len()
+					lines[1] = new
+					self.indicatornum = indicatornum + length
 				end
 			end
 		end
