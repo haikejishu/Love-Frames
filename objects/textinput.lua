@@ -63,6 +63,8 @@ function newobject:initialize()
 	self.OnTextChanged = nil
 	self.OnFocusGained = nil
 	self.OnFocusLost = nil
+	self.OnCopy = nil
+	self.OnPaste = nil
 	
 end
 
@@ -466,9 +468,14 @@ function newobject:keypressed(key, unicode)
 			self.alltextselected = true
 		elseif key == "c" and alltextselected and version == "0.9.0" then
 			local text = self:GetText()
+			local oncopy = self.OnCopy
 			love.system.setClipboardText(text)
+			if oncopy then
+				oncopy(self, text)
+			end
 		elseif key == "v" and version == "0.9.0" and editable then
 			local text = love.system.getClipboardText()
+			local onpaste = self.OnPaste
 			if alltextselected then
 				self:SetText(text)
 			else
@@ -524,6 +531,9 @@ function newobject:keypressed(key, unicode)
 					lines[1] = new
 					self.indicatornum = indicatornum + length
 				end
+			end
+			if onpaste then
+				onpaste(self, text)
 			end
 		end
 	else
@@ -1726,5 +1736,40 @@ function newobject:SetVisible(bool)
 	if not bool then
 		self.keydown = "none"
 	end
+	
+end
+
+--[[---------------------------------------------------------
+	- func: Copy()
+	- desc: copies the object's text to the user's clipboard
+--]]---------------------------------------------------------
+function newobject:Copy()
+
+	local version = love._version
+	
+	if version == "0.9.0" then
+		local text = self:GetText()
+		love.system.setClipboardText(text)
+	end
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SelectAll()
+	- desc: selects all of the object's text
+--]]---------------------------------------------------------
+function newobject:SelectAll()
+
+	self.alltextselected = true
+	
+end
+
+--[[---------------------------------------------------------
+	- func: DeselectAll()
+	- desc: deselects all of the object's text
+--]]---------------------------------------------------------
+function newobject:DeselectAll()
+
+	self.alltextselected = false
 	
 end
