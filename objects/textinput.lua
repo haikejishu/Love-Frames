@@ -479,12 +479,10 @@ function newobject:keypressed(key, unicode)
 			local unusable = self.unusable
 			local limit = self.limit
 			local onpaste = self.OnPaste
+			local ontextchanged = self.OnTextChanged
 			if limit > 0 then
 				local curtext = self:GetText()
 				local curlength = curtext:len()
-				for i=1, #curtext do
-					print(i, curtext:sub(i, i):byte())
-				end
 				if curlength == limit then
 					return
 				else
@@ -510,6 +508,9 @@ function newobject:keypressed(key, unicode)
 			end
 			if alltextselected then
 				self:SetText(text)
+				if ontextchanged then
+					ontextchanged(self, text)
+				end
 			else
 				local tabreplacement = self.tabreplacement
 				local indicatornum = self.indicatornum
@@ -542,6 +543,9 @@ function newobject:keypressed(key, unicode)
 							lines[line] = oldlinedata[i]
 							line = line + 1
 						end
+						if ontextchanged then
+							ontextchanged(self, text)
+						end
 					elseif numparts == 1 then
 						text = text:gsub(string.char(10), " ")
 						text = text:gsub(string.char(13), " ")
@@ -550,6 +554,9 @@ function newobject:keypressed(key, unicode)
 						local new = first .. text .. last
 						lines[line] = new
 						self.indicatornum = indicatornum + length
+						if ontextchanged then
+							ontextchanged(self, text)
+						end
 					end
 				else
 					text = text:gsub(string.char(10), " ")
@@ -562,6 +569,9 @@ function newobject:keypressed(key, unicode)
 					local new = part1 .. text .. part2
 					lines[1] = new
 					self.indicatornum = indicatornum + length
+					if ontextchanged then
+						ontextchanged(self, text)
+					end
 				end
 			end
 			if onpaste then
