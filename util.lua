@@ -247,21 +247,34 @@ function loveframes.util.RemoveAll()
 end
 
 --[[---------------------------------------------------------
+	- func: loveframes.util.TableHasValue(table, value)
+	- desc: checks to see if a table has a specific value
+--]]---------------------------------------------------------
+function loveframes.util.TableHasValue(table, value)
+	
+	for k, v in pairs(table) do
+		if v == value then
+			return true
+		end
+	end
+	
+	return false
+	
+end
+
+--[[---------------------------------------------------------
 	- func: loveframes.util.TableHasKey(table, key)
 	- desc: checks to see if a table has a specific key
 --]]---------------------------------------------------------
 function loveframes.util.TableHasKey(table, key)
 
-	local haskey = false
-	
 	for k, v in pairs(table) do
 		if k == key then
-			haskey = true
-			break
+			return true
 		end
 	end
 	
-	return haskey
+	return false
 	
 end
 

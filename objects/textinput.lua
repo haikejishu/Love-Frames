@@ -475,7 +475,39 @@ function newobject:keypressed(key, unicode)
 			end
 		elseif key == "v" and version == "0.9.0" and editable then
 			local text = love.system.getClipboardText()
+			local usable = self.usable
+			local unusable = self.unusable
+			local limit = self.limit
 			local onpaste = self.OnPaste
+			if limit > 0 then
+				local curtext = self:GetText()
+				local curlength = curtext:len()
+				for i=1, #curtext do
+					print(i, curtext:sub(i, i):byte())
+				end
+				if curlength == limit then
+					return
+				else
+					local inputlimit = limit - curlength
+					if text:len() > inputlimit then
+						text = text:sub(1, inputlimit)
+					end
+				end
+			end
+			local charcheck = function(a)
+				if #usable > 0 then
+					if not loveframes.util.TableHasValue(usable, a) then
+						return ""
+					end
+				elseif #unusable > 0 then
+					if loveframes.util.TableHasValue(unusable, a) then
+						return ""
+					end
+				end
+			end
+			if #usable > 0 or #unusable > 0 then
+				text = text:gsub(".", charcheck)
+			end
 			if alltextselected then
 				self:SetText(text)
 			else
@@ -1252,13 +1284,8 @@ function newobject:SetText(text)
 	local tabreplacement = self.tabreplacement
 	local multiline = self.multiline
 	
-	-- make sure the text is a string
 	text = tostring(text)
-	
-	-- replace any tabs character with spaces
 	text = text:gsub(string.char(9), tabreplacement)
-	
-	-- remove any carriage returns
 	text = text:gsub(string.char(13), "")
 	
 	if multiline then
@@ -1290,7 +1317,10 @@ function newobject:GetText()
 	
 	if multiline then
 		for k, v in ipairs(lines) do
-			text = text .. v .. "\n"
+			text = text .. v
+			if k ~= #lines then
+				text = text .. "\n"
+			end
 		end
 	else
 		text = lines[1]
