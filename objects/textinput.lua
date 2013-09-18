@@ -99,7 +99,8 @@ function newobject:update(dt)
 	local parent = self.parent
 	local base = loveframes.base
 	local update = self.Update
-	local theight = self.font:getHeight("a")
+	local font = self.font
+	local theight = font:getHeight()
 	local delay = self.delay
 	local lines = self.lines
 	local numlines = #lines
@@ -114,8 +115,12 @@ function newobject:update(dt)
 	
 	-- move to parent if there is a parent
 	if parent ~= base then
-		self.x = self.parent.x + self.staticx
-		self.y = self.parent.y + self.staticy
+		local parentx = parent.x
+		local parenty = parent.y
+		local staticx = self.staticx
+		local staticy = self.staticy
+		self.x = parentx + staticx
+		self.y = parenty + staticy
 	end
 	
 	if inputobject ~= self then
@@ -131,41 +136,42 @@ function newobject:update(dt)
 		end
 	end
 	
-	-- position the object's text
 	self:PositionText()
-	
-	-- update the object's text insertion positon indicator
 	self:UpdateIndicator()
 	
 	-- calculations for multiline mode
 	if multiline then
 		local twidth = 0
 		local panel = self:GetLineNumbersPanel()
+		local textoffsetx = self.textoffsetx
+		local textoffsety = self.textoffsety
+		local linenumbers = self.linenumbers
 		-- get the longest line of text
 		for k, v in ipairs(lines) do
-			local linewidth = self.font:getWidth(v)
+			local linewidth = font:getWidth(v)
 			if linewidth > twidth then
 				twidth = linewidth
 			end
 		end
 		-- item width calculation
 		if vbar then
-			self.itemwidth = twidth + 16 + self.textoffsetx * 2
+			self.itemwidth = twidth + 16 + textoffsetx * 2
 		else
 			self.itemwidth = twidth
 		end
 		if panel then
-			self.itemwidth = self.itemwidth + panel.width + self.textoffsetx + 5
+			local panelwidth = panel.width
+			self.itemwidth = self.itemwidth + panelwidth + textoffsetx + 5
 		end
 		-- item height calculation
 		if hbar then
-			self.itemheight = theight * numlines + 16 + self.textoffsety * 2
+			self.itemheight = theight * numlines + 16 + textoffsety * 2
 		else
 			self.itemheight = theight * numlines
 		end
 		-- extra width and height calculations
-		self.extrawidth = self.itemwidth - self.width
-		self.extraheight = self.itemheight - self.height
+		self.extrawidth = self.itemwidth - width
+		self.extraheight = self.itemheight - height
 		local itemwidth = self.itemwidth
 		local itemheight = self.itemheight
 		if itemheight > height then
@@ -176,9 +182,11 @@ function newobject:update(dt)
 				self.vbar = true
 				if hbar then
 					local vbody = self:GetVerticalScrollBody()
+					local vbodyheight = vbody:GetHeight() - 15
 					local hbody = self:GetHorizontalScrollBody()
-					vbody:SetHeight(vbody:GetHeight() - 15)
-					hbody:SetWidth(hbody:GetWidth() - 15)
+					local hbodywidth = hbody:GetWidth() - 15
+					vbody:SetHeight(vbodyheight)
+					hbody:SetWidth(hbodywidth)
 				end
 			end
 		else
@@ -188,7 +196,8 @@ function newobject:update(dt)
 				self.offsety = 0
 				if self.hbar then
 					local hbody = self:GetHorizontalScrollBody()
-					hbody:SetWidth(hbody:GetWidth() + 15)
+					local hbodywidth = hbody:GetWidth() - 15
+					hbody:SetWidth(hbodywidth)
 				end
 			end
 		end
@@ -219,15 +228,15 @@ function newobject:update(dt)
 				end
 			end
 		end
-		if self.linenumbers then
+		if linenumbers then
 			if not self.linenumberspanel then
 				local linenumberspanel = loveframes.objects["linenumberspanel"]:new(self)
-				table.insert(self.internals, linenumberspanel)
+				table.insert(internals, linenumberspanel)
 				self.linenumberspanel = true
 			end
 		else
 			if self.linenumberspanel then
-				table.remove(self.internals, 1)
+				table.remove(internals, 1)
 				self.linenumberspanel = false
 			end
 		end
@@ -257,7 +266,6 @@ function newobject:draw()
 	end
 	
 	local visible = self.visible
-	
 	if not visible then
 		return
 	end
@@ -327,7 +335,6 @@ function newobject:mousepressed(x, y, button)
 	end
 	
 	local visible = self.visible
-	
 	if not visible then
 		return
 	end
@@ -350,7 +357,8 @@ function newobject:mousepressed(x, y, button)
 				loveframes.inputobject = self
 			end
 			if not alltextselected then
-				if time > self.lastclicktime and time < (self.lastclicktime + 0.25) then
+				local lastclicktime = self.lastclicktime
+				if (time > lastclicktime) and time < (lastclicktime + 0.25) then
 					self.alltextselected = true
 				end
 			else
@@ -363,7 +371,6 @@ function newobject:mousepressed(x, y, button)
 				onfocusgained(self)
 			end
 			local baseparent = self:GetBaseParent()
-
 			if baseparent and baseparent.type == "frame" then
 				baseparent:MakeTop()
 			end
@@ -419,13 +426,11 @@ function newobject:mousereleased(x, y, button)
 	end
 	
 	local visible = self.visible
-	
 	if not visible then
 		return
 	end
 	
 	local internals = self.internals
-	
 	for k, v in ipairs(internals) do
 		v:mousereleased(x, y, button)
 	end
@@ -515,7 +520,8 @@ function newobject:keypressed(key, unicode)
 				local tabreplacement = self.tabreplacement
 				local indicatornum = self.indicatornum
 				local lines = self.lines
-				if self.multiline then
+				local multiline = self.multiline
+				if multiline then
 					local parts = loveframes.util.SplitString(text, string.char(10))
 					local numparts = #parts
 					local oldlinedata = {}
@@ -598,7 +604,6 @@ function newobject:keyreleased(key)
 	end
 	
 	local visible = self.visible
-	
 	if not visible then
 		return
 	end
@@ -624,6 +629,8 @@ function newobject:RunKey(key, unicode)
 		return
 	end
 	
+	local x = self.x
+	local offsetx = self.offsetx
 	local lines = self.lines
 	local line = self.line
 	local numlines = #lines
@@ -646,10 +653,10 @@ function newobject:RunKey(key, unicode)
 		indicatornum = self.indicatornum
 		if not multiline then
 			self:MoveIndicator(-1)
-			if indicatorx <= self.x and indicatornum ~= 0 then
-				local width = self.font:getWidth(text:sub(indicatornum, indicatornum + 1))
-				self.offsetx = self.offsetx - width
-			elseif indicatornum == 0 and self.offsetx ~= 0 then
+			if indicatorx <= x and indicatornum ~= 0 then
+				local width = font:getWidth(text:sub(indicatornum, indicatornum + 1))
+				self.offsetx = offsetx - width
+			elseif indicatornum == 0 and offsetx ~= 0 then
 				self.offsetx = 0
 			end
 		else
@@ -668,10 +675,10 @@ function newobject:RunKey(key, unicode)
 		indicatornum = self.indicatornum
 		if not multiline then
 			self:MoveIndicator(1)
-			if indicatorx >= (self.x + swidth) and indicatornum ~= #text then
-				local width = self.font:getWidth(text:sub(indicatornum, indicatornum))
-				self.offsetx = self.offsetx + width
-			elseif indicatornum == #text and self.offsetx ~= ((font:getWidth(text)) - swidth + 10) and font:getWidth(text) + self.textoffsetx > self.width then
+			if indicatorx >= (x + swidth) and indicatornum ~= #text then
+				local width = font:getWidth(text:sub(indicatornum, indicatornum))
+				self.offsetx = offsetx + width
+			elseif indicatornum == #text and offsetx ~= ((font:getWidth(text)) - swidth + 10) and font:getWidth(text) + textoffsetx > swidth then
 				self.offsetx = ((font:getWidth(text)) - swidth + 10)
 			end
 		else
@@ -707,7 +714,7 @@ function newobject:RunKey(key, unicode)
 	if not editable then
 		return
 	end
-			
+	
 	-- key input checking system
 	if key == "backspace" then
 		ckey = key
@@ -885,7 +892,6 @@ function newobject:RunKey(key, unicode)
 	end
 	
 	local curtext = self:GetText()
-	
 	if ontextchanged and initialtext ~= curtext then
 		ontextchanged(self, ckey)
 	end
@@ -935,12 +941,17 @@ function newobject:UpdateIndicator()
 	local line = self.line
 	local curline = lines[line]
 	local text = curline
-	local theight = self.font:getHeight("a")
+	local font = self.font
+	local theight = font:getHeight()
 	local offsetx = self.offsetx
 	local multiline = self.multiline
+	local showindicator = self.showindicator
+	local alltextselected = self.alltextselected
+	local textx = self.textx
+	local texty = self.texty
 	
 	if indincatortime < time then
-		if self.showindicator then
+		if showindicator then
 			self.showindicator = false
 		else
 			self.showindicator = true
@@ -948,22 +959,23 @@ function newobject:UpdateIndicator()
 		self.indincatortime = time + 0.50
 	end
 	
-	if self.alltextselected then
+	if alltextselected then
 		self.showindicator = false
 	end
 	
 	local width = 0
 	
 	for i=1, indicatornum do
-		width = width + self.font:getWidth(text:sub(i, i))
+		local char = text:sub(i, i)
+		width = width + font:getWidth(char)
 	end
 	
 	if multiline then
-		self.indicatorx = self.textx + width
-		self.indicatory	= self.texty + theight * line - theight
+		self.indicatorx = textx + width
+		self.indicatory	= texty + theight * line - theight
 	else
-		self.indicatorx = self.textx + width
-		self.indicatory	= self.texty
+		self.indicatorx = textx + width
+		self.indicatory	= texty
 	end
 	
 end
@@ -1022,33 +1034,39 @@ function newobject:GetTextCollisions(x, y)
 	local vbar = self.vbar
 	local hbar = self.hbar
 	local multiline = self.multiline
+	local selfx = self.x
+	local selfy = self.y
+	local selfwidth = self.width
 	
 	if multiline then
-		local theight = self.font:getHeight("a")
+		local theight = font:getHeight()
 		local liney = 0
 		local selfcol
 		if vbar and not hbar then
-			selfcol = loveframes.util.BoundingBox(self.x, x, self.y, y, self.width - 16, 1, self.height, 1)
+			selfcol = loveframes.util.BoundingBox(selfx, x, selfy, y, selfwidth - 16, 1, self.height, 1)
 		elseif hbar and not vbar then
-			selfcol = loveframes.util.BoundingBox(self.x, x, self.y, y, self.width, 1, self.height - 16, 1)
+			selfcol = loveframes.util.BoundingBox(selfx, x, selfy, y, selfwidth, 1, self.height - 16, 1)
 		elseif not vbar and not hbar then
-			selfcol = loveframes.util.BoundingBox(self.x, x, self.y, y, self.width, 1, self.height, 1)
+			selfcol = loveframes.util.BoundingBox(selfx, x, selfy, y, selfwidth, 1, self.height, 1)
 		elseif vbar and hbar then
-			selfcol = loveframes.util.BoundingBox(self.x, x, self.y, y, self.width - 16, 1, self.height - 16, 1)
+			selfcol = loveframes.util.BoundingBox(selfx, x, selfy, y, selfwidth - 16, 1, self.height - 16, 1)
 		end
 		if selfcol then
+			local offsety = self.offsety
+			local textoffsety = self.textoffsety
 			for i=1, numlines do
-				local linecol = loveframes.util.BoundingBox(self.x, x, (self.y - self.offsety) + self.textoffsety + (theight * i) - theight, y, self.width, 1, theight, 1)
+				local linecol = loveframes.util.BoundingBox(selfx, x, (selfy - offsety) + textoffsety + (theight * i) - theight, y, self.width, 1, theight, 1)
 				if linecol then
-					liney = (self.y - self.offsety) + self.textoffsety + (theight * i) - theight
+					liney = (selfy - offsety) + textoffsety + (theight * i) - theight
 					self.line = i
 				end
 			end
 			local line = self.line
 			local curline = lines[line]
 			for i=1, #curline do
-				local width = font:getWidth(curline:sub(i, i))
-				local height = font:getHeight(curline:sub(i, i))
+				local char = text:sub(i, i)
+				local width = font:getWidth(char)
+				local height = font:getHeight()
 				local tx = self.textx + xpos
 				local ty = self.texty
 				local col = loveframes.util.BoundingBox(tx, x, liney, y, width, 1, height, 1)
@@ -1077,8 +1095,9 @@ function newobject:GetTextCollisions(x, y)
 		end
 	else
 		for i=1, #text do
-			local width = font:getWidth(text:sub(i, i))
-			local height = font:getHeight(text:sub(i, i))
+			local char = text:sub(i, i)
+			local width = font:getWidth(char)
+			local height = font:getHeight()
 			local tx = self.textx + xpos
 			local ty = self.texty
 			local col = loveframes.util.BoundingBox(tx, x, ty, y, width, 1, height, 1)
