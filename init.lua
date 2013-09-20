@@ -49,7 +49,7 @@ function loveframes.load()
 	local dir = loveframes.config["DIRECTORY"] or path
 	
 	-- require the internal base libraries
-	require(dir .. ".third-party.middleclass")
+	loveframes.class = require(dir .. ".third-party.middleclass")
 	require(dir .. ".util")
 	require(dir .. ".skins")
 	require(dir .. ".templates")
@@ -290,10 +290,10 @@ function loveframes.NewObject(id, name, inherit_from_base)
 	
 	if inherit_from_base then
 		local base = objects["base"]
-		object = class(name, base)
+		object = loveframes.class(name, base)
 		objects[id] = object
 	else
-		object = class(name)
+		object = loveframes.class(name)
 		objects[id] = object
 	end
 	
