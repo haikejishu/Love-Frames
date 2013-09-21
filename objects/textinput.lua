@@ -133,7 +133,7 @@ function newobject:update(dt)
 		local lctrl = love.keyboard.isDown("lctrl")
 		local rctrl = love.keyboard.isDown("rctrl")
 		if time > delay then
-			if lctrl or rctrl and keydown == "v" then
+			if (lctrl or rctrl) and keydown == "v" then
 				self:Paste()
 			else
 				self:RunKey(keydown, unicode)
