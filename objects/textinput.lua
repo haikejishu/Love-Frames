@@ -130,8 +130,14 @@ function newobject:update(dt)
 	
 	-- keydown check
 	if keydown ~= "none" then
+		local lctrl = love.keyboard.isDown("lctrl")
+		local rctrl = love.keyboard.isDown("rctrl")
 		if time > delay then
-			self:RunKey(keydown, unicode)
+			if lctrl or rctrl and keydown == "v" then
+				self:Paste()
+			else
+				self:RunKey(keydown, unicode)
+			end
 			self.delay = time + repeatrate
 		end
 	end
@@ -479,110 +485,7 @@ function newobject:keypressed(key, unicode)
 				oncopy(self, text)
 			end
 		elseif key == "v" and version == "0.9.0" and editable then
-			local text = love.system.getClipboardText()
-			local usable = self.usable
-			local unusable = self.unusable
-			local limit = self.limit
-			local onpaste = self.OnPaste
-			local ontextchanged = self.OnTextChanged
-			if limit > 0 then
-				local curtext = self:GetText()
-				local curlength = curtext:len()
-				if curlength == limit then
-					return
-				else
-					local inputlimit = limit - curlength
-					if text:len() > inputlimit then
-						text = text:sub(1, inputlimit)
-					end
-				end
-			end
-			local charcheck = function(a)
-				if #usable > 0 then
-					if not loveframes.util.TableHasValue(usable, a) then
-						return ""
-					end
-				elseif #unusable > 0 then
-					if loveframes.util.TableHasValue(unusable, a) then
-						return ""
-					end
-				end
-			end
-			if #usable > 0 or #unusable > 0 then
-				text = text:gsub(".", charcheck)
-			end
-			if alltextselected then
-				self:SetText(text)
-				if ontextchanged then
-					ontextchanged(self, text)
-				end
-			else
-				local tabreplacement = self.tabreplacement
-				local indicatornum = self.indicatornum
-				local lines = self.lines
-				local multiline = self.multiline
-				if multiline then
-					local parts = loveframes.util.SplitString(text, string.char(10))
-					local numparts = #parts
-					local oldlinedata = {}
-					local line = self.line
-					local first = lines[line]:sub(0, indicatornum)
-					local last = lines[line]:sub(indicatornum + 1)
-					if numparts > 1 then
-						for i=1, numparts do
-							local part = parts[i]:gsub(string.char(13),  "")
-							part = part:gsub(string.char(9), "    ")
-							if i ~= 1 then
-								table.insert(oldlinedata, lines[line])
-								lines[line] = part
-								if i == numparts then
-									self.indicatornum = part:len()
-									lines[line] = lines[line] .. last
-									self.line = line
-								end
-							else
-								lines[line] = first .. part
-							end
-							line = line + 1
-						end
-						for i=1, #oldlinedata do
-							lines[line] = oldlinedata[i]
-							line = line + 1
-						end
-						if ontextchanged then
-							ontextchanged(self, text)
-						end
-					elseif numparts == 1 then
-						text = text:gsub(string.char(10), " ")
-						text = text:gsub(string.char(13), " ")
-						text = text:gsub(string.char(9), tabreplacement)
-						local length = text:len()
-						local new = first .. text .. last
-						lines[line] = new
-						self.indicatornum = indicatornum + length
-						if ontextchanged then
-							ontextchanged(self, text)
-						end
-					end
-				else
-					text = text:gsub(string.char(10), " ")
-					text = text:gsub(string.char(13), " ")
-					text = text:gsub(string.char(9), tabreplacement)
-					local length = text:len()
-					local linetext = lines[1]
-					local part1 = linetext:sub(1, indicatornum)
-					local part2 = linetext:sub(indicatornum + 1)
-					local new = part1 .. text .. part2
-					lines[1] = new
-					self.indicatornum = indicatornum + length
-					if ontextchanged then
-						ontextchanged(self, text)
-					end
-				end
-			end
-			if onpaste then
-				onpaste(self, text)
-			end
+			self:Paste()
 		end
 	else
 		self:RunKey(key, unicode)
@@ -1809,6 +1712,120 @@ function newobject:Copy()
 	if version == "0.9.0" then
 		local text = self:GetText()
 		love.system.setClipboardText(text)
+	end
+	
+end
+
+--[[---------------------------------------------------------
+	- func: Paste()
+	- desc: pastes the current contents of the clipboard 
+			into the object's text
+--]]---------------------------------------------------------
+function newobject:Paste()
+	
+	local text = love.system.getClipboardText()
+	local usable = self.usable
+	local unusable = self.unusable
+	local limit = self.limit
+	local onpaste = self.OnPaste
+	local ontextchanged = self.OnTextChanged
+	if limit > 0 then
+		local curtext = self:GetText()
+		local curlength = curtext:len()
+		if curlength == limit then
+			return
+		else
+			local inputlimit = limit - curlength
+			if text:len() > inputlimit then
+				text = text:sub(1, inputlimit)
+			end
+		end
+	end
+	local charcheck = function(a)
+		if #usable > 0 then
+			if not loveframes.util.TableHasValue(usable, a) then
+				return ""
+			end
+		elseif #unusable > 0 then
+			if loveframes.util.TableHasValue(unusable, a) then
+				return ""
+			end
+		end
+	end
+	if #usable > 0 or #unusable > 0 then
+		text = text:gsub(".", charcheck)
+	end
+	if alltextselected then
+		self:SetText(text)
+		if ontextchanged then
+			ontextchanged(self, text)
+		end
+	else
+		local tabreplacement = self.tabreplacement
+		local indicatornum = self.indicatornum
+		local lines = self.lines
+		local multiline = self.multiline
+		if multiline then
+			local parts = loveframes.util.SplitString(text, string.char(10))
+			local numparts = #parts
+			local oldlinedata = {}
+			local line = self.line
+			local first = lines[line]:sub(0, indicatornum)
+			local last = lines[line]:sub(indicatornum + 1)
+			if numparts > 1 then
+				for i=1, numparts do
+					local part = parts[i]:gsub(string.char(13),  "")
+					part = part:gsub(string.char(9), "    ")
+					if i ~= 1 then
+						table.insert(oldlinedata, lines[line])
+						lines[line] = part
+						if i == numparts then
+							self.indicatornum = part:len()
+							lines[line] = lines[line] .. last
+							self.line = line
+						end
+					else
+						lines[line] = first .. part
+					end
+					line = line + 1
+				end
+				for i=1, #oldlinedata do
+					lines[line] = oldlinedata[i]
+					line = line + 1
+				end
+				if ontextchanged then
+					ontextchanged(self, text)
+				end
+			elseif numparts == 1 then
+				text = text:gsub(string.char(10), " ")
+				text = text:gsub(string.char(13), " ")
+				text = text:gsub(string.char(9), tabreplacement)
+				local length = text:len()
+				local new = first .. text .. last
+				lines[line] = new
+				self.indicatornum = indicatornum + length
+				if ontextchanged then
+					ontextchanged(self, text)
+				end
+			end
+		else
+			text = text:gsub(string.char(10), " ")
+			text = text:gsub(string.char(13), " ")
+			text = text:gsub(string.char(9), tabreplacement)
+			local length = text:len()
+			local linetext = lines[1]
+			local part1 = linetext:sub(1, indicatornum)
+			local part2 = linetext:sub(indicatornum + 1)
+			local new = part1 .. text .. part2
+			lines[1] = new
+			self.indicatornum = indicatornum + length
+			if ontextchanged then
+				ontextchanged(self, text)
+			end
+		end
+	end
+	if onpaste then
+		onpaste(self, text)
 	end
 	
 end

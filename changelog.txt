@@ -4,6 +4,10 @@ Version 0.9.6.4 - Alpha (Release Date TBD)
 [ADDED] a new tooltip method: SetOffsetX(xoffset)
 [ADDED] a new tooltip method: SetOffsetY(yoffset)
 [ADDED] a new tooltip method: GetText()
+[ADDED] a new textinput method: Copy()
+[ADDED] a new textinput method: Paste()
+[ADDED] a new textinput method: SelectAll()
+[ADDED] a new textinput method: DeselectAll()
 [ADDED] a new library function: TableHasValue(table, value)
 [ADDED] basic clipboard support for the textinput object (0.9.0 only)
 
@@ -13,6 +17,7 @@ Version 0.9.6.4 - Alpha (Release Date TBD)
 [FIXED] textinput:GetText appending an extra newline to then end of the text string
 
 [CHANGED] cleaned up the tooltip object
+[CHANGED] upgraded to middleclass 3.0
 
 ================================================
 Version 0.9.6.3 - Alpha (August 15 - 2013)
