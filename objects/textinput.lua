@@ -59,6 +59,8 @@ function newobject:initialize()
 	self.editable = true
 	self.internal = false
 	self.autoscroll = false
+	self.cursorset = false
+	self.prevcursor = nil
 	self.OnEnter = nil
 	self.OnTextChanged = nil
 	self.OnFocusGained = nil
@@ -112,6 +114,8 @@ function newobject:update(dt)
 	local inputobject = loveframes.inputobject
 	local internals = self.internals
 	local repeatrate = self.repeatrate
+	local hover = self.hover
+	local version = love._version
 	
 	-- move to parent if there is a parent
 	if parent ~= base then
@@ -126,6 +130,25 @@ function newobject:update(dt)
 	if inputobject ~= self then
 		self.focus = false
 		self.alltextselected = false
+	end
+	
+	if version == "0.9.0" then
+		local cursorset = self.cursorset
+		if hover then
+			if not cursorset then
+				local curcursor = love.mouse.getCursor()
+				local newcursor = love.mouse.newCursor("ibeam")
+				love.mouse.setCursor(newcursor)
+				self.prevcursor = curcursor
+				self.cursorset = true
+			end
+		else
+			if cursorset then
+				local prevcursor = self.prevcursor
+				love.mouse.setCursor(prevcursor)
+				self.cursorset = false
+			end
+		end
 	end
 	
 	-- keydown check
