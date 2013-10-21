@@ -10,6 +10,8 @@ Version 0.9.6.4 - Alpha (Release Date TBD)
 [ADDED] a new textinput method: DeselectAll()
 [ADDED] a new library function: TableHasValue(table, value)
 [ADDED] basic clipboard support for the textinput object (0.9.0 only)
+[ADDED] custom cursor support for the textinput object
+[ADDED] support for love.filesystem api changes to loveframes.util.GetDirectoryContents
 
 [FIXED] error when pressing a function key while a textinput was focused
 [FIXED] the tooltip object not setting the state of its text object
