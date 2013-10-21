@@ -15,6 +15,7 @@ function newobject:initialize()
 	self.type = "textinput"
 	self.keydown = "none"
 	self.tabreplacement = "        "
+	self.maskchar = "*"
 	self.font = loveframes.basicfont
 	self.width = 200
 	self.height = 25
@@ -60,6 +61,7 @@ function newobject:initialize()
 	self.internal = false
 	self.autoscroll = false
 	self.cursorset = false
+	self.masked = false
 	self.prevcursor = nil
 	self.OnEnter = nil
 	self.OnTextChanged = nil
@@ -175,9 +177,16 @@ function newobject:update(dt)
 		local textoffsetx = self.textoffsetx
 		local textoffsety = self.textoffsety
 		local linenumbers = self.linenumbers
+		local masked = self.masked
+		local maskchar = self.maskchar
 		-- get the longest line of text
 		for k, v in ipairs(lines) do
-			local linewidth = font:getWidth(v)
+			local linewidth = 0
+			if masked then
+				linewidth = font:getWidth(v:gsub(".", maskchar))
+			else
+				linewidth = font:getWidth(v)
+			end
 			if linewidth > twidth then
 				twidth = linewidth
 			end
@@ -669,7 +678,14 @@ function newobject:RunKey(key, unicode)
 					end
 				end
 			end
-			local cwidth = font:getWidth(text:sub(#text))
+			local masked = self.masked
+			local cwidth = 0
+			if masked then
+				local maskchar = self.maskchar
+				cwidth = font:getWidth(text:sub(#text):gsub(".", maskchar))
+			else
+				cwidth = font:getWidth(text:sub(#text))
+			end
 			if self.offsetx > 0 then
 				self.offsetx = self.offsetx - cwidth
 			elseif self.offsetx < 0 then
@@ -807,8 +823,17 @@ function newobject:RunKey(key, unicode)
 			curline = lines[line]
 			text = curline
 			if not multiline then
-				local twidth = font:getWidth(text)
-				local cwidth = font:getWidth(ckey)
+				local masked = self.masked
+				local twidth = 0
+				local cwidth = 0
+				if masked then
+					local maskchar = self.maskchar
+					twidth = font:getWidth(text:gsub(".", maskchar))
+					cwidth = font:getWidth(ckey:gsub(".", maskchar))
+				else
+					twidth = font:getWidth(text)
+					cwidth = font:getWidth(ckey)
+				end
 				-- swidth - 1 is for the "-" character
 				if (twidth + textoffsetx) >= (swidth - 1) then
 					self.offsetx = self.offsetx + cwidth
@@ -875,6 +900,7 @@ function newobject:UpdateIndicator()
 	local alltextselected = self.alltextselected
 	local textx = self.textx
 	local texty = self.texty
+	local masked = self.masked
 	
 	if indincatortime < time then
 		if showindicator then
@@ -892,8 +918,13 @@ function newobject:UpdateIndicator()
 	local width = 0
 	
 	for i=1, indicatornum do
-		local char = text:sub(i, i)
-		width = width + font:getWidth(char)
+		if masked then
+			local char = self.maskchar
+			width = width + font:getWidth(char)
+		else
+			local char = text:sub(i, i)
+			width = width + font:getWidth(char)
+		end
 	end
 	
 	if multiline then
@@ -963,7 +994,8 @@ function newobject:GetTextCollisions(x, y)
 	local selfx = self.x
 	local selfy = self.y
 	local selfwidth = self.width
-	
+	local masked = self.masked
+			
 	if multiline then
 		local theight = font:getHeight()
 		local liney = 0
@@ -991,7 +1023,13 @@ function newobject:GetTextCollisions(x, y)
 			local curline = lines[line]
 			for i=1, #curline do
 				local char = text:sub(i, i)
-				local width = font:getWidth(char)
+				local width = 0
+				if masked then
+					local maskchar = self.maskchar
+					width = font:getWidth(maskchar)
+				else
+					width = font:getWidth(char)
+				end
 				local height = font:getHeight()
 				local tx = self.textx + xpos
 				local ty = self.texty
@@ -1022,7 +1060,13 @@ function newobject:GetTextCollisions(x, y)
 	else
 		for i=1, #text do
 			local char = text:sub(i, i)
-			local width = font:getWidth(char)
+			local width = 0
+			if masked then
+				local maskchar = self.maskchar
+				width = font:getWidth(maskchar)
+			else
+				width = font:getWidth(char)
+			end
 			local height = font:getHeight()
 			local tx = self.textx + xpos
 			local ty = self.texty
@@ -1870,5 +1914,45 @@ end
 function newobject:DeselectAll()
 
 	self.alltextselected = false
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetMasked(masked)
+	- desc: sets whether or not the object is masked
+--]]---------------------------------------------------------
+function newobject:SetMasked(masked)
+
+	self.masked = masked
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetMasked()
+	- desc: gets whether or not the object is masked
+--]]---------------------------------------------------------
+function newobject:GetMasked()
+
+	return self.masked
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetMaskChar(char)
+	- desc: sets the object's mask character
+--]]---------------------------------------------------------
+function newobject:SetMaskChar(char)
+
+	self.maskchar = char
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetMaskChar()
+	- desc: gets the object's mask character
+--]]---------------------------------------------------------
+function newobject:GetMaskChar()
+
+	return self.maskchar
 	
 end

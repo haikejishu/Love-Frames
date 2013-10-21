@@ -915,6 +915,7 @@ function skin.DrawTextInput(object)
 	local hbar = object:HasHorizontalScrollBar()
 	local linenumbers = object:GetLineNumbersEnabled()
 	local itemwidth = object:GetItemWidth()
+	local masked = object:GetMasked()
 	local theight = font:getHeight("a")
 	local bodycolor = skin.controls.textinput_body_color
 	local textnormalcolor = skin.controls.textinput_text_normal_color
@@ -929,7 +930,11 @@ function skin.DrawTextInput(object)
 		local bary = 0
 		if multiline then
 			for i=1, #lines do
-				local twidth = font:getWidth(lines[i])
+				local str = lines[i]
+				if masked then
+					str = str:gsub(".", "*")
+				end
+				local twidth = font:getWidth(str)
 				if twidth == 0 then
 					twidth = 5
 				end
@@ -938,7 +943,13 @@ function skin.DrawTextInput(object)
 				bary = bary + theight
 			end
 		else
-			local twidth = font:getWidth(text)
+			local twidth = 0
+			if masked then
+				local maskchar = object:GetMaskChar()
+				twidth = font:getWidth(text:gsub(".", maskchar))
+			else
+				twidth = font:getWidth(text)
+			end
 			love.graphics.setColor(highlightbarcolor)
 			love.graphics.rectangle("fill", textx, texty, twidth, theight)
 		end
@@ -1007,14 +1018,25 @@ function skin.DrawTextInput(object)
 		love.graphics.setColor(textnormalcolor)
 	end
 	
+	local str = ""
 	if multiline then
 		for i=1, #lines do
-			love.graphics.print(lines[i], textx, texty + theight * i - theight)
+			str = lines[i]
+			if masked then
+				local maskchar = object:GetMaskChar()
+				str = str:gsub(".", maskchar)
+			end
+			love.graphics.print(str, textx, texty + theight * i - theight)
 		end
 	else
-		love.graphics.print(lines[1], textx, texty)
+		str = lines[1]
+		if masked then
+			local maskchar = object:GetMaskChar()
+			str = str:gsub(".", maskchar)
+		end
+		love.graphics.print(str, textx, texty)
 	end
-		
+	
 end
 
 --[[---------------------------------------------------------
