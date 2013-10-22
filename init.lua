@@ -179,6 +179,17 @@ function loveframes.keyreleased(key)
 end
 
 --[[---------------------------------------------------------
+	- func: textinput(text)
+	- desc: called when the user inputs text
+--]]---------------------------------------------------------
+function loveframes.textinput(text)
+
+	local base = loveframes.base
+	base:textinput(text)
+	
+end
+
+--[[---------------------------------------------------------
 	- func: Create(type, parent)
 	- desc: creates a new object or multiple new objects
 			(based on the method used) and returns said

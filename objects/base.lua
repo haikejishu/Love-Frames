@@ -220,6 +220,40 @@ function newobject:keyreleased(key)
 
 end
 
+--[[---------------------------------------------------------
+	- func: textinput(text)
+	- desc: called when the user inputs text
+--]]---------------------------------------------------------
+function newobject:textinput(text)
+	
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
+	local visible = self.visible
+	local children = self.children
+	local internals = self.internals
+	
+	if not visible then
+		return
+	end
+	
+	if children then
+		for k, v in ipairs(children) do
+			v:textinput(text)
+		end
+	end
+	
+	if internals then
+		for k, v in ipairs(internals) do
+			v:textinput(text)
+		end
+	end
+
+end
 
 
 --[[---------------------------------------------------------

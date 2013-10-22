@@ -520,7 +520,12 @@ function newobject:keypressed(key, unicode)
 			self:Paste()
 		end
 	else
-		self:RunKey(key, unicode)
+		local version = love._version
+		if version == "0.8.0" then
+			self:RunKey(key, unicode, true)
+		else
+			self:RunKey(key, unicode, false)
+		end
 	end
 	
 end
@@ -530,7 +535,7 @@ end
 	- desc: called when the player releases a key
 --]]---------------------------------------------------------
 function newobject:keyreleased(key)
-
+	
 	local state = loveframes.state
 	local selfstate = self.state
 	
@@ -548,10 +553,30 @@ function newobject:keyreleased(key)
 end
 
 --[[---------------------------------------------------------
+	- func: textinput(text)
+	- desc: called when the inputs text
+--]]---------------------------------------------------------
+function newobject:textinput(text)
+
+	local unicode = unicode
+	if text:find("kp.") then
+		text = text:gsub("kp", "")
+	end
+	if text:len() == 1 then
+		unicode = string.byte(text)
+	else
+		unicode = 0
+	end
+		
+	self:RunKey(text, unicode, true)
+	
+end
+
+--[[---------------------------------------------------------
 	- func: RunKey(key, unicode)
 	- desc: runs a key event on the object
 --]]---------------------------------------------------------
-function newobject:RunKey(key, unicode)
+function newobject:RunKey(key, unicode, is_text)
 	
 	local visible = self.visible
 	local focus = self.focus
@@ -753,17 +778,8 @@ function newobject:RunKey(key, unicode)
 			self:MoveIndicator(1)
 		end
 	else
-		local loveversion = love._version
-		local unicode = unicode
-		if loveversion == "0.9.0" then
-			if key:find("kp.") then
-				key = key:gsub("kp", "")
-			end
-			if key:len() == 1 then
-				unicode = string.byte(key)
-			else
-				unicode = 0
-			end
+		if not is_text then
+			return
 		end
 		self.unicode = unicode
 		if unicode > 31 and unicode < 127 then
