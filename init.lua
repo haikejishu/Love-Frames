@@ -28,7 +28,10 @@ loveframes.collisioncount = 0
 loveframes.hoverobject = false
 loveframes.modalobject = false
 loveframes.inputobject = false
+loveframes.downobject = false
 loveframes.hover = false
+loveframes.input_cursor_set = false
+loveframes.prevcursor = nil
 loveframes.basicfont = love.graphics.newFont(12)
 loveframes.basicfontsmall = love.graphics.newFont(10)
 loveframes.objects = {}
@@ -98,10 +101,40 @@ end
 function loveframes.update(dt)
 
 	local base = loveframes.base
+	local input_cursor_set = loveframes.input_cursor_set
+	local version = love._version
 	
 	loveframes.collisioncount = 0
 	loveframes.hover = false
+	loveframes.hoverobject = false
 	base:update(dt)
+	
+	if version == "0.9.0" then
+		local hoverobject = loveframes.hoverobject
+		if hoverobject then
+			if not input_cursor_set then
+				if hoverobject.type == "textinput" then
+					local curcursor = love.mouse.getCursor()
+					local newcursor = love.mouse.getSystemCursor("ibeam")
+					love.mouse.setCursor(newcursor)
+					loveframes.prevcursor = curcursor
+					loveframes.input_cursor_set = true
+				end
+			else
+				if hoverobject.type ~= "textinput" then
+					local prevcursor = loveframes.prevcursor
+					love.mouse.setCursor(prevcursor)
+					loveframes.input_cursor_set = false
+				end
+			end
+		else
+			if input_cursor_set then
+				local prevcursor = loveframes.prevcursor
+				love.mouse.setCursor(prevcursor)
+				loveframes.input_cursor_set = false
+			end
+		end
+	end
 
 end
 
@@ -150,7 +183,7 @@ function loveframes.mousereleased(x, y, button)
 	
 	-- reset the hover object
 	if button == "l" then
-		loveframes.hoverobject = false
+		loveframes.downobject = false
 		loveframes.selectedobject = false
 	end
 	

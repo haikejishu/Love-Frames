@@ -247,6 +247,7 @@ function loveframes.util.RemoveAll()
 	loveframes.base.internals = {}
 	
 	loveframes.hoverobject = false
+	loveframes.downobject = false
 	loveframes.modalobject = false
 	loveframes.inputobject = false
 	loveframes.hover = false
