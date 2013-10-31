@@ -14,6 +14,7 @@ Version 0.9.6.4 - Alpha (Release Date TBD)
 [ADDED] a new textinput method: SetMaskChar(char)
 [ADDED] a new textinput method: GetMaskChar()
 [ADDED] a new util library function: TableHasValue(table, value)
+[ADDED] a new util library function: GetHoverObject()
 [ADDED] a new callback: textinput(text)
 [ADDED] basic clipboard support for the textinput object (0.9.0 only)
 [ADDED] custom cursor support for the textinput object

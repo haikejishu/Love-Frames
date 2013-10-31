@@ -715,6 +715,7 @@ function newobject:IsTopCollision()
 	local found = false
 	local top = true
 	
+	
 	for k, v in ipairs(cols) do
 		if v == self then
 			found = true

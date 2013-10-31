@@ -351,3 +351,13 @@ function loveframes.util.DeepCopy(orig)
     end
     return copy
 end
+
+--[[---------------------------------------------------------
+	- func: loveframes.util.GetHoverObject()
+	- desc: returns loveframes.hoverobject
+--]]---------------------------------------------------------
+function loveframes.util.GetHoverObject()
+	
+	return loveframes.hoverobject
+	
+end
