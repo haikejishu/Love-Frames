@@ -70,7 +70,9 @@ function newobject:update(dt)
 	
 	local hover = self.hover
 	local linksenabled = self.linksenabled
+	local version = love._version
 	local linkcol = false
+	
 	if hover and linksenabled then
 		local formattedtext = self.formattedtext
 		local x = self.x
@@ -90,7 +92,7 @@ function newobject:update(dt)
 				if col then
 					local linkcursorset = self.linkcursorset
 					v.hover = true
-					if not linkcursorset then
+					if not linkcursorset and version == "0.9.0" then
 						local newcursor = love.mouse.getSystemCursor("hand")
 						love.mouse.setCursor(newcursor)
 						self.linkcursorset = true
@@ -109,7 +111,8 @@ function newobject:update(dt)
 	end
 	
 	local linkcursorset = self.linkcursorset
-	if not linkcol and linkcursorset then
+	
+	if not linkcol and linkcursorset and version == "0.9.0" then
 		self.linkcursorset = false
 		love.mouse.setCursor()
 	end
