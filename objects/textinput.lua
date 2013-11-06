@@ -48,6 +48,7 @@ function newobject:initialize()
 	self.usable = {}
 	self.unusable = {}
 	self.lines = {""}
+	self.placeholder = ""
 	self.internals = {}
 	self.showindicator = true
 	self.focus = false
@@ -1321,6 +1322,26 @@ function newobject:GetText()
 	end
 	
 	return text
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetText(text)
+	- desc: sets the object's placeholder
+--]]---------------------------------------------------------
+function newobject:SetPlaceholder(text)
+
+	self.placeholder = text
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetText()
+	- desc: gets the object's placeholder
+--]]---------------------------------------------------------
+function newobject:GetPlaceholder()
+
+	return self.placeholder
 	
 end
 

@@ -88,6 +88,7 @@ skin.controls.tooltip_body_color                    = {255, 255, 255, 255}
 skin.controls.textinput_body_color                  = {250, 250, 250, 255}
 skin.controls.textinput_indicator_color             = {0, 0, 0, 255}
 skin.controls.textinput_text_normal_color           = {0, 0, 0, 255}
+skin.controls.textinput_text_placeholder_color      = {127, 127, 127, 255}
 skin.controls.textinput_text_selected_color         = {255, 255, 255, 255}
 skin.controls.textinput_highlight_bar_color         = {51, 204, 255, 255}
 
@@ -907,6 +908,7 @@ function skin.DrawTextInput(object)
 	local text = object:GetText()
 	local multiline = object:GetMultiLine()
 	local lines = object:GetLines()
+	local placeholder = object:GetPlaceholder()
 	local offsetx = object:GetOffsetX()
 	local offsety = object:GetOffsetY()
 	local indicatorx = object:GetIndicatorX()
@@ -919,6 +921,7 @@ function skin.DrawTextInput(object)
 	local theight = font:getHeight("a")
 	local bodycolor = skin.controls.textinput_body_color
 	local textnormalcolor = skin.controls.textinput_text_normal_color
+	local textplaceholdercolor = skin.controls.textinput_text_placeholder_color
 	local textselectedcolor = skin.controls.textinput_text_selected_color
 	local highlightbarcolor = skin.controls.textinput_highlight_bar_color
 	local indicatorcolor = skin.controls.textinput_indicator_color
@@ -1014,6 +1017,8 @@ function skin.DrawTextInput(object)
 	
 	if alltextselected then
 		love.graphics.setColor(textselectedcolor)
+	elseif #lines == 1 and lines[1] == "" then
+		love.graphics.setColor(textplaceholdercolor)
 	else
 		love.graphics.setColor(textnormalcolor)
 	end
@@ -1026,7 +1031,7 @@ function skin.DrawTextInput(object)
 				local maskchar = object:GetMaskChar()
 				str = str:gsub(".", maskchar)
 			end
-			love.graphics.print(str, textx, texty + theight * i - theight)
+			love.graphics.print(#str > 0 and str or (i == 1 and placeholder or ""), textx, texty + theight * i - theight)
 		end
 	else
 		str = lines[1]
@@ -1034,7 +1039,7 @@ function skin.DrawTextInput(object)
 			local maskchar = object:GetMaskChar()
 			str = str:gsub(".", maskchar)
 		end
-		love.graphics.print(str, textx, texty)
+		love.graphics.print(#str > 0 and str or placeholder, textx, texty)
 	end
 	
 end
