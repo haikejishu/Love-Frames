@@ -1326,26 +1326,6 @@ function newobject:GetText()
 end
 
 --[[---------------------------------------------------------
-	- func: SetText(text)
-	- desc: sets the object's placeholder
---]]---------------------------------------------------------
-function newobject:SetPlaceholder(text)
-
-	self.placeholder = text
-	
-end
-
---[[---------------------------------------------------------
-	- func: GetText()
-	- desc: gets the object's placeholder
---]]---------------------------------------------------------
-function newobject:GetPlaceholder()
-
-	return self.placeholder
-	
-end
-
---[[---------------------------------------------------------
 	- func: SetMultiline(bool)
 	- desc: enables or disables allowing multiple lines for
 			text entry
@@ -1970,5 +1950,25 @@ end
 function newobject:GetMaskChar()
 
 	return self.maskchar
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetPlaceholderText(text)
+	- desc: sets the object's placeholder text
+--]]---------------------------------------------------------
+function newobject:SetPlaceholderText(text)
+
+	self.placeholder = text
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetPlaceholderText()
+	- desc: gets the object's placeholder text
+--]]---------------------------------------------------------
+function newobject:GetPlaceholderText()
+
+	return self.placeholder
 	
 end

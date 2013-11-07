@@ -908,7 +908,7 @@ function skin.DrawTextInput(object)
 	local text = object:GetText()
 	local multiline = object:GetMultiLine()
 	local lines = object:GetLines()
-	local placeholder = object:GetPlaceholder()
+	local placeholder = object:GetPlaceholderText()
 	local offsetx = object:GetOffsetX()
 	local offsety = object:GetOffsetY()
 	local indicatorx = object:GetIndicatorX()
@@ -1031,7 +1031,7 @@ function skin.DrawTextInput(object)
 				local maskchar = object:GetMaskChar()
 				str = str:gsub(".", maskchar)
 			end
-			love.graphics.print(#str > 0 and str or (i == 1 and placeholder or ""), textx, texty + theight * i - theight)
+			love.graphics.print(#str > 0 and str or (#lines == 1 and placeholder or ""), textx, texty + theight * i - theight)
 		end
 	else
 		str = lines[1]
