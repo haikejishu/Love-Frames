@@ -38,6 +38,23 @@ function newobject:initialize()
 	self.linksenabled = false
 	self.OnClickLink = nil
 	
+	local skin = loveframes.util.GetActiveSkin()
+	local directives = skin.directives
+	if directives then
+		local text_default_color = directives.text_default_color
+		local text_default_shadowcolor = directives.text_default_shadowcolor
+		local text_default_font = directives.text_default_font
+		if text_default_color then
+			self.defaultcolor = text_default_color
+		end
+		if text_default_shadowcolor then
+			self.shadowcolor = text_default_shadowcolor
+		end
+		if text_default_font then
+			self.font = text_default_font
+		end
+	end
+	
 end
 
 --[[---------------------------------------------------------

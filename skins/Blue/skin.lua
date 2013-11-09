@@ -15,6 +15,9 @@ local smallfont = love.graphics.newFont(10)
 local imagebuttonfont = love.graphics.newFont(15)
 local bordercolor = {143, 143, 143, 255}
 
+-- add skin directives to this table
+skin.directives = {}
+
 -- controls 
 skin.controls = {}
 
