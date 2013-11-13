@@ -26,16 +26,19 @@ Version 0.9.6.4 - Alpha (Release Date TBD)
 [ADDED] support for love.filesystem changes to loveframes.util.GetDirectoryContents (0.9.0 only)
 [ADDED] support for text object link processing
 [ADDED] loveframes.downobject
+[ADDED] skin directives for the text object
 
 [FIXED] error when pressing a function key while a textinput was focused
 [FIXED] the tooltip object not setting the state of its text object
 [FIXED] the text object not being set to the correct width in certain situations
 [FIXED] textinput:GetText appending an extra newline to then end of the text string
 [FIXED] text processing issues with the textinput object (0.9.0 only)
+[FIXED] text positioning issues when moving the textinput's indicator with the left and right arrow keys
 
 [CHANGED] cleaned up the tooltip object
 [CHANGED] upgraded to middleclass 3.0
 [CHANGED] loveframes.hoverobject is now used to store the currently hovered object
+[CHANGED] textinput:SetText now repositions the object's indicator
 
 ================================================
 Version 0.9.6.3 - Alpha (August 15 - 2013)

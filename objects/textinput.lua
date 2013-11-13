@@ -589,10 +589,10 @@ function newobject:RunKey(key, unicode, is_text)
 	local onenter = self.OnEnter
 	
 	if key == "left" then
-		local indicatorx = self.indicatorx
 		indicatornum = self.indicatornum
 		if not multiline then
 			self:MoveIndicator(-1)
+			local indicatorx = self.indicatorx
 			if indicatorx <= x and indicatornum ~= 0 then
 				local width = font:getWidth(text:sub(indicatornum, indicatornum + 1))
 				self.offsetx = offsetx - width
@@ -611,10 +611,10 @@ function newobject:RunKey(key, unicode, is_text)
 			end
 		end
 	elseif key == "right" then
-		local indicatorx = self.indicatorx
 		indicatornum = self.indicatornum
 		if not multiline then
 			self:MoveIndicator(1)
+			local indicatorx = self.indicatorx
 			if indicatorx >= (x + swidth) and indicatornum ~= #text then
 				local width = font:getWidth(text:sub(indicatornum, indicatornum))
 				self.offsetx = offsetx + width
@@ -1291,11 +1291,14 @@ function newobject:SetText(text)
 		else
 			self.lines = {""}
 		end
+		self.line = #self.lines
+		self.indicatornum = #self.lines[#self.lines]
 	else
 		text = text:gsub(string.char(92) .. string.char(110), "")
 		text = text:gsub(string.char(10), "")
 		self.lines = {text}
 		self.line = 1
+		self.indicatornum = #text
 	end
 	
 end
@@ -1790,8 +1793,10 @@ function newobject:Paste()
 	local usable = self.usable
 	local unusable = self.unusable
 	local limit = self.limit
+	local alltextselected = self.alltextselected
 	local onpaste = self.OnPaste
 	local ontextchanged = self.OnTextChanged
+	
 	if limit > 0 then
 		local curtext = self:GetText()
 		local curlength = curtext:len()
@@ -1820,6 +1825,7 @@ function newobject:Paste()
 	end
 	if alltextselected then
 		self:SetText(text)
+		self.alltextselected = false
 		if ontextchanged then
 			ontextchanged(self, text)
 		end
