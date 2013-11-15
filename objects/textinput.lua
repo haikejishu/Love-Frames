@@ -141,7 +141,7 @@ function newobject:update(dt)
 			if (lctrl or rctrl) and keydown == "v" then
 				self:Paste()
 			else
-				self:RunKey(keydown, unicode)
+				self:RunKey(keydown, unicode, true)
 			end
 			self.delay = time + repeatrate
 		end
