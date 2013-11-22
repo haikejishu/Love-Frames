@@ -71,11 +71,11 @@ function newobject:update(dt)
 		self.y = self.parent.y + self.staticy
 	end
 	
-	for k, v in ipairs(children) do
+	for k, v in ipairs(internals) do
 		v:update(dt)
 	end
 	
-	for k, v in ipairs(internals) do
+	for k, v in ipairs(children) do
 		v:update(dt)
 	end
 	

@@ -385,9 +385,8 @@ function newobject:mousepressed(x, y, button)
 	local base = loveframes.base
 	
 	if selfcol then
-		local top = self:IsTopCollision()
 		-- initiate dragging if not currently dragging
-		if not dragging and top and button == "l" then
+		if not dragging and self.hover and button == "l" then
 			if y < self.y + 25 and self.draggable then
 				if parent == base then
 					self.clickx = x - self.x
@@ -399,7 +398,7 @@ function newobject:mousepressed(x, y, button)
 				self.dragging = true
 			end
 		end
-		if top and button == "l" then
+		if self.hover and button == "l" then
 			self:MakeTop()
 		end
 	end

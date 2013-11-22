@@ -39,6 +39,9 @@ Version 0.9.6.4 - Alpha (Release Date TBD)
 [CHANGED] upgraded to middleclass 3.0
 [CHANGED] loveframes.hoverobject is now used to store the currently hovered object
 [CHANGED] textinput:SetText now repositions the object's indicator
+[CHANGED] reworked the collision detection system for MAJOR performance improvements
+
+[REMOVED] base:IsTopCollision
 
 ================================================
 Version 0.9.6.3 - Alpha (August 15 - 2013)

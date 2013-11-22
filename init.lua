@@ -25,6 +25,7 @@ loveframes.config["DEBUG"] = false
 loveframes.state = "none"
 loveframes.drawcount = 0
 loveframes.collisioncount = 0
+loveframes.objectcount = 0
 loveframes.hoverobject = false
 loveframes.modalobject = false
 loveframes.inputobject = false
@@ -35,6 +36,7 @@ loveframes.prevcursor = nil
 loveframes.basicfont = love.graphics.newFont(12)
 loveframes.basicfontsmall = love.graphics.newFont(10)
 loveframes.objects = {}
+loveframes.collisions = {}
 
 --[[---------------------------------------------------------
 	- func: load()
@@ -105,8 +107,24 @@ function loveframes.update(dt)
 	local version = love._version
 	
 	loveframes.collisioncount = 0
+	loveframes.objectcount = 0
 	loveframes.hover = false
 	loveframes.hoverobject = false
+	
+	local downobject = loveframes.downobject
+	if #loveframes.collisions > 0 then
+		local top = loveframes.collisions[#loveframes.collisions]
+		if not downobject then
+			loveframes.hoverobject = top
+		else
+			if downobject == top then
+				loveframes.hoverobject = top
+			end
+		end
+	end
+	
+	loveframes.collisions = {}
+	
 	base:update(dt)
 	
 	if version == "0.9.0" then
@@ -234,6 +252,7 @@ function loveframes.Create(data, parent)
 	
 		local objects = loveframes.objects
 		local object = objects[data]
+		local objectcount = loveframes.objectcount
 		
 		if not object then
 			loveframes.util.Error("Error creating object: Invalid object '" ..data.. "'.")
@@ -264,6 +283,8 @@ function loveframes.Create(data, parent)
 		if parent then
 			newobject:SetParent(parent)
 		end
+		
+		loveframes.objectcount = objectcount + 1
 		
 		-- return the object for further manipulation
 		return newobject
