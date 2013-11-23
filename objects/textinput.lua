@@ -610,6 +610,12 @@ function newobject:RunKey(key, unicode, is_text)
 				self:MoveIndicator(-1)
 			end
 		end
+		if alltextselected then
+			self.line = 1
+			self.indicatornum = 0
+			self.alltextselected = false
+		end
+		return
 	elseif key == "right" then
 		indicatornum = self.indicatornum
 		if not multiline then
@@ -631,6 +637,12 @@ function newobject:RunKey(key, unicode, is_text)
 				self:MoveIndicator(1)
 			end
 		end
+		if alltextselected then
+			self.line = #lines
+			self.indicatornum = lines[#lines]:len()
+			self.alltextselected = false
+		end
+		return
 	elseif key == "up" then
 		if multiline then
 			if line > 1 then
@@ -640,6 +652,7 @@ function newobject:RunKey(key, unicode, is_text)
 				end
 			end
 		end
+		return
 	elseif key == "down" then
 		if multiline then
 			if line < #lines then
@@ -649,6 +662,7 @@ function newobject:RunKey(key, unicode, is_text)
 				end
 			end
 		end
+		return
 	end
 	
 	if not editable then
