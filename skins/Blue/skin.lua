@@ -456,9 +456,9 @@ function skin.DrawProgressBar(object)
 	local height = object:GetHeight()
 	local value = object:GetValue()
 	local max = object:GetMax()
+	local text = object:GetText()
 	local barwidth = object:GetBarWidth()
 	local font = skin.controls.progressbar_text_font
-	local text = value .. "/" ..max
 	local twidth = font:getWidth(text)
 	local theight = font:getHeight("a")
 	local bodycolor = skin.controls.progressbar_body_color
@@ -480,7 +480,9 @@ function skin.DrawProgressBar(object)
 	-- progress bar border
 	love.graphics.setColor(bordercolor)
 	skin.OutlinedRectangle(x, y, width, height)
-		
+	
+	object:SetText(value .. "/" ..max)
+	
 end
 
 --[[---------------------------------------------------------

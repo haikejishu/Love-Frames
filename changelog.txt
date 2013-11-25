@@ -19,6 +19,8 @@ Version 0.9.6.4 - Alpha (Release Date TBD)
 [ADDED] a new text method: GetLinksEnabled()
 [ADDED] a new text method: SetDetectLinks(detect)
 [ADDED] a new text method: GetDetectLinks()
+[ADDED] a new progressbar method: SetText(text)
+[ADDED] a new progressbar method: GetText()
 [ADDED] a new text event callback: OnClickLink(object, text)
 [ADDED] a new util library function: TableHasValue(table, value)
 [ADDED] a new util library function: GetHoverObject()
@@ -43,6 +45,9 @@ Version 0.9.6.4 - Alpha (Release Date TBD)
 [CHANGED] loveframes.hoverobject is now used to store the currently hovered object
 [CHANGED] textinput:SetText now repositions the object's indicator
 [CHANGED] reworked the collision detection system for MAJOR performance improvements
+[CHANGED] text object formatting options are now specified in a single table rathar than as individual arguments
+[CHANGED] text can now be specified as a link via text formatting options
+[CHANGED] text formatting options now support link colors
 
 [REMOVED] base:IsTopCollision
 
