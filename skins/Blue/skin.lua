@@ -134,8 +134,12 @@ skin.controls.modalbackground_body_color            = {255, 255, 255, 100}
 skin.controls.linenumberspanel_text_color           = {170, 170, 170, 255}
 skin.controls.linenumberspanel_body_color			= {235, 235, 235, 255}
 
+-- form
+skin.controls.form_text_color                       = {0, 0, 0, 255}
+skin.controls.form_text_font                        = smallfont
+
 --[[---------------------------------------------------------
-	- func: OutlinedRectangle(object)
+	- func: OutlinedRectangle(x, y, width, height, ovt, ovb, ovl, ovr)
 	- desc: creates and outlined rectangle
 --]]---------------------------------------------------------
 function skin.OutlinedRectangle(x, y, width, height, ovt, ovb, ovl, ovr)
@@ -1625,6 +1629,35 @@ function skin.DrawGrid(object)
 		cy = cy + ch
 	end
 
+end
+
+--[[---------------------------------------------------------
+	- func: skin.DrawForm(object)
+	- desc: draws the form object
+--]]---------------------------------------------------------
+function skin.DrawForm(object)
+
+	local x = object:GetX()
+	local y = object:GetY()
+	local width = object:GetWidth()
+	local height = object:GetHeight()
+	local topmargin = object.topmargin
+	local name = object.name
+	local font = skin.controls.form_text_font
+	local textcolor = skin.controls.form_text_color
+	local twidth = font:getWidth(name)
+	
+	love.graphics.setFont(font)
+	love.graphics.setColor(textcolor)
+	love.graphics.print(name, x + 7, y)
+	
+	love.graphics.setColor(bordercolor)
+	love.graphics.rectangle("fill", x, y + 7, 5, 1)
+	love.graphics.rectangle("fill", x + twidth + 9, y + 7, width - (twidth + 9), 1)
+	love.graphics.rectangle("fill", x, y + height, width, 1)
+	love.graphics.rectangle("fill", x, y + 7, 1, height - 7)
+	love.graphics.rectangle("fill", x + width - 1, y + 7, 1, height - 7)
+	
 end
 
 -- register the skin

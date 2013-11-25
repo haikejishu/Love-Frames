@@ -3,7 +3,7 @@
 	-- Copyright (c) 2013 Kenny Shields --
 --]]------------------------------------------------
 
--- tabs class
+-- tabs object
 local newobject = loveframes.NewObject("tabs", "loveframes_object_tabs", true)
 
 --[[---------------------------------------------------------

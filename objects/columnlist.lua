@@ -3,7 +3,7 @@
 	-- Copyright (c) 2013 Kenny Shields --
 --]]------------------------------------------------
 
--- columnlist class
+-- columnlist object
 local newobject = loveframes.NewObject("columnlist", "loveframes_object_columnlist", true)
 
 --[[---------------------------------------------------------

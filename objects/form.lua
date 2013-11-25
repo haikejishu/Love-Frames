@@ -3,32 +3,31 @@
 	-- Copyright (c) 2013 Kenny Shields --
 --]]------------------------------------------------
 
--- collapsiblecategory object
-local newobject = loveframes.NewObject("collapsiblecategory", "loveframes_object_collapsiblecategory", true)
+-- form object
+local newobject = loveframes.NewObject("form", "loveframes_object_form", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
 function newobject:initialize()
-
-	self.type = "collapsiblecategory"
-	self.text = "Category"
+	
+	self.type = "form"
+	self.name = "Form"
+	self.layout = "vertical"
 	self.width = 200
-	self.height = 25
-	self.closedheight = 25
+	self.height = 50
 	self.padding = 5
+	self.spacing = 5
+	self.topmargin = 12
 	self.internal = false
-	self.open = false
-	self.down = false
 	self.children = {}
-	self.OnOpenedClosed = nil
 	
 end
 
 --[[---------------------------------------------------------
 	- func: update(deltatime)
-	- desc: updates the object
+	- desc: updates the element
 --]]---------------------------------------------------------
 function newobject:update(dt)
 	
@@ -48,14 +47,10 @@ function newobject:update(dt)
 		end
 	end
 	
-	local open = self.open
 	local children = self.children
-	local curobject = children[1]
 	local parent = self.parent
 	local base = loveframes.base
 	local update = self.Update
-	
-	self:CheckHover()
 	
 	-- move to parent if there is a parent
 	if parent ~= base and parent.type ~= "list" then
@@ -63,13 +58,10 @@ function newobject:update(dt)
 		self.y = self.parent.y + self.staticy
 	end
 	
-	if open and curobject then
-		curobject:SetWidth(self.width - self.padding * 2)
-		curobject:update(dt)
-	elseif not open and curobject then
-		if curobject:GetVisible() then
-			curobject:SetVisible(false)
-		end
+	self:CheckHover()
+
+	for k, v in ipairs(children) do
+		v:update(dt)
 	end
 	
 	if update then
@@ -97,15 +89,13 @@ function newobject:draw()
 		return
 	end
 	
-	local open = self.open
 	local children = self.children
-	local curobject = children[1]
 	local skins = loveframes.skins.available
 	local skinindex = loveframes.config["ACTIVESKIN"]
 	local defaultskin = loveframes.config["DEFAULTSKIN"]
 	local selfskin = self.skin
 	local skin = skins[selfskin] or skins[skinindex]
-	local drawfunc = skin.DrawCollapsibleCategory or skins[defaultskin].DrawCollapsibleCategory
+	local drawfunc = skin.DrawForm or skins[defaultskin].DrawForm
 	local draw = self.Draw
 	local drawcount = loveframes.drawcount
 	
@@ -117,9 +107,10 @@ function newobject:draw()
 	else
 		drawfunc(self)
 	end
-	
-	if open and curobject then
-		curobject:draw()
+		
+	-- loop through the object's children and draw them
+	for k, v in ipairs(children) do
+		v:draw()
 	end
 	
 end
@@ -143,25 +134,18 @@ function newobject:mousepressed(x, y, button)
 		return
 	end
 	
-	local hover = self.hover
-	local open = self.open
 	local children = self.children
-	local curobject = children[1]
+	local hover = self.hover
 	
-	if hover then
-		local col = loveframes.util.BoundingBox(self.x, x, self.y, y, self.width, 1, self.closedheight, 1)
-		if button == "l" and col then
-			local baseparent = self:GetBaseParent()
-			if baseparent and baseparent.type == "frame" then
-				baseparent:MakeTop()
-			end
-			self.down = true
-			loveframes.downobject = self
+	if hover and button == "l" then
+		local baseparent = self:GetBaseParent()
+		if baseparent and baseparent.type == "frame" then
+			baseparent:MakeTop()
 		end
 	end
 	
-	if open and curobject then
-		curobject:mousepressed(x, y, button)
+	for k, v in ipairs(children) do
+		v:mousepressed(x, y, button)
 	end
 	
 end
@@ -171,7 +155,7 @@ end
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
 function newobject:mousereleased(x, y, button)
-	
+
 	local state = loveframes.state
 	local selfstate = self.state
 	
@@ -179,177 +163,171 @@ function newobject:mousereleased(x, y, button)
 		return
 	end
 	
-	local visible = self.visible
+	local visible  = self.visible
+	local children = self.children
 	
 	if not visible then
 		return
 	end
 	
-	local hover = self.hover
-	local down = self.down
-	local clickable = self.clickable
-	local enabled = self.enabled
-	local open = self.open
-	local col = loveframes.util.BoundingBox(self.x, x, self.y, y, self.width, 1, self.closedheight, 1)
+	for k, v in ipairs(children) do
+		v:mousereleased(x, y, button)
+	end
+	
+end
+
+--[[---------------------------------------------------------
+	- func: AddItem(object)
+	- desc: adds an item to the object
+--]]---------------------------------------------------------
+function newobject:AddItem(object)
+
+	local objtype = object.type
+	if objtype == "frame" then
+		return
+	end
+
 	local children = self.children
-	local curobject = children[1]
-	
-	if hover and col and down and button == "l" then
-		if open then
-			self:SetOpen(false)
-		else
-			self:SetOpen(true)
-		end
-		self.down = false
-	end
-	
-	if open and curobject then
-		curobject:mousereleased(x, y, button)
-	end
-
-end
-
---[[---------------------------------------------------------
-	- func: SetText(text)
-	- desc: sets the object's text
---]]---------------------------------------------------------
-function newobject:SetText(text)
-
-	self.text = text
-	
-end
-
---[[---------------------------------------------------------
-	- func: GetText()
-	- desc: gets the object's text
---]]---------------------------------------------------------
-function newobject:GetText()
-
-	return self.text
-	
-end
-
---[[---------------------------------------------------------
-	- func: SetObject(object)
-	- desc: sets the category's object
---]]---------------------------------------------------------
-function newobject:SetObject(object)
-	
-	local children = self.children
-	local curobject = children[1]
-	
-	if curobject then
-		curobject:Remove()
-		self.children = {}
-	end
+	local state = self.state
 	
 	object:Remove()
 	object.parent = self
-	object:SetState(self.state)
-	object:SetWidth(self.width - self.padding*2)
-	object:SetPos(self.padding, self.closedheight + self.padding)
-	table.insert(self.children, object)
+	object:SetState(state)
+	
+	table.insert(children, object)
+	self:LayoutObjects()
 	
 end
 
 --[[---------------------------------------------------------
-	- func: SetObject(object)
-	- desc: sets the category's object
+	- func: RemoveItem(object or number)
+	- desc: removes an item from the object
 --]]---------------------------------------------------------
-function newobject:GetObject()
+function newobject:RemoveItem(data)
 
-	local children = self.children
-	local curobject = children[1]
+	local dtype = type(data)
 	
-	if curobject then
-		return curobject
+	if dtype == "number" then
+		local children = self.children
+		local item = children[data]
+		if item then
+			item:Remove()
+		end
 	else
-		return false
+		data:Remove()
 	end
 	
-end
-
---[[---------------------------------------------------------
-	- func: SetSize(width, height)
-	- desc: sets the object's size
---]]---------------------------------------------------------
-function newobject:SetSize(width, height)
-
-	self.width = width
+	self:LayoutObjects()
 	
 end
 
 --[[---------------------------------------------------------
-	- func: SetHeight(height)
-	- desc: sets the object's height
+	- func: LayoutObjects()
+	- desc: positions the object's children and calculates
+			a new size for the object
 --]]---------------------------------------------------------
-function newobject:SetHeight(height)
+function newobject:LayoutObjects()
 
-	return
-	
-end
-
---[[---------------------------------------------------------
-	- func: SetClosedHeight(height)
-	- desc: sets the object's closed height
---]]---------------------------------------------------------
-function newobject:SetClosedHeight(height)
-
-	self.closedheight = height
-	
-end
-
---[[---------------------------------------------------------
-	- func: GetClosedHeight()
-	- desc: gets the object's closed height
---]]---------------------------------------------------------
-function newobject:GetClosedHeight()
-
-	return self.closedheight
-	
-end
-
---[[---------------------------------------------------------
-	- func: SetOpen(bool)
-	- desc: sets whether the object is opened or closed
---]]---------------------------------------------------------
-function newobject:SetOpen(bool)
-
-	local children = self.children
-	local curobject = children[1]
-	local closedheight = self.closedheight
+	local layout = self.layout
 	local padding = self.padding
-	local onopenedclosed = self.OnOpenedClosed
+	local spacing = self.spacing
+	local topmargin = self.topmargin
+	local children = self.children
+	local width = padding * 2
+	local height = padding * 2 + topmargin
+	local x = padding
+	local y = padding + topmargin
 	
-	self.open = bool
-	
-	if not bool then
-		self.height = closedheight
-		if curobject then
-			local curobjectheight = curobject.height
-			curobject:SetVisible(false)
+	if layout == "vertical" then
+		local largest_width = 0
+		for k, v in ipairs(children) do
+			v.staticx = x
+			v.staticy = y
+			y = y + v.height + spacing
+			height = height + v.height + spacing
+			if v.width > largest_width then
+				largest_width = v.width
+			end
 		end
-	else
-		if curobject then
-			local curobjectheight = curobject.height
-			self.height = closedheight + padding * 2 + curobjectheight
-			curobject:SetVisible(true)
+		height = height - spacing
+		self.width = width + largest_width
+		self.height = height
+	elseif layout == "horizontal" then
+		local largest_height = 0
+		for k, v in ipairs(children) do
+			v.staticx = x
+			v.staticy = y
+			x = x + v.width + spacing
+			width = width + v.width + spacing
+			if v.height > largest_height then
+				largest_height = v.height
+			end
 		end
-	end
-	
-	-- call the on opened closed callback if it exists
-	if onopenedclosed then
-		onopenedclosed(self)
+		width = width - spacing
+		self.width = width
+		self.height = height + largest_height
 	end
 	
 end
 
 --[[---------------------------------------------------------
-	- func: GetOpen()
-	- desc: gets whether the object is opened or closed
+	- func: SetLayoutType(ltype)
+	- desc: sets the object's layout type
 --]]---------------------------------------------------------
-function newobject:GetOpen()
+function newobject:SetLayoutType(ltype)
 
-	return self.open
+	self.layout = ltype
+	
+end
 
+--[[---------------------------------------------------------
+	- func: GetLayoutType()
+	- desc: gets the object's layout type
+--]]---------------------------------------------------------
+function newobject:GetLayoutType()
+
+	return self.layout
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetTopMargin(margin)
+	- desc: sets the margin between the top of the object
+			and its children
+--]]---------------------------------------------------------
+function newobject:SetTopMargin(margin)
+
+	self.topmargin = margin
+
+end
+
+--[[---------------------------------------------------------
+	- func: GetTopMargin()
+	- desc: gets the margin between the top of the object
+			and its children
+--]]---------------------------------------------------------
+function newobject:GetTopMargin()
+
+	return self.topmargin
+
+end
+
+--[[---------------------------------------------------------
+	- func: SetName(name)
+	- desc: sets the object's name
+--]]---------------------------------------------------------
+function newobject:SetName(name)
+
+	self.name = name
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetName()
+	- desc: gets the object's name
+--]]---------------------------------------------------------
+function newobject:GetName()
+
+	return self.name
+	
 end

@@ -123,10 +123,6 @@ function loveframes.update(dt)
 		end
 	end
 	
-	loveframes.collisions = {}
-	
-	base:update(dt)
-	
 	if version == "0.9.0" then
 		local hoverobject = loveframes.hoverobject
 		if hoverobject then
@@ -153,6 +149,9 @@ function loveframes.update(dt)
 			end
 		end
 	end
+	
+	loveframes.collisions = {}
+	base:update(dt)
 
 end
 

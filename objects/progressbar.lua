@@ -3,7 +3,7 @@
 	-- Copyright (c) 2013 Kenny Shields --
 --]]------------------------------------------------
 
--- progressbar class
+-- progressbar object
 local newobject = loveframes.NewObject("progressbar", "loveframes_object_progressbar", true)
 
 --[[---------------------------------------------------------

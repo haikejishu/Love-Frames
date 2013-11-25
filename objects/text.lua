@@ -8,7 +8,7 @@
 			 experimental and not final
 --]]------------------------------------------------
 
--- text class
+-- text object
 local newobject = loveframes.NewObject("text", "loveframes_object_text", true)
 
 --[[---------------------------------------------------------
@@ -39,6 +39,10 @@ function newobject:initialize()
 	self.OnClickLink = nil
 	
 	local skin = loveframes.util.GetActiveSkin()
+	if not skin then
+		skin = loveframes.config["DEFAULTSKIN"]
+	end
+	
 	local directives = skin.directives
 	if directives then
 		local text_default_color = directives.text_default_color
