@@ -305,6 +305,10 @@ function newobject:AddTab(name, object, tip, image, onopened, onclosed)
 	object.staticx = 0
 	object.staticy = 0
 	
+	if tabnumber ~= 1 then
+		object.visible = false
+	end
+	
 	local tab = loveframes.objects["tabbutton"]:new(self, name, tabnumber, tip, image, onopened, onclosed)
 	
 	table.insert(self.children, object)
