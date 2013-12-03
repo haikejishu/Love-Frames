@@ -492,7 +492,7 @@ function newobject:keypressed(key, unicode)
 			if oncopy then
 				oncopy(self, text)
 			end
-		elseif key == "x" and alltextselected and version == "0.9.0" then
+		elseif key == "x" and alltextselected and version == "0.9.0" and editable then
 			local text = self:GetText()
 			local oncut = self.OnCut
 			love.system.setClipboardText(text)
