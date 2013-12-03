@@ -514,7 +514,7 @@ function newobject:SelectRow(row, ctrl)
 				end
 			end
 		elseif v ~= row then
-			if (not multiselect and ctrl) or (not multiselect and not ctrl)  or (multiselect and not ctrl) then
+			if not (multiselect and ctrl) then
 				v.selected = false
 			end
 		end

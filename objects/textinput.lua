@@ -135,10 +135,8 @@ function newobject:update(dt)
 	
 	-- keydown check
 	if keydown ~= "none" then
-		local lctrl = love.keyboard.isDown("lctrl")
-		local rctrl = love.keyboard.isDown("rctrl")
 		if time > delay then
-			if (lctrl or rctrl) and keydown == "v" then
+			if (loveframes.util.IsCtrlDown()) and keydown == "v" then
 				self:Paste()
 			else
 				self:RunKey(keydown, unicode, true)
@@ -475,8 +473,6 @@ function newobject:keypressed(key, unicode)
 	end
 	
 	local time = love.timer.getTime()
-	local lctrl = love.keyboard.isDown("lctrl")
-	local rctrl = love.keyboard.isDown("rctrl")
 	local focus = self.focus
 	local repeatdelay = self.repeatdelay
 	local alltextselected = self.alltextselected
@@ -486,7 +482,7 @@ function newobject:keypressed(key, unicode)
 	self.delay = time + repeatdelay
 	self.keydown = key
 	
-	if (lctrl or rctrl) and focus then
+	if (loveframes.util.IsCtrlDown()) and focus then
 		if key == "a" then
 			self.alltextselected = true
 		elseif key == "c" and alltextselected and version == "0.9.0" then
@@ -495,6 +491,15 @@ function newobject:keypressed(key, unicode)
 			love.system.setClipboardText(text)
 			if oncopy then
 				oncopy(self, text)
+			end
+		elseif key == "x" and alltextselected and version == "0.9.0" then
+			local text = self:GetText()
+			local oncut = self.OnCut
+			love.system.setClipboardText(text)
+			if oncut then
+				oncut(self, text)
+			else
+				self:SetText("")
 			end
 		elseif key == "v" and version == "0.9.0" and editable then
 			self:Paste()
