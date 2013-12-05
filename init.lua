@@ -61,7 +61,7 @@ function loveframes.load()
 	require(dir .. ".debug")
 	
 	-- replace all "." with "/" in the directory setting
-	dir = dir:gsub("%.", "/")
+	dir = dir:gsub("\\", "/"):gsub("(%a)%.(%a)", "%1/%2")
 	loveframes.config["DIRECTORY"] = dir
 	
 	-- create a list of gui objects, skins and templates
