@@ -682,3 +682,65 @@ function newobject:SetTabObject(id, object)
 	end
 	
 end
+
+--[[---------------------------------------------------------
+	- func: SetButtonAreaX(x)
+	- desc: sets the x position of the object's button area
+--]]---------------------------------------------------------
+function newobject:SetButtonAreaX(x)
+
+	self.buttonareax = x
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetButtonAreaX()
+	- desc: gets the x position of the object's button area
+--]]---------------------------------------------------------
+function newobject:GetButtonAreaX()
+
+	return self.buttonareax
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetButtonAreaWidth(width)
+	- desc: sets the width of the object's button area
+--]]---------------------------------------------------------
+function newobject:SetButtonAreaWidth(width)
+
+	self.buttonareawidth = width
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetButtonAreaWidth()
+	- desc: gets the width of the object's button area
+--]]---------------------------------------------------------
+function newobject:GetButtonAreaWidth()
+
+	return self.buttonareawidth
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetAutoButtonAreaWidth(bool)
+	- desc: sets whether or not the width of the object's
+			button area should be adjusted automatically
+--]]---------------------------------------------------------
+function newobject:SetAutoButtonAreaWidth(bool)
+
+	self.autobuttonareawidth = bool
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetAutoButtonAreaWidth()
+	- desc: gets whether or not the width of the object's
+			button area should be adjusted automatically
+--]]---------------------------------------------------------
+function newobject:GetAutoButtonAreaWidth()
+
+	return self.autobuttonareawidth
+	
+end
