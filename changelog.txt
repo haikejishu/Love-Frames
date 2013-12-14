@@ -26,6 +26,7 @@ Version 0.9.6.4 - Alpha (Release Date TBD)
 [ADDED] a new util library function: GetHoverObject()
 [ADDED] a new callback: textinput(text)
 [ADDED] a new object: form
+[ADDED] a new skin drawing function: DrawOverTabPanel(object)
 [ADDED] basic clipboard support for the textinput object (0.9.0 only)
 [ADDED] custom cursor support for the textinput object
 [ADDED] support for love.filesystem changes to loveframes.util.GetDirectoryContents (0.9.0 only)

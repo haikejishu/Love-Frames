@@ -666,6 +666,14 @@ function skin.DrawTabPanel(object)
 end
 
 --[[---------------------------------------------------------
+	- func: DrawOverTabPanel(object)
+	- desc: draws over the tab panel object
+--]]---------------------------------------------------------
+function skin.DrawOverTabPanel(object)
+
+end
+
+--[[---------------------------------------------------------
 	- func: DrawTabButton(object)
 	- desc: draws the tab button object
 --]]---------------------------------------------------------
