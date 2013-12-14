@@ -1,5 +1,5 @@
 ================================================
-Version 0.9.6.4 - Alpha (Release Date TBD)
+Version 0.9.7 - Alpha (Release Date TBD)
 ================================================
 [ADDED] a new base method: textinput(text)
 [ADDED] a new tooltip method: SetOffsetX(xoffset)
