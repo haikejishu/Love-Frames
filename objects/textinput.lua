@@ -857,6 +857,8 @@ function newobject:RunKey(key, unicode, is_text)
 		end
 	end
 	
+	self.unicode = 0
+	
 	local curtext = self:GetText()
 	if ontextchanged and initialtext ~= curtext then
 		ontextchanged(self, ckey)
