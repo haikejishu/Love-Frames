@@ -187,6 +187,24 @@ function loveframes.mousepressed(x, y, button)
 	local base = loveframes.base
 	base:mousepressed(x, y, button)
 	
+	-- close open menus
+	local bchildren = base.children
+	local hoverobject = loveframes.hoverobject
+	for k, v in ipairs(bchildren) do
+		local otype = v.type
+		local visible = v.visible
+		if hoverobject then
+			local htype = hoverobject.type
+			if otype == "menu" and visible and htype ~= "menu" and htype ~= "menuoption" then
+				v:SetVisible(false)
+			end
+		else
+			if otype == "menu" and visible then
+				v:SetVisible(false)
+			end
+		end
+	end
+	
 end
 
 --[[---------------------------------------------------------

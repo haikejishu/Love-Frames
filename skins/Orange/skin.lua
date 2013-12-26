@@ -28,5 +28,8 @@ skin.controls.checkbox_check_color                  = {255, 153, 0, 255}
 skin.controls.columnlistrow_body_selected_color     = {255, 153, 0, 255}
 skin.controls.columnlistrow_body_hover_color        = {255, 173, 51, 255}
 
+-- menuoption
+skin.controls.menuoption_body_hover_color           = {255, 153, 0, 255}
+
 -- register the skin
 loveframes.skins.Register(skin)
