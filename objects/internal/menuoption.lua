@@ -55,20 +55,38 @@ function newobject:update(dt)
 	local hover = self.hover
 	local parent = self.parent
 	local option_type = self.option_type
+	local activated = self.activated
 	local base = loveframes.base
 	local update = self.Update
 	
 	if option_type == "submenu_activator" then
-		local activated = self.activated
 		if hover and not activated then
 			self.menu:SetVisible(true)
-			self.menu:SetPos(self:GetX() + self:GetWidth(), self:GetY())
+			self.menu:MoveToTop()
 			self.activated = true
 		elseif not hover and activated then
 			local hoverobject = loveframes.hoverobject
 			if hoverobject and hoverobject:GetBaseParent() == self.parent then
 				self.menu:SetVisible(false)
 				self.activated = false
+			end
+		elseif activated then
+			local screen_width = love.graphics.getWidth()
+			local screen_height = love.graphics.getHeight()
+			local sx = self.x
+			local sy = self.y
+			local width = self.width
+			local height = self.height
+			local x1 = sx + width
+			if x1 + self.menu.width <= screen_width then
+				self.menu.x = x1
+			else
+				self.menu.x = sx - self.menu.width
+			end
+			if sy + self.menu.height <= screen_height then
+				self.menu.y = sy
+			else
+				self.menu.y = (sy + height) - self.menu.height
 			end
 		end
 	end
