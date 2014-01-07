@@ -208,6 +208,21 @@ function newobject:AddOption(text, icon, func)
 end
 
 --[[---------------------------------------------------------
+	- func: RemoveOption(id)
+	- desc: removes an option
+--]]---------------------------------------------------------
+function newobject:RemoveOption(id)
+
+	for k, v in ipairs(self.internals) do
+		if k == id then
+			table.remove(self.internals, k)
+			return
+		end
+	end
+	
+end
+
+--[[---------------------------------------------------------
 	- func: AddSubMenu(text, icon, menu)
 	- desc: adds a submenu to the object
 --]]---------------------------------------------------------
