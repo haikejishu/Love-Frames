@@ -32,8 +32,8 @@ function newobject:initialize()
 	self.linkcolor = {0, 102, 255, 255}
 	self.linkhovercolor = {0, 0, 255, 255}
 	self.ignorenewlines = false
-	self.linkcursorset = false
 	self.shadow = false
+	self.linkcol = false
 	self.internal = false
 	self.linksenabled = false
 	self.detectlinks = false
@@ -95,7 +95,7 @@ function newobject:update(dt)
 	local version = love._version
 	local linkcol = false
 	
-	if hover and linksenabled then
+	if hover and linksenabled and not loveframes.resizeobject then
 		local formattedtext = self.formattedtext
 		local x = self.x
 		local y = self.y
@@ -112,30 +112,18 @@ function newobject:update(dt)
 				local col = loveframes.util.BoundingBox(x + linkx, mx, y + linky, my, twidth, 1, theight, 1)
 				v.hover = false
 				if col then
-					local linkcursorset = self.linkcursorset
 					v.hover = true
-					if not linkcursorset and version == "0.9.0" then
-						local newcursor = love.mouse.getSystemCursor("hand")
-						love.mouse.setCursor(newcursor)
-						self.linkcursorset = true
-					end
 					linkcol = true
 				end
 			end
 		end
+		self.linkcol = linkcol
 	end
 	
 	-- move to parent if there is a parent
 	if parent ~= base then
 		self.x = self.parent.x + self.staticx
 		self.y = self.parent.y + self.staticy
-	end
-	
-	local linkcursorset = self.linkcursorset
-	
-	if not linkcol and linkcursorset and version == "0.9.0" then
-		self.linkcursorset = false
-		love.mouse.setCursor()
 	end
 	
 	if update then
