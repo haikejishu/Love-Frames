@@ -946,3 +946,23 @@ function newobject:GetDockZoneSize()
 	return self.dockzonesize
 
 end
+
+--[[---------------------------------------------------------
+	- func: SetResizable(bool)
+	- desc: sets whether or not the object can be resized
+--]]---------------------------------------------------------
+function newobject:SetResizable(bool)
+
+	self.canresize = bool
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetResizable()
+	- desc: gets whether or not the object can be resized
+--]]---------------------------------------------------------
+function newobject:GetResizable()
+
+	return self.canresize
+	
+end
