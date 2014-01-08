@@ -966,3 +966,83 @@ function newobject:GetResizable()
 	return self.canresize
 	
 end
+
+--[[---------------------------------------------------------
+	- func: SetMinWidth(width)
+	- desc: sets the object's minimum width
+--]]---------------------------------------------------------
+function newobject:SetMinWidth(width)
+
+	self.minwidth = width
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetMinWidth()
+	- desc: gets the object's minimum width
+--]]---------------------------------------------------------
+function newobject:GetMinWidth()
+
+	return self.minwidth
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetMaxWidth(width)
+	- desc: sets the object's maximum width
+--]]---------------------------------------------------------
+function newobject:SetMaxWidth(width)
+
+	self.maxwidth = width
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetMaxWidth()
+	- desc: gets the object's maximum width
+--]]---------------------------------------------------------
+function newobject:GetMaxWidth()
+
+	return self.maxwidth
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetMinHeight(height)
+	- desc: sets the object's minimum height
+--]]---------------------------------------------------------
+function newobject:SetMinHeight(height)
+
+	self.minheight = height
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetMinHeight()
+	- desc: gets the object's minimum height
+--]]---------------------------------------------------------
+function newobject:GetMinHeight()
+
+	return self.minheight
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetMaxHeight(height)
+	- desc: sets the object's maximum height
+--]]---------------------------------------------------------
+function newobject:SetMaxHeight(height)
+
+	self.maxheight = height
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetMaxHeight()
+	- desc: gets the object's maximum height
+--]]---------------------------------------------------------
+function newobject:GetMaxHeight()
+
+	return self.maxheight
+	
+end
