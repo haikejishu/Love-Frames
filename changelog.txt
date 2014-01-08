@@ -28,6 +28,7 @@ Version 0.9.7 - Alpha (Release Date TBD)
 [ADDED] a new tooltip method: SetOffsetY(yoffset)
 [ADDED] a new tooltip method: GetText()
 [ADDED] a new text event callback: OnClickLink(object, text)
+[ADDED] a new frame event callback: OnResize(object, width, height)
 [ADDED] a new util library function: TableHasValue(table, value)
 [ADDED] a new util library function: GetHoverObject()
 [ADDED] a new callback: textinput(text)
@@ -40,6 +41,7 @@ Version 0.9.7 - Alpha (Release Date TBD)
 [ADDED] support for text object link processing
 [ADDED] loveframes.downobject
 [ADDED] skin directives for the text object
+[ADDED] functionality for resizing frames
 
 [FIXED] error when pressing a function key while a textinput was focused
 [FIXED] the tooltip object not setting the state of its text object

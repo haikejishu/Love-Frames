@@ -30,6 +30,7 @@ loveframes.hoverobject = false
 loveframes.modalobject = false
 loveframes.inputobject = false
 loveframes.downobject = false
+loveframes.resizeobject = false
 loveframes.hover = false
 loveframes.input_cursor_set = false
 loveframes.prevcursor = nil
