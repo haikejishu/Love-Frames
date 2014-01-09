@@ -783,7 +783,7 @@ function newobject:RunKey(key, unicode, is_text)
 		self.unicode = unicode
 		if unicode > 31 and unicode < 127 then
 			-- do not continue if the text limit has been reached or exceeded
-			if #text >= self.limit and self.limit ~= 0 then
+			if #text >= self.limit and self.limit ~= 0 and not alltextselected then
 				return
 			end
 			-- set the current key
