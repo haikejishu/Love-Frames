@@ -857,7 +857,9 @@ function newobject:RunKey(key, unicode, is_text)
 		end
 	end
 	
-	self.unicode = 0
+	if love._version == "0.9.0" then
+		self.unicode = 0
+	end
 	
 	local curtext = self:GetText()
 	if ontextchanged and initialtext ~= curtext then
