@@ -59,6 +59,7 @@ Version 0.9.7 - Alpha (Release Date TBD)
 [FIXED] textinput:GetText appending an extra newline to then end of the text string
 [FIXED] text processing issues with the textinput object (0.9.0 only)
 [FIXED] text positioning issues when moving the textinput's indicator with the left and right arrow keys
+[FIXED] textinput character limit blocking user input when all text was selected
 
 [CHANGED] cleaned up the tooltip object
 [CHANGED] upgraded to middleclass 3.0
