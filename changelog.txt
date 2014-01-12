@@ -1,5 +1,5 @@
 ================================================
-Version 0.9.7 - Alpha (Release Date TBD)
+Version 0.9.7 - Alpha (January 12 - 2014)
 ================================================
 [ADDED] a new base method: textinput(text)
 [ADDED] a new frame method: SetResizable(bool)
