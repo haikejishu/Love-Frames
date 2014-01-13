@@ -771,10 +771,10 @@ function newobject:CheckHover()
 	end
 	
 	local hover = self.hover
+	local calledmousefunc = self.calledmousefunc
 	
 	-- check for mouse enter and exit events
 	if hover then
-		local calledmousefunc = self.calledmousefunc
 		loveframes.hover = true
 		if not calledmousefunc then
 			local on_mouse_enter = self.OnMouseEnter
