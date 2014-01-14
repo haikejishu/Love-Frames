@@ -282,6 +282,16 @@ function newobject:SetOffsets(xoffset, yoffset)
 end
 
 --[[---------------------------------------------------------
+	- func: GetOffsets()
+	- desc: gets the tooltip's x and y offset
+--]]---------------------------------------------------------
+function newobject:GetOffsets()
+
+	return self.xoffset, self.yoffset
+	
+end
+
+--[[---------------------------------------------------------
 	- func: SetPadding(padding)
 	- desc: sets the tooltip's padding
 --]]---------------------------------------------------------
