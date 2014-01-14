@@ -56,10 +56,10 @@ function loveframes.load()
 	
 	-- require the internal base libraries
 	loveframes.class = require(dir .. ".third-party.middleclass")
-	require(dir .. ".util")
-	require(dir .. ".skins")
-	require(dir .. ".templates")
-	require(dir .. ".debug")
+	require(dir .. ".libraries.util")
+	require(dir .. ".libraries.skins")
+	require(dir .. ".libraries.templates")
+	require(dir .. ".libraries.debug")
 	
 	-- replace all "." with "/" in the directory setting
 	dir = dir:gsub("\\", "/"):gsub("(%a)%.(%a)", "%1/%2")
