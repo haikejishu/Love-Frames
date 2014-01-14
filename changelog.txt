@@ -6,6 +6,7 @@ Version 0.9.7.1 - Alpha (Release Date TBD)
 [ADDED] a new tooltip method: GetOffsets()
 
 [CHANGED] Moved library files to /libraries
+[CHANGED] Upgraded to middleclass 3.0.1
 
 ================================================
 Version 0.9.7 - Alpha (January 12 - 2014)
