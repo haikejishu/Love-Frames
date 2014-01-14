@@ -1,4 +1,9 @@
 ================================================
+Version 0.9.7.1 - Alpha (Release Date TBD)
+================================================
+[CHANGED] Moved library files to /libraries
+
+================================================
 Version 0.9.7 - Alpha (January 12 - 2014)
 ================================================
 [ADDED] a new base method: textinput(text)
