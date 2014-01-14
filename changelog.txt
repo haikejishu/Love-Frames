@@ -1,6 +1,9 @@
 ================================================
 Version 0.9.7.1 - Alpha (Release Date TBD)
 ================================================
+[ADDED] a new tooltip method: GetOffsetX()
+[ADDED] a new tooltip method: GetOffsetY()
+
 [CHANGED] Moved library files to /libraries
 
 ================================================

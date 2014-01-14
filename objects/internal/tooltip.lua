@@ -241,12 +241,32 @@ function newobject:SetOffsetX(xoffset)
 end
 
 --[[---------------------------------------------------------
+	- func: GetOffsetX()
+	- desc: gets the tooltip's x offset
+--]]---------------------------------------------------------
+function newobject:GetOffsetX()
+
+	return self.xoffset
+	
+end
+
+--[[---------------------------------------------------------
 	- func: SetOffsetY(yoffset)
 	- desc: sets the tooltip's y offset
 --]]---------------------------------------------------------
 function newobject:SetOffsetY(yoffset)
 
 	self.yoffset = yoffset
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetOffsetY()
+	- desc: gets the tooltip's y offset
+--]]---------------------------------------------------------
+function newobject:GetOffsetY()
+
+	return self.yoffset
 	
 end
 
