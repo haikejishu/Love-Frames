@@ -179,6 +179,17 @@ function newobject:SetFollowCursor(bool)
 end
 
 --[[---------------------------------------------------------
+	- func: GetFollowCursor()
+	- desc: gets whether or not the tooltip should follow the
+			cursor
+--]]---------------------------------------------------------
+function newobject:GetFollowCursor()
+
+	return self.followcursor
+	
+end
+
+--[[---------------------------------------------------------
 	- func: SetObject(object)
 	- desc: sets the tooltip's object
 --]]---------------------------------------------------------
