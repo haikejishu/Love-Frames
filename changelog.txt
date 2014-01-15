@@ -1,5 +1,5 @@
 ================================================
-Version 0.9.7.1 - Alpha (Release Date TBD)
+Version 0.9.7.1 - Alpha (January 15 - 2014)
 ================================================
 [ADDED] a new tooltip method: GetOffsetX()
 [ADDED] a new tooltip method: GetOffsetY()
