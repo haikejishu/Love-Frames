@@ -5,6 +5,7 @@ Version 0.9.7.1 - Alpha (Release Date TBD)
 [ADDED] a new tooltip method: GetOffsetY()
 [ADDED] a new tooltip method: GetOffsets()
 [ADDED] a new tooltip method: GetFollowCursor()
+[ADDED] a new tooltip method: GetObject()
 
 [CHANGED] Moved library files to /libraries
 [CHANGED] Upgraded to middleclass 3.0.1

@@ -202,6 +202,16 @@ function newobject:SetObject(object)
 end
 
 --[[---------------------------------------------------------
+	- func: GetObject()
+	- desc: gets the tooltip's object
+--]]---------------------------------------------------------
+function newobject:GetObject()
+
+	return self.object
+	
+end
+
+--[[---------------------------------------------------------
 	- func: SetText(text)
 	- desc: sets the tooltip's text
 --]]---------------------------------------------------------
