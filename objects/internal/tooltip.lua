@@ -358,3 +358,14 @@ function newobject:SetFollowObject(bool)
 	self.followobject = bool
 	
 end
+
+--[[---------------------------------------------------------
+	- func: GetFollowObject()
+	- desc: gets whether or not the tooltip should follow
+			its assigned object
+--]]---------------------------------------------------------
+function newobject:GetFollowObject()
+
+	return self.followobject
+	
+end
