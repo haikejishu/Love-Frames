@@ -336,6 +336,19 @@ function newobject:SetFont(font)
 end
 
 --[[---------------------------------------------------------
+	- func: GetFont()
+	- desc: gets the tooltip's font
+--]]---------------------------------------------------------
+function newobject:GetFont()
+
+	local internals = self.internals
+	local textobject = internals[1]
+	
+	return textobject:GetFont()
+	
+end
+
+--[[---------------------------------------------------------
 	- func: SetFollowObject(bool)
 	- desc: sets whether or not the tooltip should follow
 			its assigned object
