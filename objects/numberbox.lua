@@ -32,6 +32,7 @@ function newobject:initialize()
 	input.parent = self
 	input:SetSize(50, 20)
 	input:SetUsable({"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ".", "-"})
+	input:SetTabReplacement("")
 	input:SetText(self.value)
 	input.OnTextChanged = function(object)
 		local value = self.value

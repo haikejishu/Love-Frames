@@ -1,4 +1,9 @@
 ================================================
+Version 0.9.7.2 - Alpha (Release Date TBD)
+================================================
+[FIXED] ability to use the tab button in numberbox textinputs
+
+================================================
 Version 0.9.7.1 - Alpha (January 15 - 2014)
 ================================================
 [ADDED] a new tooltip method: GetOffsetX()
