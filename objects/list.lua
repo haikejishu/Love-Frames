@@ -88,7 +88,10 @@ function newobject:update(dt)
 	local offsety = self.offsety
 	
 	for k, v in ipairs(children) do
-		v:update(dt)
+		local col = loveframes.util.BoundingBox(x, v.x, y, v.y, width, v.width, height, v.height)
+		if col then
+			v:update(dt)
+		end
 		v:SetClickBounds(x, y, width, height)
 		v.x = (v.parent.x + v.staticx) - offsetx
 		v.y = (v.parent.y + v.staticy) - offsety
@@ -145,7 +148,7 @@ function newobject:draw()
 	
 	-- set the object's draw order
 	self:SetDrawOrder()
-		
+	
 	if draw then
 		draw(self)
 	else
