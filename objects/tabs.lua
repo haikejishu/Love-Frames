@@ -169,7 +169,10 @@ function newobject:draw()
 	end
 	
 	for k, v in ipairs(internals) do
-		v:draw()
+		local col = loveframes.util.BoundingBox(x + self.buttonareax, v.x, self.y, v.y, self.buttonareawidth, v.width, tabheight, v.height)
+		if col or v.type == "scrollbutton" then
+			v:draw()
+		end
 	end
 	
 	love.graphics.setStencil()
