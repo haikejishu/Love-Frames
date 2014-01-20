@@ -73,7 +73,10 @@ function newobject:update(dt)
 	end
 	
 	for k, v in ipairs(children) do
-		v:update(dt)
+		local col = loveframes.util.BoundingBox(self.x, v.x, self.y, v.y, self.width, v.width, self.height, v.height)
+		if col then
+			v:update(dt)
+		end
 		v:SetClickBounds(self.x, self.y, self.width, self.height)
 		v.y = (v.parent.y + v.staticy) - self.offsety + cheight
 		v.x = (v.parent.x + v.staticx) - self.offsetx
@@ -133,7 +136,7 @@ function newobject:draw()
 	
 	for k, v in ipairs(children) do
 		local col = loveframes.util.BoundingBox(self.x, v.x, self.y, v.y, self.width, v.width, self.height, v.height)
-		if col == true then
+		if col then
 			v:draw()
 		end
 	end
