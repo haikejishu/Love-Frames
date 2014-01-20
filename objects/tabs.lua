@@ -103,9 +103,9 @@ function newobject:update(dt)
 		end
 	end
 	
-	for k, v in ipairs(children) do
-		v:update(dt)
-		v:SetPos(padding, tabheight + padding)
+	if #self.children > 0 then
+		self.children[self.tab]:update(dt)
+		self.children[self.tab]:SetPos(padding, tabheight + padding)
 	end
 	
 	if update then
