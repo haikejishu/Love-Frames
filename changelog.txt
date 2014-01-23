@@ -1,6 +1,8 @@
 ================================================
 Version 0.9.7.2 - Alpha (Release Date TBD)
 ================================================
+[ADDED] checkbox skin directives
+
 [FIXED] ability to use the tab button in numberbox textinputs
 
 [CHANGED] minor performance improvements for the following objects: list, columnlistarea, tabs

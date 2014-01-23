@@ -230,6 +230,25 @@ function newobject:SetText(text)
 	if text ~= "" then
 		self.internals = {}
 		local textobject = loveframes.Create("text")
+		local skin = loveframes.util.GetActiveSkin()
+		if not skin then
+			skin = loveframes.config["DEFAULTSKIN"]
+		end
+		local directives = skin.directives
+		if directives then
+			local default_color = directives.checkbox_text_default_color
+			local default_shadowcolor = directives.checkbox_text_default_shadowcolor
+			local default_font = directives.checkbox_text_default_font
+			if default_color then
+				textobject.defaultcolor = default_color
+			end
+			if default_shadowcolor then
+				textobject.shadowcolor = default_shadowcolor
+			end
+			if default_font then
+				self.font = default_font
+			end
+		end
 		textobject:Remove()
 		textobject.parent = self
 		textobject.collide = false
