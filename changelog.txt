@@ -1,11 +1,14 @@
 ================================================
 Version 0.9.7.2 - Alpha (Release Date TBD)
 ================================================
+[ADDED] a new closebutton method: SetAutoPosition(bool)
+[ADDED] a new closebutton method: GetAutoPosition()
 [ADDED] checkbox skin directives
 
 [FIXED] ability to use the tab button in numberbox textinputs
 
 [CHANGED] minor performance improvements for the following objects: list, columnlistarea, tabs
+[CHANGED] closebuttons are now automatically positioned by default
 
 ================================================
 Version 0.9.7.1 - Alpha (January 15 - 2014)
