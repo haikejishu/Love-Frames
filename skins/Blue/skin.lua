@@ -371,9 +371,6 @@ function skin.DrawCloseButton(object)
 		love.graphics.draw(image, x, y)
 	end
 	
-	object:SetPos(parentwidth - 20, 4)
-	object:SetSize(16, 16)
-	
 end
 
 --[[---------------------------------------------------------

@@ -18,6 +18,7 @@ function newobject:initialize()
 	self.internal = true
 	self.hover = false
 	self.down = false
+	self.autoposition = true
 	self.OnClick = function() end
 	
 	-- apply template properties to the object
@@ -59,6 +60,11 @@ function newobject:update(dt)
 	
 	if not down and downobject == self then
 		self.hover = true
+	end
+	
+	if self.autoposition then
+		self.staticx = self.parent.width - self.width - 4
+		self.staticy = 4
 	end
 	
 	-- move to parent if there is a parent
