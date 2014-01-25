@@ -159,3 +159,25 @@ function newobject:mousereleased(x, y, button)
 	self.down = false
 
 end
+
+--[[---------------------------------------------------------
+	- func: SetAutoPosition(bool)
+	- desc: sets whether or not the object should be 
+			positioned automatically
+--]]---------------------------------------------------------
+function newobject:SetAutoPosition(bool)
+
+	self.autoposition = bool
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetAutoPosition()
+	- desc: gets whether or not the object should be 
+			positioned automatically
+--]]---------------------------------------------------------
+function newobject:GetAutoPosition()
+
+	return self.autoposition
+	
+end
