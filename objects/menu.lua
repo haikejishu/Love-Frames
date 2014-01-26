@@ -91,6 +91,20 @@ function newobject:update(dt)
 	self.largest_item_width = 0
 	self.largest_item_height = 0
 	
+	local screen_width = love.graphics.getWidth()
+	local screen_height = love.graphics.getHeight()
+	local sx = self.x
+	local sy = self.y
+	local width = self.width
+	local height = self.height
+	local x1 = sx + width
+	if sx + width > screen_width then
+		self.x = screen_width - width
+	end
+	if sy + self.height > screen_height then
+		self.y = screen_height - self.height
+	end
+	
 	if update then
 		update(self, dt)
 	end
