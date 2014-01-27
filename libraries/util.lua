@@ -297,8 +297,7 @@ end
 --]]---------------------------------------------------------
 function loveframes.util.GetCollisionCount()
 
-	local collisioncount = loveframes.collisioncount
-	return collisioncount
+	return loveframes.collisioncount
 
 end
 
