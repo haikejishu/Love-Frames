@@ -389,27 +389,23 @@ function newobject:SetText(t)
 				v.x = drawx
 				v.y = drawy
 			else
-				if k ~= 1 then
-					if string.byte(text) == 10 then
-						twidth = 0
-						drawx = 0
-						width = 0
-						drawy = drawy + largestheight
-						largestheight = 0
-						text = ""
-						if lastwidth < textwidth then
-							lastwidth = textwidth
-						end
-						if largestwidth < textwidth then
-							largestwidth = textwidth
-						end
-						textwidth = 0
-					else
-						drawx = drawx + prevtextwidth
-						textwidth = textwidth + width
+				if string.byte(text) == 10 then
+					twidth = 0
+					drawx = 0
+					width = 0
+					drawy = drawy + largestheight
+					largestheight = 0
+					text = ""
+					if lastwidth < textwidth then
+						lastwidth = textwidth
 					end
+					if largestwidth < textwidth then
+						largestwidth = textwidth
+					end
+					textwidth = 0
 				else
-					initialwidth = width
+					drawx = drawx + prevtextwidth
+					textwidth = textwidth + width
 				end
 				prevtextwidth = width
 				prevtextheight = height
@@ -424,7 +420,7 @@ function newobject:SetText(t)
 	end
 	
 	if textwidth < largestwidth then
-		textwidth = largestwidth + initialwidth
+		textwidth = largestwidth
 	end
 	
 	if maxw > 0 then
