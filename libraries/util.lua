@@ -276,13 +276,7 @@ end
 --]]---------------------------------------------------------
 function loveframes.util.TableHasKey(table, key)
 
-	for k, v in pairs(table) do
-		if k == key then
-			return true
-		end
-	end
-	
-	return false
+	return table[key] ~= nil
 	
 end
 
