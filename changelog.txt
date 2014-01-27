@@ -6,9 +6,11 @@ Version 0.9.7.2 - Alpha (Release Date TBD)
 [ADDED] checkbox skin directives
 
 [FIXED] ability to use the tab button in numberbox textinputs
+[FIXED] text width being calculated incorrectly when max width was set to 0
 
 [CHANGED] minor performance improvements for the following objects: list, columnlistarea, tabs
 [CHANGED] closebuttons are now automatically positioned by default
+[CHANGED] optimized loveframes.util.TableHasKey (thanks CyaNox)
 
 ================================================
 Version 0.9.7.1 - Alpha (January 15 - 2014)
