@@ -7,6 +7,7 @@ Version 0.9.7.2 - Alpha (Release Date TBD)
 
 [FIXED] ability to use the tab button in numberbox textinputs
 [FIXED] text width being calculated incorrectly when max width was set to 0
+[FIXED] base menus can no longer extend beyond the boundaries of the application window
 
 [CHANGED] minor performance improvements for the following objects: list, columnlistarea, tabs
 [CHANGED] closebuttons are now automatically positioned by default
