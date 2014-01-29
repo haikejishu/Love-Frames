@@ -1,5 +1,5 @@
 ================================================
-Version 0.9.7.2 - Alpha (Release Date TBD)
+Version 0.9.7.2 - Alpha (January 29 - 2014)
 ================================================
 [ADDED] a new closebutton method: SetAutoPosition(bool)
 [ADDED] a new closebutton method: GetAutoPosition()
