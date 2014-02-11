@@ -1,4 +1,10 @@
 ================================================
+Version 0.9.8 - Alpha (Release date TBD)
+================================================
+[ADDED] support for method chaining
+[ADDED] a new tooltip method: GetPadding()
+
+================================================
 Version 0.9.7.2 - Alpha (January 29 - 2014)
 ================================================
 [ADDED] a new closebutton method: SetAutoPosition(bool)
