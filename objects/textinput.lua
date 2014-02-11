@@ -866,6 +866,8 @@ function newobject:RunKey(key, unicode, is_text)
 		ontextchanged(self, ckey)
 	end
 	
+	return self
+	
 end
 
 --[[---------------------------------------------------------
@@ -894,6 +896,8 @@ function newobject:MoveIndicator(num, exact)
 	
 	self.showindicator = true
 	self:UpdateIndicator()
+	
+	return self
 	
 end
 
@@ -953,6 +957,8 @@ function newobject:UpdateIndicator()
 		self.indicatorx = textx + width
 		self.indicatory	= texty
 	end
+	
+	return self
 	
 end
 
@@ -1104,6 +1110,8 @@ function newobject:GetTextCollisions(x, y)
 		end
 	end
 	
+	return self
+	
 end
 
 --[[---------------------------------------------------------
@@ -1135,6 +1143,8 @@ function newobject:PositionText()
 		self.texty = (y - offsety) + textoffsety
 	end
 	
+	return self
+	
 end
 
 --[[---------------------------------------------------------
@@ -1144,6 +1154,7 @@ end
 function newobject:SetTextOffsetX(num)
 
 	self.textoffsetx = num
+	return self
 	
 end
 
@@ -1154,6 +1165,7 @@ end
 function newobject:SetTextOffsetY(num)
 
 	self.textoffsety = num
+	return self
 	
 end
 
@@ -1164,6 +1176,7 @@ end
 function newobject:SetFont(font)
 
 	self.font = font
+	return self
 	
 end
 
@@ -1203,6 +1216,8 @@ function newobject:SetFocus(focus)
 		end
 	end
 	
+	return self
+	
 end
 
 --[[---------------------------------------------------------
@@ -1232,6 +1247,7 @@ end
 function newobject:SetLimit(limit)
 
 	self.limit = limit
+	return self
 	
 end
 
@@ -1243,6 +1259,7 @@ end
 function newobject:SetUsable(usable)
 
 	self.usable = usable
+	return self
 	
 end
 
@@ -1265,6 +1282,7 @@ end
 function newobject:SetUnusable(unusable)
 
 	self.unusable = unusable
+	return self
 	
 end
 
@@ -1290,6 +1308,8 @@ function newobject:Clear()
 	self.offsetx = 0
 	self.offsety = 0
 	self.indicatornum = 0
+	
+	return self
 	
 end
 
@@ -1323,6 +1343,8 @@ function newobject:SetText(text)
 		self.line = 1
 		self.indicatornum = #text
 	end
+	
+	return self
 	
 end
 
@@ -1375,6 +1397,8 @@ function newobject:SetMultiline(bool)
 		self.hbar = false
 		self.linenumberspanel = false
 	end
+	
+	return self
 
 end
 
@@ -1489,6 +1513,8 @@ function newobject:ShowLineNumbers(bool)
 	if multiline then
 		self.linenumbers = bool
 	end
+	
+	return self
 	
 end
 
@@ -1611,6 +1637,7 @@ end
 function newobject:SetTabReplacement(tabreplacement)
 
 	self.tabreplacement = tabreplacement
+	return self
 	
 end
 
@@ -1632,6 +1659,7 @@ end
 function newobject:SetEditable(bool)
 
 	self.editable = bool
+	return self
 	
 end
 
@@ -1654,6 +1682,7 @@ end
 function newobject:SetButtonScrollAmount(amount)
 
 	self.buttonscrollamount = amount
+	return self
 	
 end
 
@@ -1675,6 +1704,7 @@ end
 function newobject:SetMouseWheelScrollAmount(amount)
 
 	self.mousewheelscrollamount = amount
+	return self
 	
 end
 
@@ -1703,6 +1733,8 @@ function newobject:SetAutoScroll(bool)
 		internals[2].internals[1].internals[1].autoscroll = bool
 	end
 	
+	return self
+	
 end
 
 --[[---------------------------------------------------------
@@ -1723,6 +1755,7 @@ end
 function newobject:SetRepeatDelay(delay)
 
 	self.repeatdelay = delay
+	return self
 	
 end
 
@@ -1743,6 +1776,7 @@ end
 function newobject:SetRepeatRate(rate)
 
 	self.repeatrate = rate
+	return self
 	
 end
 
@@ -1763,6 +1797,7 @@ end
 function newobject:SetValue(value)
 
 	self:SetText(value)
+	return self
 	
 end
 
@@ -1788,6 +1823,8 @@ function newobject:SetVisible(bool)
 		self.keydown = "none"
 	end
 	
+	return self
+	
 end
 
 --[[---------------------------------------------------------
@@ -1802,6 +1839,8 @@ function newobject:Copy()
 		local text = self:GetText()
 		love.system.setClipboardText(text)
 	end
+	
+	return self
 	
 end
 
@@ -1920,6 +1959,8 @@ function newobject:Paste()
 		onpaste(self, text)
 	end
 	
+	return self
+	
 end
 
 --[[---------------------------------------------------------
@@ -1929,6 +1970,7 @@ end
 function newobject:SelectAll()
 
 	self.alltextselected = true
+	return self
 	
 end
 
@@ -1939,6 +1981,7 @@ end
 function newobject:DeselectAll()
 
 	self.alltextselected = false
+	return self
 	
 end
 
@@ -1949,6 +1992,7 @@ end
 function newobject:SetMasked(masked)
 
 	self.masked = masked
+	return self
 	
 end
 
@@ -1969,6 +2013,7 @@ end
 function newobject:SetMaskChar(char)
 
 	self.maskchar = char
+	return self
 	
 end
 
@@ -1989,6 +2034,7 @@ end
 function newobject:SetPlaceholderText(text)
 
 	self.placeholder = text
+	return self
 	
 end
 

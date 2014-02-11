@@ -663,6 +663,7 @@ end
 function newobject:SetName(name)
 
 	self.name = name
+	return self
 	
 end
 
@@ -683,6 +684,7 @@ end
 function newobject:SetDraggable(bool)
 
 	self.draggable = bool
+	return self
 	
 end
 
@@ -705,6 +707,7 @@ end
 function newobject:SetScreenLocked(bool)
 
 	self.screenlocked = bool
+	return self
 	
 end
 
@@ -730,6 +733,7 @@ function newobject:ShowCloseButton(bool)
 
 	close.visible = bool
 	self.showclose = bool
+	return self
 	
 end
 
@@ -776,6 +780,8 @@ function newobject:MakeTop()
 		end
 	end
 	
+	return self
+	
 end
 
 --[[---------------------------------------------------------
@@ -816,6 +822,8 @@ function newobject:SetModal(bool)
 		end
 	end
 	
+	return self
+	
 end
 
 --[[---------------------------------------------------------
@@ -849,6 +857,8 @@ function newobject:SetVisible(bool)
 		closebutton.visible = bool
 	end
 	
+	return self
+	
 end
 
 --[[---------------------------------------------------------
@@ -859,6 +869,7 @@ end
 function newobject:SetParentLocked(bool)
 
 	self.parentlocked = bool
+	return self
 	
 end
 
@@ -884,6 +895,8 @@ function newobject:SetIcon(icon)
 	else
 		self.icon = icon
 	end
+	
+	return self
 	
 end
 
@@ -912,6 +925,7 @@ end
 function newobject:SetDockable(dockable)
 
 	self.dockable = dockable
+	return self
 
 end
 
@@ -934,6 +948,7 @@ end
 function newobject:SetDockZoneSize(size)
 
 	self.dockzonesize = size
+	return self
 	
 end
 
@@ -954,6 +969,7 @@ end
 function newobject:SetResizable(bool)
 
 	self.canresize = bool
+	return self
 	
 end
 
@@ -974,6 +990,7 @@ end
 function newobject:SetMinWidth(width)
 
 	self.minwidth = width
+	return self
 	
 end
 
@@ -994,6 +1011,7 @@ end
 function newobject:SetMaxWidth(width)
 
 	self.maxwidth = width
+	return self
 	
 end
 
@@ -1014,6 +1032,7 @@ end
 function newobject:SetMinHeight(height)
 
 	self.minheight = height
+	return self
 	
 end
 
@@ -1034,6 +1053,7 @@ end
 function newobject:SetMaxHeight(height)
 
 	self.maxheight = height
+	return self
 	
 end
 

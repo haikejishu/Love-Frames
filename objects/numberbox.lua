@@ -292,6 +292,8 @@ function newobject:SetValue(value)
 		onvaluechanged(self, value)
 	end
 	
+	return self
+	
 end
 
 --[[---------------------------------------------------------
@@ -311,6 +313,7 @@ end
 function newobject:SetIncreaseAmount(amount)
 
 	self.increaseamount = amount
+	return self
 	
 end
 
@@ -331,6 +334,7 @@ end
 function newobject:SetDecreaseAmount(amount)
 
 	self.decreaseamount = amount
+	return self
 	
 end
 
@@ -364,6 +368,8 @@ function newobject:SetMax(max)
 		end
 	end
 	
+	return self
+	
 end
 
 --[[---------------------------------------------------------
@@ -395,6 +401,8 @@ function newobject:SetMin(min)
 			onvaluechanged(self, min)
 		end
 	end
+	
+	return self
 	
 end
 
@@ -436,6 +444,8 @@ function newobject:SetMinMax(min, max)
 			onvaluechanged(self, min)
 		end
 	end
+	
+	return self
 	
 end
 
@@ -495,6 +505,8 @@ function newobject:ModifyValue(type)
 		end
 	end
 	
+	return self
+	
 end
 
 --[[---------------------------------------------------------
@@ -505,6 +517,7 @@ end
 function newobject:SetDecimals(decimals)
 
 	self.decimals = decimals
+	return self
 	
 end
 

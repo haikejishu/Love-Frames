@@ -430,6 +430,7 @@ function newobject:SetText(t)
 	end
 	
 	self.height = drawy + prevlargestheight
+	return self
 	
 end
 
@@ -521,6 +522,8 @@ function newobject:DrawText()
 		end
 	end
 	
+	return self
+	
 end
 
 --[[---------------------------------------------------------
@@ -533,6 +536,8 @@ function newobject:SetMaxWidth(width)
 	
 	self.maxw = width
 	self:SetText(original)
+	
+	return self
 	
 end
 
@@ -553,6 +558,7 @@ end
 function newobject:SetWidth(width)
 
 	self:SetMaxWidth(width)
+	return self
 	
 end
 
@@ -573,6 +579,7 @@ end
 function newobject:SetSize(width, height)
 
 	self:SetMaxWidth(width)
+	return self
 	
 end
 
@@ -590,6 +597,8 @@ function newobject:SetFont(font)
 	if original then
 		self:SetText(original)
 	end
+	
+	return self
 	
 end
 
@@ -620,6 +629,7 @@ end
 function newobject:SetIgnoreNewlines(bool)
 
 	self.ignorenewlines = bool
+	return self
 	
 end
 
@@ -641,6 +651,7 @@ end
 function newobject:SetShadow(bool)
 
 	self.shadow = bool
+	return self
 	
 end
 
@@ -664,6 +675,8 @@ function newobject:SetShadowOffsets(offsetx, offsety)
 	self.shadowxoffset = offsetx
 	self.shadowyoffset = offsety
 	
+	return self
+	
 end
 
 --[[---------------------------------------------------------
@@ -683,6 +696,7 @@ end
 function newobject:SetShadowColor(r, g, b, a)
 	
 	self.shadowcolor = {r, g, b, a}
+	return self
 	
 end
 
@@ -703,6 +717,7 @@ end
 function newobject:SetDefaultColor(r, g, b, a)
 
 	self.defaultcolor = {r, g, b, a}
+	return self
 	
 end
 
@@ -725,6 +740,7 @@ end
 function newobject:SetLinksEnabled(enabled)
 
 	self.linksenabled = enabled
+	return self
 	
 end
 
@@ -747,6 +763,7 @@ end
 function newobject:SetDetectLinks(detect)
 
 	self.detectlinks = detect
+	return self
 	
 end
 
