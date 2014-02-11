@@ -333,6 +333,16 @@ function newobject:SetPadding(padding)
 end
 
 --[[---------------------------------------------------------
+	- func: GetPadding()
+	- desc: gets the tooltip's padding
+--]]---------------------------------------------------------
+function newobject:GetPadding()
+
+	return self.padding
+	
+end
+
+--[[---------------------------------------------------------
 	- func: SetFont(font)
 	- desc: sets the tooltip's font
 --]]---------------------------------------------------------
