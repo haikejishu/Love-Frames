@@ -4,6 +4,8 @@ Version 0.9.8 - Alpha (Release date TBD)
 [ADDED] support for method chaining
 [ADDED] a new tooltip method: GetPadding()
 
+[FIXED] text object link detection issues
+
 ================================================
 Version 0.9.7.2 - Alpha (January 29 - 2014)
 ================================================
