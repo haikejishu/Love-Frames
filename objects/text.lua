@@ -275,6 +275,8 @@ function newobject:SetText(t)
 			end
 			if v.link then
 				link = true
+			else
+				link = false
 			end
 		elseif dtype == "number" then
 			table.insert(self.formattedtext, {font = prevfont, color = prevcolor, linkcolor = prevlinkcolor, linkhovercolor = prevlinkhovercolor, link = link, text = tostring(v)})
