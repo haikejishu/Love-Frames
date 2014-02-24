@@ -282,10 +282,10 @@ function newobject:SetText(t)
 			table.insert(self.formattedtext, {font = prevfont, color = prevcolor, linkcolor = prevlinkcolor, linkhovercolor = prevlinkhovercolor, link = link, text = tostring(v)})
 		elseif dtype == "string" then
 			if self.ignorenewlines then
-				v = v:gsub(" \n ", " ")
-				v = v:gsub("\n", "")
+				v = v:gsub("\n", " ")
 			end
 			v = v:gsub(string.char(9), "    ")
+			v = v:gsub("\n", " \n ")
 			local parts = loveframes.util.SplitString(v, " ")
 			for i, j in ipairs(parts) do
 				table.insert(self.formattedtext, {font = prevfont, color = prevcolor, linkcolor = prevlinkcolor, linkhovercolor = prevlinkhovercolor, link = link, text = j})
