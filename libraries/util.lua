@@ -157,7 +157,13 @@ function loveframes.util.GetDirectoryContents(dir, t)
 			local extension = parts[#parts]
 			parts[#parts] = nil
 			local name = table.concat(parts)
-			table.insert(t, {path = dir, fullpath = dir.. "/" ..v, requirepath = dir:gsub("/", ".") .. "." ..name, name = name, extension = extension})
+			table.insert(t, {
+				path = dir, 
+				fullpath = dir.. "/" ..v, 
+				requirepath = dir:gsub("/", ".") .. "." ..name, 
+				name = name, 
+				extension = extension
+			})
 		end
 	end
 	

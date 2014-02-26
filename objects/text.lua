@@ -279,7 +279,14 @@ function newobject:SetText(t)
 				link = false
 			end
 		elseif dtype == "number" then
-			table.insert(self.formattedtext, {font = prevfont, color = prevcolor, linkcolor = prevlinkcolor, linkhovercolor = prevlinkhovercolor, link = link, text = tostring(v)})
+			table.insert(self.formattedtext, {
+				font = prevfont, 
+				color = prevcolor, 
+				linkcolor = prevlinkcolor, 
+				linkhovercolor = prevlinkhovercolor, 
+				link = link, 
+				text = tostring(v)
+			})
 		elseif dtype == "string" then
 			if self.ignorenewlines then
 				v = v:gsub("\n", " ")
@@ -288,7 +295,14 @@ function newobject:SetText(t)
 			v = v:gsub("\n", " \n ")
 			local parts = loveframes.util.SplitString(v, " ")
 			for i, j in ipairs(parts) do
-				table.insert(self.formattedtext, {font = prevfont, color = prevcolor, linkcolor = prevlinkcolor, linkhovercolor = prevlinkhovercolor, link = link, text = j})
+				table.insert(self.formattedtext, {
+					font = prevfont, 
+					color = prevcolor, 
+					linkcolor = prevlinkcolor, 
+					linkhovercolor = prevlinkhovercolor, 
+					link = link, 
+					text = j
+				})
 			end
 		end
 	end
@@ -307,7 +321,15 @@ function newobject:SetText(t)
 					local itemw = v.font:getWidth(item)
 					if n ~= #data then
 						if (curw + itemw) > maxw then
-							table.insert(inserts, {key = key, font = v.font, color = v.color, linkcolor = prevlinkcolor, linkhovercolor = v.linkhovercolor, link = v.link, text = new})
+							table.insert(inserts, {
+								key = key, 
+								font = v.font, 
+								color = v.color, 
+								linkcolor = prevlinkcolor, 
+								linkhovercolor = v.linkhovercolor, 
+								link = v.link, 
+								text = new
+							})
 							new = item
 							curw = 0 + itemw
 							key = key + 1
@@ -317,7 +339,15 @@ function newobject:SetText(t)
 						end
 					else
 						new = new .. item
-						table.insert(inserts, {key = key, font = v.font, color = v.color, linkcolor = prevlinkcolor, linkhovercolor = v.linkhovercolor, link = v.link, text = new})
+						table.insert(inserts, {
+							key = key, 
+							font = v.font, 
+							color = v.color, 
+							linkcolor = prevlinkcolor, 
+							linkhovercolor = v.linkhovercolor, 
+							link = v.link, 
+							text = new
+						})
 					end
 				end
 			end
@@ -325,7 +355,14 @@ function newobject:SetText(t)
 	end
 	
 	for k, v in ipairs(inserts) do
-		table.insert(self.formattedtext, v.key, {font = v.font, color = v.color, linkcolor = prevlinkcolor, linkhovercolor = v.linkhovercolor, link = v.link, text = v.text})
+		table.insert(self.formattedtext, v.key, {
+			font = v.font, 
+			color = v.color, 
+			linkcolor = prevlinkcolor, 
+			linkhovercolor = v.linkhovercolor, 
+			link = v.link, 
+			text = v.text
+		})
 	end
 	
 	local textdata = self.formattedtext
