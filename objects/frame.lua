@@ -50,6 +50,7 @@ function newobject:initialize()
 	self.dockable = false
 	self.resizing = false
 	self.canresize = false
+	self.alwaysontop = false
 	self.internals = {}
 	self.children = {}
 	self.icon = nil
@@ -353,6 +354,10 @@ function newobject:update(dt)
 		if staticy + height > parentheight then
 			self.staticy = parentheight - height
 		end
+	end
+	
+	if parent == base and self.alwaysontop and not self:IsTopChild() then
+		self:MakeTop()
 	end
 	
 	if modal then
@@ -1064,5 +1069,28 @@ end
 function newobject:GetMaxHeight()
 
 	return self.maxheight
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetAlwaysOnTop(bool)
+	- desc: sets whether or not a frame should always be
+			drawn on top of other objects
+--]]---------------------------------------------------------
+function newobject:SetAlwaysOnTop(bool)
+
+	self.alwaysontop = bool
+	return self
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetAlwaysOnTop()
+	- desc: gets whether or not a frame should always be
+			drawn on top of other objects
+--]]---------------------------------------------------------
+function newobject:GetAlwaysOnTop()
+
+	return self.alwaysontop
 	
 end
