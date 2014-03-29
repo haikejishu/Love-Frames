@@ -378,6 +378,9 @@ function newobject:update(dt)
 		if self.modalbackground.draworder > self.draworder then
 			self:MakeTop()
 		end
+		if self.modalbackground.state ~= self.state then
+			self.modalbackground:SetState(self.state)
+		end
 	end
 	
 	if parent ~= base then
