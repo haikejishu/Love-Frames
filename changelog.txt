@@ -1,5 +1,5 @@
 ================================================
-Version 0.9.8 - Alpha (Release date TBD)
+Version 0.9.8 - Alpha (April 3 - 2014)
 ================================================
 [ADDED] support for method chaining
 [ADDED] a new tooltip method: GetPadding()
@@ -10,6 +10,8 @@ Version 0.9.8 - Alpha (Release date TBD)
 [FIXED] loveframes.util.GetDirectoryContents returning incorrect require paths
 
 [CHANGED] the text object will now detect newlines that are not separated by spaces
+
+[REMOVED] support for LOVE 0.8.0
 
 ================================================
 Version 0.9.7.2 - Alpha (January 29 - 2014)

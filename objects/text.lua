@@ -92,7 +92,6 @@ function newobject:update(dt)
 	
 	local hover = self.hover
 	local linksenabled = self.linksenabled
-	local version = love._version
 	local linkcol = false
 	
 	if hover and linksenabled and not loveframes.resizeobject then
