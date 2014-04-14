@@ -71,9 +71,14 @@ function newobject:initialize()
 	close.parent = self
 	close.OnClick = function(x, y, object)
 		local onclose = object.parent.OnClose
-		object.parent:Remove()
 		if onclose then
-			onclose(object.parent)
+			local ret = onclose(object.parent)
+
+			if ret ~= false then
+				object.parent:Remove()
+			end
+		else
+			object.parent:Remove()
 		end
 	end
 	
