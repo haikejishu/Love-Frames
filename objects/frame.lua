@@ -775,17 +775,17 @@ function newobject:MakeTop()
 		if baseparent.type == "frame" then
 			baseparent:MakeTop()
 		end
-		return
+		return self
 	end
 	
 	-- check to see if the object is the only child of the base object
 	if numbasechildren == 1 then
-		return
+		return self
 	end
 	
 	-- check to see if the object is already at the top
 	if basechildren[numbasechildren] == self then
-		return
+		return self
 	end
 	
 	-- make this the top object
