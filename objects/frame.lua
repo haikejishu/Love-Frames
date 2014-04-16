@@ -762,15 +762,12 @@ end
 --]]---------------------------------------------------------
 function newobject:MakeTop()
 	
-	local x, y = love.mouse.getPosition()
 	local key = 0
-	local base = loveframes.base
 	local basechildren = base.children
 	local numbasechildren = #basechildren
-	local parent = self.parent
 	
 	-- check to see if the object's parent is not the base object
-	if parent ~= base then
+	if loveframes.parent ~= loveframes.base then
 		local baseparent = self:GetBaseParent()
 		if baseparent.type == "frame" then
 			baseparent:MakeTop()
