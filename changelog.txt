@@ -1,4 +1,11 @@
 ================================================
+Version 0.9.8.1 - Alpha (Release Date TBD)
+================================================
+[FIXED] frame:MakeTop not returning self in certain situations
+
+[CHANGED] returning false in a frame.OnClose event callback will prevent the frame from being removed
+
+================================================
 Version 0.9.8 - Alpha (April 3 - 2014)
 ================================================
 [ADDED] support for method chaining
