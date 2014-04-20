@@ -767,7 +767,7 @@ function newobject:MakeTop()
 	local numbasechildren = #basechildren
 	
 	-- check to see if the object's parent is not the base object
-	if loveframes.parent ~= loveframes.base then
+	if self.parent ~= loveframes.base then
 		local baseparent = self:GetBaseParent()
 		if baseparent.type == "frame" then
 			baseparent:MakeTop()
