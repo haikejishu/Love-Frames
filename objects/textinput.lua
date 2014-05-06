@@ -746,6 +746,9 @@ function newobject:RunKey(key, istext)
 			self:MoveIndicator(#self.tabreplacement)
 		end
 	else
+		if not editable then
+			return
+		end
 		-- do not continue if the text limit has been reached or exceeded
 		if #text >= self.limit and self.limit ~= 0 and not alltextselected then
 			return
