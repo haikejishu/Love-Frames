@@ -38,7 +38,7 @@ function loveframes.skins.Register(skin)
 		loveframes.util.Error("Skin registration error: A skin with the name '" ..name.. "' already exists.")
 	end
 	
-	local dir = loveframes.config["DIRECTORY"] .. "/skins/" ..name
+	local dir = skin.directory or loveframes.config["DIRECTORY"] .. "/skins/" ..name
 	local dircheck = love.filesystem.isDirectory(dir)
 	if not dircheck then
 		loveframes.util.Error("Skin registration error: Could not find a directory for skin '" ..name.. "'.")
