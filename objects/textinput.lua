@@ -741,6 +741,9 @@ function newobject:RunKey(key, istext)
 				self.indicatornum = 0
 			end
 		elseif key == "tab" then
+			if alltextselected then
+				return
+			end
 			ckey = key
 			self.lines[self.line] = self:AddIntoText(self.tabreplacement, self.indicatornum)
 			self:MoveIndicator(#self.tabreplacement)
