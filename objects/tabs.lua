@@ -330,7 +330,7 @@ function newobject:AddTab(name, object, tip, image, onopened, onclosed)
 		object:SetSize(self.width - padding * 2, (self.height - tabheight) - padding * 2)
 	end
 	
-	return self
+	return tab
 	
 end
 
