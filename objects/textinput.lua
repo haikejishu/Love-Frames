@@ -355,7 +355,13 @@ function newobject:mousepressed(x, y, button)
 			if not alltextselected then
 				local lastclicktime = self.lastclicktime
 				if (time > lastclicktime) and time < (lastclicktime + 0.25) then
-					self.alltextselected = true
+					if not self.multiline then
+						if self.lines[1] ~= "" then
+							self.alltextselected = true
+						end
+					else
+						self.alltextselected = true
+					end
 				end
 			else
 				self.alltextselected = false
@@ -463,7 +469,13 @@ function newobject:keypressed(key, isrepeat)
 	
 	if (loveframes.util.IsCtrlDown()) and focus then
 		if key == "a" then
-			self.alltextselected = true
+			if not self.multiline then
+				if self.lines[1] ~= "" then
+					self.alltextselected = true
+				end
+			else
+				self.alltextselected = true
+			end
 		elseif key == "c" and alltextselected then
 			local text = self:GetText()
 			local oncopy = self.OnCopy
