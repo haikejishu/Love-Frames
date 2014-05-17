@@ -1,9 +1,14 @@
 ================================================
-Version 0.9.8.1 - Alpha (Release Date TBD)
+Version 0.9.8.1 - Alpha (May 17 - 2014)
 ================================================
-[FIXED] frame:MakeTop not returning self in certain situations
+[ADDED] ability to specify a custom skin directory in a skin's lua file
 
+[FIXED] frame:MakeTop not returning self in certain situations
+[FIXED] ability to insert tabs into a textinput when all of the object's text was selected
+[FIXED] ability to cause a single-line textinput to enter all text selected mode when no text had been entered
+ 
 [CHANGED] returning false in a frame.OnClose event callback will prevent the frame from being removed
+[CHANGED] tabs:AddTab now returns the tabbutton object associated with the new tab
 
 ================================================
 Version 0.9.8 - Alpha (April 3 - 2014)
