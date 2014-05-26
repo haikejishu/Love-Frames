@@ -88,10 +88,7 @@ function newobject:update(dt)
 	local offsety = self.offsety
 	
 	for k, v in ipairs(children) do
-		local col = loveframes.util.BoundingBox(x, v.x, y, v.y, width, v.width, height, v.height)
-		if col then
-			v:update(dt)
-		end
+		v:update(dt)
 		v:SetClickBounds(x, y, width, height)
 		v.x = (v.parent.x + v.staticx) - offsetx
 		v.y = (v.parent.y + v.staticy) - offsety
