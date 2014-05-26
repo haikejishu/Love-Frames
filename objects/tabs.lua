@@ -239,17 +239,16 @@ function newobject:mousepressed(x, y, button)
 		local visible = internals[numinternals]:GetVisible()
 		if col and visible then
 			local bwidth = self:GetWidthOfButtons()
-			if (self.offsetx + bwidth) < self.width then
-				self.offsetx = bwidth - self.width
+			local scrollamount = self.mousewheelscrollamount
+			local dtscrolling = self.dtscrolling
+			if dtscrolling then
+				local dt = love.timer.getDelta()
+				self.offsetx = self.offsetx - scrollamount * dt
 			else
-				local scrollamount = self.mousewheelscrollamount
-				local dtscrolling = self.dtscrolling
-				if dtscrolling then
-					local dt = love.timer.getDelta()
-					self.offsetx = self.offsetx - scrollamount * dt
-				else
-					self.offsetx = self.offsetx - scrollamount
-				end
+				self.offsetx = self.offsetx - scrollamount
+			end
+			if ((self.offsetx + bwidth) + self.width) < self.width then
+				self.offsetx = -(bwidth + 10)
 			end
 		end
 	end
