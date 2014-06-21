@@ -251,6 +251,7 @@ function newobject:SetText(text)
 		end
 		textobject:Remove()
 		textobject.parent = self
+		textobject.state = self.state
 		textobject.collide = false
 		textobject:SetFont(self.font)
 		textobject:SetText(text)
