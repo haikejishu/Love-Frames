@@ -248,3 +248,14 @@ function newobject:GetEnabled()
 	return self.enabled
 	
 end
+
+--[[---------------------------------------------------------
+	- func: GetDown()
+	- desc: gets whether or not the object is currently
+	        being pressed
+--]]---------------------------------------------------------
+function newobject:GetDown()
+
+	return self.down
+	
+end
