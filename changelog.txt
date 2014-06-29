@@ -1,6 +1,9 @@
 ================================================
 Version 0.9.9 - Alpha (Release Date TBD)
 ================================================
+[ADDED] a new object: tree
+[ADDED] a new button method: GetDown()
+
 [FIXED] bug that would cause tabbuttons to be positioned incorrectly when scrolling with the mouse wheel
 [FIXED] collision detection issue caused by list child objects not being updated when outside of their parent's bounding box
 [FIXED] checkbox text becoming invisible when calling checkbox:SetText after switching to a custom state
