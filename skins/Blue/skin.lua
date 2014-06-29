@@ -1756,5 +1756,67 @@ function skin.DrawMenuOption(object)
 	
 end
 
+function skin.DrawTree(object)
+
+	local skin = object:GetSkin()
+	local x = object:GetX()
+	local y = object:GetY()
+	local width = object:GetWidth()
+	local height = object:GetHeight()
+	
+	love.graphics.setColor(200, 200, 200, 255)
+	love.graphics.rectangle("fill", x, y, width, height)
+	
+end
+
+function skin.DrawTreeNode(object)
+
+	local icon = object.icon
+	local buttonimage = skin.images["tree-node-button-open.png"]
+	local width = 0
+	local x = object.x
+	local leftpadding = 15 * object.level
+	
+	if object.level > 0 then
+		leftpadding = leftpadding + buttonimage:getWidth() + 5
+	else
+		leftpadding = buttonimage:getWidth() + 5
+	end
+	
+	if icon then
+		local iconwidth = icon:getWidth()
+		width = width + iconwidth + loveframes.basicfont:getWidth(object.text) + leftpadding
+		love.graphics.setColor(255, 255, 255, 255)
+		love.graphics.draw(icon, x + leftpadding, object.y)
+		love.graphics.setFont(loveframes.basicfont)
+		love.graphics.setColor(0, 0, 0, 255)
+		love.graphics.print(object.text, x + leftpadding + 2 + iconwidth, object.y + 2)
+	end
+	
+	object:SetWidth(width + 5)
+	
+end
+
+function skin.DrawTreeNodeButton(object)
+	
+	local leftpadding = 15 * object.parent.level
+	local image
+	
+	if object.parent.open then
+		image = skin.images["tree-node-button-close.png"]
+	else
+		image = skin.images["tree-node-button-open.png"]
+	end
+	
+	image:setFilter("nearest", "nearest")
+	
+	love.graphics.setColor(255, 255, 255, 255)
+	love.graphics.draw(image, object.x, object.y)
+	
+	object:SetPos(2 + leftpadding, 3)
+	object:SetSize(image:getWidth(), image:getHeight())
+	
+end
+
 -- register the skin
 loveframes.skins.Register(skin)
