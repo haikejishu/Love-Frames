@@ -263,7 +263,7 @@ function skin.DrawButton(object)
 	local font = skin.controls.button_text_font
 	local twidth = font:getWidth(object.text)
 	local theight = font:getHeight(object.text)
-	local down = object.down
+	local down = object:GetDown()
 	local enabled = object:GetEnabled()
 	local clickable = object:GetClickable()
 	local textdowncolor = skin.controls.button_text_down_color
