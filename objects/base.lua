@@ -941,9 +941,11 @@ function newobject:MoveToTop()
 	
 	local internal = false
 	
-	for k, v in ipairs(pinternals) do
-		if v == self then
-			internal = true
+	if pinternals then
+		for k, v in ipairs(pinternals) do
+			if v == self then
+				internal = true
+			end
 		end
 	end
 	
