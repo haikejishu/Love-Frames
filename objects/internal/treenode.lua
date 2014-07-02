@@ -260,3 +260,13 @@ function newobject:SetOpen(bool)
 	return self
 	
 end
+
+--[[---------------------------------------------------------
+	- func: GetOpen()
+	- desc: gets whether or not the object is open
+--]]---------------------------------------------------------
+function newobject:GetOpen()
+
+	return self.open
+	
+end
