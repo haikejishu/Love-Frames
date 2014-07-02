@@ -120,7 +120,19 @@ function newobject:mousepressed(x, y, button)
 	local hover = self.hover
 	
 	if hover and button == "l" then
-		self.parent:SetOpen(not self.parent.open)
+		local bool = not self.parent.open
+		if bool then
+			local onopen = self.parent.OnOpen
+			if onopen then
+				onopen(self.parent)
+			end
+		else
+			local onclose = self.parent.OnClose
+			if onclose then
+				onclose(self.parent)
+			end
+		end
+		self.parent:SetOpen(bool)
 		print("!")
 		print(self.parent.level)
 	end

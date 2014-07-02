@@ -22,6 +22,8 @@ function newobject:initialize()
 	self.internal = true
 	self.internals = {}
 	self.icon = nil
+	self.OnOpen = nil
+	self.OnClose = nil
 	
 end
 
