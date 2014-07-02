@@ -7,7 +7,7 @@ Version 0.9.9 - Alpha (Release Date TBD)
 [FIXED] bug that would cause tabbuttons to be positioned incorrectly when scrolling with the mouse wheel
 [FIXED] collision detection issue caused by list child objects not being updated when outside of their parent's bounding box
 [FIXED] checkbox text becoming invisible when calling checkbox:SetText after switching to a custom state
-[FIXED] an error caused by calling base:MoveTopTop on an object parented to a panel object
+[FIXED] an error caused by calling base:MoveToTop on an object parented to a panel object
 
 ================================================
 Version 0.9.8.1 - Alpha (May 17 - 2014)
