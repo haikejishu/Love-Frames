@@ -179,6 +179,10 @@ function newobject:mousereleased(x, y, button)
 
 end
 
+--[[---------------------------------------------------------
+	- func: SetIcon(icon)
+	- desc: sets the object's icon
+--]]---------------------------------------------------------
 function newobject:SetIcon(icon)
 
 	if type(icon) == "string" then
@@ -191,12 +195,20 @@ function newobject:SetIcon(icon)
 
 end
 
+--[[---------------------------------------------------------
+	- func: GetIcon()
+	- desc: gets the object's icon
+--]]---------------------------------------------------------
 function newobject:GetIcon()
 
 	return self.icon
 	
 end
 
+--[[---------------------------------------------------------
+	- func: SetText(text)
+	- desc: sets the object's text
+--]]---------------------------------------------------------
 function newobject:SetText(text)
 
 	self.text = text
@@ -204,12 +216,20 @@ function newobject:SetText(text)
 	
 end
 
+--[[---------------------------------------------------------
+	- func: GetText()
+	- desc: gets the object's text
+--]]---------------------------------------------------------
 function newobject:GetText()
 
 	return self.text
 	
 end
 
+--[[---------------------------------------------------------
+	- func: AddNode(text)
+	- desc: adds a new node to the object
+--]]---------------------------------------------------------
 function newobject:AddNode(text)
 
 	if not self.internals[1] then
@@ -230,6 +250,10 @@ function newobject:AddNode(text)
 	
 end
 
+--[[---------------------------------------------------------
+	- func: SetOpen(bool)
+	- desc: sets whether or not the object is open
+--]]---------------------------------------------------------
 function newobject:SetOpen(bool)
 
 	self.open = bool
