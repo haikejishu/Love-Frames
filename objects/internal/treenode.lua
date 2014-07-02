@@ -189,6 +189,12 @@ function newobject:SetIcon(icon)
 
 end
 
+function newobject:GetIcon()
+
+	return self.icon
+	
+end
+
 function newobject:AddNode(text)
 
 	if not self.internals[1] then
