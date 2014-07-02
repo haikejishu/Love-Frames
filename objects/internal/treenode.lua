@@ -179,7 +179,12 @@ end
 
 function newobject:SetIcon(icon)
 
-	self.icon = icon
+	if type(icon) == "string" then
+		self.icon = love.graphics.newImage(icon)
+	else
+		self.icon = icon
+	end
+	
 	return self
 
 end
