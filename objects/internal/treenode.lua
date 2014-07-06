@@ -152,6 +152,10 @@ function newobject:mousepressed(x, y, button)
 		v:mousepressed(x, y, button)
 	end
 	
+	if self.hover and button == "l" then
+		self.tree.selectednode = self
+	end
+	
 end
 
 --[[---------------------------------------------------------

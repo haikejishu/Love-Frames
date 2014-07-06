@@ -25,6 +25,7 @@ function newobject:initialize()
 	self.vbar = false
 	self.hbar = false
 	self.internal = false
+	self.selectednode = false
 	self.children = {}
 	self.internals = {}
 	

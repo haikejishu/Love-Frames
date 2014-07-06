@@ -1783,15 +1783,25 @@ function skin.DrawTreeNode(object)
 		leftpadding = buttonimage:getWidth() + 5
 	end
 	
+	local iconwidth
 	if icon then
-		local iconwidth = icon:getWidth()
-		width = width + iconwidth + loveframes.basicfont:getWidth(object.text) + leftpadding
-		love.graphics.setColor(255, 255, 255, 255)
-		love.graphics.draw(icon, x + leftpadding, object.y)
-		love.graphics.setFont(loveframes.basicfont)
-		love.graphics.setColor(0, 0, 0, 255)
-		love.graphics.print(object.text, x + leftpadding + 2 + iconwidth, object.y + 2)
+		iconwidth = icon:getWidth()
 	end
+	
+	local twidth = loveframes.basicfont:getWidth(object.text)
+	local theight = loveframes.basicfont:getHeight(object.text)
+	
+	if object.tree.selectednode == object then
+		love.graphics.setColor(102, 140, 255, 255)
+		love.graphics.rectangle("fill", x + leftpadding + 2 + iconwidth, object.y + 2, twidth, theight)
+	end
+
+	width = width + iconwidth + loveframes.basicfont:getWidth(object.text) + leftpadding
+	love.graphics.setColor(255, 255, 255, 255)
+	love.graphics.draw(icon, x + leftpadding, object.y)
+	love.graphics.setFont(loveframes.basicfont)
+	love.graphics.setColor(0, 0, 0, 255)
+	love.graphics.print(object.text, x + leftpadding + 2 + iconwidth, object.y + 2)
 	
 	object:SetWidth(width + 5)
 	
