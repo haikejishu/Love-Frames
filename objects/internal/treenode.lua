@@ -153,7 +153,11 @@ function newobject:mousepressed(x, y, button)
 	end
 	
 	if self.hover and button == "l" then
+		local onselectnode = self.tree.OnSelectNode
 		self.tree.selectednode = self
+		if onselectnode then
+			onselectnode(self.parent, self)
+		end
 	end
 	
 end

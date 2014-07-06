@@ -26,6 +26,7 @@ function newobject:initialize()
 	self.hbar = false
 	self.internal = false
 	self.selectednode = false
+	self.OnSelectNode = nil
 	self.children = {}
 	self.internals = {}
 	
