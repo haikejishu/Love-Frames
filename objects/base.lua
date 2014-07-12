@@ -479,36 +479,55 @@ function newobject:CenterWithinArea(x, y, width, height)
 end
 
 --[[---------------------------------------------------------
-	- func: SetSize(width, height)
+	- func: SetSize(width, height, r1, r2)
 	- desc: sets the object's size
 --]]---------------------------------------------------------
-function newobject:SetSize(width, height)
+function newobject:SetSize(width, height, r1, r2)
 
-	self.width = width
-	self.height = height
+	if r1 then
+		self.width = self.parent.width * width
+	else
+		self.width = width
+	end
+	
+	if r2 then
+		self.height = self.parent.height * height
+	else
+		self.height = height
+	end
 	
 	return self
 	
 end
 
 --[[---------------------------------------------------------
-	- func: SetWidth(width)
+	- func: SetWidth(width, relative)
 	- desc: sets the object's width
 --]]---------------------------------------------------------
-function newobject:SetWidth(width)
+function newobject:SetWidth(width, relative)
 
-	self.width = width
+	if relative then
+		self.width = self.parent.width * width
+	else
+		self.width = width
+	end
+	
 	return self
 	
 end
 
 --[[---------------------------------------------------------
-	- func: SetHeight(height)
+	- func: SetHeight(height, relative)
 	- desc: sets the object's height
 --]]---------------------------------------------------------
-function newobject:SetHeight(height)
+function newobject:SetHeight(height, relative)
 
-	self.height = height
+	if relative then
+		self.height = self.parent.height * height
+	else
+		self.height = height
+	end
+	
 	return self
 	
 end

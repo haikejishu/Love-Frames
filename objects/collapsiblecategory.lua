@@ -273,12 +273,17 @@ function newobject:GetObject()
 end
 
 --[[---------------------------------------------------------
-	- func: SetSize(width, height)
+	- func: SetSize(width, height, relative)
 	- desc: sets the object's size
 --]]---------------------------------------------------------
-function newobject:SetSize(width, height)
+function newobject:SetSize(width, height, relative)
 
-	self.width = width
+	if relative then
+		self.width = self.parent.width * width
+	else
+		self.width = width
+	end
+	
 	return self
 	
 end

@@ -590,12 +590,17 @@ function newobject:GetMaxWidth()
 end
 
 --[[---------------------------------------------------------
-	- func: SetWidth(width)
+	- func: SetWidth(width, relative)
 	- desc: sets the object's width
 --]]---------------------------------------------------------
-function newobject:SetWidth(width)
+function newobject:SetWidth(width, relative)
 
-	self:SetMaxWidth(width)
+	if relative then
+		self:SetMaxWidth(self.parent.width * width)
+	else
+		self:SetMaxWidth(width)
+	end
+	
 	return self
 	
 end
@@ -611,12 +616,17 @@ function newobject:SetHeight(height)
 end
 
 --[[---------------------------------------------------------
-	- func: SetSize()
+	- func: SetSize(width, height, relative)
 	- desc: sets the object's size
 --]]---------------------------------------------------------
-function newobject:SetSize(width, height)
+function newobject:SetSize(width, height, relative)
 
-	self:SetMaxWidth(width)
+	if relative then
+		self:SetMaxWidth(self.parent.width * width)
+	else
+		self:SetMaxWidth(width)
+	end
+	
 	return self
 	
 end
