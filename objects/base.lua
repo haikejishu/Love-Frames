@@ -38,6 +38,16 @@ function newobject:update(dt)
 		return
 	end
 	
+	local width, height = love.graphics.getDimensions()
+	
+	if self.width ~= width then
+		self.width = width
+	end
+	
+	if self.height ~= height then
+		self.height = height
+	end
+	
 	local children = self.children
 	local internals = self.internals
 	
