@@ -103,6 +103,11 @@ skin.controls.checkbox_body_color                   = {255, 255, 255, 255}
 skin.controls.checkbox_check_color                  = {128, 204, 255, 255}
 skin.controls.checkbox_text_font                    = smallfont
 
+-- radiobutton
+skin.controls.radiobutton_body_color                   = {255, 255, 255, 255}
+skin.controls.radiobutton_check_color                  = {128, 204, 255, 255}
+skin.controls.radiobutton_text_font                    = smallfont
+
 -- collapsiblecategory
 skin.controls.collapsiblecategory_text_color        = {255, 255, 255, 255}
 
@@ -1306,6 +1311,46 @@ function skin.DrawCheckBox(object)
 	if checked then
 		love.graphics.setColor(checkcolor)
 		love.graphics.rectangle("fill", x + 4, y + 4, width - 8, height - 8)
+	end
+	
+	if hover then
+		love.graphics.setColor(bordercolor)
+		skin.OutlinedRectangle(x + 4, y + 4, width - 8, height - 8)
+	end
+	
+end
+
+--[[---------------------------------------------------------
+	- func: skin.DrawCheckBox(object)
+	- desc: draws the radio button object
+--]]---------------------------------------------------------
+function skin.DrawRadioButton(object)
+	
+	local skin = object:GetSkin()
+	local x = object:GetX()
+	local y = object:GetY()
+	local width = object:GetBoxWidth()
+	local height = object:GetBoxHeight()
+	local checked = object:GetChecked()
+	local hover = object:GetHover()
+	local bodycolor = skin.controls.radiobutton_body_color
+	local checkcolor = skin.controls.radiobutton_check_color
+	
+	--~ love.graphics.setColor(bodycolor)
+	love.graphics.setColor(bordercolor)
+	--~ love.graphics.rectangle("fill", x, y, width, height)
+	love.graphics.circle("line", x + 10, y + 9, 10, 15)
+	
+	--~ love.graphics.setColor(bordercolor)
+	--~ skin.OutlinedRectangle(x, y, width, height)
+	
+	if checked then
+		local image = skin.images["circle-fill.png"]
+		love.graphics.setColor(255, 255, 255, 255)
+		-- FIXME: This does not blend as intended.
+		-- There are gray pixels on a white background.
+		love.graphics.setBlendMode("alpha")
+		love.graphics.draw(image, x + 4, y + 4)
 	end
 	
 	if hover then
