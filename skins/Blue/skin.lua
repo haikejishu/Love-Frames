@@ -1631,7 +1631,6 @@ function skin.DrawLineNumbersPanel(object)
 	local theight = font:getHeight("a")
 	local textcolor = skin.controls.linenumberspanel_text_color
 	local bodycolor = skin.controls.linenumberspanel_body_color
-	local mody = y
 	
 	object:SetWidth(10 + font:getWidth(#lines))
 	love.graphics.setFont(font)
@@ -1642,10 +1641,18 @@ function skin.DrawLineNumbersPanel(object)
 	love.graphics.setColor(bordercolor)
 	--skin.OutlinedRectangle(x, y, width, height, true, true, true, false)
 	
-	for i=1, #lines do
+	local startline = math.ceil(offsety / theight)
+	if startline < 1 then
+		startline = 1
+	end
+	local endline = math.ceil(startline + (height / theight)) + 1
+	if endline > #lines then
+		endline = #lines
+	end
+	
+	for i=startline, endline do
 		love.graphics.setColor(textcolor)
-		love.graphics.print(i, x + 5, mody - offsety)
-		mody = mody + theight
+		love.graphics.print(i, x + 5, (y + (theight * (i - 1))) - offsety)
 	end
 	
 end
