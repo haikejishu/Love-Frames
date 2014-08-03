@@ -264,6 +264,7 @@ function newobject:RedoLayout()
 	local display = self.display
 	
 	if #children > 0 then
+		self.rowcolorindex = 1
 		for k, v in ipairs(children) do
 			local height = v.height
 			v.staticx = startx
@@ -277,6 +278,12 @@ function newobject:RedoLayout()
 			end
 			starty = starty + v.height
 			v.lastheight = v.height
+			v.colorindex = self.rowcolorindex
+			if self.rowcolorindex == self.rowcolorindexmax then
+				self.rowcolorindex = 1
+			else
+				self.rowcolorindex = self.rowcolorindex + 1
+			end
 		end
 	end
 	
