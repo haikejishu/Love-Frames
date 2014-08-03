@@ -368,5 +368,6 @@ function newobject:Clear()
 	self:CalculateSize()
 	self:RedoLayout()
 	self.parent:AdjustColumns()
+	self.rowcolorindex = 1
 	
 end
