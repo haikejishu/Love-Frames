@@ -8,7 +8,7 @@ local newobject = loveframes.NewObject("base", "loveframes_object_base")
 
 --[[---------------------------------------------------------
 	- func: initialize()
-	- desc: intializes the element
+	- desc: initializes the element
 --]]---------------------------------------------------------
 function newobject:initialize()
 	
@@ -407,7 +407,7 @@ end
 	- desc: centers the object in the game window or in
 			its parent if it has one
 --]]---------------------------------------------------------
-function newobject:Center(area)
+function newobject:Center()
 
 	local base = loveframes.base
 	local parent = self.parent
@@ -1018,10 +1018,10 @@ function newobject:SetSkin(name)
 end
 
 --[[---------------------------------------------------------
-	- func: GetSkin(name)
+	- func: GetSkin()
 	- desc: gets the object's skin
 --]]---------------------------------------------------------
-function newobject:GetSkin(name)
+function newobject:GetSkin()
 	
 	local skins = loveframes.skins.available
 	local skinindex = loveframes.config["ACTIVESKIN"]

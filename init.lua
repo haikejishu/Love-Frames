@@ -369,7 +369,7 @@ function loveframes.Create(data, parent)
 			for k, v in pairs(t) do
 				-- current default object
 				local object = validobjects[v.type]:new()
-				-- indert the object into the table of objects being created
+				-- insert the object into the table of objects being created
 				table.insert(objects, object)
 				-- parent the new object by default to the base gui object
 				object.parent = loveframes.base
