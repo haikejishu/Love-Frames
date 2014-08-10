@@ -147,9 +147,11 @@ function loveframes.util.GetDirectoryContents(dir, t)
 			table.insert(dirs, dir.. "/" ..v)
 		else
 			local parts = loveframes.util.SplitString(v, "([.])")
-			local extension = parts[#parts]
-			parts[#parts] = nil
-			local name = table.concat(parts)
+			local extension = #parts > 1 and parts[#parts]
+			if #parts > 1 then
+				parts[#parts] = nil
+			end
+			local name = table.concat(parts, ".")
 			table.insert(t, {
 				path = dir, 
 				fullpath = dir.. "/" ..v, 
@@ -160,10 +162,8 @@ function loveframes.util.GetDirectoryContents(dir, t)
 		end
 	end
 	
-	if #dirs > 0 then
-		for k, v in ipairs(dirs) do
-			t = loveframes.util.GetDirectoryContents(v, t)
-		end
+	for k, v in ipairs(dirs) do
+		t = loveframes.util.GetDirectoryContents(v, t)
 	end
 	
 	return t
