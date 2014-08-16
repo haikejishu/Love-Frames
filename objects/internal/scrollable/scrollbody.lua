@@ -135,21 +135,21 @@ function newobject:update(dt)
 		end
 	end
 	
+	self:CheckHover()
+	
 	local parent = self.parent
 	local base = loveframes.base
 	local update = self.Update
 	local internals = self.internals
 	
+	for k, v in ipairs(internals) do
+		v:update(dt)
+	end
+	
 	-- move to parent if there is a parent
 	if parent ~= base then
 		self.x = parent.x + self.staticx
 		self.y = parent.y + self.staticy
-	end
-	
-	self:CheckHover()
-	
-	for k, v in ipairs(internals) do
-		v:update(dt)
 	end
 	
 	if update then

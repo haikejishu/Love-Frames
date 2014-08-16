@@ -60,6 +60,8 @@ function newobject:update(dt)
 		end
 	end
 	
+	self:CheckHover()
+	
 	local internals = self.internals
 	local children = self.children
 	local display = self.display
@@ -74,10 +76,12 @@ function newobject:update(dt)
 		self.y = self.parent.y + self.staticy
 	end
 	
-	self:CheckHover()
-	
 	for k, v in ipairs(internals) do
 		v:update(dt)
+		for _, p in pairs(self:GetParents()) do
+			v.x = v.x - (p.offsetx or 0)
+			v.y = v.y - (p.offsety or 0)
+		end
 	end
 	
 	local x = self.x
@@ -92,6 +96,10 @@ function newobject:update(dt)
 		v:SetClickBounds(x, y, width, height)
 		v.x = (v.parent.x + v.staticx) - offsetx
 		v.y = (v.parent.y + v.staticy) - offsety
+		for _, p in pairs(self:GetParents()) do
+			v.x = v.x - (p.offsetx or 0)
+			v.y = v.y - (p.offsety or 0)
+		end
 		if display == "vertical" then
 			if v.lastheight ~= v.height then
 				self:CalculateSize()
