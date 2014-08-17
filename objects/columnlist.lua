@@ -746,11 +746,10 @@ function newobject:RemoveRow(id)
 end
 
 --[[---------------------------------------------------------
-	- func: SetRowColumnText(text, rowid, columnid)
-	- desc: sets the text of the of specific column in the
-			specified row
+	- func: SetCellText(text, rowid, columnid)
+	- desc: sets a cell's text
 --]]---------------------------------------------------------
-function newobject:SetRowColumnText(text, rowid, columnid)
+function newobject:SetCellText(text, rowid, columnid)
 	
 	local list = self.internals[1]
 	local listchildren = list.children
