@@ -678,6 +678,24 @@ function newobject:SetColumnName(id, name)
 end
 
 --[[---------------------------------------------------------
+	- func: GetColumnName(id)
+	- desc: gets a column's name
+--]]---------------------------------------------------------
+function newobject:GetColumnName(id)
+
+	local children = self.children
+	
+	for k, v in ipairs(children) do
+		if k == id then
+			return v.name
+		end
+	end
+	
+	return false
+	
+end
+
+--[[---------------------------------------------------------
 	- func: SizeToChildren(max)
 	- desc: sizes the object to match the combined height
 			of its children
