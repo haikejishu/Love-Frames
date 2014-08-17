@@ -764,6 +764,22 @@ function newobject:SetCellText(text, rowid, columnid)
 end
 
 --[[---------------------------------------------------------
+	- func: GetCellText(rowid, columnid)
+	- desc: gets a cell's text
+--]]---------------------------------------------------------
+function newobject:GetCellText(rowid, columnid)
+	
+	local row = self.internals[1].children[rowid]
+	
+	if row and row.columndata[columnid] then
+		return row.columndata[columnid]
+	else
+		return false
+	end
+	
+end
+
+--[[---------------------------------------------------------
 	- func: SetRowColumnData(rowid, columndata)
 	- desc: sets the columndata of the specified row
 --]]---------------------------------------------------------
