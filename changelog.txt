@@ -5,6 +5,7 @@ Version 0.9.9 - Alpha (Release Date TBD)
 [ADDED] a new object: radiobutton
 [ADDED] a new button method: GetDown()
 [ADDED] support for relative object sizing
+[ADDED] a new columnlist method: GetCellText(rowid, columnid)
 
 [FIXED] bug that would cause tabbuttons to be positioned incorrectly when scrolling with the mouse wheel
 [FIXED] collision detection issue caused by list child objects not being updated when outside of their parent's bounding box
@@ -14,6 +15,7 @@ Version 0.9.9 - Alpha (Release Date TBD)
 
 [CHANGED] columnlist row colors are now adjusted when a row is removed from the list
 [CHANGED] columnlistarea.rowcolorindex now resets to 1 when the list is cleared
+[CHANGED] columnlist:SetRowColumnText to columnlist:SetCellText
 
 ================================================
 Version 0.9.8.1 - Alpha (May 17 - 2014)
