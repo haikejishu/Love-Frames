@@ -6,6 +6,9 @@ Version 0.9.9 - Alpha (Release Date TBD)
 [ADDED] a new button method: GetDown()
 [ADDED] support for relative object sizing
 [ADDED] a new columnlist method: GetCellText(rowid, columnid)
+[ADDED] a new button method: SetToggleable(bool)
+[ADDED] a new button method: GetToggleable()
+[ADDED] toggle functionality to the button object
 
 [FIXED] bug that would cause tabbuttons to be positioned incorrectly when scrolling with the mouse wheel
 [FIXED] collision detection issue caused by list child objects not being updated when outside of their parent's bounding box
