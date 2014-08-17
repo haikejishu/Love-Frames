@@ -20,6 +20,8 @@ function newobject:initialize()
 	self.down = false
 	self.clickable = true
 	self.enabled = true
+	self.toggleable = false
+	self.toggle = false
 	self.OnClick = nil
 	
 end
@@ -179,6 +181,13 @@ function newobject:mousereleased(x, y, button)
 			if onclick then
 				onclick(self, x, y)
 			end
+			if self.toggleable then
+				local ontoggle = self.OnToggle
+				self.toggle = not self.toggle
+				if ontoggle then
+					ontoggle(self, self.toggle)
+				end
+			end
 		end
 	end
 	
@@ -258,4 +267,25 @@ function newobject:GetDown()
 
 	return self.down
 	
+end
+
+--[[---------------------------------------------------------
+	- func: SetToggleable(bool)
+	- desc: sets whether or not the object is toggleable
+--]]---------------------------------------------------------
+function newobject:SetToggleable(bool)
+
+	self.toggleable = bool
+	return self
+
+end
+
+--[[---------------------------------------------------------
+	- func: GetToggleable()
+	- desc: gets whether or not the object is toggleable
+--]]---------------------------------------------------------
+function newobject:GetToggleable()
+
+	return self.toggleable
+
 end

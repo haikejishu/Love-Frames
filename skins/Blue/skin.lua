@@ -276,14 +276,13 @@ function skin.DrawButton(object)
 	local texthovercolor = skin.controls.button_text_hover_color
 	local textnohovercolor = skin.controls.button_text_nohover_color
 	local textnonclickablecolor = skin.controls.button_text_nonclickable_color
+	local image_hover = skin.images["button-hover.png"]
+	local scaley = height/image_hover:getHeight()
 	
 	if not enabled or not clickable then
-		local image = skin.images["button-unclickable.png"]
-		local imageheight = image:getHeight()
-		local scaley = height/imageheight
 		-- button body
 		love.graphics.setColor(255, 255, 255, 255)
-		love.graphics.draw(image, x, y, 0, width, scaley)
+		love.graphics.draw(skin.images["button-unclickable.png"], x, y, 0, width, scaley)
 		-- button text
 		love.graphics.setFont(font)
 		love.graphics.setColor(textnonclickablecolor)
@@ -294,48 +293,91 @@ function skin.DrawButton(object)
 		return
 	end
 	
-	if down then
-		local image = skin.images["button-down.png"]
-		local imageheight = image:getHeight()
-		local scaley = height/imageheight
-		-- button body
-		love.graphics.setColor(255, 255, 255, 255)
-		love.graphics.draw(image, x, y, 0, width, scaley)
-		-- button text
-		love.graphics.setFont(font)
-		love.graphics.setColor(textdowncolor)
-		love.graphics.print(text, x + width/2 - twidth/2, y + height/2 - theight/2)
-		-- button border
-		love.graphics.setColor(bordercolor)
-		skin.OutlinedRectangle(x, y, width, height)
-	elseif hover then
-		local image = skin.images["button-hover.png"]
-		local imageheight = image:getHeight()
-		local scaley = height/imageheight
-		-- button body
-		love.graphics.setColor(255, 255, 255, 255)
-		love.graphics.draw(image, x, y, 0, width, scaley)
-		-- button text
-		love.graphics.setFont(font)
-		love.graphics.setColor(texthovercolor)
-		love.graphics.print(text, x + width/2 - twidth/2, y + height/2 - theight/2)
-		-- button border
-		love.graphics.setColor(bordercolor)
-		skin.OutlinedRectangle(x, y, width, height)
-	else
-		local image = skin.images["button-nohover.png"]
-		local imageheight = image:getHeight()
-		local scaley = height/imageheight
-		-- button body
-		love.graphics.setColor(255, 255, 255, 255)
-		love.graphics.draw(image, x, y, 0, width, scaley)
-		-- button text
-		love.graphics.setFont(font)
-		love.graphics.setColor(textnohovercolor)
-		love.graphics.print(text, x + width/2 - twidth/2, y + height/2 - theight/2)
-		-- button border
-		love.graphics.setColor(bordercolor)
-		skin.OutlinedRectangle(x, y, width, height)
+	if object.toggleable then
+		if hover then
+			if down then
+				-- button body
+				love.graphics.setColor(255, 255, 255, 255)
+				love.graphics.draw(skin.images["button-down.png"], x, y, 0, width, scaley)
+				-- button text
+				love.graphics.setFont(font)
+				love.graphics.setColor(textdowncolor)
+				love.graphics.print(text, x + width/2 - twidth/2, y + height/2 - theight/2)
+				-- button border
+				love.graphics.setColor(bordercolor)
+				skin.OutlinedRectangle(x, y, width, height)
+			else
+				-- button body
+				love.graphics.setColor(255, 255, 255, 255)
+				love.graphics.draw(image_hover, x, y, 0, width, scaley)
+				-- button text
+				love.graphics.setFont(font)
+				love.graphics.setColor(texthovercolor)
+				love.graphics.print(text, x + width/2 - twidth/2, y + height/2 - theight/2)
+				-- button border
+				love.graphics.setColor(bordercolor)
+				skin.OutlinedRectangle(x, y, width, height)
+			end
+		else
+			if object.toggle then
+				-- button body
+				love.graphics.setColor(255, 255, 255, 255)
+				love.graphics.draw(skin.images["button-down.png"], x, y, 0, width, scaley)
+				-- button text
+				love.graphics.setFont(font)
+				love.graphics.setColor(textdowncolor)
+				love.graphics.print(text, x + width/2 - twidth/2, y + height/2 - theight/2)
+				-- button border
+				love.graphics.setColor(bordercolor)
+				skin.OutlinedRectangle(x, y, width, height)
+			else
+				-- button body
+				love.graphics.setColor(255, 255, 255, 255)
+				love.graphics.draw(skin.images["button-nohover.png"], x, y, 0, width, scaley)
+				-- button text
+				love.graphics.setFont(font)
+				love.graphics.setColor(textnohovercolor)
+				love.graphics.print(text, x + width/2 - twidth/2, y + height/2 - theight/2)
+				-- button border
+				love.graphics.setColor(bordercolor)
+				skin.OutlinedRectangle(x, y, width, height)
+			end
+		end
+	else	
+		if down then
+			-- button body
+			love.graphics.setColor(255, 255, 255, 255)
+			love.graphics.draw(skin.images["button-down.png"], x, y, 0, width, scaley)
+			-- button text
+			love.graphics.setFont(font)
+			love.graphics.setColor(textdowncolor)
+			love.graphics.print(text, x + width/2 - twidth/2, y + height/2 - theight/2)
+			-- button border
+			love.graphics.setColor(bordercolor)
+			skin.OutlinedRectangle(x, y, width, height)
+		elseif hover then
+			-- button body
+			love.graphics.setColor(255, 255, 255, 255)
+			love.graphics.draw(image_hover, x, y, 0, width, scaley)
+			-- button text
+			love.graphics.setFont(font)
+			love.graphics.setColor(texthovercolor)
+			love.graphics.print(text, x + width/2 - twidth/2, y + height/2 - theight/2)
+			-- button border
+			love.graphics.setColor(bordercolor)
+			skin.OutlinedRectangle(x, y, width, height)
+		else
+			-- button body
+			love.graphics.setColor(255, 255, 255, 255)
+			love.graphics.draw(skin.images["button-nohover.png"], x, y, 0, width, scaley)
+			-- button text
+			love.graphics.setFont(font)
+			love.graphics.setColor(textnohovercolor)
+			love.graphics.print(text, x + width/2 - twidth/2, y + height/2 - theight/2)
+			-- button border
+			love.graphics.setColor(bordercolor)
+			skin.OutlinedRectangle(x, y, width, height)
+		end
 	end
 	
 	love.graphics.setColor(255, 255, 255, 150)
