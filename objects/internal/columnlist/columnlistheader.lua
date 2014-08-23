@@ -206,6 +206,17 @@ function newobject:mousereleased(x, y, button)
 end
 
 --[[---------------------------------------------------------
+	- func: SetName(name)
+	- desc: sets the object's name
+--]]---------------------------------------------------------
+function newobject:SetName(name)
+
+	self.name = name
+	return self
+	
+end
+
+--[[---------------------------------------------------------
 	- func: GetName()
 	- desc: gets the object's name
 --]]---------------------------------------------------------
