@@ -408,6 +408,10 @@ function newobject:Clear()
 	
 end
 
+--[[---------------------------------------------------------
+	- func: GetVerticalScrollBar()
+	- desc: gets the object's vertical scrollbar
+--]]---------------------------------------------------------
 function newobject:GetVerticalScrollBar()
 
 	for k, v in ipairs(self.internals) do
@@ -420,6 +424,10 @@ function newobject:GetVerticalScrollBar()
 	
 end
 
+--[[---------------------------------------------------------
+	- func: GetHorizontalScrollBar()
+	- desc: gets the object's horizontal scrollbar
+--]]---------------------------------------------------------
 function newobject:GetHorizontalScrollBar()
 
 	for k, v in ipairs(self.internals) do
