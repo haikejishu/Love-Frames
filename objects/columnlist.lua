@@ -111,7 +111,7 @@ function newobject:draw()
 	
 	local stencilfunc
 	local vbody = self.internals[1]:GetVerticalScrollBody()
-	local hbar = self.internals[1]:GetHorizontalScrollBar()
+	local hbody = self.internals[1]:GetHorizontalScrollBody()
 	local width = self.width
 	local height = self.height
 	
@@ -119,8 +119,8 @@ function newobject:draw()
 		width = width - vbody.width
 	end
 	
-	if hbar then
-		height = height - hbar.height
+	if hbody then
+		height = height - hbody.height
 	end
 	
 	local stencilfunc = function() love.graphics.rectangle("fill", self.x, self.y, width, height) end

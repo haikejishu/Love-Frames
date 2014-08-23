@@ -114,7 +114,7 @@ function newobject:draw()
 	end
 	
 	if self.hbar then
-		sheight = sheight - self:GetHorizontalScrollBar():GetHeight()
+		sheight = sheight - self:GetHorizontalScrollBody():GetHeight()
 	end
 	
 	local stencilfunc = function() love.graphics.rectangle("fill", x, y, swidth, sheight) end
@@ -230,13 +230,13 @@ function newobject:CalculateSize()
 	self.itemwidth = parent:GetTotalColumnWidth()
 	
 	local hbarheight = 0
-	local hbar = self:GetHorizontalScrollBar()
-	if hbar then
-		hbarheight = hbar.height
+	local hbody = self:GetHorizontalScrollBody()
+	if hbody then
+		hbarheight = hbody.height
 	end
 	
 	if self.itemheight > (height - hbarheight) then
-		if hbar then
+		if hbody then
 			self.itemheight = self.itemheight + hbarheight
 		end
 		self.extraheight = self.itemheight - height
@@ -277,7 +277,7 @@ function newobject:CalculateSize()
 		end
 	else
 		if self.hbar then
-			self:GetHorizontalScrollBar():Remove()
+			self:GetHorizontalScrollBody():Remove()
 			self.hbar = false
 			self.offsetx = 0
 		end
@@ -302,17 +302,17 @@ function newobject:RedoLayout()
 			local vbody = self:GetVerticalScrollBody()
 			vbody.staticx = self.width - vbody.width
 			if self.hbar then
-				vbody.height = self.height - self:GetHorizontalScrollBar().height
+				vbody.height = self.height - self:GetHorizontalScrollBody().height
 			else
 				vbody.height = self.height
 			end
 		end
 		if self.hbar then
-			local hbar = self:GetHorizontalScrollBar()
-			if self.vbody then
-				hbar.width = self.width - self:GetVerticalScrollBody().width
+			local hbody = self:GetHorizontalScrollBody()
+			if self.vbar then
+				hbody.width = self.width - self:GetVerticalScrollBody().width
 			else
-				hbar.width = self.width
+				hbody.width = self.width
 			end
 		end
 		starty = starty + v.height
@@ -410,7 +410,7 @@ end
 
 --[[---------------------------------------------------------
 	- func: GetVerticalScrollBody()
-	- desc: gets the object's vertical scroll area
+	- desc: gets the object's vertical scroll body
 --]]---------------------------------------------------------
 function newobject:GetVerticalScrollBody()
 
@@ -425,10 +425,10 @@ function newobject:GetVerticalScrollBody()
 end
 
 --[[---------------------------------------------------------
-	- func: GetHorizontalScrollBar()
-	- desc: gets the object's horizontal scrollbar
+	- func: GetHorizontalScrollBody()
+	- desc: gets the object's horizontal scroll body
 --]]---------------------------------------------------------
-function newobject:GetHorizontalScrollBar()
+function newobject:GetHorizontalScrollBody()
 
 	for k, v in ipairs(self.internals) do
 		if v.bartype == "horizontal" then

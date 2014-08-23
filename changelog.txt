@@ -12,7 +12,7 @@ Version 0.9.9 - Alpha (Release Date TBD)
 [ADDED] resizing functinality to the columnlistheader object
 [ADDED] horizontal scrolling to the columnlist object
 [ADDED] a new columnlistarea method: GetVerticalScrollBody()
-[ADDED] a new columnlistarea method: GetHorizontalScrollBar()
+[ADDED] a new columnlistarea method: GetHorizontalScrollBody()
 [ADDED] a new columnlist method: GetTotalColumnWidth()
 [ADDED] a new columnlist method: SetColumnWidth(id, width)
 [ADDED] a new columnlist method: GetColumnWidth(id)
