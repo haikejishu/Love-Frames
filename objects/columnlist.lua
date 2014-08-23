@@ -823,6 +823,10 @@ function newobject:SetRowColumnData(rowid, columndata)
 	
 end
 
+--[[---------------------------------------------------------
+	- func: GetTotalColumnWidth()
+	- desc: gets the combined width of the objects columns
+--]]---------------------------------------------------------
 function newobject:GetTotalColumnWidth()
 
 	local width = 0
@@ -835,6 +839,10 @@ function newobject:GetTotalColumnWidth()
 	
 end
 
+--[[---------------------------------------------------------
+	- func: GetColumnWidth(id)
+	- desc: gets the width of the specified column
+--]]---------------------------------------------------------
 function newobject:GetColumnWidth(id)
 
 	local column = self.children[id]
