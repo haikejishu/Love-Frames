@@ -164,8 +164,16 @@ function newobject:mousepressed(x, y, button)
 		end
 	end
 	
-	if self.bar and self:IsTopList() then
-		local bar = self:GetScrollBar()
+	local bar = false 
+	if self.vbar and self.hbar then
+		bar = self:GetVerticalScrollBody():GetScrollBar()
+	elseif self.vbar and not self.hbar then
+		bar = self:GetVerticalScrollBody():GetScrollBar()
+	elseif not self.var and self.hbar then
+		bar = self:GetHorizontalScrollBody():GetScrollBar()
+	end
+	
+	if self:IsTopList() and bar then
 		if self.dtscrolling then
 			local dt = love.timer.getDelta()
 			if button == "wu" then
