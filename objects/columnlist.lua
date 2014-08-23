@@ -231,31 +231,16 @@ function newobject:mousereleased(x, y, button)
 end
 
 --[[---------------------------------------------------------
-	- func: Adjustchildren()
-	- desc: adjusts the width of the object's children
+	- func: PositionColumns()
+	- desc: positions the object's columns
 --]]---------------------------------------------------------
-function newobject:AdjustColumns()
-
-	local width = self.width
-	local vbody = self.internals[1]:GetVerticalScrollBody()
+function newobject:PositionColumns()
 	
-	if varea then
-		width = width - vbody.width
-	end
-	
-	local children = self.children
-	local numchildren = #children
-	local columnwidth = width/numchildren
 	local x = 0
 	
-	for k, v in ipairs(children) do
-		if bar then
-			v:SetWidth(columnwidth)
-		else
-			v:SetWidth(columnwidth)
-		end
+	for k, v in ipairs(self.children) do
 		v:SetPos(x, 0)
-		x = x + columnwidth
+		x = x + v.width
 	end
 	
 	return self
@@ -275,7 +260,7 @@ function newobject:AddColumn(name)
 	local height = self.height
 	
 	loveframes.objects["columnlistheader"]:new(name, self)
-	self:AdjustColumns()
+	self:PositionColumns()
 	
 	list:SetSize(width, height)
 	list:SetPos(0, 0)
@@ -340,7 +325,7 @@ function newobject:SetSize(width, height, r1, r2)
 		self.height = height
 	end
 	
-	self:AdjustColumns()
+	self:PositionColumns()
 	
 	list:SetSize(width, height)
 	list:SetPos(0, 0)
@@ -366,7 +351,7 @@ function newobject:SetWidth(width, relative)
 		self.width = width
 	end
 	
-	self:AdjustColumns()
+	self:PositionColumns()
 	
 	list:SetSize(width)
 	list:SetPos(0, 0)
@@ -392,7 +377,7 @@ function newobject:SetHeight(height, relative)
 		self.height = height
 	end
 	
-	self:AdjustColumns()
+	self:PositionColumns()
 	
 	list:SetSize(height)
 	list:SetPos(0, 0)
@@ -744,7 +729,7 @@ function newobject:SizeToChildren(max)
 	end
 	
 	self:SetSize(width, height)
-	self:AdjustColumns()
+	self:PositionColumns()
 	return self
 	
 end

@@ -352,7 +352,7 @@ function newobject:AddRow(data)
 	table.insert(self.children, loveframes.objects["columnlistrow"]:new(self, data))
 	self:CalculateSize()
 	self:RedoLayout()
-	self.parent:AdjustColumns()
+	self.parent:PositionColumns()
 	
 end
 
@@ -411,7 +411,7 @@ function newobject:Clear()
 	self.children = {}
 	self:CalculateSize()
 	self:RedoLayout()
-	self.parent:AdjustColumns()
+	self.parent:PositionColumns()
 	self.rowcolorindex = 1
 	
 end
