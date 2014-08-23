@@ -27,7 +27,8 @@ function newobject:initialize(parent)
 	self.rowcolorindexmax = 2
 	self.buttonscrollamount = parent.buttonscrollamount
 	self.mousewheelscrollamount = parent.mousewheelscrollamount
-	self.bar = false
+	self.vbar = false
+	self.hbar = false
 	self.dtscrolling = parent.dtscrolling
 	self.internal = true
 	self.internals = {}
@@ -68,10 +69,6 @@ function newobject:update(dt)
 		self.y = parent.y + self.staticy
 	end
 	
-	for k, v in ipairs(internals) do
-		v:update(dt)
-	end
-	
 	for k, v in ipairs(children) do
 		local col = loveframes.util.BoundingBox(self.x, v.x, self.y, v.y, self.width, v.width, self.height, v.height)
 		if col then
@@ -80,6 +77,10 @@ function newobject:update(dt)
 		v:SetClickBounds(self.x, self.y, self.width, self.height)
 		v.y = (v.parent.y + v.staticy) - self.offsety + cheight
 		v.x = (v.parent.x + v.staticx) - self.offsetx
+	end
+	
+	for k, v in ipairs(self.internals) do
+		v:update(dt)
 	end
 	
 	if update then
@@ -104,7 +105,6 @@ function newobject:draw()
 	local y = self.y
 	local width = self.width
 	local height = self.height
-	local stencilfunc = function() love.graphics.rectangle("fill", x, y, width, height) end
 	local skins = loveframes.skins.available
 	local skinindex = loveframes.config["ACTIVESKIN"]
 	local defaultskin = loveframes.config["DEFAULTSKIN"]
@@ -116,6 +116,19 @@ function newobject:draw()
 	local drawcount = loveframes.drawcount
 	local internals = self.internals
 	local children = self.children
+	
+	local swidth = width
+	local sheight = height
+	
+	if self.vbar then
+		swidth = swidth - self:GetVerticalScrollBar():GetWidth()
+	end
+	
+	if self.hbar then
+		sheight = sheight - self:GetHorizontalScrollBar():GetHeight()
+	end
+	
+	local stencilfunc = function() love.graphics.rectangle("fill", x, y, swidth, sheight) end
 	
 	-- set the object's draw order
 	self:SetDrawOrder()
@@ -129,7 +142,7 @@ function newobject:draw()
 	love.graphics.setStencil(stencilfunc)
 	
 	for k, v in ipairs(children) do
-		local col = loveframes.util.BoundingBox(self.x, v.x, self.y, v.y, self.width, v.width, self.height, v.height)
+		local col = loveframes.util.BoundingBox(self.x, v.x, self.y, v.y, width, v.width, height, v.height)
 		if col then
 			v:draw()
 		end
@@ -231,21 +244,55 @@ function newobject:CalculateSize()
 	for k, v in ipairs(children) do
 		itemheight = itemheight + v.height
 	end
-		
+	
 	self.itemheight = itemheight
-		
-	if self.itemheight > height then
+	self.itemwidth = self.parent:GetTotalColumnWidth()
+	
+	local hbarheight = 0
+	local hbar = self:GetHorizontalScrollBar()
+	if hbar then
+		hbarheight = hbar.height
+	end
+	
+	if self.itemheight > (height - hbarheight) then
+		if hbar then
+			self.itemheight = self.itemheight + hbarheight
+		end
 		self.extraheight = self.itemheight - height
-		if not bar then
+		if not self.vbar then
 			table.insert(self.internals, loveframes.objects["scrollbody"]:new(self, "vertical"))
-			self.bar = true
-			self:GetScrollBar().autoscroll = self.parent.autoscroll
+			self.vbar = true
+			self:GetVerticalScrollBar().autoscroll = self.parent.autoscroll
 		end
 	else
-		if bar then
-			self.internals[1]:Remove()
-			self.bar = false
+		if self.vbar then
+			self:GetVerticalScrollBar():Remove()
+			self.vbar = false
 			self.offsety = 0
+		end
+	end
+	
+	local vbarwidth = 0
+	local vbar = self:GetVerticalScrollBar()
+	if vbar then
+		vbarwidth = vbar.width
+	end
+	
+	if self.itemwidth > (self.width - vbarwidth) then
+		if vbar then
+			self.itemwidth = self.itemwidth + vbarwidth
+		end
+		self.extrawidth = self.itemwidth - self.width
+		if not self.hbar then
+			table.insert(self.internals, loveframes.objects["scrollbody"]:new(self, "horizontal"))
+			self.hbar = true
+			self:GetHorizontalScrollBar().autoscroll = self.parent.autoscroll
+		end
+	else
+		if self.hbar then
+			self:GetHorizontalScrollBar():Remove()
+			self.hbar = false
+			self.offsetx = 0
 		end
 	end
 	
@@ -266,15 +313,32 @@ function newobject:RedoLayout()
 	if #children > 0 then
 		self.rowcolorindex = 1
 		for k, v in ipairs(children) do
+			v:SetWidth(self.parent:GetTotalColumnWidth())
 			local height = v.height
 			v.staticx = startx
 			v.staticy = starty
-			if bar then
-				v:SetWidth(self.width - self.internals[1].width)
-				self.internals[1].staticx = self.width - self.internals[1].width
-				self.internals[1].height = self.height
+			if self.vbar then
+				local vbar = self:GetVerticalScrollBar()
+				--v:SetWidth(self.width - vbar.width)
+				vbar.staticx = self.width - vbar.width
+				if self.hbar then
+					vbar.height = self.height - self:GetHorizontalScrollBar().height
+				else
+					vbar.height = self.height
+				end
 			else
-				v:SetWidth(self.width)
+				--v:SetWidth(self.width)
+			end
+			if self.hbar then
+				local hbar = self:GetHorizontalScrollBar()
+				--self:SetHeight(self.parent.height - hbar.height)
+				if self.vbar then
+					hbar.width = self.width - self:GetVerticalScrollBar().width
+				else
+					hbar.width = self.width
+				end
+			else
+				--self:SetHeight(self.parent.height)
 			end
 			starty = starty + v.height
 			v.lastheight = v.height
@@ -376,5 +440,29 @@ function newobject:Clear()
 	self:RedoLayout()
 	self.parent:AdjustColumns()
 	self.rowcolorindex = 1
+	
+end
+
+function newobject:GetVerticalScrollBar()
+
+	for k, v in ipairs(self.internals) do
+		if v.bartype == "vertical" then
+			return v
+		end
+	end
+	
+	return false
+	
+end
+
+function newobject:GetHorizontalScrollBar()
+
+	for k, v in ipairs(self.internals) do
+		if v.bartype == "horizontal" then
+			return v
+		end
+	end
+	
+	return false
 	
 end

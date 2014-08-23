@@ -23,8 +23,10 @@ function newobject:initialize()
 	self.internal = false
 	self.selectionenabled = true
 	self.multiselect = false
+	self.startadjustment = false
 	self.children = {}
 	self.internals = {}
+	self.resizecolumn = nil
 	self.OnRowClicked = nil
 	self.OnRowRightClicked = nil
 	self.OnRowSelected = nil
@@ -76,8 +78,11 @@ function newobject:update(dt)
 	end
 	
 	for k, v in ipairs(children) do
+		v.columnid = k
 		v:update(dt)
 	end
+	
+	self.startadjustment = false
 	
 	if update then
 		update(self, dt)
@@ -104,6 +109,21 @@ function newobject:draw()
 		return
 	end
 	
+	local stencilfunc
+	local vbar = self.internals[1]:GetVerticalScrollBar()
+	local hbar = self.internals[1]:GetHorizontalScrollBar()
+	local width = self.width
+	local height = self.height
+	
+	if vbar then
+		width = width - vbar.width
+	end
+	
+	if hbar then
+		height = height - hbar.height
+	end
+	
+	local stencilfunc = function() love.graphics.rectangle("fill", self.x, self.y, width, height) end
 	local children = self.children
 	local internals = self.internals
 	local skins = loveframes.skins.available
@@ -128,9 +148,13 @@ function newobject:draw()
 		v:draw()
 	end
 	
+	love.graphics.setStencil(stencilfunc)
+	
 	for k, v in ipairs(children) do
 		v:draw()
 	end
+	
+	love.graphics.setStencil()
 
 end
 
@@ -213,9 +237,9 @@ end
 function newobject:AdjustColumns()
 
 	local width = self.width
-	local bar = self.internals[1].bar
+	local vbar = self.internals[1]:GetVerticalScrollBar()
 	
-	if bar then
+	if vbar then
 		width = width - self.internals[1].internals[1].width
 	end
 	
@@ -796,5 +820,28 @@ function newobject:SetRowColumnData(rowid, columndata)
 	end
 	
 	return self
+	
+end
+
+function newobject:GetTotalColumnWidth()
+
+	local width = 0
+	
+	for k, v in ipairs(self.children) do
+		width = width + v.width
+	end
+	
+	return width
+	
+end
+
+function newobject:GetColumnWidth(id)
+
+	local column = self.children[id]
+	if column then
+		return column.width
+	end
+	
+	return false
 	
 end

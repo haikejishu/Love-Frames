@@ -155,6 +155,46 @@ skin.controls.menuoption_body_hover_color           = {51, 204, 255, 255}
 skin.controls.menuoption_text_hover_color           = {255, 255, 255, 255}
 skin.controls.menuoption_text_color                 = {180, 180, 180, 255}
 
+local function ParseHeaderText(str, hx, hwidth, tx)
+	
+	local font = love.graphics.getFont()
+	local twidth = love.graphics.getFont():getWidth(str)
+	
+	if (tx + twidth) - hwidth/2 > hx + hwidth then
+		if #str > 1 then
+			return ParseHeaderText(str:sub(1, #str - 1), hx, hwidth, tx, twidth)
+		else
+			return str
+		end
+	else
+		return str
+	end
+	
+end
+
+local function ParseRowText(str, rx, rwidth, tx1, tx2)
+
+	local twidth = love.graphics.getFont():getWidth(str)
+	
+	if (tx1 + tx2) + twidth > rx + rwidth then
+		if #str > 1 then
+			return ParseRowText(str:sub(1, #str - 1), rx, rwidth, tx1, tx2)
+		else
+			return str
+		end
+	else
+		return str
+	end
+	
+end
+
+--[[
+local function DrawColumnHeaderText(text, hx, hwidth, tx, twidth)
+
+	local new = ""
+	if tx + width > hx + hwidth then
+--]]
+
 --[[---------------------------------------------------------
 	- func: OutlinedRectangle(x, y, width, height, ovt, ovb, ovl, ovr)
 	- desc: creates and outlined rectangle
@@ -1483,10 +1523,8 @@ function skin.DrawColumnListHeader(object)
 	local width = object:GetWidth()
 	local height = object:GetHeight()
 	local hover = object:GetHover()
-	local name = object:GetName()
 	local down = object.down
 	local font = skin.controls.columnlistheader_text_font
-	local twidth = font:getWidth(object.name)
 	local theight = font:getHeight(object.name)
 	local bodydowncolor = skin.controls.columnlistheader_body_down_color
 	local textdowncolor = skin.controls.columnlistheader_text_down_color
@@ -1495,6 +1533,9 @@ function skin.DrawColumnListHeader(object)
 	local nohovercolor = skin.controls.columnlistheader_body_nohover_color
 	local textnohovercolor = skin.controls.columnlistheader_text_nohover_color
 	
+	local name = ParseHeaderText(object:GetName(), x, width, x + width/2, twidth)
+	local twidth = font:getWidth(name)
+		
 	if down then
 		local image = skin.images["button-down.png"]
 		local imageheight = image:getHeight()
@@ -1508,7 +1549,7 @@ function skin.DrawColumnListHeader(object)
 		love.graphics.print(name, x + width/2 - twidth/2, y + height/2 - theight/2)
 		-- header border
 		love.graphics.setColor(bordercolor)
-		skin.OutlinedRectangle(x, y, width, height, false, false, false, true)
+		skin.OutlinedRectangle(x, y, width, height)
 	elseif hover then
 		local image = skin.images["button-hover.png"]
 		local imageheight = image:getHeight()
@@ -1522,7 +1563,7 @@ function skin.DrawColumnListHeader(object)
 		love.graphics.print(name, x + width/2 - twidth/2, y + height/2 - theight/2)
 		-- header border
 		love.graphics.setColor(bordercolor)
-		skin.OutlinedRectangle(x, y, width, height, false, false, false, true)
+		skin.OutlinedRectangle(x, y, width, height)
 	else
 		local image = skin.images["button-nohover.png"]
 		local imageheight = image:getHeight()
@@ -1536,7 +1577,7 @@ function skin.DrawColumnListHeader(object)
 		love.graphics.print(name, x + width/2 - twidth/2, y + height/2 - theight/2)
 		-- header border
 		love.graphics.setColor(bordercolor)
-		skin.OutlinedRectangle(x, y, width, height, false, false, false, true)
+		skin.OutlinedRectangle(x, y, width, height)
 	end
 	
 end
@@ -1556,6 +1597,22 @@ function skin.DrawColumnListArea(object)
 	
 	love.graphics.setColor(bodycolor)
 	love.graphics.rectangle("fill", x, y, width, height)
+	
+	local cheight = 0
+	local columns = object:GetParent():GetChildren()
+	if #columns > 0 then
+		cheight = columns[1]:GetHeight()
+	end
+	
+	local image = skin.images["button-nohover.png"]
+	local scaley = cheight/image:getHeight()
+	
+	-- header body
+	love.graphics.setColor(255, 255, 255, 255)
+	love.graphics.draw(image, x, y, 0, width, scaley)
+	
+	love.graphics.setColor(bordercolor)
+	skin.OutlinedRectangle(x, y, width, cheight, true, false, true, true)
 	
 end
 
@@ -1593,7 +1650,6 @@ function skin.DrawColumnListRow(object)
 	local textx = object:GetTextX()
 	local texty = object:GetTextY()
 	local parent = object:GetParent()
-	local cwidth, cheight = parent:GetParent():GetColumnSize()
 	local theight = font:getHeight("a")
 	local hover = object:GetHover()
 	local selected = object:GetSelected()
@@ -1623,6 +1679,7 @@ function skin.DrawColumnListRow(object)
 	
 	for k, v in ipairs(columndata) do
 		love.graphics.setFont(font)
+		local text = ParseRowText(v, x, parent.parent:GetColumnWidth(k), x, textx)
 		if selected then
 			love.graphics.setColor(textselectedcolor)
 		elseif hover then
@@ -1630,9 +1687,8 @@ function skin.DrawColumnListRow(object)
 		else
 			love.graphics.setColor(textcolor)
 		end
-		local text = v
 		love.graphics.print(text, x + textx, y + texty)
-		x = x + cwidth
+		x = x + parent.parent.children[k]:GetWidth()
 	end
 	
 end
