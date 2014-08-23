@@ -17,7 +17,7 @@ function newobject:initialize(name, parent)
 	self.name = name
 	self.state = parent.state
 	self.width = 80
-	self.height = self.parent.columnheight
+	self.height = parent.columnheight
 	self.columnid = 0
 	self.hover = false
 	self.down = false
@@ -61,20 +61,15 @@ end
 --]]---------------------------------------------------------
 function newobject:update(dt)
 	
-	local visible = self.visible
-	local alwaysupdate = self.alwaysupdate
-	
-	if not visible then
-		if not alwaysupdate then
+	if not self.visible then
+		if not self.alwaysupdate then
 			return
 		end
 	end
 	
-	local parent = self.parent
-	local base   = loveframes.base
 	local update = self.Update
-	
-	local list = self.parent.internals[1]
+	local parent = self.parent
+	local list = parent.internals[1]
 	local vbar = list:GetVerticalScrollBar()
 	local width = list.width
 	if vbar then
@@ -93,23 +88,26 @@ function newobject:update(dt)
 	end
 	
 	-- move to parent if there is a parent
-	if parent ~= base then
-		self.x = (parent.x + self.staticx) - self.parent.internals[1].offsetx
+	if parent ~= loveframes.base then
+		self.x = (parent.x + self.staticx) - parent.internals[1].offsetx
 		self.y = parent.y + self.staticy
 	end
 	
-	if self.parent.resizecolumn and self.parent.resizecolumn == self then
+	local resizecolumn = parent.resizecolumn
+	
+	if resizecolumn and resizecolumn == self then
 		local x, y = love.mouse.getPosition()
 		local start = false
 		self.width = x - self.x
 		if self.width < 20 then
 			self.width = 20
 		end
-		self.parent.startadjustment = true
-		self.parent.internals[1]:CalculateSize()
-		self.parent.internals[1]:RedoLayout()
-	elseif self.parent.resizecolumn and self.parent.startadjustment then
-		self.staticx = self.parent.children[self.columnid - 1].staticx + self.parent.children[self.columnid - 1].width
+		parent.startadjustment = true
+		parent.internals[1]:CalculateSize()
+		parent.internals[1]:RedoLayout()
+	elseif resizecolumn and parent.startadjustment then
+		local header = parent.children[self.columnid - 1]
+		self.staticx = header.staticx + header.width
 	end
 	
 	self.resizebox = {x = self.x + (self.width - 2), y = self.y, width = 4, height = self.height}
@@ -126,9 +124,7 @@ end
 --]]---------------------------------------------------------
 function newobject:draw()
 
-	local visible = self.visible
-	
-	if not visible then
+	if not self.visible then
 		return
 	end
 	
@@ -200,7 +196,8 @@ function newobject:mousereleased(x, y, button)
 		end
 	end
 	
-	if self.parent.resizecolumn and self.parent.resizecolumn == self then
+	local resizecolumn = self.parent.resizecolumn
+	if resizecolumn and resizecolumn == self then
 		self.parent.resizecolumn = nil
 	end
 	
