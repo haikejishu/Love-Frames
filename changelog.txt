@@ -14,6 +14,7 @@ Version 0.9.9 - Alpha (Release Date TBD)
 [ADDED] a new columnlistarea method: GetVerticalScrollBar()
 [ADDED] a new columnlistarea method: GetHorizontalScrollBar()
 [ADDED] a new columnlist method: GetTotalColumnWidth()
+[ADDED] a new columnlist method: SetColumnWidth(id, width)
 [ADDED] a new columnlist method: GetColumnWidth(id)
 
 [FIXED] bug that would cause tabbuttons to be positioned incorrectly when scrolling with the mouse wheel

@@ -825,7 +825,7 @@ end
 
 --[[---------------------------------------------------------
 	- func: GetTotalColumnWidth()
-	- desc: gets the combined width of the objects columns
+	- desc: gets the combined width of the object's columns
 --]]---------------------------------------------------------
 function newobject:GetTotalColumnWidth()
 
@@ -836,6 +836,28 @@ function newobject:GetTotalColumnWidth()
 	end
 	
 	return width
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetColumnWidth(id, width)
+	- desc: sets the width of the specified column
+--]]---------------------------------------------------------
+function newobject:SetColumnWidth(id, width)
+
+	local column = self.children[id]
+	if column then
+		column.width = width
+		local x = 0
+		for k, v in ipairs(self.children) do
+			v:SetPos(x)
+			x = x + v.width
+		end
+		self.internals[1]:CalculateSize()
+		self.internals[1]:RedoLayout()
+	end
+	
+	return self
 	
 end
 
