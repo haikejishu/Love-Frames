@@ -110,7 +110,7 @@ function newobject:draw()
 	local sheight = height
 	
 	if self.vbar then
-		swidth = swidth - self:GetVerticalScrollBar():GetWidth()
+		swidth = swidth - self:GetVerticalScrollBody():GetWidth()
 	end
 	
 	if self.hbar then
@@ -250,20 +250,20 @@ function newobject:CalculateSize()
 		end
 	else
 		if self.vbar then
-			self:GetVerticalScrollBar():Remove()
+			self:GetVerticalScrollBody():Remove()
 			self.vbar = false
 			self.offsety = 0
 		end
 	end
 	
 	local vbarwidth = 0
-	local vbar = self:GetVerticalScrollBar()
-	if vbar then
-		vbarwidth = vbar.width
+	local vbody = self:GetVerticalScrollBody()
+	if vbody then
+		vbarwidth = vbody.width
 	end
 	
 	if self.itemwidth > (width - vbarwidth) then
-		if vbar then
+		if vbody then
 			self.itemwidth = self.itemwidth + vbarwidth
 		end
 		self.extrawidth = self.itemwidth - width
@@ -299,18 +299,18 @@ function newobject:RedoLayout()
 		v.staticx = 0
 		v.staticy = starty
 		if self.vbar then
-			local vbar = self:GetVerticalScrollBar()
-			vbar.staticx = self.width - vbar.width
+			local vbody = self:GetVerticalScrollBody()
+			vbody.staticx = self.width - vbody.width
 			if self.hbar then
-				vbar.height = self.height - self:GetHorizontalScrollBar().height
+				vbody.height = self.height - self:GetHorizontalScrollBar().height
 			else
-				vbar.height = self.height
+				vbody.height = self.height
 			end
 		end
 		if self.hbar then
 			local hbar = self:GetHorizontalScrollBar()
-			if self.vbar then
-				hbar.width = self.width - self:GetVerticalScrollBar().width
+			if self.vbody then
+				hbar.width = self.width - self:GetVerticalScrollBody().width
 			else
 				hbar.width = self.width
 			end
@@ -409,10 +409,10 @@ function newobject:Clear()
 end
 
 --[[---------------------------------------------------------
-	- func: GetVerticalScrollBar()
-	- desc: gets the object's vertical scrollbar
+	- func: GetVerticalScrollBody()
+	- desc: gets the object's vertical scroll area
 --]]---------------------------------------------------------
-function newobject:GetVerticalScrollBar()
+function newobject:GetVerticalScrollBody()
 
 	for k, v in ipairs(self.internals) do
 		if v.bartype == "vertical" then

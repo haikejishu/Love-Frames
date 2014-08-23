@@ -70,10 +70,10 @@ function newobject:update(dt)
 	local update = self.Update
 	local parent = self.parent
 	local list = parent.internals[1]
-	local vbar = list:GetVerticalScrollBar()
+	local vbody = list:GetVerticalScrollBody()
 	local width = list.width
-	if vbar then
-		width = width - vbar.width
+	if vbody then
+		width = width - vbody.width
 	end
 	
 	self.clickbounds = {x = list.x, y = list.y, width = width, height = list.height}

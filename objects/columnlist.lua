@@ -110,13 +110,13 @@ function newobject:draw()
 	end
 	
 	local stencilfunc
-	local vbar = self.internals[1]:GetVerticalScrollBar()
+	local vbody = self.internals[1]:GetVerticalScrollBody()
 	local hbar = self.internals[1]:GetHorizontalScrollBar()
 	local width = self.width
 	local height = self.height
 	
-	if vbar then
-		width = width - vbar.width
+	if vbody then
+		width = width - vbody.width
 	end
 	
 	if hbar then
@@ -237,10 +237,10 @@ end
 function newobject:AdjustColumns()
 
 	local width = self.width
-	local vbar = self.internals[1]:GetVerticalScrollBar()
+	local vbody = self.internals[1]:GetVerticalScrollBody()
 	
-	if vbar then
-		width = width - self.internals[1].internals[1].width
+	if varea then
+		width = width - vbody.width
 	end
 	
 	local children = self.children
