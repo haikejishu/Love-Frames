@@ -9,6 +9,12 @@ Version 0.9.9 - Alpha (Release Date TBD)
 [ADDED] a new button method: SetToggleable(bool)
 [ADDED] a new button method: GetToggleable()
 [ADDED] toggle functionality to the button object
+[ADDED] resizing functinality to the columnlistheader object
+[ADDED] horizontal scrolling to the columnlist object
+[ADDED] a new columnlistarea method: GetVerticalScrollBar()
+[ADDED] a new columnlistarea method: GetHorizontalScrollBar()
+[ADDED] a new columnlist method: GetTotalColumnWidth()
+[ADDED] a new columnlist method: GetColumnWidth(id)
 
 [FIXED] bug that would cause tabbuttons to be positioned incorrectly when scrolling with the mouse wheel
 [FIXED] collision detection issue caused by list child objects not being updated when outside of their parent's bounding box
