@@ -194,3 +194,13 @@ function newobject:draw()
 	end
 	
 end
+
+--[[---------------------------------------------------------
+	- func: GetScrollBar()
+	- desc: gets the object's scroll bar
+--]]---------------------------------------------------------
+function newobject:GetScrollBar()
+
+	return self.internals[1].internals[1]
+	
+end

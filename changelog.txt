@@ -17,6 +17,7 @@ Version 0.9.9 - Alpha (Release Date TBD)
 [ADDED] a new columnlist method: SetColumnWidth(id, width)
 [ADDED] a new columnlist method: GetColumnWidth(id)
 [ADDED] a new columnlistheader method: SetName(name)
+[ADDED] a new scrollbody method: GetScrollBar()
 
 [FIXED] bug that would cause tabbuttons to be positioned incorrectly when scrolling with the mouse wheel
 [FIXED] collision detection issue caused by list child objects not being updated when outside of their parent's bounding box
