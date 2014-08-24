@@ -15,6 +15,7 @@ function newobject:initialize()
 	self.type = "columnlist"
 	self.width = 300
 	self.height = 100
+	self.defaultcolumnwidth = 100
 	self.columnheight = 16
 	self.buttonscrollamount = 200
 	self.mousewheelscrollamount = 1500
@@ -884,5 +885,26 @@ function newobject:ResizeColumns()
 		self.internals[1]:CalculateSize()
 		self.internals[1]:RedoLayout()
 	end
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetDefaultColumnWidth(width)
+	- desc: sets the object's default column width
+--]]---------------------------------------------------------
+function newobject:SetDefaultColumnWidth(width)
+
+	self.defaultcolumnwidth = width
+	return self
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetDefaultColumnWidth()
+	- desc: gets the object's default column width
+--]]---------------------------------------------------------
+function newobject:GetDefaultColumnWidth()
+
+	return self.defaultcolumnwidth
 	
 end
