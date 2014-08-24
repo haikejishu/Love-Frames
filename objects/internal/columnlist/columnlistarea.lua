@@ -285,7 +285,10 @@ function newobject:CalculateSize()
 		end
 	else
 		if self.hbar then
-			self:GetHorizontalScrollBody():Remove()
+			local hbar = self:GetHorizontalScrollBody()
+			hbar:Remove()
+			self.itemheight = self.itemheight - hbar.height
+			self.extraheight = self.itemheight - height
 			self.hbar = false
 			self.offsetx = 0
 		end

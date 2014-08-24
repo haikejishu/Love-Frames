@@ -860,3 +860,29 @@ function newobject:GetColumnWidth(id)
 	return false
 	
 end
+
+--[[---------------------------------------------------------
+	- func: ResizeColumns()
+	- desc: resizes the object's columns to fit within the
+	        width of the object's list area
+--]]---------------------------------------------------------
+function newobject:ResizeColumns()
+
+	local children = self.children
+	local width = 0
+	local vbody = self.internals[1]:GetVerticalScrollBody()
+	
+	if vbody then
+		width = (self:GetWidth() - vbody:GetWidth())/#children
+	else
+		width = self:GetWidth()/#children
+	end
+	
+	for k, v in ipairs(children) do
+		v:SetWidth(width)
+		self:PositionColumns()
+		self.internals[1]:CalculateSize()
+		self.internals[1]:RedoLayout()
+	end
+	
+end
