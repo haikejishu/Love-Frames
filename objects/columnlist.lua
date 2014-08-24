@@ -886,6 +886,8 @@ function newobject:ResizeColumns()
 		self.internals[1]:RedoLayout()
 	end
 	
+	return self
+	
 end
 
 --[[---------------------------------------------------------
