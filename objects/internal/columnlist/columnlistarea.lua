@@ -320,6 +320,7 @@ function newobject:RedoLayout()
 		end
 		if self.hbar then
 			local hbody = self:GetHorizontalScrollBody()
+			hbody.staticy = self.height - hbody.height
 			if self.vbar then
 				hbody.width = self.width - self:GetVerticalScrollBody().width
 			else
