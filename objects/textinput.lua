@@ -1940,7 +1940,14 @@ end
 --]]---------------------------------------------------------
 function newobject:SelectAll()
 
-	self.alltextselected = true
+	if not self.multiline then
+		if self.lines[1] ~= "" then
+			self.alltextselected = true
+		end
+	else
+		self.alltextselected = true
+	end
+
 	return self
 	
 end
