@@ -154,7 +154,7 @@ end
 --]]---------------------------------------------------------
 function newobject:mousepressed(x, y, button)
 	
-	if not self.parent.resizecolumn then
+	if not self.parent.resizecolumn and self.parent.canresizecolumns then
 		local box = self.resizebox
 		local col = loveframes.util.BoundingBox(x, box.x, y, box.y, 1, box.width, 1, box.height)
 		if col then

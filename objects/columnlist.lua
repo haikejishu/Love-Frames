@@ -25,6 +25,7 @@ function newobject:initialize()
 	self.selectionenabled = true
 	self.multiselect = false
 	self.startadjustment = false
+	self.canresizecolumns = true
 	self.children = {}
 	self.internals = {}
 	self.resizecolumn = nil
@@ -908,5 +909,28 @@ end
 function newobject:GetDefaultColumnWidth()
 
 	return self.defaultcolumnwidth
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetColumnResizeEnabled(bool)
+	- desc: sets whether or not the object's columns can
+			be resized
+--]]---------------------------------------------------------
+function newobject:SetColumnResizeEnabled(bool)
+
+	self.canresizecolumns = bool
+	return self
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetColumnResizeEnabled()
+	- desc: gets whether or not the object's columns can
+			be resized
+--]]---------------------------------------------------------
+function newobject:GetColumnResizeEnabled()
+
+	return self.canresizecolumns
 	
 end
