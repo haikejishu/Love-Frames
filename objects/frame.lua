@@ -1084,6 +1084,28 @@ function newobject:GetMaxHeight()
 end
 
 --[[---------------------------------------------------------
+	- func: SetMinSize(width, height)
+	- desc: sets the object's minimum size
+--]]---------------------------------------------------------
+function newobject:SetMinSize(width, height)
+
+	self.minwidth = width
+	self.minheight = height
+	return self
+
+end
+
+--[[---------------------------------------------------------
+	- func: GetMinSize()
+	- desc: gets the object's minimum size
+--]]---------------------------------------------------------
+function newobject:GetMinSize()
+
+	return self.minwidth, self.maxwidth
+	
+end
+
+--[[---------------------------------------------------------
 	- func: SetAlwaysOnTop(bool)
 	- desc: sets whether or not a frame should always be
 			drawn on top of other objects
