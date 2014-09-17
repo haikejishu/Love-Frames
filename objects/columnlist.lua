@@ -934,3 +934,30 @@ function newobject:GetColumnResizeEnabled()
 	return self.canresizecolumns
 	
 end
+
+--[[---------------------------------------------------------
+	- func: SizeColumnToData(columnid)
+	- desc: sizes a column to the width of its largest data
+			string
+--]]---------------------------------------------------------
+function newobject:SizeColumnToData(columnid)
+
+	local column = self.children[columnid]
+	local list = self.internals[1]
+	local largest = 0
+	
+	for k, v in ipairs(list.children) do
+		local width = v:GetFont():getWidth(self:GetCellText(k, columnid))
+		if width > largest then
+			largest = width + v.textx
+		end
+	end
+	
+	if largest <= 0 then
+		largest = 10
+	end
+	
+	self:SetColumnWidth(columnid, largest)
+	return self
+	
+end
