@@ -19,19 +19,28 @@ Version 0.9.9 - Alpha (Release Date TBD)
 [ADDED] a new columnlist method: ResizeColumns()
 [ADDED] a new columnlist method: SetDefaultColumnWidth(width)
 [ADDED] a new columnlist method: GetDefaultColumnWidth()
+[ADDED] a new columnlist method: SetColumnResizeEnabled(bool)
+[ADDED] a new columnlist method: GetColumnResizeEnabled()
+[ADDED] a new columnlist method: SizeColumnToData()
 [ADDED] a new columnlistheader method: SetName(name)
 [ADDED] a new scrollbody method: GetScrollBar()
+[ADDED] a new frame method: SetMaxSize(width, height)
+[ADDED] a new frame method: GetMaxSize()
+[ADDED] a new frame method: SetMinSize(width, height)
+[ADDED] a new frame method: GetMinSize()
 
 [FIXED] bug that would cause tabbuttons to be positioned incorrectly when scrolling with the mouse wheel
 [FIXED] collision detection issue caused by list child objects not being updated when outside of their parent's bounding box
 [FIXED] checkbox text becoming invisible when calling checkbox:SetText after switching to a custom state
 [FIXED] an error caused by calling base:MoveToTop on an object parented to a panel object
 [FIXED] nested list positioning issues
+[FIXED] textinput.alltextselected being set to true when calling the SelectAll method on an empty single-line textinput
 
 [CHANGED] columnlist row colors are now adjusted when a row is removed from the list
 [CHANGED] columnlistarea.rowcolorindex now resets to 1 when the list is cleared
 [CHANGED] columnlist:SetRowColumnText to columnlist:SetCellText
 [CHANGED] columnlist:AdjustColumns to columnlist:PositionColumns
+[CHANGED] license to zlib/libpng
 
 ================================================
 Version 0.9.8.1 - Alpha (May 17 - 2014)
