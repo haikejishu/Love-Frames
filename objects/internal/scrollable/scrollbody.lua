@@ -61,6 +61,8 @@ function newobject:initialize(parent, bartype)
 		downbutton.Update = function(object, dt)
 			downbutton.staticx = 0 + self.width - downbutton.width
 			downbutton.staticy = 0 + self.height - downbutton.height
+			downbutton.x = downbutton.parent.x + downbutton.staticx
+			downbutton.y = downbutton.parent.y + downbutton.staticy
 			if object.down and object.hover then
 				local dtscrolling = self.parent.dtscrolling
 				if dtscrolling then
@@ -98,6 +100,8 @@ function newobject:initialize(parent, bartype)
 		rightbutton.Update = function(object, dt)
 			rightbutton.staticx = 0 + self.width - rightbutton.width
 			rightbutton.staticy = 0
+			rightbutton.x = rightbutton.parent.x + rightbutton.staticx
+			rightbutton.y = rightbutton.parent.y + rightbutton.staticy
 			if object.down and object.hover then
 				local dtscrolling = self.parent.dtscrolling
 				if dtscrolling then
