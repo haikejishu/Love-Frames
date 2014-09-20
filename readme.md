@@ -6,8 +6,7 @@ Love Frames is a GUI library for [LÖVE](https://love2d.org/). Information on ins
 
 ## License
 
-Love Frames is licensed under the Creative Commons Attribution 3.0 Unported (CC BY 3.0) license.
-For more information on this license, please read license.txt or visit this web page: http://creativecommons.org/licenses/by/3.0/
+Love Frames is licensed under the zlib/libpng license. For more information, please read license.txt.
 
 ## Credits
 
