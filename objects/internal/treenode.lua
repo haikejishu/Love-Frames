@@ -18,6 +18,7 @@ function newobject:initialize()
 	self.height = 16
 	self.level = 0
 	self.leftpadding = 0
+	self.lastclick = 0
 	self.open = false
 	self.internal = true
 	self.internals = {}
@@ -153,6 +154,11 @@ function newobject:mousepressed(x, y, button)
 	end
 	
 	if self.hover and button == "l" then
+		local time = os.time()
+		if self.lastclick + 0.40 > time then
+			self.open = not self.open
+		end
+		self.lastclick = time
 		local onselectnode = self.tree.OnSelectNode
 		self.tree.selectednode = self
 		if onselectnode then
