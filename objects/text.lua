@@ -25,6 +25,7 @@ function newobject:initialize()
 	self.maxw = 0
 	self.shadowxoffset = 1
 	self.shadowyoffset = 1
+	self.lines = 0
 	self.formattedtext = {}
 	self.original = {}
 	self.defaultcolor = {0, 0, 0, 255}
@@ -370,7 +371,7 @@ function newobject:SetText(t)
 	local twidth = 0
 	local drawx = 0
 	local drawy = 0
-	local lines = 0
+	local lines = 1
 	local textwidth = 0
 	local lastwidth = 0
 	local totalwidth = 0
@@ -410,11 +411,13 @@ function newobject:SetText(t)
 						drawy = drawy + largestheight
 						largestheight = 0
 						text = ""
+						lines = lines + 1
 					elseif (twidth + width) > maxw then
 						twidth = 0 + width
 						drawx = 0
 						drawy = drawy + largestheight
 						largestheight = 0
+						lines = lines + 1
 					else
 						twidth = twidth + width
 						drawx = drawx + prevtextwidth
@@ -434,6 +437,7 @@ function newobject:SetText(t)
 					drawy = drawy + largestheight
 					largestheight = 0
 					text = ""
+					lines = lines + 1
 					if lastwidth < textwidth then
 						lastwidth = textwidth
 					end
@@ -452,6 +456,8 @@ function newobject:SetText(t)
 			end
 		end
 	end
+	
+	self.lines = lines
 	
 	if lastwidth == 0 then
 		textwidth = totalwidth
