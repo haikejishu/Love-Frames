@@ -961,3 +961,23 @@ function newobject:SizeColumnToData(columnid)
 	return self
 	
 end
+
+--[[---------------------------------------------------------
+	- func: SetColumnOrder(curid, newid)
+	- desc: sets the order of the specified column
+--]]---------------------------------------------------------
+function newobject:SetColumnOrder(curid, newid)
+
+	local column = self.children[curid]
+	local totalcolumns = #self.children
+	
+	if column and totalcolumns > 1 and newid <= totalcolumns and newid >= 1 then
+		column:Remove()
+		table.insert(self.children, newid, column)
+		self:PositionColumns()
+	end
+	
+	return self
+	
+end
+	
