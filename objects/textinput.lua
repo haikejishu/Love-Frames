@@ -159,7 +159,7 @@ function newobject:update(dt)
 		if vbar then
 			self.itemwidth = twidth + 16 + textoffsetx * 2
 		else
-			self.itemwidth = twidth
+			self.itemwidth = twidth + (textoffsetx * 2)
 		end
 		if panel then
 			local panelwidth = panel.width
