@@ -751,6 +751,10 @@ function newobject:RunKey(key, istext)
 					self.line = line + 1
 				end
 				self.indicatornum = 0
+				local hbody = self:GetHorizontalScrollBody()
+				if hbody then
+					hbody:GetScrollBar():Scroll(-hbody:GetWidth())
+				end
 			end
 		elseif key == "tab" then
 			if alltextselected then
