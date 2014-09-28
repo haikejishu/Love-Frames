@@ -504,7 +504,7 @@ function newobject:mousepressed(x, y, button)
 				self.dragging = true
 			end
 		end
-		if not self.resizing and self.canresize then
+		if not self.resizing and self.canresize and loveframes.hoverobject == self then
 			if loveframes.util.BoundingBox(self.x, x, self.y, y, 5, 1, 5, 1) then
 				self.resizing = true
 				self.dragging = false
