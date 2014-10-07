@@ -2029,3 +2029,17 @@ function newobject:GetPlaceholderText()
 	return self.placeholder
 	
 end
+
+--[[---------------------------------------------------------
+	- func: ClearLine(line)
+	- desc: clears the specified line
+--]]---------------------------------------------------------
+function newobject:ClearLine(line)
+	
+	if self.lines[line] then
+		self.lines[line] = ""
+	end
+	
+	return self
+	
+end
