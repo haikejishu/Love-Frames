@@ -4,9 +4,11 @@
 --]]------------------------------------------------
 
 local path = ...
-
--- central library table
-loveframes = {}
+require(path .. ".libraries.util")
+require(path .. ".libraries.skins")
+require(path .. ".libraries.templates")
+require(path .. ".libraries.debug")
+local loveframes = require(path .. ".libraries.common")
 
 -- library info
 loveframes.author = "Kenny Shields"
@@ -39,60 +41,22 @@ loveframes.basicfontsmall = love.graphics.newFont(10)
 loveframes.objects = {}
 loveframes.collisions = {}
 
---[[---------------------------------------------------------
-	- func: load()
-	- desc: loads the library
---]]---------------------------------------------------------
-function loveframes.load()
-	
-	-- install directory of the library
-	local dir = loveframes.config["DIRECTORY"] or path
-	
-	-- require the internal base libraries
-	loveframes.class = require(dir .. ".third-party.middleclass")
-	require(dir .. ".libraries.util")
-	require(dir .. ".libraries.skins")
-	require(dir .. ".libraries.templates")
-	require(dir .. ".libraries.debug")
-	
-	-- replace all "." with "/" in the directory setting
-	dir = dir:gsub("\\", "/"):gsub("(%a)%.(%a)", "%1/%2")
-	loveframes.config["DIRECTORY"] = dir
-	
-	-- create a list of gui objects, skins and templates
-	local objects = loveframes.util.GetDirectoryContents(dir .. "/objects")
-	local skins = loveframes.util.GetDirectoryContents(dir .. "/skins")
-	local templates = loveframes.util.GetDirectoryContents(dir .. "/templates")
-	
-	-- loop through a list of all gui objects and require them
-	for k, v in ipairs(objects) do
-		if v.extension == "lua" then
-			require(v.requirepath)
-		end
-	end
-	
-	-- loop through a list of all gui templates and require them
-	for k, v in ipairs(templates) do
-		if v.extension == "lua" then
-			require(v.requirepath)
-		end
-	end
-	
-	-- loop through a list of all gui skins and require them
-	for k, v in ipairs(skins) do
-		if v.extension == "lua" then
-			require(v.requirepath)
-		end
-	end
-	
-	-- create the base gui object
-	local base = loveframes.objects["base"]
-	loveframes.base = base:new()
-	
-	-- enable key repeat
-	love.keyboard.setKeyRepeat(true)
-	
-end
+-- install directory of the library
+local dir = loveframes.config["DIRECTORY"] or path
+
+-- require the internal base libraries
+loveframes.class = require(dir .. ".third-party.middleclass")
+require(dir .. ".libraries.util")
+require(dir .. ".libraries.skins")
+require(dir .. ".libraries.templates")
+require(dir .. ".libraries.debug")
+
+-- replace all "." with "/" in the directory setting
+dir = dir:gsub("\\", "/"):gsub("(%a)%.(%a)", "%1/%2")
+loveframes.config["DIRECTORY"] = dir
+
+-- enable key repeat
+love.keyboard.setKeyRepeat(true)
 
 --[[---------------------------------------------------------
 	- func: update(deltatime)
@@ -454,5 +418,34 @@ function loveframes.GetState()
 	
 end
 
--- load the library
-loveframes.load()
+-- create a list of gui objects, skins and templates
+local objects = loveframes.util.GetDirectoryContents(dir .. "/objects")
+local skins = loveframes.util.GetDirectoryContents(dir .. "/skins")
+local templates = loveframes.util.GetDirectoryContents(dir .. "/templates")
+
+-- loop through a list of all gui objects and require them
+for k, v in ipairs(objects) do
+	if v.extension == "lua" then
+		require(v.requirepath)
+	end
+end
+
+-- loop through a list of all gui templates and require them
+for k, v in ipairs(templates) do
+	if v.extension == "lua" then
+		require(v.requirepath)
+	end
+end
+
+-- loop through a list of all gui skins and require them
+for k, v in ipairs(skins) do
+	if v.extension == "lua" then
+		require(v.requirepath)
+	end
+end
+
+-- create the base gui object
+local base = loveframes.objects["base"]
+loveframes.base = base:new()
+
+return loveframes

@@ -3,6 +3,10 @@
 	-- Copyright (c) 2012-2014 Kenny Shields --
 --]]------------------------------------------------
 
+-- get the current require path
+local path = string.sub(..., 1, string.len(...) - string.len(".objects.tree"))
+local loveframes = require(path .. ".libraries.common")
+
 -- button object
 local newobject = loveframes.NewObject("tree", "loveframes_object_tree", true)
 
