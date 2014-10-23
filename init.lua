@@ -433,7 +433,8 @@ end
 -- loop through a list of all gui templates and require them
 for k, v in ipairs(templates) do
 	if v.extension == "lua" then
-		require(v.requirepath)
+		local template = require(v.requirepath)
+		loveframes.templates.Register(template)
 	end
 end
 
