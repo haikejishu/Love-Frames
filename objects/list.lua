@@ -705,6 +705,18 @@ function newobject:SetAutoScroll(bool)
 end
 
 --[[---------------------------------------------------------
+	- func: GetAutoScroll()
+	- desc: gets whether or not the list's scrollbar should
+			auto scroll to the bottom when a new object is
+			added to the list
+--]]---------------------------------------------------------
+function newobject:GetAutoScroll()
+
+	return self.autoscroll
+	
+end
+
+--[[---------------------------------------------------------
 	- func: SetButtonScrollAmount(speed)
 	- desc: sets the scroll amount of the object's scrollbar
 			buttons
