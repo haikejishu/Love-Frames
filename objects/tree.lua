@@ -271,6 +271,10 @@ function newobject:mousereleased(x, y, button)
 
 end
 
+--[[---------------------------------------------------------
+	- func: AddNode(text)
+	- desc: adds a node to the object
+--]]---------------------------------------------------------
 function newobject:AddNode(text)
 
 	local node = loveframes.objects["treenode"]:new()
