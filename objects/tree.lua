@@ -289,6 +289,21 @@ function newobject:AddNode(text)
 end
 
 --[[---------------------------------------------------------
+	- func: RemoveNode(id)
+	- desc: removes a node from the object
+--]]---------------------------------------------------------
+function newobject:RemoveNode(id)
+	
+	for k, v in ipairs(self.children) do
+		if k == id then
+			v:Remove()
+			break
+		end
+	end
+	
+end
+
+--[[---------------------------------------------------------
 	- func: GetVerticalScrollBody()
 	- desc: gets the object's vertical scroll body
 --]]---------------------------------------------------------
