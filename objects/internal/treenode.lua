@@ -269,6 +269,22 @@ function newobject:AddNode(text)
 end
 
 --[[---------------------------------------------------------
+	- func: RemoveNode(id)
+	- desc: removes a node from the object
+--]]---------------------------------------------------------
+function newobject:RemoveNode(id)
+	
+	id = id + 1
+	for k, v in ipairs(self.internals) do
+		if k == id then
+			v:Remove()
+			break
+		end
+	end
+	
+end
+
+--[[---------------------------------------------------------
 	- func: SetOpen(bool)
 	- desc: sets whether or not the object is open
 --]]---------------------------------------------------------
