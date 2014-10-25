@@ -3,6 +3,10 @@
 	-- Copyright (c) 2012-2014 Kenny Shields --
 --]]------------------------------------------------
 
+-- get the current require path
+local path = string.sub(..., 1, string.len(...) - string.len(".objects.collapsiblecategory"))
+local loveframes = require(path .. ".libraries.common")
+
 -- collapsiblecategory object
 local newobject = loveframes.NewObject("collapsiblecategory", "loveframes_object_collapsiblecategory", true)
 
