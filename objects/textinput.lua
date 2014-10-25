@@ -969,7 +969,6 @@ function newobject:UpdateIndicator()
 			if indicatorRelativeX < leftlimit then
 				correction = correction * -1
 			end
-			print(correction)
 			hbody:GetScrollBar():ScrollTo((width + correction) / twidth)
 		end
 	end
