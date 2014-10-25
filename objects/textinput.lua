@@ -940,9 +940,9 @@ function newobject:UpdateIndicator()
 	-- indicator should be visible, so correcting scrolls
 	if self.focus then
 		local indicatorRelativeX = width + self.textoffsetx - self.offsetx
-		local leftlimit, rightlimit = 25, self:GetWidth() - 25
+		local leftlimit, rightlimit = 1, self:GetWidth() - 1
 		if self.linenumberspanel then
-			leftlimit = leftlimit + self:GetLineNumbersPanel().width
+			rightlimit = rightlimit - self:GetLineNumbersPanel().width
 		end
 		if self.vbar then
 			rightlimit = rightlimit - self:GetVerticalScrollBody().width
@@ -971,7 +971,7 @@ function newobject:UpdateIndicator()
 			end
 		end
 		local indicatorRelativeY = (line - 1) * theight + self.textoffsety - self.offsety
-		local uplimit, downlimit = 25, self:GetHeight() - 25
+		local uplimit, downlimit = theight, self:GetHeight() - theight
 		if self.hbar then
 			downlimit = downlimit - self:GetHorizontalScrollBody().height
 		end
