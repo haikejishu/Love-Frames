@@ -152,6 +152,17 @@ function newobject:update(dt)
 		self.y = parent.y + self.staticy
 	end
 	
+	-- resize to parent
+	if parent ~= base then
+		if self.bartype == "vertical" then
+			self.height = self.parent.height
+			self.staticx = self.parent.width - self.width
+		elseif self.bartype == "horizontal" then
+			self.width = self.parent.width
+			self.staticy = self.parent.height - self.height
+		end
+	end
+	
 	for k, v in ipairs(internals) do
 		v:update(dt)
 	end
