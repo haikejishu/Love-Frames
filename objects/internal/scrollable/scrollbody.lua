@@ -157,9 +157,11 @@ function newobject:update(dt)
 		if self.bartype == "vertical" then
 			self.height = self.parent.height
 			self.staticx = self.parent.width - self.width
+			if parent.hbar then self.height = self.height - parent:GetHorizontalScrollBody().height end
 		elseif self.bartype == "horizontal" then
 			self.width = self.parent.width
 			self.staticy = self.parent.height - self.height
+			if parent.vbar then self.width = self.width - parent:GetVerticalScrollBody().width end
 		end
 	end
 	

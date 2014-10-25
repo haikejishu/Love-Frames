@@ -938,50 +938,52 @@ function newobject:UpdateIndicator()
 	end
 	
 	-- indicator should be visible, so correcting scrolls
-	local indicatorRelativeX = width + self.textoffsetx - self.offsetx
-	local leftlimit, rightlimit = 0, self:GetWidth()
-	if self.linenumberspanel then
-		leftlimit = leftlimit + self:GetLineNumbersPanel().width
-	end
-	if self.vbar then
-		rightlimit = rightlimit - self:GetVerticalScrollBody().width
-	end
-	if not (indicatorRelativeX > leftlimit and indicatorRelativeX < rightlimit) then 
-		local hbody = self:GetHorizontalScrollBody()
-		if hbody then
-			local twidth = 0
-			for k, v in ipairs(lines) do
-				local linewidth = 0
-				if self.masked then
-					linewidth = font:getWidth(v:gsub(".", self.maskchar))
-				else
-					linewidth = font:getWidth(v)
-				end
-				if linewidth > twidth then
-					twidth = linewidth
-				end
-			end
-			local correction = self:GetWidth() / 2
-			if indicatorRelativeX < leftlimit then
-				correction = correction * -1
-			end
-			print(correction)
-			hbody:GetScrollBar():ScrollTo((width + correction) / twidth)
+	if self.focus then
+		local indicatorRelativeX = width + self.textoffsetx - self.offsetx
+		local leftlimit, rightlimit = 25, self:GetWidth() - 25
+		if self.linenumberspanel then
+			leftlimit = leftlimit + self:GetLineNumbersPanel().width
 		end
-	end
-	local indicatorRelativeY = (line - 1) * theight + self.textoffsety - self.offsety
-	local uplimit, downlimit = 0, self:GetHeight()
-	if self.hbar then
-		downlimit = downlimit - self:GetHorizontalScrollBody().height
-	end
-	if not (indicatorRelativeY > uplimit and indicatorRelativeY < downlimit) then 
-		local vbody = self:GetVerticalScrollBody()
-		if vbody then
-			local correction = self:GetHeight() / 2 / theight
-			if indicatorRelativeY < uplimit then
-				correction = correction * -1
+		if self.vbar then
+			rightlimit = rightlimit - self:GetVerticalScrollBody().width
+		end
+		if not (indicatorRelativeX > leftlimit and indicatorRelativeX < rightlimit) then 
+			local hbody = self:GetHorizontalScrollBody()
+			if hbody then
+				local twidth = 0
+				for k, v in ipairs(lines) do
+					local linewidth = 0
+					if self.masked then
+						linewidth = font:getWidth(v:gsub(".", self.maskchar))
+					else
+						linewidth = font:getWidth(v)
+					end
+					if linewidth > twidth then
+						twidth = linewidth
+					end
+				end
+				local correction = self:GetWidth() / 2
+				if indicatorRelativeX < leftlimit then
+					correction = correction * -1
+				end
+				print(correction)
+				hbody:GetScrollBar():ScrollTo((width + correction) / twidth)
 			end
-			vbody:GetScrollBar():ScrollTo((line - 1 + correction)/#lines)
+		end
+		local indicatorRelativeY = (line - 1) * theight + self.textoffsety - self.offsety
+		local uplimit, downlimit = 25, self:GetHeight() - 25
+		if self.hbar then
+			downlimit = downlimit - self:GetHorizontalScrollBody().height
+		end
+		if not (indicatorRelativeY > uplimit and indicatorRelativeY < downlimit) then 
+			local vbody = self:GetVerticalScrollBody()
+			if vbody then
+				local correction = self:GetHeight() / 2 / theight
+				if indicatorRelativeY < uplimit then
+					correction = correction * -1
+				end
+				vbody:GetScrollBar():ScrollTo((line - 1 + correction)/#lines)
+			end
 		end
 	end
 	
