@@ -3,6 +3,10 @@
 	-- Copyright (c) 2012-2014 Kenny Shields --
 --]]------------------------------------------------
 
+-- get the current require path
+local path = string.sub(..., 1, string.len(...) - string.len(".objects.list"))
+local loveframes = require(path .. ".libraries.common")
+
 -- list object
 local newobject = loveframes.NewObject("list", "loveframes_object_list", true)
 
@@ -697,6 +701,18 @@ function newobject:SetAutoScroll(bool)
 	end
 	
 	return self
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetAutoScroll()
+	- desc: gets whether or not the list's scrollbar should
+			auto scroll to the bottom when a new object is
+			added to the list
+--]]---------------------------------------------------------
+function newobject:GetAutoScroll()
+
+	return self.autoscroll
 	
 end
 

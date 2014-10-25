@@ -3,6 +3,10 @@
 	-- Copyright (c) 2012-2014 Kenny Shields --
 --]]------------------------------------------------
 
+-- get the current require path
+local path = string.sub(..., 1, string.len(...) - string.len(".objects.internal.linenumberspanel"))
+local loveframes = require(path .. ".libraries.common")
+
 -- linenumberspanel class
 local newobject = loveframes.NewObject("linenumberspanel", "loveframes_object_linenumberspanel", true)
 
