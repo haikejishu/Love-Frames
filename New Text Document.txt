@@ -1,9 +1,0 @@
-elseif (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) and lines[line] ~= "" then
-				if multiline then
-					self:ClearLine(self.line)
-					self.indicatornum = 0
-					indicatornum = self.indicatornum
-				else
-					self:Clear()
-					indicatornum = self.indicatornum
-				end
