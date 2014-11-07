@@ -338,26 +338,24 @@ function newobject:ScrollTo(position)
 	local bartype = self.bartype
 	local listo = self.parent.parent.parent
 	local onscroll = listo.OnScroll
-	
+
 	if bartype == "vertical" then
-		local denormalized = position * self.maxy
-		local newy = denormalized + self.parent.y
-		if newy > self.maxy then
-			self.staticy = self.maxy - self.parent.y
-		elseif newy < self.parent.y then
+		local maxRealPos = self.parent.height - self.height
+		if position > 1 then
+			self.staticy = maxRealPos
+		elseif position < 0 then
 			self.staticy = 0
 		else
-			self.staticy = denormalized
+			self.staticy = position * maxRealPos
 		end
 	elseif bartype == "horizontal" then
-		local denormalized = position * self.maxx
-		local newx = denormalized + self.parent.x
-		if newx > self.maxx then
-			self.staticx = self.maxx - self.parent.x
-		elseif newx < self.parent.x then
+		local maxRealPos = self.parent.width - self.width
+		if position > 1 then
+			self.staticx = maxRealPos
+		elseif position < 0 then
 			self.staticx = 0
 		else
-			self.staticx = denormalized
+			self.staticx = position * maxRealPos
 		end
 	end
 	

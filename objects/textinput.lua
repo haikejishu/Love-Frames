@@ -962,11 +962,10 @@ function newobject:UpdateIndicator()
 						twidth = linewidth
 					end
 				end
-				local correction = self:GetWidth() / 2
+				local correction = self:GetWidth() / 8
 				if indicatorRelativeX < leftlimit then
 					correction = correction * -1
 				end
-				print(correction)
 				hbody:GetScrollBar():ScrollTo((width + correction) / twidth)
 			end
 		end
@@ -978,7 +977,7 @@ function newobject:UpdateIndicator()
 		if not (indicatorRelativeY > uplimit and indicatorRelativeY < downlimit) then 
 			local vbody = self:GetVerticalScrollBody()
 			if vbody then
-				local correction = self:GetHeight() / 2 / theight
+				local correction = self:GetHeight() / 8 / theight
 				if indicatorRelativeY < uplimit then
 					correction = correction * -1
 				end
