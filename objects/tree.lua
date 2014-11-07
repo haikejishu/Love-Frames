@@ -3,6 +3,10 @@
 	-- Copyright (c) 2012-2014 Kenny Shields --
 --]]------------------------------------------------
 
+-- get the current require path
+local path = string.sub(..., 1, string.len(...) - string.len(".objects.tree"))
+local loveframes = require(path .. ".libraries.common")
+
 -- button object
 local newobject = loveframes.NewObject("tree", "loveframes_object_tree", true)
 
@@ -267,6 +271,10 @@ function newobject:mousereleased(x, y, button)
 
 end
 
+--[[---------------------------------------------------------
+	- func: AddNode(text)
+	- desc: adds a node to the object
+--]]---------------------------------------------------------
 function newobject:AddNode(text)
 
 	local node = loveframes.objects["treenode"]:new()
@@ -277,6 +285,21 @@ function newobject:AddNode(text)
 	node.staticy = self.itemheight
 	table.insert(self.children, node)
 	return node
+	
+end
+
+--[[---------------------------------------------------------
+	- func: RemoveNode(id)
+	- desc: removes a node from the object
+--]]---------------------------------------------------------
+function newobject:RemoveNode(id)
+	
+	for k, v in ipairs(self.children) do
+		if k == id then
+			v:Remove()
+			break
+		end
+	end
 	
 end
 
