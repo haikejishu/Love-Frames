@@ -316,10 +316,10 @@ function newobject:SetText(t)
 			local key = k
 			if width > maxw then
 				table.remove(self.formattedtext, k)
-				for n=1, #data do	
+				for n=1, string.len(data) do	
 					local item = data:sub(n, n)
 					local itemw = v.font:getWidth(item)
-					if n ~= #data then
+					if n ~= string.len(data) then
 						if (curw + itemw) > maxw then
 							table.insert(inserts, {
 								key = key, 
@@ -389,7 +389,7 @@ function newobject:SetText(t)
 		local text = v.text
 		local color = v.color
 		if detectlinks then
-			if #text > 7 and (text:sub(1, 7) == "http://" or text:sub(1, 8) == "https://") then
+			if string.len(text) > 7 and (text:sub(1, 7) == "http://" or text:sub(1, 8) == "https://") then
 				v.link = true
 			end
 		end
