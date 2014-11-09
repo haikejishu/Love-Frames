@@ -1681,18 +1681,23 @@ function skin.DrawColumnListRow(object)
 		love.graphics.rectangle("fill", x, y, width, height)
 	end
 	
+	love.graphics.setFont(font)
+	if selected then
+		love.graphics.setColor(textselectedcolor)
+	elseif hover then
+		love.graphics.setColor(texthovercolor)
+	else
+		love.graphics.setColor(textcolor)
+	end
 	for k, v in ipairs(columndata) do
-		love.graphics.setFont(font)
-		local text = ParseRowText(v, x, parent.parent:GetColumnWidth(k), x, textx)
-		if selected then
-			love.graphics.setColor(textselectedcolor)
-		elseif hover then
-			love.graphics.setColor(texthovercolor)
+		local rwidth = parent.parent:GetColumnWidth(k)
+		if rwidth then
+			local text = ParseRowText(v, x, rwidth, x, textx)
+			love.graphics.print(text, x + textx, y + texty)
+			x = x + parent.parent.children[k]:GetWidth()
 		else
-			love.graphics.setColor(textcolor)
+			break
 		end
-		love.graphics.print(text, x + textx, y + texty)
-		x = x + parent.parent.children[k]:GetWidth()
 	end
 	
 end

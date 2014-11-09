@@ -334,6 +334,42 @@ function newobject:Scroll(amount)
 end
 
 --[[---------------------------------------------------------
+	- func: ScrollTo(position)
+	- desc: scrolls the object
+--]]---------------------------------------------------------
+function newobject:ScrollTo(position)
+
+	local bartype = self.bartype
+	local listo = self.parent.parent.parent
+	local onscroll = listo.OnScroll
+
+	if bartype == "vertical" then
+		local maxRealPos = self.parent.height - self.height
+		if position > 1 then
+			self.staticy = maxRealPos
+		elseif position < 0 then
+			self.staticy = 0
+		else
+			self.staticy = position * maxRealPos
+		end
+	elseif bartype == "horizontal" then
+		local maxRealPos = self.parent.width - self.width
+		if position > 1 then
+			self.staticx = maxRealPos
+		elseif position < 0 then
+			self.staticx = 0
+		else
+			self.staticx = position * maxRealPos
+		end
+	end
+	
+	if onscroll then
+		onscroll(listo)
+	end
+	
+end
+
+--[[---------------------------------------------------------
 	- func: IsDragging()
 	- desc: gets whether the object is being dragged or not
 --]]---------------------------------------------------------

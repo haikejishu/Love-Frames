@@ -8,6 +8,7 @@ require(path .. ".libraries.util")
 require(path .. ".libraries.skins")
 require(path .. ".libraries.templates")
 require(path .. ".libraries.debug")
+require(path .. ".libraries.utf8")
 local loveframes = require(path .. ".libraries.common")
 
 -- library info
@@ -52,6 +53,7 @@ require(dir .. ".libraries.util")
 require(dir .. ".libraries.skins")
 require(dir .. ".libraries.templates")
 require(dir .. ".libraries.debug")
+require(dir .. ".libraries.utf8")
 
 -- replace all "." with "/" in the directory setting
 dir = dir:gsub("\\", "/"):gsub("(%a)%.(%a)", "%1/%2")
