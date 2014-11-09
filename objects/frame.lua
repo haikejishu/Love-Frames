@@ -506,12 +506,14 @@ function newobject:mousepressed(x, y, button)
 					self.clicky = y - self.staticy
 				end
 				self.dragging = true
+				loveframes.dragobject = self
 			end
 		end
 		if not self.resizing and self.canresize and loveframes.hoverobject == self then
 			if loveframes.util.BoundingBox(self.x, x, self.y, y, 5, 1, 5, 1) then
 				self.resizing = true
 				self.dragging = false
+				loveframes.dragobject = false
 				self.resize_mode = "top_left"
 				self.resizex = x
 				self.resizey = y
@@ -541,6 +543,7 @@ function newobject:mousepressed(x, y, button)
 			elseif loveframes.util.BoundingBox(self.x + self.width - 5, x, self.y, y, 5, 1, 5, 1) then
 				self.resizing = true
 				self.dragging = false
+				loveframes.dragobject = false
 				self.resize_mode = "top_right"
 				self.resizex = x
 				self.resizey = y
@@ -556,6 +559,7 @@ function newobject:mousepressed(x, y, button)
 			elseif loveframes.util.BoundingBox(self.x, x, self.y + self.height - 5, y, 5, 1, 5, 1) then
 				self.resizing = true
 				self.dragging = false
+				loveframes.dragobject = false
 				self.resize_mode = "bottom_left"
 				self.resizex = x
 				self.resizey = y
@@ -571,6 +575,7 @@ function newobject:mousepressed(x, y, button)
 			elseif loveframes.util.BoundingBox(self.x + 5, x, self.y, y, self.width - 10, 1, 2, 1) then
 				self.resizing = true
 				self.dragging = false
+				loveframes.dragobject = false
 				self.resize_mode = "top"
 				self.resizex = x
 				self.resizey = y
@@ -583,6 +588,7 @@ function newobject:mousepressed(x, y, button)
 			elseif loveframes.util.BoundingBox(self.x + 5, x, self.y + self.height - 2, y, self.width - 10, 1, 2, 1) then
 				self.resizing = true
 				self.dragging = false
+				loveframes.dragobject = false
 				self.resize_mode = "bottom"
 				self.resizex = x
 				self.resizey = y
@@ -595,6 +601,7 @@ function newobject:mousepressed(x, y, button)
 			elseif loveframes.util.BoundingBox(self.x, x, self.y + 5, y, 2, 1, self.height - 10, 1) then
 				self.resizing = true
 				self.dragging = false
+				loveframes.dragobject = false
 				self.resize_mode = "left"
 				self.resizex = x
 				self.resizey = y
@@ -607,6 +614,7 @@ function newobject:mousepressed(x, y, button)
 			elseif loveframes.util.BoundingBox(self.x + self.width - 2, x, self.y + 5, y, 2, 1, self.height - 10, 1) then
 				self.resizing = true
 				self.dragging = false
+				loveframes.dragobject = false
 				self.resize_mode = "right"
 				self.resizex = x
 				self.resizey = y
@@ -656,6 +664,7 @@ function newobject:mousereleased(x, y, button)
 	local internals = self.internals
 	
 	self.dragging = false
+	loveframes.dragobject = false
 	
 	if self.resizing then
 		self.resizex = 0
