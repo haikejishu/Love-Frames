@@ -8,6 +8,10 @@
 			 experimental and not final
 --]]------------------------------------------------
 
+-- get the current require path
+local path = string.sub(..., 1, string.len(...) - string.len(".objects.text"))
+local loveframes = require(path .. ".libraries.common")
+
 -- text object
 local newobject = loveframes.NewObject("text", "loveframes_object_text", true)
 

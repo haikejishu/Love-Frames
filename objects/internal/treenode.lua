@@ -3,6 +3,10 @@
 	-- Copyright (c) 2012-2014 Kenny Shields --
 --]]------------------------------------------------
 
+-- get the current require path
+local path = string.sub(..., 1, string.len(...) - string.len(".objects.internal.treenode"))
+local loveframes = require(path .. ".libraries.common")
+
 -- button object
 local newobject = loveframes.NewObject("treenode", "loveframes_object_treenode", true)
 
@@ -261,6 +265,22 @@ function newobject:AddNode(text)
 	node.level = self.level + 1
 	table.insert(self.internals, node)
 	return node
+	
+end
+
+--[[---------------------------------------------------------
+	- func: RemoveNode(id)
+	- desc: removes a node from the object
+--]]---------------------------------------------------------
+function newobject:RemoveNode(id)
+	
+	id = id + 1
+	for k, v in ipairs(self.internals) do
+		if k == id then
+			v:Remove()
+			break
+		end
+	end
 	
 end
 
