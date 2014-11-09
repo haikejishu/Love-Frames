@@ -25,6 +25,7 @@ Version 0.10 - Alpha (Release Date TBD)
 [ADDED] a new columnlist method: SetColumnOrder(curid, newid)
 [ADDED] a new columnlistheader method: SetName(name)
 [ADDED] a new scrollbody method: GetScrollBar()
+[ADDED] a new scrollbar method: ScrollTo(percent)
 [ADDED] a new frame method: SetMaxSize(width, height)
 [ADDED] a new frame method: GetMaxSize()
 [ADDED] a new frame method: SetMinSize(width, height)
@@ -42,6 +43,9 @@ Version 0.10 - Alpha (Release Date TBD)
 [FIXED] text:GetLines always returning nil
 [FIXED] creating a newline in a multiline textinput with the return key would not reset the object's xoffset
 [FIXED] the last character of a long line in a multiline textinput not being shown due to a text offset calculation issue
+[FIXED] scrollbody now resizes to parent
+[FIXED] textinput indicator now always visible
+[FIXED] columnlist rows can have non-drawable extra info ("Blue" skin doesn't crash on it)
 
 [CHANGED] columnlist row colors are now adjusted when a row is removed from the list
 [CHANGED] columnlistarea.rowcolorindex now resets to 1 when the list is cleared
@@ -50,6 +54,8 @@ Version 0.10 - Alpha (Release Date TBD)
 [CHANGED] license to zlib/libpng
 [CHANGED] the loveframes table is now returned by init.lua
 [CHANGED] template files are now expected to return a template table instead of calling loveframes.templates.Register
+[CHANGED] textinput tries to scroll horizontally only if alt is pressed
+[CHANGED] project-wide utf8 support
 
 ================================================
 Version 0.9.8.1 - Alpha (May 17 - 2014)
