@@ -66,6 +66,7 @@ function newobject:initialize()
 	self.internal = false
 	self.autoscroll = false
 	self.masked = false
+	self.trackindicator = true
 	self.OnEnter = nil
 	self.OnTextChanged = nil
 	self.OnFocusGained = nil
@@ -953,7 +954,7 @@ function newobject:UpdateIndicator()
 	end
 	
 	-- indicator should be visible, so correcting scrolls
-	if self.focus then
+	if self.focus and self.trackindicator then
 		local indicatorRelativeX = width + self.textoffsetx - self.offsetx
 		local leftlimit, rightlimit = 1, self:GetWidth() - 1
 		if self.linenumberspanel then
