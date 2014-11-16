@@ -31,6 +31,8 @@ Version 0.10 - Alpha (Release Date TBD)
 [ADDED] a new frame method: SetMinSize(width, height)
 [ADDED] a new frame method: GetMinSize()
 [ADDED] a new textinput method: ClearLine(line)
+[ADDED] a new textinput method: SetTrackingEnabled(bool)
+[ADDED] a new textinput method: GetTrackingEnabled()
 [ADDED] a new list method: GetAutoScroll()
 
 [FIXED] bug that would cause tabbuttons to be positioned incorrectly when scrolling with the mouse wheel
@@ -56,6 +58,7 @@ Version 0.10 - Alpha (Release Date TBD)
 [CHANGED] template files are now expected to return a template table instead of calling loveframes.templates.Register
 [CHANGED] textinput tries to scroll horizontally only if alt is pressed
 [CHANGED] project-wide utf8 support
+[CHANGED] the textinput's indicator is now always visible when being moved
 
 ================================================
 Version 0.9.8.1 - Alpha (May 17 - 2014)
