@@ -931,6 +931,10 @@ function newobject:UpdateIndicator()
 	
 	if alltextselected then
 		self.showindicator = false
+	else
+		if love.keyboard.isDown("up", "down", "left", "right") then
+			self.showindicator = true
+		end
 	end
 	
 	local width = 0
