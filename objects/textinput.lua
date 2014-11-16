@@ -2108,3 +2108,28 @@ function newobject:ClearLine(line)
 	return self
 	
 end
+
+--[[---------------------------------------------------------
+	- func: SetTrackingEnabled(bool)
+	- desc: sets whether or not the object should
+			automatically scroll to the position of its
+			indicator
+--]]---------------------------------------------------------
+function newobject:SetTrackingEnabled(bool)
+
+	self.trackindicator = bool
+	return self
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetTrackingEnabled()
+	- desc: gets whether or not the object should
+			automatically scroll to the position of its
+			indicator
+--]]---------------------------------------------------------
+function newobject:GetTrackingEnabled()
+
+	return self.trackindicator
+	
+end
