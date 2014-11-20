@@ -66,6 +66,7 @@ function newobject:initialize()
 	self.internal = false
 	self.autoscroll = false
 	self.masked = false
+	self.trackindicator = true
 	self.OnEnter = nil
 	self.OnTextChanged = nil
 	self.OnFocusGained = nil
@@ -930,6 +931,10 @@ function newobject:UpdateIndicator()
 	
 	if alltextselected then
 		self.showindicator = false
+	else
+		if love.keyboard.isDown("up", "down", "left", "right") then
+			self.showindicator = true
+		end
 	end
 	
 	local width = 0
@@ -953,7 +958,7 @@ function newobject:UpdateIndicator()
 	end
 	
 	-- indicator should be visible, so correcting scrolls
-	if self.focus then
+	if self.focus and self.trackindicator then
 		local indicatorRelativeX = width + self.textoffsetx - self.offsetx
 		local leftlimit, rightlimit = 1, self:GetWidth() - 1
 		if self.linenumberspanel then
@@ -2105,5 +2110,30 @@ function newobject:ClearLine(line)
 	end
 	
 	return self
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetTrackingEnabled(bool)
+	- desc: sets whether or not the object should
+			automatically scroll to the position of its
+			indicator
+--]]---------------------------------------------------------
+function newobject:SetTrackingEnabled(bool)
+
+	self.trackindicator = bool
+	return self
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetTrackingEnabled()
+	- desc: gets whether or not the object should
+			automatically scroll to the position of its
+			indicator
+--]]---------------------------------------------------------
+function newobject:GetTrackingEnabled()
+
+	return self.trackindicator
 	
 end

@@ -47,13 +47,8 @@ loveframes.collisions = {}
 -- install directory of the library
 local dir = loveframes.config["DIRECTORY"] or path
 
--- require the internal base libraries
+-- require middleclass
 loveframes.class = require(dir .. ".third-party.middleclass")
-require(dir .. ".libraries.util")
-require(dir .. ".libraries.skins")
-require(dir .. ".libraries.templates")
-require(dir .. ".libraries.debug")
-require(dir .. ".libraries.utf8")
 
 -- replace all "." with "/" in the directory setting
 dir = dir:gsub("\\", "/"):gsub("(%a)%.(%a)", "%1/%2")

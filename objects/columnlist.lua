@@ -984,4 +984,3 @@ function newobject:SetColumnOrder(curid, newid)
 	return self
 	
 end
-	
