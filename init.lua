@@ -8,7 +8,6 @@ require(path .. ".libraries.util")
 require(path .. ".libraries.skins")
 require(path .. ".libraries.templates")
 require(path .. ".libraries.debug")
-require(path .. ".libraries.utf8")
 local loveframes = require(path .. ".libraries.common")
 
 -- library info
@@ -24,6 +23,7 @@ loveframes.config["ACTIVESKIN"] = "Blue"
 loveframes.config["INDEXSKINIMAGES"] = true
 loveframes.config["DEBUG"] = false
 loveframes.config["ENABLE_SYSTEM_CURSORS"] = true
+loveframes.config["ENABLE_UTF8_SUPPORT"] = true
 
 -- misc library vars
 loveframes.state = "none"
@@ -56,6 +56,11 @@ loveframes.config["DIRECTORY"] = dir
 
 -- enable key repeat
 love.keyboard.setKeyRepeat(true)
+
+-- check if utf8 support is enabled
+if loveframes.config["ENABLE_UTF8_SUPPORT"] then
+	require(path .. ".libraries.utf8")
+end
 
 --[[---------------------------------------------------------
 	- func: update(deltatime)
