@@ -28,7 +28,7 @@ function newobject:initialize()
 	self.sheary = 0
 	self.internal = false
 	self.image = nil
-	self.imagecolor = nil
+	self.imagecolor = {255, 255, 255, 255}
 	
 end
 

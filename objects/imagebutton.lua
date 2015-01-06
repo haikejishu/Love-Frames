@@ -24,7 +24,7 @@ function newobject:initialize()
 	self.clickable = true
 	self.enabled = true
 	self.image = nil
-	self.imagecolor = nil
+	self.imagecolor = {255, 255, 255, 255}
 	self.OnClick = nil
 	
 end
