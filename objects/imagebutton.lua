@@ -24,6 +24,7 @@ function newobject:initialize()
 	self.clickable = true
 	self.enabled = true
 	self.image = nil
+	self.imagecolor = nil
 	self.OnClick = nil
 	
 end
@@ -336,5 +337,26 @@ function newobject:GetImageHeight()
 	if image then
 		return image:getHeight()
 	end
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetColor(r, g, b, a)
+	- desc: sets the object's color 
+--]]---------------------------------------------------------
+function newobject:SetColor(r, g, b, a)
+
+	self.imagecolor = {r, g, b, a}
+	return self
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetColor()
+	- desc: gets the object's color 
+--]]---------------------------------------------------------
+function newobject:GetColor()
+
+	return unpack(self.imagecolor)
 	
 end
