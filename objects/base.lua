@@ -419,15 +419,13 @@ function newobject:Center()
 	if parent == base then
 		local width = love.graphics.getWidth()
 		local height = love.graphics.getHeight()
-		
-		self.x = width/2 - self.width/2
-		self.y = height/2 - self.height/2
+		self.x = width/2 - self.width * (self.scalex or 1)/2
+		self.y = height/2 - self.height * (self.scaley or 1)/2
 	else
 		local width = parent.width
 		local height = parent.height
-		
-		self.staticx = width/2 - self.width/2
-		self.staticy = height/2 - self.height/2
+		self.staticx = width/2 - self.width * (self.scalex or 1)/2
+		self.staticy = height/2 - self.height * (self.scaley or 1)/2
 	end
 	
 	return self
@@ -445,10 +443,10 @@ function newobject:CenterX()
 	
 	if parent == base then
 		local width = love.graphics.getWidth()
-		self.x = width/2 - self.width/2
+		self.x = width/2 - self.width * (self.scalex or 1)/2
 	else
 		local width = parent.width
-		self.staticx = width/2 - self.width/2
+		self.staticx = width/2 - self.width * (self.scalex or 1)/2
 	end
 	
 	return self
@@ -466,10 +464,10 @@ function newobject:CenterY()
 	
 	if parent == base then
 		local height = love.graphics.getHeight()
-		self.y = height/2 - self.height/2
+		self.y = height/2 - self.height * (self.scaley or 1)/2
 	else
 		local height = parent.height
-		self.staticy = height/2 - self.height/2
+		self.staticy = height/2 - self.height * (self.scaley or 1)/2
 	end
 	
 	return self
