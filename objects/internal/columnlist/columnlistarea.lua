@@ -256,7 +256,7 @@ function newobject:CalculateSize()
 			local newbar = loveframes.objects["scrollbody"]:new(self, "vertical")
 			table.insert(self.internals, newbar)
 			self.vbar = true
-			newbar.autoscroll = parent.autoscroll
+			newbar:GetScrollBar().autoscroll = parent.autoscroll
 			self.itemwidth = self.itemwidth + newbar.width
 			self.extrawidth = self.itemwidth - width
 		end
@@ -283,7 +283,6 @@ function newobject:CalculateSize()
 			local newbar = loveframes.objects["scrollbody"]:new(self, "horizontal")
 			table.insert(self.internals, newbar)
 			self.hbar = true
-			newbar.autoscroll = parent.autoscroll
 			self.itemheight = self.itemheight + newbar.height
 			self.extraheight = self.itemheight - height
 		end
